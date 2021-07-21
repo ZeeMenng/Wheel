@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+
+<html lang="zh-cn">
+<head>
+<!-- #include file="../cl/Header.html"	 -->
+    <script src="../../js/gp/ValueLocation.js" type="text/javascript"></script>
+    <script src="../../js/co/CommonAdd.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var pageParam = {
+                formId: "formAdd",
+                validateRules: {
+                   
+                }
+            };
+            var ajaxParam = {
+                url: RU_GPVALUELOCATION_ADD,
+                submitData: {}
+            };
+            initAddPage(pageParam, ajaxParam);
+        });
+    </script>
+</head>
+
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-wrapper">
+<!-- #include file="../cl/Top.html"	 -->
+<div class="page-container page-content-wrapper">
+<!-- #include file="../cl/Menu.html"	 -->
+    <div class="page-content">
+        <div class="row">
+            <div class="col-md-12 page-bar page-bar-height  portlet ">
+                <ul class="page-breadcrumb">
+                    <li>
+                        <i class="fa fa-home"></i>
+                        <a id="navbarIndexA" href="">主页</a>
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                    <li>
+                        <a id="navbarListA" href="">
+						调用存储过程查询某个值在本数据库中的位置，记录相关信息到本表中管理</a>
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                    <li>新增调用存储过程查询某个值在本数据库中的位置，记录相关信息到本表中</li>
+                </ul>
+            </div>
+            <div class="portlet light bordered">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet box red">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-plus"></i>
+                                    <span class="caption-subject font-white sbold uppercase">新增调用存储过程查询某个值在本数据库中的位置，记录相关信息到本表中</span>
+                                </div>
+                            </div>
+                            <div class="form-body portlet-body">
+                                <form action="#" id="formAdd" class="form-horizontal">
+                                    <div class="form-body">
+
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textColumnValue" class="control-label col-md-2">值
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textColumnValue" name="textColumnValue" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textOriginTableName">原始表名
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textOriginTableName" name="textOriginTableName" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textTargetColumnName" class="control-label col-md-2">值所在列名
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textTargetColumnName" name="textTargetColumnName" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textTargetTableName">值所在表名
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textTargetTableName" name="textTargetTableName" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textTargetRecordId" class="control-label col-md-2">值所属记录主键
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textTargetRecordId" name="textTargetRecordId" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textRemarks"> 备注
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textRemarks" name="textRemarks" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                            
+
+                                        
+                                    </div>
+                                    <div class="form-actions">
+                                        <button id="buttonSubmit" type="submit" class="btn red-mint">提交</button>
+                                        <button id="buttonBack" type="button" class="btn red-mint">返回</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- #include file="../cl/Footer.html"	 -->
+</body>
+</html>

@@ -1,0 +1,466 @@
+@CHARSET "UTF-8";
+
+input, button, select, textarea {
+	outline: none !important;
+}
+
+textarea {
+	resize: none !important;
+}
+
+.form-group .textArea {
+	width: 100%;
+}
+
+.page-bar-height {
+	height: 35px;
+	padding-bottom: 0px;
+}
+
+.search-button {
+	/*margin-top: 10px;*/
+	float: right;
+}
+
+.caption {
+	width: 200px;
+}
+
+
+
+a {
+	text-decoration: none;
+}
+
+td a {
+	display: inline-block;
+	width: 100%;
+	height: 100%;
+}
+
+select {
+	cursor: pointer;
+}
+
+
+
+/*不显示列表前面的点*/
+li {
+	list-style: none;
+}
+
+/*
+td序号居中*/
+table.table-bordered.dataTable tbody th:nth-child(2), table.table-bordered.dataTable tbody td:nth-child(2)
+	{
+	text-align: center;
+}
+
+.table>thead:first-child>tr:first-child>th {
+	text-align: center;
+	/*padding: 8px 10px;*/
+	white-space:  nowrap
+}
+
+table.table-bordered.dataTable tbody th:nth-child(1), table.table-bordered.dataTable tbody td:nth-child(1)
+	{
+	width: 30px;
+}
+
+table.table-bordered.dataTable tbody td:last-child {
+	text-align: center;
+}
+
+/*新增表单上部分间隙太小*/
+.portlet-body .form-horizontal {
+	margin: 0px;
+	padding-top: 20px;
+}
+
+/*新增表单中按钮边框处理*/
+.portlet.box.red .form-body {
+	background-color: #fff;
+	padding: 15px 10px;
+}
+
+.portlet-body .form-horizontal .form-actions {
+	background-color: white;
+	padding: 20px;
+	text-align: center;
+	border-top: 0.3px solid #ed7d84;
+}
+
+.portlet.box.red .form-body .element-group label {
+	
+}
+
+/*模拟下拉框*/
+.posiRe {
+	position: relative;
+	box-sizing: border-box;
+}
+
+.posiAb {
+	position: absolute;
+	width: 92%;
+	height: 180px;
+	overflow: hidden;
+	line-height: 34px;
+	top: 34px;
+	bottom: 0;
+	z-index: 9;
+	background: #fff;
+	padding: 0;
+}
+
+.posiAb ul {
+	height: 130px;
+	overflow-y: auto;
+}
+
+.posiAb {
+	border: 1px solid #ccc;
+	border-top: none;
+	display: none;
+	padding: 10px 0;
+}
+
+.posiAb li {
+	line-height: 24px;
+	height: 24px;
+	padding-left: 20px;
+	cursor: pointer;
+	vertical-align: middle;
+}
+
+.posiAb li input {
+	margin: 0 8px;
+	position: relative;
+	top: 2px;
+}
+
+.posiAb p.sure {
+	width: 100%;
+	height: 30px;
+	text-align: center;
+	cursor: pointer;
+	margin: 0;
+}
+
+.posiAb p.sure span {
+	display: inline-block;
+	width: 50px;
+	height: 24px;
+	line-height: 24px;
+	text-align: center;
+	background: #e7505a;
+	color: #fff;
+	border-radius: 5px !important;
+}
+
+/*分页样式*/
+#pageSizeSelect {
+	display: inline-block !important;
+}
+
+
+embed {
+	margin: 0;
+	width: 980px !important;
+}
+
+.video-11 {
+	overflow: hidden;
+	max-width: 980px;
+	width: 100%;
+	height: 100%;
+}
+
+.video-11 p {
+	overflow: hidden;
+	width: 100%;
+}
+
+#queryBuilderForm .form-group>div {
+	display: inline-block;
+}
+
+/*引入zTree插件时，导航栏的样式会被影响  */
+.page-breadcrumb li {
+	font-size: 14px;
+}
+
+.page-breadcrumb li a {
+	text-decoration: none;
+}
+
+.page-breadcrumb li a:hover {
+	background-color: #f1f4f7;
+	text-decoration: none;
+}
+/***后台登录右下角下拉框，有Ztree插件时展示效果有冲突***/
+.dropdown-menu li {
+	list-style: none;
+}
+
+/****此处配置为fixed或initial可控制列表页超过行宽加省略号，或横向滚动条***/
+#contentTable {
+	table-layout: fixed;
+	/*table-layout: initial;*/
+}
+
+#contentTable thead tr th span {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: inline-block;
+	max-width: 100%; /*设置最大宽度，结合JS判断是否超长*/
+	vertical-align: middle; /*设置垂直居中*/
+}
+
+#contentTable tbody tr td span, #contentTable tbody tr td a {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	display: inline-block;
+	max-width: 100%; /*设置最大宽度，结合JS判断是否超长*/
+	vertical-align: middle; /*设置垂直居中*/
+}
+
+/** 左侧导航栏搜索框 **/
+.search-wrap {
+	width: 100%;
+	height: 40px;
+	text-align: center;
+	position: relative;
+}
+
+.search-wrap i {
+	position: absolute;
+	right: 30px;
+	top: 15px;
+	height: 15px;
+	width: 15px;
+	background: url(../assets/layouts/layout2/img/search_icon_light.png)
+		no-repeat;
+	background-position: 96% 68%;
+	cursor: pointer;
+}
+
+.searchInput {
+	width: 80%;
+	height: 40px;
+	border: none;
+	color: #b4bcc8;
+	font-size: 14px;
+	border: transparent;
+	background-color: transparent;
+	border-bottom: 1px solid #ccc;
+}
+
+.search-btn:before {
+	content: "\f0ac";
+}
+
+.menu-img {
+	display: none;
+	width: 20px;
+	height: 20px;
+	width: 20px;
+}
+
+/** 登录页后添加样式  ***/
+.login {
+	background: url(../img/loginBg.png) no-repeat center center;
+	background-size: 100% 100%;
+	overflow: auto;
+}
+
+html, body {
+	width: 100%;
+	height: 100%;
+}
+
+.index-bg {
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	z-index: -100;
+}
+
+.login .content .forget-password {
+	margin-top: 0 !important;
+}
+
+.form-actions {
+	height: auto;
+}
+
+#login {
+	display: block;
+	height: 60px;
+	line-height: 60px;
+	width: 100%;
+	padding: 0 !important;
+	margin: 0px auto;
+	font-size: 16px;
+}
+
+.create-account {
+	background-color: #fff !important;
+}
+
+.login .content .form-actions {
+	border-bottom: none;
+}
+
+.login {
+	padding-top: 5% !important;
+}
+
+/** Ztree显示外围边框 ***/
+ul.ztree {
+	margin-top: 10px;
+	border: 1px solid #c2cad8;
+}
+
+/**************** Font Awesome ***************************/
+.icon-cog, .icon-envelope-o, .icon-file-o, .icon-user-secret, .icon-link,
+	.icon-sitemap, .icon-warning, .icon-list-alt, .icon-flag,
+	.icon-terminal, .icon-globe, .icon-skyatlas, .icon-street-view,
+	.icon-compass, .icon-cubes, .icon-book, .icon-building,
+	.icon-map-marker, .icon-user-md, .icon-users, .icon-houzz,
+	.icon-user-solid, .icon-database, .icon-newspaper-o,
+	.icon-external-link, .icon-puzzle-piece, .icon-adn,
+	.icon-circle-o-notch, .icon-comments-o {
+	font-family: FontAwesome;
+	speak: none;
+	font-style: normal;
+	font-weight: 400;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased
+}
+
+.icon-cog:before {
+	content: "\f013";
+}
+
+.icon-envelope-o:before {
+	content: "\f003";
+}
+
+.icon-file-o:before {
+	content: "\f0c5";
+}
+
+.icon-user-secret:before {
+	content: "\f21b";
+}
+
+.icon-link:before {
+	content: "\f0c1";
+}
+
+.icon-sitemap:before {
+	content: "\f0e8";
+}
+
+.icon-warning:before {
+	content: "\f071";
+}
+
+.icon-list-alt:before {
+	content: "\f022";
+}
+
+.icon-flag:before {
+	content: "\f024";
+}
+
+.icon-terminal:before {
+	content: "\f120";
+}
+
+.icon-newspaper-o:before {
+	content: "\f1ea";
+}
+
+.icon-globe:before {
+	content: "\f0ac";
+}
+
+.icon-street-view:before {
+	content: "\f21d";
+}
+
+.icon-skyatlas:before {
+	content: "\f216";
+}
+
+.icon-compass:before {
+	content: "\f14e";
+}
+
+.icon-cubes:before {
+	content: "\f1b3";
+}
+
+.icon-book:before {
+	content: "\f02d";
+}
+
+.icon-building:before {
+	content: "\f1ad";
+}
+
+.icon-map-marker:before {
+	content: "\f041";
+}
+
+.icon-user-md:before {
+	content: "\f0f0";
+}
+
+.icon-user-solid:before {
+	content: "\f007";
+}
+
+.icon-users:before {
+	content: "\f0c0";
+}
+
+.icon-houzz:before {
+	content: "\f27c";
+}
+
+.icon-database:before {
+	content: "\f1c0";
+}
+
+.icon-external-link:before {
+	content: "\f08e";
+}
+
+.icon-puzzle-piece:before {
+	content: "\f12e";
+}
+
+.icon-adn:before {
+	content: "\f170";
+}
+
+.icon-circle-o-notch:before {
+	content: "\f1ce";
+}
+
+.icon-comments-o:before {
+	content: "\f0e6";
+}
+
+/**************** Font Awesome ***************************/
+
+

@@ -1,0 +1,205 @@
+﻿<!DOCTYPE html>
+
+<html lang="zh-cn">
+<head>
+<!--#include file="/pc/ss/gp/html/cl/Header.html"-->
+    <script src="../../js/gp/LoginLog.js" type="text/javascript"></script>
+    <script src="../../js/co/CommonAdd.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var pageParam = {
+                formId: "formAdd",
+                validateRules: {
+                   
+                }
+            };
+            var ajaxParam = {
+                url: RU_GPLOGINLOG_ADD,
+                submitData: {}
+            };
+            initAddPage(pageParam, ajaxParam);
+        });
+    </script>
+</head>
+
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-wrapper">
+<!--#include file="/pc/ss/gp/html/cl/Top.html"-->
+<div class="page-container page-content-wrapper">
+<!--#include file="/pc/ss/gp/html/cl/Menu.html"-->
+    <div class="page-content">
+        <div class="row">
+            <div class="col-md-12 page-bar page-bar-height  portlet ">
+                <ul class="page-breadcrumb">
+                    <li>
+                        <i class="fa fa-home"></i>
+                        <a id="navbarIndexA" href="">主页</a>
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                    <li>
+                        <a id="navbarListA" href="">
+						登录日志管理</a>
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                    <li>新增登录日志</li>
+                </ul>
+            </div>
+            <div class="portlet light bordered">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet box red">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-plus"></i>
+                                    <span class="caption-subject font-white sbold uppercase">新增登录日志</span>
+                                </div>
+                            </div>
+                            <div class="form-body portlet-body">
+                                <form action="#" id="formAdd" class="form-horizontal">
+                                    <div class="form-body">
+
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textDomainId" class="control-label col-md-2">应用领域
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textDomainId" name="textDomainId" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textUserName">登录用户名
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textUserName" name="textUserName" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textLoginTime" class="control-label col-md-2">登录时间
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textLoginTime" name="textLoginTime" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textLogoutTime">退出时间
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textLogoutTime" name="textLogoutTime" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textDuration" class="control-label col-md-2">登录时长
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textDuration" name="textDuration" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textIp">IP地址
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textIp" name="textIp" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textIpAddress" class="control-label col-md-2">IP归属地
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textIpAddress" name="textIpAddress" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textBrowser">浏览器版本
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textBrowser" name="textBrowser" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textResolution" class="control-label col-md-2">屏幕分辨率
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textResolution" name="textResolution" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textOs">操作系统
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textOs" name="textOs" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textIsSuccessCode" class="control-label col-md-2">登录是否成功
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textIsSuccessCode" name="textIsSuccessCode" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textAccessToken">所属access_token
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textAccessToken" name="textAccessToken" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label class="control-label col-md-2" for="textRemark">备注字段
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textRemark" name="textRemark" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                            
+
+                                        
+                                    </div>
+                                    <div class="form-actions">
+                                        <button id="buttonSubmit" type="submit" class="btn red-mint">提交</button>
+                                        <button id="buttonBack" type="button" class="btn red-mint">返回</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--#include file="/pc/ss/gp/html/cl/Footer.html"-->
+</body>
+</html>

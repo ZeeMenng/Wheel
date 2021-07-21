@@ -1,0 +1,498 @@
+﻿<!DOCTYPE html>
+
+<html lang="zh-cn">
+<head>
+<!--#include file="/pc/ss/gp/html/cl/Header.html"-->
+    <script src="../../js/pi/Acquisition.js" type="text/javascript"></script>
+    <script src="../../js/co/CommonEdit.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var pageParam = {
+                formId: "formEdit",
+                validateRules: {
+      
+                }
+            };
+            var ajaxParam = {
+                url: RU_PIACQUISITION_UPDATE,
+                updateListUrl:RU_PIACQUISITION_UPDATELIST,
+                getModelUrl: RU_PIACQUISITION_GETMODELBYPATH,
+                submitData: {}
+            };
+            initEditPage(pageParam, ajaxParam);
+        });
+    </script>
+</head>
+
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-wrapper">
+<!--#include file="/pc/ss/gp/html/cl/Top.html"-->
+<div class="page-container page-content-wrapper">
+<!--#include file="/pc/ss/gp/html/cl/Menu.html"-->
+    <div class="page-content">
+        <div class="row">
+            <div class="col-md-12 page-bar page-bar-height  portlet ">
+                <ul class="page-breadcrumb">
+                    <li>
+                        <i class="fa fa-home"></i>
+                        <a id="navbarIndexA" href="">主页</a>
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                    <li>
+                        <a id="navbarListA" href="">
+						CMS采集任务表管理</a>
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                    <li>修改CMS采集任务表</li>
+                </ul>
+            </div>
+            <div class="portlet light bordered">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet box red">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-pencil-square-o"></i>
+                                    <span class="caption-subject font-white sbold uppercase">修改CMS采集任务表</span>
+                                </div>
+                            </div>
+                            <div class="form-body portlet-body">
+                                <form action="#" id="formEdit" class="form-horizontal">
+                                    <div class="form-body">
+                                        <input id="hiddenId" name="hiddenId" type="hidden" />
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textAcqName" class="control-label col-md-2">采集名称
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textAcqName" name="textAcqName" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textStartTime">开始时间
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textStartTime" name="textStartTime" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textEndTime" class="control-label col-md-2">停止时间
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textEndTime" name="textEndTime" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textStatus">当前状态(0:静止;1:采集;2:暂停)
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textStatus" name="textStatus" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textCurrNum" class="control-label col-md-2">当前号码
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textCurrNum" name="textCurrNum" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textCurrItem">当前条数
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textCurrItem" name="textCurrItem" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textTotalItem" class="control-label col-md-2">每页总条数
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textTotalItem" name="textTotalItem" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textPauseTime">暂停时间(毫秒)
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textPauseTime" name="textPauseTime" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textPageEncoding" class="control-label col-md-2">页面编码
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textPageEncoding" name="textPageEncoding" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textPlanList">采集列表
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textPlanList" name="textPlanList" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textDynamicAddr" class="control-label col-md-2">动态地址
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textDynamicAddr" name="textDynamicAddr" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textDynamicStart">页码开始
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textDynamicStart" name="textDynamicStart" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textDynamicEnd" class="control-label col-md-2">页码结束
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textDynamicEnd" name="textDynamicEnd" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textLinksetStart">内容链接区开始
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textLinksetStart" name="textLinksetStart" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textLinksetEnd" class="control-label col-md-2">内容链接区结束
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textLinksetEnd" name="textLinksetEnd" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textLinkStart">内容链接开始
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textLinkStart" name="textLinkStart" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textLinkEnd" class="control-label col-md-2">内容链接结束
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textLinkEnd" name="textLinkEnd" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textTitleStart">标题开始
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textTitleStart" name="textTitleStart" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textTitleEnd" class="control-label col-md-2">标题结束
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textTitleEnd" name="textTitleEnd" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textKeywordsStart">关键字开始
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textKeywordsStart" name="textKeywordsStart" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textKeywordsEnd" class="control-label col-md-2">关键字结束
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textKeywordsEnd" name="textKeywordsEnd" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textDescriptionStart">描述开始
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textDescriptionStart" name="textDescriptionStart" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textDescriptionEnd" class="control-label col-md-2">描述结束
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textDescriptionEnd" name="textDescriptionEnd" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textContentStart">内容开始
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textContentStart" name="textContentStart" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textContentEnd" class="control-label col-md-2">内容结束
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textContentEnd" name="textContentEnd" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textPaginationStart">内容分页开始
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textPaginationStart" name="textPaginationStart" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textPaginationEnd" class="control-label col-md-2">内容分页结束
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textPaginationEnd" name="textPaginationEnd" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textQueue">队列
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textQueue" name="textQueue" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textRepeatCheckType" class="control-label col-md-2">重复类型
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textRepeatCheckType" name="textRepeatCheckType" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textImgAcqu">是否采集图片
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textImgAcqu" name="textImgAcqu" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textContentPrefix" class="control-label col-md-2">内容地址补全url
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textContentPrefix" name="textContentPrefix" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textImgPrefix">图片地址补全url
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textImgPrefix" name="textImgPrefix" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textViewStart" class="control-label col-md-2">浏览量开始
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textViewStart" name="textViewStart" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textViewEnd">浏览量结束
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textViewEnd" name="textViewEnd" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textViewIdStart" class="control-label col-md-2">id前缀
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textViewIdStart" name="textViewIdStart" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textViewIdEnd">id后缀
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textViewIdEnd" name="textViewIdEnd" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textViewLink" class="control-label col-md-2">浏览量动态访问地址
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textViewLink" name="textViewLink" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textReleaseTimeStart">发布时间开始
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textReleaseTimeStart" name="textReleaseTimeStart" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textReleaseTimeEnd" class="control-label col-md-2">发布时间结束
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textReleaseTimeEnd" name="textReleaseTimeEnd" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textAuthorStart">作者开始
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textAuthorStart" name="textAuthorStart" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textAuthorEnd" class="control-label col-md-2">作者结束
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textAuthorEnd" name="textAuthorEnd" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textOriginStart">来源开始
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textOriginStart" name="textOriginStart" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textOriginEnd" class="control-label col-md-2">来源结束
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textOriginEnd" name="textOriginEnd" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textReleaseTimeFormat">发布时间格式
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textReleaseTimeFormat" name="textReleaseTimeFormat" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        -->
+                                    </div>
+                                    <div class="form-actions">
+                                        <button id="buttonSubmit" type="submit" class="btn red-mint">提交</button>
+                                        <button id="buttonBack" type="button" class="btn red-mint">返回</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--#include file="/pc/ss/gp/html/cl/Footer.html"-->
+</body>
+</html>

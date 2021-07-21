@@ -1,0 +1,184 @@
+﻿<!DOCTYPE html>
+
+<html lang="zh-cn">
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<!--#include file="/pc/ss/gp/html/cl/Header.html"-->
+<!--#include file="/pc/ss/gp/html/cl/HeaderZTree.html"-->
+<link href="../../css/CommonZTree.css" rel="stylesheet" type="text/css" />
+<script src="../../js/co/CommonZTree.js" type="text/javascript"></script>
+<script src="../../js/co/CommonEdit.js" type="text/javascript"></script>
+<script src="../../js/co/CommonList.js" type="text/javascript"></script>
+<script src="../../js/gp/CatalogInterface.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		var ajaxParamBoolean = {
+			url : RU_GPDICTIONARY_GETLISTBYTYPEID + DI_CATALOG_INTERFACE
+		};
+		// 初始化是否级联单选按钮组
+		var radioParam = {
+			containerId : "cascadeContainerDiv",
+			name : "catalogTypeCodeRadio",
+			textField : "text",
+			valueField : "code"
+		};
+
+		initRadioList(radioParam, ajaxParamBoolean);
+
+		$("input[type=radio][name='catalogTypeCodeRadio']").change(function() {
+			initUlCatalogCategoryTree(this.value);
+			$("#textName").val(null);
+			$("#textareaRemark").val(null);
+
+		});
+
+		//暂时默认全部级联，禁用其它选项
+		$("input[name='catalogTypeCodeRadio'][value=1]").attr("checked", true);
+		$("input[name='catalogTypeCodeRadio'][value=1]").change();
+
+	
+	});
+</script>
+
+</head>
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-wrapper">
+	<!--#include file="/pc/ss/gp/html/cl/Top.html"-->
+	<div id="content_right" class="page-container page-content-wrapper">
+		<!--#include file="/pc/ss/gp/html/cl/Menu.html"-->
+		<div class="page-content topnav_box">
+			<div class="row">
+				<div class="col-md-12 page-bar page-bar-height  portlet ">
+					<ul class="page-breadcrumb">
+						<li>
+							<i class="fa fa-home"></i>
+							<a id="navbarIndexA" href="">主页</a>
+							<i class="fa fa-angle-right"></i>
+						</li>
+						<li>服务目录管理</li>
+					</ul>
+				</div>
+
+
+				<div class="portlet light bordered">
+
+					<div class="row">
+						<div class="col-md-4 left-div">
+							<div class="portlet box red">
+								<div class="portlet-title">
+									<div class="caption">
+										<i class="icon-layers"></i>
+										<span class="caption-subject font-white sbold uppercase">服务目录列表</span>
+									</div>
+								</div>
+								<div class="form-body portlet-body">
+									<form action="#" id="formZTree" class="form-horizontal">
+										<div class="form-body">
+
+											<div class="form-group">
+												<div class="element-group left">
+
+													<div class="col-md-12">
+														<div class="mt-radio-inline" id="cascadeContainerDiv"></div>
+													</div>
+												</div>
+											</div>
+
+											<div class="form-group">
+												<div class="element-group left">
+													<div class="col-md-12">
+														<div class="form-group">
+															<div class="col-md-12">
+																<div class="input-icon right">
+																	<!-- <i class="fa fa-search fa-spin font-blue"></i> -->
+																	<i class="fa fa-search"></i>
+																	<input type="text" id="ztree_search" value="" class="form-control" placeholder="输入关键词进行搜索……" autocomplete="off" />
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div class="form-group">
+												<div class="element-group left">
+													<div class="col-md-12">
+														<ul id="ulCatalogCategoryTree" class="ztree jstree-container-ul"></ul>
+													</div>
+												</div>
+											</div>
+
+											<div class="form-hidden">
+												<input type="hidden" name="hiddenOrgIds" id="hiddenOrgIds">
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+
+						</div>
+						<div class="col-md-8 right-div">
+							<div class="portlet box red">
+								<div class="portlet-title">
+									<div class="caption">
+										<i class="icon-layers"></i>
+										<span class="caption-subject font-white sbold uppercase">服务目录详情</span>
+									</div>
+								</div>
+
+								<div class="form-body portlet-body">
+									<form action="#" id="formEdit" class="form-horizontal">
+										<div class="form-body">
+											<input id="hiddenId" name="hiddenId" type="hidden" />
+											<div class="form-hidden">
+												<input type="hidden" id="textFartherId" name="textFartherId" />
+												<input type="hidden" id="textLevelText" name="textLevelText" />
+											</div>
+											<div class="form-group">
+
+												<div class="element-group left">
+													<label class="control-label col-md-2" for="textName">
+														目录名称
+														<span class="required" aria-required="true"> * </span>
+													</label>
+													<div class="col-md-8">
+														<input id="textName" name="textName" type="text" data-required="1" class="form-control" />
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="element-group right">
+													<label class="control-label col-md-2" for="textRemark">备注字段 </label>
+													<div class="col-md-8">
+
+														<textarea id="textareaRemark" name="textareaRemark" class="form-control" rows="3"></textarea>
+													</div>
+												</div>
+											</div>
+
+										</div>
+										<div class="form-actions">
+											<button id="buttonSubmit" type="submit" class="btn red-mint">提交</button>
+											<button id="buttonReset" type="button" class="btn red-mint">重置</button>
+										</div>
+									</form>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	<!--#include file="/pc/ss/gp/html/cl/Footer.html"-->
+</body>
+</html>

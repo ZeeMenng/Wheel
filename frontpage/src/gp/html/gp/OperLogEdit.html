@@ -1,0 +1,192 @@
+﻿<!DOCTYPE html>
+
+<html lang="zh-cn">
+<head>
+<!--#include file="/pc/ss/gp/html/cl/Header.html"-->
+    <script src="../../js/gp/OperLog.js" type="text/javascript"></script>
+    <script src="../../js/co/CommonEdit.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var pageParam = {
+                formId: "formEdit",
+                validateRules: {
+      
+                }
+            };
+            var ajaxParam = {
+                url: RU_GPOPERLOG_UPDATE,
+                updateListUrl:RU_GPOPERLOG_UPDATELIST,
+                getModelUrl: RU_GPOPERLOG_GETMODELBYPATH,
+                submitData: {}
+            };
+            initEditPage(pageParam, ajaxParam);
+        });
+    </script>
+</head>
+
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-wrapper">
+<!--#include file="/pc/ss/gp/html/cl/Top.html"-->
+<div class="page-container page-content-wrapper">
+<!--#include file="/pc/ss/gp/html/cl/Menu.html"-->
+    <div class="page-content">
+        <div class="row">
+            <div class="col-md-12 page-bar page-bar-height  portlet ">
+                <ul class="page-breadcrumb">
+                    <li>
+                        <i class="fa fa-home"></i>
+                        <a id="navbarIndexA" href="">主页</a>
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                    <li>
+                        <a id="navbarListA" href="">
+						操作日志管理</a>
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                    <li>修改操作日志</li>
+                </ul>
+            </div>
+            <div class="portlet light bordered">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet box red">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-pencil-square-o"></i>
+                                    <span class="caption-subject font-white sbold uppercase">修改操作日志</span>
+                                </div>
+                            </div>
+                            <div class="form-body portlet-body">
+                                <form action="#" id="formEdit" class="form-horizontal">
+                                    <div class="form-body">
+                                        <input id="hiddenId" name="hiddenId" type="hidden" />
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textDomainId" class="control-label col-md-2">应用领域
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textDomainId" name="textDomainId" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textObjectId">操作记录主键
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textObjectId" name="textObjectId" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textOperTypeCode" class="control-label col-md-2">操作类型
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textOperTypeCode" name="textOperTypeCode" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textOperTypeText">操作类型
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textOperTypeText" name="textOperTypeText" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textTableName" class="control-label col-md-2">操作表名
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textTableName" name="textTableName" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textTotalCount">记录总数
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textTotalCount" name="textTotalCount" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textIncomeValue" class="control-label col-md-2">传入参数
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textIncomeValue" name="textIncomeValue" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textReturnValue">返回值
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textReturnValue" name="textReturnValue" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textIsSuccessCode" class="control-label col-md-2">操作是否成功
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textIsSuccessCode" name="textIsSuccessCode" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textResultCode">操作结果编码
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textResultCode" name="textResultCode" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textResultMessage" class="control-label col-md-2">提示信息
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textResultMessage" name="textResultMessage" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textRemark">备注字段
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textRemark" name="textRemark" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-actions">
+                                        <button id="buttonSubmit" type="submit" class="btn red-mint">提交</button>
+                                        <button id="buttonBack" type="button" class="btn red-mint">返回</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--#include file="/pc/ss/gp/html/cl/Footer.html"-->
+</body>
+</html>

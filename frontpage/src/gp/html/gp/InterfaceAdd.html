@@ -1,0 +1,172 @@
+﻿<!DOCTYPE html>
+
+<html lang="zh-cn">
+<head>
+<!--#include file="/pc/ss/gp/html/cl/Header.html"-->
+<script src="../../js/gp/Interface.js" type="text/javascript"></script>
+<script src="../../js/co/CommonAdd.js" type="text/javascript"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		initSelect(true);
+		var pageParam = {
+			formId : "formAdd",
+			validateRules : {
+				textName : {
+					required : true
+				},
+				selectDomainId : {
+					required : true
+				},
+				textTableName : {
+					required : true
+				},
+				textUrl : {
+					required : true
+				},
+				selectIsPublicCode : {
+					required : true
+				},
+				textTypeCode : {
+					required : true
+				}
+			}
+		};
+		var ajaxParam = {
+			url : RU_GPINTERFACE_ADD,
+			submitData : {}
+		};
+		initAddPage(pageParam, ajaxParam);
+	});
+</script>
+</head>
+
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-wrapper">
+	<!--#include file="/pc/ss/gp/html/cl/Top.html"-->
+	<div class="page-container page-content-wrapper">
+		<!--#include file="/pc/ss/gp/html/cl/Menu.html"-->
+		<div class="page-content">
+			<div class="row">
+				<div class="col-md-12 page-bar page-bar-height  portlet ">
+					<ul class="page-breadcrumb">
+						<li>
+							<i class="fa fa-home"></i>
+							<a id="navbarIndexA" href="">主页</a>
+							<i class="fa fa-angle-right"></i>
+						</li>
+						<li>
+							<a id="navbarListA" href=""> 系统接口管理</a>
+							<i class="fa fa-angle-right"></i>
+						</li>
+						<li>新增系统接口</li>
+					</ul>
+				</div>
+				<div class="portlet light bordered">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="portlet box red">
+								<div class="portlet-title">
+									<div class="caption">
+										<i class="fa fa-plus"></i>
+										<span class="caption-subject font-white sbold uppercase">新增系统接口</span>
+									</div>
+								</div>
+								<div class="form-body portlet-body">
+									<form action="#" id="formAdd" class="form-horizontal">
+										<div class="form-body">
+											<input id="hiddenId" name="hiddenId" type="hidden" />
+											<div class="form-group">
+												<div class="element-group left">
+													<label for="selectDomainId" class="control-label col-md-2">
+														接口名称
+														<span class="required" aria-required="true"> * </span>
+													</label>
+													<div class="col-md-8">
+														<input id="textName" name="textName" type="text" data-required="1" class="form-control" />
+													</div>
+												</div>
+
+											</div>
+											<div class="form-group">
+												<div class="element-group left">
+													<label for="selectDomainId" class="control-label col-md-2">
+														应用领域
+														<span class="required" aria-required="true"> * </span>
+													</label>
+													<div class="col-md-3">
+														<select id="selectDomainId" name="selectDomainId" class="form-control">
+															<option value=""></option>
+														</select>
+													</div>
+												</div>
+												<div class="element-group right">
+													<label class="control-label col-md-2" for="textTableName">
+														操作主表
+														<span class="required" aria-required="true"> * </span>
+													</label>
+													<div class="col-md-3">
+														<input id="textTableName" name="textTableName" type="text" data-required="1" class="form-control" />
+													</div>
+												</div>
+											</div>
+
+											<div class="form-group">
+												<div class="element-group left">
+													<label for="textIsPublicCode" class="control-label col-md-2">
+														是否为公共接口
+														<span class="required" aria-required="true"> * </span>
+													</label>
+													<div class="col-md-3">
+														<select id="selectIsPublicCode" name="selectIsPublicCode" class="form-control" onchange="$('#queryBuilderForm').submit();">
+															<option value=""></option>
+														</select>
+													</div>
+												</div>
+												<div class="element-group right">
+													<label class="control-label col-md-2" for="textTypeCode">
+														接口调用方式
+														<span class="required" aria-required="true"> * </span>
+													</label>
+													<div class="col-md-3">
+														<select id="selectTypeCode" name="selectTypeCode" class="form-control">
+															<option value=""></option>
+														</select>
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="element-group left">
+													<label for="textUrl" class="control-label col-md-2">
+														访问路径
+														<span class="required" aria-required="true"> * </span>
+													</label>
+													<div class="col-md-8">
+														<input id="textUrl" name="textUrl" type="text" data-required="1" class="form-control" />
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="element-group left">
+													<label class="control-label col-md-2" for="textRemark">备注字段 </label>
+													<div class="col-md-8">
+														<textarea id="textareaRemark" name="textareaRemark" class="form-control" rows="3"></textarea>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="form-actions">
+											<button id="buttonSubmit" type="submit" class="btn red-mint">提交</button>
+											<button id="buttonBack" type="button" class="btn red-mint">返回</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--#include file="/pc/ss/gp/html/cl/Footer.html"-->
+</body>
+</html>

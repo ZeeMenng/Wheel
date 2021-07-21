@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+
+<html lang="zh-cn">
+<head>
+<!--#include file="/pc/ss/gp/html/cl/Header.html"-->
+    <script src="../../js/gp/Station.js" type="text/javascript"></script>
+    <script src="../../js/co/CommonEdit.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var pageParam = {
+                formId: "formEdit",
+                validateRules: {
+                    textName: {
+                        required: true
+                    },
+                    textResponsibility: {
+                        required: true
+                    }
+                }
+            };
+            var ajaxParam = {
+                url: RU_GPSTATION_UPDATE,
+                updateListUrl:RU_GPSTATION_UPDATELIST,
+                getModelUrl: RU_GPSTATION_GETMODELBYPATH,
+                submitData: {}
+            };
+            initEditPage(pageParam, ajaxParam);
+        });
+    </script>
+</head>
+
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-wrapper">
+<!--#include file="/pc/ss/gp/html/cl/Top.html"-->
+<div class="page-container page-content-wrapper">
+<!--#include file="/pc/ss/gp/html/cl/Menu.html"-->
+    <div class="page-content">
+        <div class="row">
+            <div class="col-md-12 page-bar page-bar-height  portlet ">
+                <ul class="page-breadcrumb">
+                    <li>
+                        <i class="fa fa-home"></i>
+                        <a id="navbarIndexA" href="">主页</a>
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                    <li>
+                        <a id="navbarListA" href="">
+						岗位管理</a>
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                    <li>修改岗位</li>
+                </ul>
+            </div>
+            <div class="portlet light bordered">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet box red">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-pencil-square-o"></i>
+                                    <span class="caption-subject font-white sbold uppercase">修改岗位</span>
+                                </div>
+                            </div>
+                            <div class="form-body portlet-body">
+                                <form action="#" id="formEdit" class="form-horizontal">
+                                    <div class="form-body">
+                                        <input id="hiddenId" name="hiddenId" type="hidden" />
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textSerialNo" class="control-label col-md-2">编号
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textSerialNo" name="textSerialNo" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textOrganizationId">所属组织机构
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <select id="selectOrganizationId" name="selectOrganizationId" class="form-control"
+                                                            onchange="$('#queryBuilderForm').submit();">
+                                                        <option value=""></option>
+                                                    </select>
+                                                </div>
+                                               <!-- <div class="col-md-3">
+                                                  <input id="textOrganizationName" name="textOrganizationName" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>-->
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textName" class="control-label col-md-2">名称<span
+                                                        class="required" aria-required="true"> * </span>
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textName" name="textName" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textResponsibility">机构职能<span
+                                                        class="required" aria-required="true"> * </span>
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textResponsibility" name="textResponsibility" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group">
+                                                <label class="control-label col-md-2" for="textRemark">备注字段
+                                                </label>
+                                                <div class="col-md-8">
+                                                    <textarea id="textareaRemark" name="textareaRemark" class="form-control" rows="3"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-actions">
+                                        <button id="buttonSubmit" type="submit" class="btn red-mint">提交</button>
+                                        <button id="buttonBack" type="button" class="btn red-mint">返回</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--#include file="/pc/ss/gp/html/cl/Footer.html"-->
+</body>
+</html>

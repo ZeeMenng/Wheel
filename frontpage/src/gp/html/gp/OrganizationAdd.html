@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+
+<html lang="zh-cn">
+<head>
+    <!--#include file="/pc/ss/gp/html/cl/Header.html"-->
+    <script src="../../js/gp/Organization.js" type="text/javascript"></script>
+    <script src="../../js/co/CommonAdd.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var pageParam = {
+                formId: "formAdd",
+                validateRules: {
+                    textName: {
+                        required: true
+                    },
+                    selectTypeCode: {
+                        required: true
+                    },
+                    selectLevelCode:{
+                        required: true
+                    },
+                    textResponsibility:{
+                        required: true
+                    },
+                    textEmail:{
+                        email:true
+                    },
+                    textPostcode:{
+                        digits:true
+                    }
+                }
+            };
+
+            var ajaxParam = {
+                url: RU_GPORGANIZATION_ADD,
+                submitData: {}
+            };
+            initAddPage(pageParam, ajaxParam);
+
+            //模块级联三级begin
+            showSelect();
+
+            $("#selectLevelCode").change(function(){
+                showSelect();
+                hideVal();
+            })
+            $("#selectModuleFst").change(function(){
+                initSec();
+                hideVal();
+            });
+            $("#selectModuleSec").change(function(){
+                hideVal();
+            })
+
+            function showSelect(){
+                var val = $("#selectLevelCode").val();
+                if(val == 1){
+                    $("#divModuleFst").hide();
+                    $("#divModuleSec").hide();
+                }else if(val == 2){
+                    $("#divModuleFst").show();
+                    $("#divModuleSec").hide();
+                    initFst();
+                }else if(val == 3){
+                    $("#divModuleFst").show();
+                    $("#divModuleSec").show();
+                    initFst();
+                    initSec();
+                }else{
+                    $("#divModuleFst").hide();
+                    $("#divModuleSec").hide();
+                }
+            }
+
+            //改变隐藏域的值
+            function hideVal(){
+                //组织机构级别
+                var val = $("#selectLevelCode").val();
+                if(val == 1){
+                    $("#textLevelText").val("一级组织机构");
+                    $("#textFartherId").val("");
+                }else if(val == 2){
+                    $("#textLevelText").val("二级组织机构");
+                    $("#textFartherId").val($("#selectModuleFst").val());
+                }else if(val == 3){
+                    $("#textLevelText").val("三级组织机构");
+                    $("#textFartherId").val($("#selectModuleSec").val());
+                }else{
+                    $("#textFartherId").val("");
+                }
+                //类型
+                var val = $("#selectTypeCode").val();
+                if(val == 1){
+                    $("#textTypeText").val("县政府");
+                }else if(val == 2){
+                    $("#textTypeText").val("省市双管单位");
+                }else if(val == 3){
+                    $("#textTypeText").val("镇政府");
+                }else if(val == 4){
+                    $("#textTypeText").val("合作社");
+                }else if(val == 5){
+                    $("#textTypeText").val("生产企业");
+                }else if(val == 6){
+                    $("#textTypeText").val("加工企业");
+                }else if(val == 7){
+                    $("#textTypeText").val("销售企业");
+                }else{
+                    $("#textTypeText").val("");
+                }
+            }
+
+            //初始化一级
+            function initFst(){
+                $("#selectModuleFst").html('<option value=""></option>');
+                var commmitData = {
+                    entityRelated: {
+                        levelCode:1
+                    }
+                };
+                var paramsData = JSON.stringify(commmitData)
+                initSelect(paramsData,'selectModuleFst');
+                initSec();
+            }
+
+            //初始化二级
+            function initSec(){
+                $("#selectModuleSec").html('<option value=""></option>');
+                var ids = $("#selectModuleFst").val();
+                if(ids == '' || ids == null || ids == undefined){
+                    if(initResult.data.organizationTop == ''){
+                        return;
+                    }else{
+                        ids = initResult.data.organizationTop;
+                    }
+                }
+                var commmitData = {
+                    entityRelated: {
+                        fartherId: ids
+                    }
+                };
+                var paramsData = JSON.stringify(commmitData)
+                initSelect(paramsData,"selectModuleSec");
+            }
+
+            function initSelect(paramsData,domId){
+                var selectParam = {
+                    selectId : domId,
+                    textField : "name",
+                    valueField : "id"
+                };
+                var ajaxParam = {
+                    url : RU_GPORGANIZATION_GETLISTBYJSONDATA+ "?jsonData="+paramsData
+                }
+                initDropDownList(selectParam, ajaxParam);
+            }
+            //模块级联三级end
+        });
+    </script>
+</head>
+
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-wrapper">
+<!--#include file="/pc/ss/gp/html/cl/Top.html"-->
+<div class="page-container page-content-wrapper">
+    <!--#include file="/pc/ss/gp/html/cl/Menu.html"-->
+    <div class="page-content">
+        <div class="row">
+            <div class="col-md-12 page-bar page-bar-height  portlet ">
+                <ul class="page-breadcrumb">
+                    <li>
+                        <i class="fa fa-home"></i>
+                        <a id="navbarIndexA" href="">主页</a>
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                    <li>
+                        <a id="navbarListA" href="">
+                            组织机构管理</a>
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                    <li>新增组织机构</li>
+                </ul>
+            </div>
+            <div class="portlet light bordered">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet box red">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-plus"></i>
+                                    <span class="caption-subject font-white sbold uppercase">新增组织机构</span>
+                                </div>
+                            </div>
+                            <div class="form-body portlet-body">
+                                <form action="#" id="formAdd" class="form-horizontal">
+                                    <div class="form-body">
+                                        <div class="form-hidden">
+                                            <input type="hidden" id="textFartherId" name="textFartherId" />
+                                            <input type="hidden" id="textLevelText" name="textLevelText" />
+                                            <input type="hidden" id="textTypeText" name="textTypeText" />
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textSerialNo" class="control-label col-md-2">编号
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textSerialNo" name="textSerialNo" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textName">名称<span
+                                                        class="required" aria-required="true"> * </span>
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textName" name="textName" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label class="control-label col-md-2" for="textTypeCode">机构类型<span
+                                                        class="required" aria-required="true"> * </span>
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <select id="selectTypeCode" name="selectTypeCode" class="form-control"
+                                                            onchange="$('#queryBuilderForm').submit();">
+                                                        <option value=""></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label for="textShortName" class="control-label col-md-2">简称
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textShortName" name="textShortName" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                        </div>
+
+                                       <!-- <div class="form-group">
+                                            <div class="element-group left">
+                                                <label class="control-label col-md-2" for="textLevelCode">组织机构级别<span
+                                                        class="required" aria-required="true"> * </span>
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <select id="selectLevelCode" name="selectLevelCode" class="form-control"
+                                                            onchange="$('#queryBuilderForm').submit();">
+                                                        <option value=""></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textFartherId">父级组织机构
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textFartherId" name="textFartherId" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+
+                                        </div>-->
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="selectLevelCode" class="control-label col-md-2">组织机构级别<span
+                                                        class="required" aria-required="true"> * </span>
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <select class="form-control " id="selectLevelCode"
+                                                            name="selectLevelCode">
+                                                        <option value=""></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="element-group right" id="divModuleFst">
+                                                <label class="control-label col-md-2" for="selectModuleFst">一级组织机构<span
+                                                        class="required" aria-required="true"> * </span>
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <select class="form-control " id="selectModuleFst" name="selectModuleFst">
+                                                        <option value=""></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left" id="divModuleSec">
+                                                <label class="control-label col-md-2" for="selectModuleSec">二级组织机构<span
+                                                        class="required" aria-required="true"> * </span>
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <select class="form-control " id="selectModuleSec" name="selectModuleSec">
+                                                        <option value=""></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textPriority" class="control-label col-md-2">排序字段
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textPriority" name="textPriority" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textPhone">电话号码
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textPhone" name="textPhone" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textEmail" class="control-label col-md-2">邮箱
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textEmail" name="textEmail" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textFax">传真
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textFax" name="textFax" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textPostcode" class="control-label col-md-2">邮编
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textPostcode" name="textPostcode" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textAddress">地址
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textAddress" name="textAddress" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textResponsibility" class="control-label col-md-2">机构职能<span
+                                                        class="required" aria-required="true"> * </span>
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textResponsibility" name="textResponsibility" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label class="control-label col-md-2" for="textRemark">备注字段
+                                                </label>
+                                                <div class="col-md-8">
+                                                    <!--<input id="textRemark" name="textRemark" type="text"
+                                                             data-required="1"
+                                                             class="form-control"/>-->
+                                                    <textarea id="textareaRemark" name="textareaRemark" class="form-control" rows="3"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="form-actions">
+                                        <button id="buttonSubmit" type="submit" class="btn red-mint">提交</button>
+                                        <button id="buttonBack" type="button" class="btn red-mint">返回</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--#include file="/pc/ss/gp/html/cl/Footer.html"-->
+</body>
+</html>

@@ -1,0 +1,308 @@
+﻿<!DOCTYPE html>
+
+<html lang="zh-cn">
+<head>
+<!--#include file="/pc/ss/gp/html/cl/Header.html"-->
+
+    <link href="../../../../global/plugins/ztree/demo.css" rel="stylesheet" type="text/css"/>
+    <link href="../../../../global/plugins/ztree/zTreeStyle/zTreeStyle.css" rel="stylesheet" type="text/css"/>
+    <script src="../../../../global/plugins/ztree/jquery.ztree.core.min.js" type="text/javascript"></script>
+    <script src="../../../../global/plugins/ztree/jquery.ztree.excheck.min.js" type="text/javascript"></script>
+
+    <script src="../../js/gp/Variety.js" type="text/javascript"></script>
+    <script src="../../js/co/CommonAdd.js" type="text/javascript"></script>
+    
+    <link href="../../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css" rel="stylesheet" type="text/css"/>
+	<script src="../../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js" type="text/javascript"></script>
+	<script src="../../../../global/plugins/jQuery-File-Upload/js/vendor/jquery.ui.widget.js" type="text/javascript"></script>
+	<script src="../../../../global/plugins/jQuery-File-Upload/js/jquery.iframe-transport.js" type="text/javascript"></script>
+	<script src="../../../../global/plugins/jQuery-File-Upload/js/jquery.fileupload.js" type="text/javascript"></script>
+	<script src="../../../../global/plugins/jQuery-File-Upload/js/jquery.fileupload-process.js" type="text/javascript"></script>
+	<script src="../../../../global/plugins/jQuery-File-Upload/js/jquery.fileupload-validate.js" type="text/javascript"></script>
+    
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var pageParam = {
+                formId: "formAdd",
+                validateRules: {
+                	textName: {
+                        required: true
+                    },
+                    textareaDescribes: {
+                        maxlength: 255
+                    },
+//                     textDescribes: {
+//                         required: true
+//                     },
+//                     textCycleTime: {
+//                         required: true
+//                     },
+//                     hiddenResourceId: {
+//                         required: true
+//                     },
+                    hiddenParentId: {
+                        required: true
+                    }
+                   
+                }
+//                 ,
+// 	            validateMessages: {
+// 	                hiddenResourceId: "请上传品种图片！"
+// 	            }
+            };
+            var ajaxParam = {
+                url: RU_GPVARIETY_ADD,
+                submitData: {}
+            };
+            initAddPage(pageParam, ajaxParam);
+            
+          //树形结构begin
+            var setting = {
+                check: {
+                    enable: true,
+                    chkStyle: "radio",  //单选框
+                    radioType: "all"   //对所有节点设置单选
+                },
+                data: {
+                    simpleData: {
+                        enable: true
+                    }
+                },
+                callback:{
+                    onCheck:onCheck
+                }
+            };
+
+            initTreeNodes();
+            function initTreeNodes(){
+                $.ajax({
+                    url : INTERFACE_SERVER + RU_GPVARIETY_GETTREENODEDATA + "?jsonData={}",
+                    success : function(res){
+                        var treeNodes = res.data;
+                        $.fn.zTree.init($("#treeContainer"), setting, treeNodes);
+                        //initChecked();
+                    }
+                });
+            };
+
+            //默认选中节点（新增不需要，修改需要）
+            function initChecked(){
+                var treeObj = $.fn.zTree.getZTreeObj("treeContainer");
+                if(initResult != null && initResult!= '' && initResult !=undefined){
+                    var moduleIds = initResult.data.channelId;
+                    if(moduleIds != "" && moduleIds != null && moduleIds != undefined){
+                        var arr = moduleIds.split(",");
+                        for (idx in arr){
+                            var node = treeObj.getNodeByParam("id", arr[idx]);
+                            if (node) {
+                                treeObj.checkNode(node);
+                            }
+                        }
+                    }
+                }
+            }
+
+            //点击节点回调函数，给隐藏文本域添加角色id数组
+            function onCheck(){
+                var treeObj=$.fn.zTree.getZTreeObj("treeContainer"),
+                    nodes=treeObj.getCheckedNodes(true),
+                    arr = [];
+                for(var i=0;i<nodes.length;i++){
+                    arr.push(nodes[i].id)
+                }
+                $("#hiddenParentId").val(arr)
+            }
+            //树形结构end
+            
+            
+            //图片上传begin
+            $('#fileTitleImage').fileupload({
+                url: INTERFACE_SERVER + "/extend/swagger/gp/gpResource/saveUploadFile",// 服务器API
+                autoUpload: true,
+                dataType: 'json',
+                formData: {
+                    pageUrl:  '/ss/gp/html/pi/VarietyAdd.html'
+                },
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("token")).accessToken);
+                },
+            }).bind('fileuploaddone', function (e, data) {
+                //清除元素
+                $("#fileTitleImage-error").remove();
+                // 图片格式校验
+                var gpResource = data.result.data;
+                if (!data.result.isSuccess) {
+                    layer.alert("上传标题图片出错！" + data.result.resultMessage, {
+                        icon: 6
+                    });
+                    return false;
+                }
+
+                $("#hiddenResourceId").val(gpResource[0].id);
+                $("#hiddenResourceUrl").val(gpResource[0].path);
+                return true;
+            });
+
+            $("#aRemoveTitleImage").click(function () {
+                $("#hiddenResourceId").val("");
+                $("#hiddenResourceUrl").val("");
+            });
+            //图片上传end
+            
+        });
+    </script>
+</head>
+
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-wrapper">
+<!--#include file="/pc/ss/gp/html/cl/Top.html"-->
+<div class="page-container page-content-wrapper">
+<!--#include file="/pc/ss/gp/html/cl/Menu.html"-->
+    <div class="page-content">
+        <div class="row">
+            <div class="col-md-12 page-bar page-bar-height  portlet ">
+                <ul class="page-breadcrumb">
+                    <li>
+                        <i class="fa fa-home"></i>
+                        <a id="navbarIndexA" href="">主页</a>
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                    <li>
+                        <a id="navbarListA" href="">
+						品种表管理</a>
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                    <li>新增品种表</li>
+                </ul>
+            </div>
+            <div class="portlet light bordered">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet box red">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-plus"></i>
+                                    <span class="caption-subject font-white sbold uppercase">新增品种</span>
+                                </div>
+                            </div>
+                            <div class="form-body portlet-body">
+                                <form action="#" id="formAdd" class="form-horizontal">
+                                    <div class="form-body">
+
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textName" class="control-label col-md-2">
+                                                       品种名称<span class="required"> * </span>
+                                                </label>
+                                                <div class="col-md-8">
+                                                    <input id="textName" name="textName" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                           
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textDescribes">
+                                                       描述
+                                                </label>
+                                                <div class="col-md-8">
+<!--                                                   <input id="textDescribes" name="textDescribes" type="text" -->
+<!--                                                            data-required="1" -->
+<!--                                                            class="form-control"/> -->
+                                                           
+                                                   <textarea id="textareaDescribes" name="textareaDescribes"
+                                                              class="form-control" rows="3"></textarea>
+                                                    <div id="errorBox_descriptionLength" style="display: none;">
+                                                        <label style="display: block; margin-top: 5px; margin-bottom: 10px; color: #ff0000;">品种描述不能超过255个字符。</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                 
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textCycleTime" class="control-label col-md-2">
+                                                   时间周期/天
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textCycleTime" name="textCycleTime" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textPriority" class="control-label col-md-2">排序
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textPriority" name="textPriority" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="fileTitleImage" class="control-label col-md-2">品种图片</label>
+                                                <div class="col-md-3">
+                                                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                                                        <div class="fileinput-new thumbnail">
+                                                            <img id="imgTitleImage" src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt="">
+                                                        </div>
+                                                        <div class="fileinput-preview fileinput-exists thumbnail"></div>
+                                                        <div>
+                                                            <input type="hidden" id="hiddenResourceId" name="hiddenResourceId"/>
+                                                            <input type="hidden" id="hiddenResourceUrl" name="hiddenResourceUrl"/>
+                                                            <span class="btn default btn-file">
+                                                                <input type="file" name="fileTitleImage" id="fileTitleImage" accept="image/*"/>
+                                                                <span class="fileinput-new"> 选择图片 </span>
+																<span class="fileinput-exists"> 更改图片 </span>
+                                                            </span>
+                                                            <a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput" id="aRemoveTitleImage" style="text-decoration: none"> 移除 </a>
+                                                            <div id="fileTitleImage_error">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                         <div class="form-group">
+                                            <div class="element-group left">
+                                                <label class="control-label col-md-2" for="textRemark">父级品种
+                                                    <span class="required"> * </span>
+                                                </label>
+                                                <div class="col-md-8">
+                                                    <ul id="treeContainer" class="ztree"></ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="element-group left">
+                                            <label for="selectContentType" class="control-label col-md-2">
+                                            </label>
+                                            <div class="form-hidden">
+                                                <input type="hidden" name="hiddenParentId" id="hiddenParentId">
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    
+                                    <div class="form-actions">
+                                        <button id="buttonSubmit" type="submit" class="btn red-mint">提交</button>
+                                        <button id="buttonBack" type="button" class="btn red-mint">返回</button>
+                                    </div>
+                                    
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--#include file="/pc/ss/gp/html/cl/Footer.html"-->
+</body>
+</html>

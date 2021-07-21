@@ -1,0 +1,201 @@
+﻿<!DOCTYPE html>
+
+<html lang="zh-cn">
+<head>
+<!--#include file="/pc/ss/gp/html/cl/Header.html"-->
+<!--#include file="/pc/ss/gp/html/cl/HeaderZTree.html"-->
+<!--#include file="/pc/ss/gp/html/cl/HeaderZTree.html"-->
+<script src="../../js/co/CommonZTree.js" type="text/javascript"></script>
+<script src="../../js/co/CommonFileInput.js" type="text/javascript"></script>
+<script src="../../js/co/CommonAdd.js" type="text/javascript"></script>
+
+<script src="../../js/gp/Role.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		var pageParam = {
+			formId : "formAdd",
+			validateRules : {
+				textName : {
+					required : true
+				}
+			}
+		};
+		var ajaxParam = {
+			url : RU_GPROLE_ADD,
+			submitData : {}
+		};
+		initAddPage(pageParam, ajaxParam);
+
+		var jsonData = {
+			"entityRelated" : {
+
+			},
+			"orderList" : [ {
+				"columnName" : "name",
+				"isASC" : true
+			} ]
+		};
+		// 树形结构begin
+		var setting = {
+			check : {
+				enable : true
+			},
+			data : {
+				simpleData : {
+					enable : true,
+					idKey : "id",
+					pIdKey : "fartherId"
+				}
+			},
+			callback : {
+				onCheck : function () {
+					var treeObj = $.fn.zTree.getZTreeObj("treeContainer");
+					var nodes = treeObj.getCheckedNodes(true);
+
+					var moduleIdsArray = [];
+					var domainIdsArray = [];
+					for (var i = 0; i < nodes.length; i++) {
+						if (nodes[i].level == 0) {
+							domainIdsArray.push(nodes[i].id);
+						} else {
+							moduleIdsArray.push(nodes[i].id);
+						}
+					}
+					$("#hiddenModuleIds").val(moduleIdsArray.toString())
+					$("#hiddenDomainIds").val(domainIdsArray.toString())
+				}
+			}
+		};
+		var ajaxParamter = {
+			"url" : RU_GPDOMAIN_GETLISTBYJSONDATA + "?jsonData=" + JSON.stringify(jsonData),
+			"async" : true,
+			"type" : "GET",
+			"success" : function(resultData) {
+				var zNodes = [];
+				if (resultData.data != null && resultData.data.length != 0) {
+					zNodes = resultData.data;
+
+					// 更改应用领域图标展示
+					for (i = 0; i < zNodes.length; i++) {
+						zNodes[i].icon = "/pc/global/plugins/zTree_v3/css/zTreeStyle/img/diy/5.png";
+						zNodes[i].iconSkin = "diy01";
+					}
+				}
+				$.fn.zTree.init($("#treeContainer"), setting, zNodes);
+
+				$(".ztree .level0 a").attr("style", "cursor:default")
+
+				var moduleTree = $.fn.zTree.getZTreeObj("treeContainer");
+
+				var nodeList = moduleTree.getNodes();
+				$.each(nodeList, function(index, value) {
+					var ajaxParamter = {
+						"url" : RU_GPMODULE_GETLISTBYDOMAINID + value.id,
+						"async" : true,
+						"type" : "GET",
+						"success" : function(resultData) {
+							if (resultData.totalCount != 0) {
+								// 更改功能模块图标展示
+								for (i = 0; i < resultData.data.length; i++) {
+									resultData.data[i].icon = "/pc/global/plugins/zTree_v3/css/zTreeStyle/img/diy/3.png";
+									resultData.data[i].iconSkin = "diy02";
+								}
+								moduleTree.addNodes(value, -1, resultData.data);
+
+							}
+
+						}
+					};
+					universalAjax(ajaxParamter);
+				});
+			}
+		};
+		universalAjax(ajaxParamter);
+	});
+</script>
+</head>
+
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-wrapper">
+	<!--#include file="/pc/ss/gp/html/cl/Top.html"-->
+	<div class="page-container page-content-wrapper">
+		<!--#include file="/pc/ss/gp/html/cl/Menu.html"-->
+		<div class="page-content">
+			<div class="row">
+				<div class="col-md-12 page-bar page-bar-height  portlet ">
+					<ul class="page-breadcrumb">
+						<li>
+							<i class="fa fa-home"></i>
+							<a id="navbarIndexA" href="">主页</a>
+							<i class="fa fa-angle-right"></i>
+						</li>
+						<li>
+							<a id="navbarListA" href=""> 系统角色管理</a>
+							<i class="fa fa-angle-right"></i>
+						</li>
+						<li>新增系统角色</li>
+					</ul>
+				</div>
+				<div class="portlet light bordered">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="portlet box red">
+								<div class="portlet-title">
+									<div class="caption">
+										<i class="fa fa-plus"></i>
+										<span class="caption-subject font-white sbold uppercase">新增系统角色</span>
+									</div>
+								</div>
+								<div class="form-body portlet-body">
+									<form action="#" id="formAdd" class="form-horizontal">
+										<div class="form-body">
+											<div class="form-hidden">
+												<input type="hidden" name="hiddenDomainIds" id="hiddenDomainIds">
+												<input type="hidden" name="hiddenModuleIds" id="hiddenModuleIds">
+											</div>
+											<div class="form-group">
+												<div class="element-group right">
+													<label class="control-label col-md-2" for="textName">
+														角色名称
+														<span class="required" aria-required="true"> * </span>
+													</label>
+													<div class="col-md-8">
+														<input id="textName" name="textName" type="text" data-required="1" class="form-control" />
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="element-group left">
+													<label class="control-label col-md-2" for="treeContainer">
+														功能权限
+													</label>
+													<div class="col-md-8">
+														<ul id="treeContainer" class="ztree"></ul>
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="element-group left">
+													<label class="control-label col-md-2" for="textRemark">备注字段 </label>
+													<div class="col-md-8">
+														<textarea id="textareaRemark" name="textareaRemark" class="form-control" rows="3"></textarea>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="form-actions">
+											<button id="buttonSubmit" type="submit" class="btn red-mint">提交</button>
+											<button id="buttonBack" type="button" class="btn red-mint">返回</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--#include file="/pc/ss/gp/html/cl/Footer.html"-->
+</body>
+</html>

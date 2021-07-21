@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+
+<html lang="zh-cn">
+<head>
+<!--#include file="/pc/ss/gp/html/cl/Header.html"-->
+    <script src="../../js/gp/DictionaryType.js" type="text/javascript"></script>
+    <script src="../../js/co/CommonAdd.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var pageParam = {
+                formId: "formAdd",
+                validateRules: {
+                    textName: {
+                        required: true
+                    },
+                    textConstantName: {
+                        required: true
+                    }
+                }
+            };
+            var ajaxParam = {
+                url: RU_GPDICTIONARYTYPE_ADD,
+                submitData: {}
+            };
+            initAddPage(pageParam, ajaxParam);
+        });
+    </script>
+</head>
+
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-wrapper">
+<!--#include file="/pc/ss/gp/html/cl/Top.html"-->
+<div class="page-container page-content-wrapper">
+<!--#include file="/pc/ss/gp/html/cl/Menu.html"-->
+    <div class="page-content">
+        <div class="row">
+            <div class="col-md-12 page-bar page-bar-height  portlet ">
+                <ul class="page-breadcrumb">
+                    <li>
+                        <i class="fa fa-home"></i>
+                        <a id="navbarIndexA" href="">主页</a>
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                    <li>
+                        <a id="navbarListA" href="">
+						字典类型管理</a>
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                    <li>新增字典类型</li>
+                </ul>
+            </div>
+            <div class="portlet light bordered">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet box red">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-plus"></i>
+                                    <span class="caption-subject font-white sbold uppercase">新增字典类型</span>
+                                </div>
+                            </div>
+                            <div class="form-body portlet-body">
+                                <form action="#" id="formAdd" class="form-horizontal">
+                                    <div class="form-body">
+
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textName" class="control-label col-md-2">名称<span
+                                                        class="required" aria-required="true"> * </span>
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textName" name="textName" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textConstantName">常量名称<span
+                                                        class="required" aria-required="true"> * </span>
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textConstantName" name="textConstantName" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="element-group">
+                                                <label class="control-label col-md-2" for="textRemark">备注
+                                                </label>
+                                                <div class="col-md-8">
+                                                    <textarea id="textareaRemark" name="textareaRemark"
+                                                              class="form-control" rows="3"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+
+                                    </div>
+                                    <div class="form-actions">
+                                        <button id="buttonSubmit" type="submit" class="btn red-mint">提交</button>
+                                        <button id="buttonBack" type="button" class="btn red-mint">返回</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--#include file="/pc/ss/gp/html/cl/Footer.html"-->
+</body>
+</html>

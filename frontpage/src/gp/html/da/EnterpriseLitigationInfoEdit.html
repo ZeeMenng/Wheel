@@ -1,0 +1,260 @@
+﻿<!DOCTYPE html>
+
+<html lang="zh-cn">
+<head>
+<!--#include file="/pc/ss/gp/html/cl/Header.html"-->
+    <script src="../../js/da/EnterpriseLitigationInfo.js" type="text/javascript"></script>
+    <script src="../../js/co/CommonEdit.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var pageParam = {
+                formId: "formEdit",
+                validateRules: {
+      
+                }
+            };
+            var ajaxParam = {
+                url: RU_DAENTERPRISELITIGATIONINFO_UPDATE,
+                updateListUrl:RU_DAENTERPRISELITIGATIONINFO_UPDATELIST,
+                getModelUrl: RU_DAENTERPRISELITIGATIONINFO_GETMODELBYPATH,
+                submitData: {}
+            };
+            initEditPage(pageParam, ajaxParam);
+        });
+    </script>
+</head>
+
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-wrapper">
+<!--#include file="/pc/ss/gp/html/cl/Top.html"-->
+<div class="page-container page-content-wrapper">
+<!--#include file="/pc/ss/gp/html/cl/Menu.html"-->
+    <div class="page-content">
+        <div class="row">
+            <div class="col-md-12 page-bar page-bar-height  portlet ">
+                <ul class="page-breadcrumb">
+                    <li>
+                        <i class="fa fa-home"></i>
+                        <a id="navbarIndexA" href="">主页</a>
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                    <li>
+                        <a id="navbarListA" href="">
+						企业诉讼表管理</a>
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                    <li>修改企业诉讼表</li>
+                </ul>
+            </div>
+            <div class="portlet light bordered">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet box red">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-pencil-square-o"></i>
+                                    <span class="caption-subject font-white sbold uppercase">修改企业诉讼表</span>
+                                </div>
+                            </div>
+                            <div class="form-body portlet-body">
+                                <form action="#" id="formEdit" class="form-horizontal">
+                                    <div class="form-body">
+                                        <input id="hiddenId" name="hiddenId" type="hidden" />
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textEnterpriseId" class="control-label col-md-2">企业id
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textEnterpriseId" name="textEnterpriseId" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textEnterpriseName">企业名称
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textEnterpriseName" name="textEnterpriseName" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textExecutionName" class="control-label col-md-2">被执行人姓名
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textExecutionName" name="textExecutionName" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textReferenceNumber">案号
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textReferenceNumber" name="textReferenceNumber" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textFilingTime" class="control-label col-md-2">立案时间
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textFilingTime" name="textFilingTime" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textCardId">身份证号码
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textCardId" name="textCardId" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textExecutionCourt" class="control-label col-md-2">执行法院
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textExecutionCourt" name="textExecutionCourt" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textExecutionObject">案件标的
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textExecutionObject" name="textExecutionObject" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textLawState" class="control-label col-md-2">案件
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textLawState" name="textLawState" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textYear">发生年份
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textYear" name="textYear" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textLitigationContent" class="control-label col-md-2">诉讼内容
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textLitigationContent" name="textLitigationContent" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textLitigationUrl">诉讼查询URL地址
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textLitigationUrl" name="textLitigationUrl" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textAccuser" class="control-label col-md-2">原告
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textAccuser" name="textAccuser" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textDefendant">被告
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textDefendant" name="textDefendant" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textRegionCode" class="control-label col-md-2">地区代码
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textRegionCode" name="textRegionCode" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textRegionText">地区名称
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textRegionText" name="textRegionText" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textDatasourceCode" class="control-label col-md-2">数据来源
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textDatasourceCode" name="textDatasourceCode" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textRemark">备注
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textRemark" name="textRemark" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label class="control-label col-md-2" for="textCreatedTime">创建时间
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textCreatedTime" name="textCreatedTime" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-actions">
+                                        <button id="buttonSubmit" type="submit" class="btn red-mint">提交</button>
+                                        <button id="buttonBack" type="button" class="btn red-mint">返回</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--#include file="/pc/ss/gp/html/cl/Footer.html"-->
+</body>
+</html>

@@ -1,0 +1,186 @@
+﻿<!DOCTYPE html>
+
+<html lang="zh-cn">
+<head>
+<!--#include file="/pc/ss/gp/html/cl/Header.html"-->
+    <script src="../../js/da/EnterpriseShareholderInfo.js" type="text/javascript"></script>
+    <script src="../../js/co/CommonAdd.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var pageParam = {
+                formId: "formAdd",
+                validateRules: {
+                   
+                }
+            };
+            var ajaxParam = {
+                url: RU_DAENTERPRISESHAREHOLDERINFO_ADD,
+                submitData: {}
+            };
+            initAddPage(pageParam, ajaxParam);
+        });
+    </script>
+</head>
+
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-wrapper">
+<!--#include file="/pc/ss/gp/html/cl/Top.html"-->
+<div class="page-container page-content-wrapper">
+<!--#include file="/pc/ss/gp/html/cl/Menu.html"-->
+    <div class="page-content">
+        <div class="row">
+            <div class="col-md-12 page-bar page-bar-height  portlet ">
+                <ul class="page-breadcrumb">
+                    <li>
+                        <i class="fa fa-home"></i>
+                        <a id="navbarIndexA" href="">主页</a>
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                    <li>
+                        <a id="navbarListA" href="">
+						企业股东信息表管理</a>
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                    <li>新增企业股东信息表</li>
+                </ul>
+            </div>
+            <div class="portlet light bordered">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet box red">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-plus"></i>
+                                    <span class="caption-subject font-white sbold uppercase">新增企业股东信息表</span>
+                                </div>
+                            </div>
+                            <div class="form-body portlet-body">
+                                <form action="#" id="formAdd" class="form-horizontal">
+                                    <div class="form-body">
+
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textEnterpriseId" class="control-label col-md-2">企业id
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textEnterpriseId" name="textEnterpriseId" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textEnterpriseName">企业名称
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textEnterpriseName" name="textEnterpriseName" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textShareholderName" class="control-label col-md-2">股东名称
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textShareholderName" name="textShareholderName" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textNatureCode">股东类型
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textNatureCode" name="textNatureCode" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textNatureText" class="control-label col-md-2">股东类型
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textNatureText" name="textNatureText" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textDatasourceCode">数据来源
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textDatasourceCode" name="textDatasourceCode" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textSubscribedAmountSum" class="control-label col-md-2">认缴出资额
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textSubscribedAmountSum" name="textSubscribedAmountSum" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textPaidAmountSum">实缴出资额
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textPaidAmountSum" name="textPaidAmountSum" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textShareRate" class="control-label col-md-2">
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textShareRate" name="textShareRate" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textRemark">备注
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textRemark" name="textRemark" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label class="control-label col-md-2" for="textCreatedTime">创建时间
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textCreatedTime" name="textCreatedTime" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                            
+
+                                        
+                                    </div>
+                                    <div class="form-actions">
+                                        <button id="buttonSubmit" type="submit" class="btn red-mint">提交</button>
+                                        <button id="buttonBack" type="button" class="btn red-mint">返回</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--#include file="/pc/ss/gp/html/cl/Footer.html"-->
+</body>
+</html>

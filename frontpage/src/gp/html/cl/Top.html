@@ -1,0 +1,128 @@
+
+<style type="text/css">
+@media ( min-width : 992px) {
+	.page-sidebar-closed.page-sidebar-closed-hide-logo .page-header.navbar .page-logo
+		{
+		padding: 0;
+		width: 412px;
+	}
+}
+
+.page-header.navbar.navbar-fixed-top {
+	height: 80px;
+}
+
+.page-header .page-header-inner {
+	height: 80px;
+}
+
+.page-header .page-header-inner .page-logo {
+	width: 412px;
+	height: 80px;
+	line-height: 80px;
+}
+
+.page-header-inner .page-logo {
+	height: 80px;
+}
+
+.page-header-inner .page-logo img {
+	width: 80px;
+	height: 60px;
+	margin-right: 20px;
+	margin-top: -25px;
+	width: 80px;
+}
+
+.page-header-inner .page-logo  span {
+	color: #fff;
+	font-size: 26px;
+	vertical-align: inherit;
+}
+
+.page-header .page-header-inner .top-menu {
+	height: 80px;
+	line-height: 80px;
+	padding-top: 10px;
+}
+</style>
+
+<div class="page-header navbar navbar-fixed-top">
+	<div class="page-header-inner">
+		<div class="page-logo hidden-xs">
+			<img src="../../assets/layouts/layout/img/logo.png" alt="logo" />
+			<span>风火轮 后台管理系统</span>
+		</div>
+		<a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse">
+			<span></span>
+		</a>
+		<div class="top-menu">
+			<ul class="nav navbar-nav pull-right">
+				<li class="dropdown dropdown-extended dropdown-notification" id="header_notification_bar">
+					<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+						<i class="icon-bell"></i>
+						<span class="badge badge-default"> </span>
+					</a>
+					<ul class="dropdown-menu">
+						<li class="external">
+							<h3>
+								<span class="bold" id="systematic"></span>
+								个系统通知
+							</h3>
+							<a href="/pc/ss/gp/html/gp/MessageList.html?messageType=0">查看所有</a>
+						</li>
+						<li>
+							<ul class="dropdown-menu-list scroller" style="height: 250px;" data-handle-color="#637283" id="systematic-detiles">
+
+							</ul>
+						</li>
+					</ul>
+				</li>
+				<li class="dropdown dropdown-extended dropdown-inbox" id="header_inbox_bar">
+					<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+						<i class="icon-envelope-open"></i>
+						<span class="badge badge-default"> </span>
+					</a>
+					<ul class="dropdown-menu">
+						<li class="external">
+							<h3>
+								你有
+								<span class="bold" id="userInfo">7 </span>
+								条用户消息
+							</h3>
+							<a href="/pc/ss/gp/html/gp/MessageList.html?messageType=1">查看所有</a>
+						</li>
+						<li>
+							<ul class="dropdown-menu-list scroller" style="height: 275px;" data-handle-color="#637283" id="userInfo-detiles">
+
+							</ul>
+						</li>
+					</ul>
+				</li>
+				<li class="dropdown dropdown-user">
+					<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+						<img alt="" class="img-circle" id="userIcon" src="../../assets/layouts/layout/img/avatar3_small.jpg" />
+						<span class="username username-hide-on-mobile" id="userName"> admin </span>
+						<i class="fa fa-angle-down"></i>
+					</a>
+					<ul class="dropdown-menu">
+						<li class="nostyle-li">
+							<a href="../../../pi/front/dist/html/index/index.html" target="_blank">
+								<i class="fa fa-home"></i>
+								门户首页
+							</a>
+						</li>
+
+
+						<li class="nostyle-li">
+							<a id="aLogout" href="javascript:void(0);">
+								<i class="fa fa-unlock-alt"></i>
+								注销
+							</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>

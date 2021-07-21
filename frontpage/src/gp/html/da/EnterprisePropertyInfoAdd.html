@@ -1,0 +1,357 @@
+﻿<!DOCTYPE html>
+
+<html lang="zh-cn">
+<head>
+<!--#include file="/pc/ss/gp/html/cl/Header.html"-->
+    <script src="../../js/da/EnterprisePropertyInfo.js" type="text/javascript"></script>
+    <script src="../../js/co/CommonAdd.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var pageParam = {
+                formId: "formAdd",
+                validateRules: {
+                   
+                }
+            };
+            var ajaxParam = {
+                url: RU_DAENTERPRISEPROPERTYINFO_ADD,
+                submitData: {}
+            };
+            initAddPage(pageParam, ajaxParam);
+        });
+    </script>
+</head>
+
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-wrapper">
+<!--#include file="/pc/ss/gp/html/cl/Top.html"-->
+<div class="page-container page-content-wrapper">
+<!--#include file="/pc/ss/gp/html/cl/Menu.html"-->
+    <div class="page-content">
+        <div class="row">
+            <div class="col-md-12 page-bar page-bar-height  portlet ">
+                <ul class="page-breadcrumb">
+                    <li>
+                        <i class="fa fa-home"></i>
+                        <a id="navbarIndexA" href="">主页</a>
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                    <li>
+                        <a id="navbarListA" href="">
+						企业财产信息表管理</a>
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                    <li>新增企业财产信息表</li>
+                </ul>
+            </div>
+            <div class="portlet light bordered">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet box red">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-plus"></i>
+                                    <span class="caption-subject font-white sbold uppercase">新增企业财产信息表</span>
+                                </div>
+                            </div>
+                            <div class="form-body portlet-body">
+                                <form action="#" id="formAdd" class="form-horizontal">
+                                    <div class="form-body">
+
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textEnterpriseId" class="control-label col-md-2">企业id
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textEnterpriseId" name="textEnterpriseId" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textEnterpriseName">企业名称
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textEnterpriseName" name="textEnterpriseName" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textYear" class="control-label col-md-2">发生年份
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textYear" name="textYear" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textTotalAssets">
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textTotalAssets" name="textTotalAssets" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textTotalCurrentAssets" class="control-label col-md-2">
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textTotalCurrentAssets" name="textTotalCurrentAssets" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textTotalLiabilities">
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textTotalLiabilities" name="textTotalLiabilities" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textTotalOwnersEquity" class="control-label col-md-2">
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textTotalOwnersEquity" name="textTotalOwnersEquity" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textOperatingIncome">
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textOperatingIncome" name="textOperatingIncome" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textOperatingCosts" class="control-label col-md-2">
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textOperatingCosts" name="textOperatingCosts" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textOperatingProfit">
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textOperatingProfit" name="textOperatingProfit" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textTotalProfit" class="control-label col-md-2">
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textTotalProfit" name="textTotalProfit" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textNetProfit">
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textNetProfit" name="textNetProfit" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textAssetsInterestRate" class="control-label col-md-2">
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textAssetsInterestRate" name="textAssetsInterestRate" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textEquityInterestRate">
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textEquityInterestRate" name="textEquityInterestRate" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textGrossProfitMargin" class="control-label col-md-2">
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textGrossProfitMargin" name="textGrossProfitMargin" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textBeforeYearTotalAssets">
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textBeforeYearTotalAssets" name="textBeforeYearTotalAssets" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textBeforeYearOperatingIncome" class="control-label col-md-2">
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textBeforeYearOperatingIncome" name="textBeforeYearOperatingIncome" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textBeforeYearTotalLiabilities">
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textBeforeYearTotalLiabilities" name="textBeforeYearTotalLiabilities" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textTotalCurrentQuick" class="control-label col-md-2">
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textTotalCurrentQuick" name="textTotalCurrentQuick" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textFixedAssets">
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textFixedAssets" name="textFixedAssets" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textInvisibleAssetsNetAlue" class="control-label col-md-2">
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textInvisibleAssetsNetAlue" name="textInvisibleAssetsNetAlue" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textUpdateUserId">更新人
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textUpdateUserId" name="textUpdateUserId" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textFlagCode" class="control-label col-md-2">是否有效
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textFlagCode" name="textFlagCode" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textFlagText">是否有效
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textFlagText" name="textFlagText" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textSourceCreateTime" class="control-label col-md-2">源创建时间
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textSourceCreateTime" name="textSourceCreateTime" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textCurrency">币种
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textCurrency" name="textCurrency" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textDatasourceCode" class="control-label col-md-2">数据来源
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textDatasourceCode" name="textDatasourceCode" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textCreatedTime">创建时间
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textCreatedTime" name="textCreatedTime" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label class="control-label col-md-2" for="textRemark">备注
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textRemark" name="textRemark" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                            
+
+                                        
+                                    </div>
+                                    <div class="form-actions">
+                                        <button id="buttonSubmit" type="submit" class="btn red-mint">提交</button>
+                                        <button id="buttonBack" type="button" class="btn red-mint">返回</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--#include file="/pc/ss/gp/html/cl/Footer.html"-->
+</body>
+</html>

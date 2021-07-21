@@ -1,0 +1,154 @@
+﻿<!DOCTYPE html>
+
+<html lang="zh-cn">
+<head>
+<!--#include file="/pc/ss/gp/html/cl/Header.html"-->
+    <script src="../../js/gp/Module.js" type="text/javascript"></script>
+    <script src="../../js/co/CommonDetail.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var pageParam = {
+                formId: "formDetail"
+            };
+            var ajaxParam = {
+                url: RU_DAENTERPRISECOGNATEINFO_GETMODELBYPATH
+            };
+            initDetailPage(pageParam, ajaxParam);
+        });
+    </script>
+</head>
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-wrapper">
+<!--#include file="/pc/ss/gp/html/cl/Top.html"-->
+<div class="page-container page-content-wrapper">
+<!--#include file="/pc/ss/gp/html/cl/Menu.html"-->
+    <div class="page-content">
+        <div class="row">
+            <div class="col-md-12 page-bar page-bar-height  portlet ">
+                <ul class="page-breadcrumb">
+                    <li>
+                        <i class="fa fa-home"></i>
+                        <a id="navbarIndexA" href="">主页</a>
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                    <li>
+                        <a id="navbarListA" href="">
+						企业关联企业信息表，企业与企业之间关系管理</a>
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                    <li>企业关联企业信息表，企业与企业之间关系详情</li>
+                </ul>
+            </div>
+            <div class="portlet light bordered">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet box red">
+                            <div class="portlet-title">
+                                <div class="caption ">
+                                    <i class="fa fa-file-text"></i>
+                                    <span class="caption-subject bold uppercase">企业关联企业信息表，企业与企业之间关系详情</span>
+                                </div>
+                                <div class="actions">
+                                    <a href="javascript:printPage();" class="btn btn-circle btn-default ">
+                                        <i class="fa fa-print"></i>
+                                        打印
+                                    </a>
+                                    <a href="javascript:void(0)" id="buttonBack"
+                                       class="btn btn-circle btn-default btn-sm">
+                                        <i class="fa fa-reply-all"></i>
+                                        返回
+                                    </a>
+                                    <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;"
+                                       data-original-title="" title=""> </a>
+                                </div>
+                            </div>
+                            <!--startprint-->
+                            <div class="portlet-body">
+                                <form action="#" id="formDetail" class="form-horizontal">
+                                    <table class="table table-bordered table-hover gtreetable gtreetable-fullAccess"
+                                           id="tableDetail">
+                                        <tbody>
+                                        <tr>
+                                            <td class="left-td">
+                                                <strong>主键</strong>
+                                            </td>
+                                            <td class="right-td">
+                                                <label id="labelId"></label>
+                                            </td>
+                                            <td class="left-td">
+                                                <strong>企业id，外键</strong>
+                                            </td>
+                                            <td class="right-td">
+                                                <label id="labelEnterpriseId"></label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="left-td">
+                                                <strong>企业名称</strong>
+                                            </td>
+                                            <td class="right-td">
+                                                <label id="labelEnterpriseName"></label>
+                                            </td>
+                                            <td class="left-td">
+                                                <strong>关联企业id，外键</strong>
+                                            </td>
+                                            <td class="right-td">
+                                                <label id="labelCognateEnterpriseId"></label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="left-td">
+                                                <strong>关联企业名称</strong>
+                                            </td>
+                                            <td class="right-td">
+                                                <label id="labelCognateEnterpriseName"></label>
+                                            </td>
+                                            <td class="left-td">
+                                                <strong>关联关系类型</strong>
+                                            </td>
+                                            <td class="right-td">
+                                                <label id="labelCognateTypeCode"></label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="left-td">
+                                                <strong>关联关系类型</strong>
+                                            </td>
+                                            <td class="right-td">
+                                                <label id="labelCognateTypeText"></label>
+                                            </td>
+                                            <td class="left-td">
+                                                <strong>数据来源</strong>
+                                            </td>
+                                            <td class="right-td">
+                                                <label id="labelDatasourceCode"></label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="left-td">
+                                                <strong>创建时间</strong>
+                                            </td>
+                                            <td class="right-td">
+                                                <label id="labelCreatedTime"></label>
+                                            </td>
+                                            <td class="left-td">
+                                                <strong>备注</strong>
+                                            </td>
+                                            <td class="right-td">
+                                                <label id="labelRemark"></label>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </form>    
+                            </div>
+                            <!--endprint-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--#include file="/pc/ss/gp/html/cl/Footer.html"-->
+</body>
+</html>

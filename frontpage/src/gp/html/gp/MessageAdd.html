@@ -1,0 +1,205 @@
+﻿<!DOCTYPE html>
+
+<html lang="zh-cn">
+<head>
+    <!--#include file="/pc/ss/gp/html/cl/Header.html"-->
+    <script src="../../js/gp/Message.js" type="text/javascript"></script>
+    <script src="../../js/co/CommonAdd.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var pageParam = {
+                formId: "formAdd",
+                validateRules: {
+                    textTitle: {
+                        required: true
+                    },
+                    textContent: {
+                        required: true
+                    },
+                    textReceiverNames: {
+                        required: true
+                    }
+                }
+            };
+            var ajaxParam = {
+                url: RU_GPMESSAGE_ADD,
+                submitData: {}
+            };
+            initAddPage(pageParam, ajaxParam);
+
+            initReceiver();
+            //头部信息隐藏文本
+            var userInfo = getStorage("userInfo")[0];
+            $("#textUserName").val(userInfo.userName)
+            $("#textUserId").val(userInfo.id)
+            /*渲染消息接收者*/
+            function initReceiver(){
+                var html = '<ul>';
+                var commmitData = {
+                    page: {
+                        pageIndex: 1,
+                        pageSize: 1000
+                    },
+                    orderList:[{
+                        columnName:"userName",
+                        isASC:true
+                    }]
+                };
+                var paramsData = JSON.stringify(commmitData)
+                $.ajax({
+                    url: INTERFACE_SERVER + RU_GPUSER_GETLISTBYJSONDATA + "?jsonData="+paramsData,
+                    success(res){
+                        for(var i = 0; i<res.data.length;i++){
+                            html += '<li><input type="checkbox"><span data-code="'+res.data[i].id+'">'+res.data[i].userName+'</spana></li>'
+                        }
+                        html += '</ul><p class="sure"><span>确定</span></p>'
+                        $("#select-ul").html(html)
+                    }
+                });
+            }
+
+            //选择消息接收者
+            $("#textReceiverNames").click(function(){
+                $("#select-ul").show();
+            });
+            $("#select-ul").on("click",'span',function(){
+                var html = '';
+                var arr = [];
+                var ids = [];
+                $("#select-ul input:checked").each(function(i,v){
+                    html += $(v).siblings("span").text()+','
+                    arr.push($(v).siblings("span").data("code"))
+                    ids.push({
+                        name: $(v).siblings("span").text(),
+                        id: $(v).siblings("span").data("code")
+                    })
+                });
+                console.log(ids)
+
+                $("#textReceiverObjs").val(JSON.stringify(ids));
+                var textValue = html.slice(0,html.length-1);
+                $("#textReceiverNames").val(textValue);
+                $("#hiddenRoleIds").val(arr);
+                $("#select-ul").hide();
+            });
+        });
+    </script>
+</head>
+
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-wrapper">
+<!--#include file="/pc/ss/gp/html/cl/Top.html"-->
+<div class="page-container page-content-wrapper">
+    <!--#include file="/pc/ss/gp/html/cl/Menu.html"-->
+    <div class="page-content">
+        <div class="row">
+            <div class="col-md-12 page-bar page-bar-height  portlet ">
+                <ul class="page-breadcrumb">
+                    <li>
+                        <i class="fa fa-home"></i>
+                        <a id="navbarIndexA" href="">主页</a>
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                    <li>
+                        <a id="navbarListA" href="">
+                            站内信管理</a>
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                    <li>新增站内信</li>
+                </ul>
+            </div>
+            <div class="portlet light bordered">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet box red">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-plus"></i>
+                                    <span class="caption-subject font-white sbold uppercase">新增站内信</span>
+                                </div>
+                            </div>
+                            <div class="form-body portlet-body">
+                                <form action="#" id="formAdd" class="form-horizontal">
+                                    <div class="form-body">
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textTitle" class="control-label col-md-2">消息标题<span
+                                                        class="required" aria-required="true"> * </span>
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textTitle" name="textTitle" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textContent">消息内容<span
+                                                        class="required" aria-required="true"> * </span>
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textContent" name="textContent" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group" id="divRole" >
+                                            <div class="element-group left">
+                                                <label class="control-label col-md-2" for="textReceiverNames">消息接收者<span
+                                                        class="required" aria-required="true"> * </span>
+                                                </label>
+                                                <div class="col-md-3 posiRe">
+                                                    <input id="textReceiverNames" type="text" name="textReceiverNames"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                    <input id="textReceiverObjs" name="textReceiverObjs" type="hidden"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                    <div class="select-ul posiAb" id="select-ul">
+                                                        <p class="sure"><span>确定</span></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textRemark">备注字段
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textRemark" name="textRemark" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                    <input id="textUserName" name="textUserName" type="hidden"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                    <input id="textUserId" name="textUserId" type="hidden"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-actions">
+                                            <button id="buttonSubmit" type="submit" class="btn red-mint">提交</button>
+                                            <button id="buttonBack" type="button" class="btn red-mint">返回</button>
+                                        </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--#include file="/pc/ss/gp/html/cl/Footer.html"-->
+<!--<script>
+    $('#textReceiverNames').on('click', function(){
+        layer.open({
+            type: 1,
+            content: $('#receiver-list')
+        });
+    })
+</script>
+<div id="receiver-list">
+    11111111111111
+    22222222222222
+</div>-->
+</body>
+</html>

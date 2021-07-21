@@ -1,0 +1,262 @@
+﻿<!DOCTYPE html>
+
+<html lang="zh-cn">
+<head>
+<!--#include file="/pc/ss/gp/html/cl/Header.html"-->
+    <script src="../../js/pi/Interaction.js" type="text/javascript"></script>
+    <script src="../../js/co/CommonAdd.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var pageParam = {
+                formId: "formAdd",
+                validateRules: {
+                   
+                }
+            };
+            var ajaxParam = {
+                url: RU_PIINTERACTION_ADD,
+                submitData: {}
+            };
+            initAddPage(pageParam, ajaxParam);
+        });
+    </script>
+</head>
+
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-wrapper">
+<!--#include file="/pc/ss/gp/html/cl/Top.html"-->
+<div class="page-container page-content-wrapper">
+<!--#include file="/pc/ss/gp/html/cl/Menu.html"-->
+    <div class="page-content">
+        <div class="row">
+            <div class="col-md-12 page-bar page-bar-height  portlet ">
+                <ul class="page-breadcrumb">
+                    <li>
+                        <i class="fa fa-home"></i>
+                        <a id="navbarIndexA" href="">主页</a>
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                    <li>
+                        <a id="navbarListA" href="">
+						pi_interaction管理</a>
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                    <li>新增pi_interaction</li>
+                </ul>
+            </div>
+            <div class="portlet light bordered">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet box red">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-plus"></i>
+                                    <span class="caption-subject font-white sbold uppercase">新增pi_interaction</span>
+                                </div>
+                            </div>
+                            <div class="form-body portlet-body">
+                                <form action="#" id="formAdd" class="form-horizontal">
+                                    <div class="form-body">
+
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textInteractionType" class="control-label col-md-2">类型：1：问专家，2：留建言
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textInteractionType" name="textInteractionType" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textNickName">昵称，网名
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textNickName" name="textNickName" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textRealName" class="control-label col-md-2">真实名称
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textRealName" name="textRealName" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textJob">工作
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textJob" name="textJob" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textPhone" class="control-label col-md-2">电话
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textPhone" name="textPhone" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textEmail">邮箱
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textEmail" name="textEmail" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textQq" class="control-label col-md-2">qq号码
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textQq" name="textQq" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textRegionId">地理区域 :对应区域表code
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textRegionId" name="textRegionId" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textRegionName" class="control-label col-md-2">详细地址
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textRegionName" name="textRegionName" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textTitle">标题
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textTitle" name="textTitle" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textReqContent" class="control-label col-md-2">问题或留言的内容
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textReqContent" name="textReqContent" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textResUserId">回答人userId
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textResUserId" name="textResUserId" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textResContent" class="control-label col-md-2">回答的内容
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textResContent" name="textResContent" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textAuditStatusCode">审核状态：对应数据字典表（dictionary）中的编码字段（code）0：待审核，1:审核通过，2：审核不通过
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textAuditStatusCode" name="textAuditStatusCode" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textAuditStatusText" class="control-label col-md-2">审核状态文本：文本，对应数据字典表（dictionary）中的文本字段（text） 1：无公害认证，2：有机认证，3：绿色认证，4：其他认证0：待审核，1:审核通过，2：审核不通过
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textAuditStatusText" name="textAuditStatusText" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textAuditerSuggestion">审核意见
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textAuditerSuggestion" name="textAuditerSuggestion" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textAuditerUserId" class="control-label col-md-2">审核人，对应用户表userId
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textAuditerUserId" name="textAuditerUserId" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textAuditerTime">审核时间
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textAuditerTime" name="textAuditerTime" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label class="control-label col-md-2" for="textRemark">备注
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textRemark" name="textRemark" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                            
+
+                                        
+                                    </div>
+                                    <div class="form-actions">
+                                        <button id="buttonSubmit" type="submit" class="btn red-mint">提交</button>
+                                        <button id="buttonBack" type="button" class="btn red-mint">返回</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--#include file="/pc/ss/gp/html/cl/Footer.html"-->
+</body>
+</html>

@@ -1,0 +1,45 @@
+
+
+td ul img {
+	width: 100px;
+	height: 100px;
+	padding: 5px;
+}
+
+.ztree li a:hover {
+	text-decoration: none;
+}
+
+a:hover {
+	background-color: #f3f4f6;
+	color: white;
+}
+
+.ul-horizontal {
+	list-style: none; /* 将默认的列表符号去掉 */
+}
+
+.ul-horizontal, .ul-horizontal li {
+	display: block;
+	float: left;
+}
+
+.right-td td ul li a img {
+	width: 150px;
+	height: 150px;
+}
+
+/****详情页超过行宽自动换行**/
+#tableDetail {
+	table-layout: fixed;
+	word-wrap: break-word;
+}
+/*调整详情页表格显示*/
+#tableDetail .left-td strong {
+	font-weight: bolder;
+	margin-left: 25px;
+}
+
+#tableDetail .right-td label{
+	font-weight:normal;
+}

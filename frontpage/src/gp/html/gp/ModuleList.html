@@ -1,0 +1,343 @@
+﻿<!DOCTYPE html>
+
+<html lang="zh-cn">
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<!--#include file="/pc/ss/gp/html/cl/Header.html"-->
+<!--#include file="/pc/ss/gp/html/cl/HeaderZTree.html"-->
+<script src="../../js/co/CommonZTree.js" type="text/javascript"></script>
+<script src="../../js/co/CommonFileInput.js" type="text/javascript"></script>
+<script src="../../js/co/CommonEdit.js" type="text/javascript"></script>
+<script src="../../js/co/CommonList.js" type="text/javascript"></script>
+<script src="../../js/gp/Module.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		var itemParam = {
+			"textField" : "url",
+			"valueField" : "id",
+			"textFieldInputId" : "textPageUrl",
+			"valueFieldInputId" : "textPageId"
+		};
+		var ajaxParam = {
+			"url" : RU_GPPAGE_GETLISTBYJSONDATA,
+			"jsonData" : {
+				entityRelated : {
+					autoCompletekey : "",
+				},
+				orderList : [ {
+					"columnName" : "url",
+					"isASC" : true
+				} ],
+				"page" : {
+					"pageIndex" : 1,
+					"pageSize" : 10
+				}
+			}
+		}
+		initAutoComplete(itemParam, ajaxParam);
+
+		var jsonData = {
+			"entityRelated" : {
+
+			}
+		};
+		// 树形结构begin
+		var setting = {
+			view : {
+				addHoverDom : addHoverDom,
+				removeHoverDom : removeHoverDom,
+				selectedMulti : true,
+				dblClickExpand : false
+			},
+			url : {
+				addUrl : RU_GPMODULE_ADD,
+				deleteListUrl : RU_GPMODULE_DELETELIST,
+				updateListUrl : RU_GPMODULE_UPDATELISTWITHDFF,
+				updateUrl : RU_GPMODULE_UPDATE,
+				getModelUrl : RU_GPMODULE_GETMODELBYPATH
+			},
+			edit : {
+				enable : true,
+				editNameSelectAll : true,
+				showRemoveBtn : showRemoveBtn,
+				showRenameBtn : showRenameBtn
+			},
+			data : {
+				simpleData : {
+					enable : true,
+					idKey : "id",
+					pIdKey : "fartherId"
+				}
+			},
+			callback : {
+				beforeDrag : beforeDrag,
+				//beforeEditName : beforeEditName,
+				beforeRemove : beforeRemove,
+				beforeRename : beforeRename,
+				beforeClick : beforeClick,
+				onDrag : onDrag,
+				onDrop : onDrop,
+				onRemove : onRemove,
+				onRename : onRename,
+				beforeDrop : beforeDrop,
+				onClick : onClick
+			}
+		};
+		var ajaxParamter = {
+			"url" : RU_GPDOMAIN_GETLISTBYJSONDATA + "?jsonData=" + JSON.stringify(jsonData),
+			"async" : true,
+			"type" : "GET",
+			"success" : function(resultData) {
+				var zNodes = [];
+				if (resultData.data != null && resultData.data.length != 0) {
+					zNodes = resultData.data;
+
+					//更改应用领域图标展示
+					for (i = 0; i < zNodes.length; i++) {
+						//zNodes[i].icon = "/pc/global/plugins/zTree_v3/css/zTreeStyle/img/diy/5.png";
+						//zNodes[i].iconSkin = "diy01";
+						zNodes[i].isDomain = true;
+					}
+
+				}
+				$.fn.zTree.init($("#ulModuleTree"), setting, zNodes);
+
+				$(".ztree .level0 a").attr("style", "cursor:default")
+
+				var moduleTree = $.fn.zTree.getZTreeObj("ulModuleTree");
+
+				//树形菜单加上 F2快捷键
+				$("#ulModuleTree").on("keydown", "li", function(event) {
+					if (event.keyCode == 113) {
+						var node = moduleTree.getNodeByTId($(this).attr("id"));
+						if (node.isHover && node.level != 0)
+							moduleTree.editName(node);
+					}
+				});
+
+				var nodeList = moduleTree.getNodes();
+				$.each(nodeList, function(index, value) {
+					var ajaxParamter = {
+						"url" : RU_GPMODULE_GETLISTBYDOMAINID + value.id,
+						"async" : true,
+						"type" : "GET",
+						"success" : function(resultData) {
+							if (resultData.totalCount != 0) {
+
+								//更改功能模块图标展示
+								/*for (i = 0; i < resultData.data.length; i++) {
+								 resultData.data[i].icon = "/pc/global/plugins/zTree_v3/css/zTreeStyle/img/diy/3.png";
+								 resultData.data[i].iconSkin = "diy02";
+								 } */
+								moduleTree.addNodes(value, -1, resultData.data);
+
+							}
+
+						}
+					};
+					universalAjax(ajaxParamter);
+				});
+				fuzzySearch("ulModuleTree", '#ztree_search', null, true); // 初始化模糊搜索方法
+			}
+		};
+		universalAjax(ajaxParamter);
+		initAddFileInput();
+	});
+</script>
+<style type="text/css">
+.left-div .portlet {
+	background-color: white;
+	height: 820px;
+	margin-right: 2px;
+}
+
+ul.ztree {
+	height: 580px;
+	overflow-y: auto;
+	overflow-x: auto;
+}
+/* 
+Metronic风格时这部分注释掉
+.ztree li span.button.add {
+	margin-left: 2px;
+	margin-right: -1px;
+	background-position: -144px 0;
+	vertical-align: top;
+	*vertical-align: middle
+}
+*/
+
+.ztree li span.node_name {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	font-weight: 300;
+}
+
+.ztree li a:hover {
+	text-decoration: none
+}
+
+.ztree li a.curSelectedNode {
+	height: 18px;
+}
+</style>
+</head>
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-wrapper">
+	<!--#include file="/pc/ss/gp/html/cl/Top.html"-->
+	<div id="content_right" class="page-container page-content-wrapper">
+		<!--#include file="/pc/ss/gp/html/cl/Menu.html"-->
+		<div class="page-content topnav_box">
+			<div class="row">
+				<div class="col-md-12 page-bar page-bar-height  portlet ">
+					<ul class="page-breadcrumb">
+						<li>
+							<i class="fa fa-home"></i>
+							<a id="navbarIndexA" href="">主页</a>
+							<i class="fa fa-angle-right"></i>
+						</li>
+						<li>功能模块管理</li>
+					</ul>
+				</div>
+				<div class="portlet light bordered">
+					<div class="row">
+						<div class="col-md-4 left-div">
+							<div class="portlet box red">
+								<div class="portlet-title">
+									<div class="caption">
+										<i class="icon-layers"></i>
+										<span class="caption-subject font-white sbold uppercase">功能模块列表</span>
+									</div>
+								</div>
+								<div class="form-body portlet-body">
+									<form action="#" id="formZTree" class="form-horizontal">
+										<div class="form-body">
+
+											<div class="form-group">
+												<div class="element-group left">
+													<div class="col-md-12">
+														<div class="form-group">
+															<div class="col-md-12">
+																<div class="input-icon right">
+																	<!-- <i class="fa fa-search fa-spin font-blue"></i> -->
+																	<i class="fa fa-search"></i>
+																	<input type="text" id="ztree_search" value="" class="form-control" placeholder="输入关键词进行搜索……" autocomplete="off" />
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div class="form-group">
+												<div class="element-group left">
+													<div class="col-md-12">
+														<ul id="ulModuleTree" class="ztree jstree-container-ul"></ul>
+													</div>
+												</div>
+											</div>
+
+											<div class="form-hidden">
+												<input type="hidden" name="hiddenOrgIds" id="hiddenOrgIds">
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+
+						</div>
+						<div class="col-md-8 right-div">
+							<div class="portlet box red">
+								<div class="portlet-title">
+									<div class="caption">
+										<i class="icon-layers"></i>
+										<span class="caption-subject font-white sbold uppercase">功能模块详情</span>
+									</div>
+								</div>
+
+								<div class="form-body portlet-body">
+									<form action="#" id="formEdit" class="form-horizontal">
+										<div class="form-body">
+											<input id="hiddenId" name="hiddenId" type="hidden" />
+											<div class="form-hidden">
+												<input type="hidden" id="textFartherId" name="textFartherId" />
+												<input type="hidden" id="textLevelText" name="textLevelText" />
+											</div>
+											<div class="form-group">
+
+												<div class="element-group left">
+													<label class="control-label col-md-2" for="textName">
+														模块名称
+														<span class="required" aria-required="true"> * </span>
+													</label>
+													<div class="col-md-8">
+														<input id="textName" name="textName" type="text" data-required="1" class="form-control" />
+													</div>
+												</div>
+
+
+											</div>
+											<div class="form-group">
+												<div class="element-group left">
+													<label class="col-sm-2 control-label"> 链接页面 </label>
+													<div class="col-sm-8">
+														<div class="input-group" style="width: 100%;">
+															<input type="text" id="textPageUrl" name="textPageUrl" class="form-control" />
+															<input type="hidden" id="textPageId" name="textPageId" class="form-control" />
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class=" form-group">
+												<div class="element-group left">
+													<label for="fileResourceIds" class="control-label col-md-2"> 菜单图标 </label>
+
+													<div class="col-md-8" style="line-height: 32px;">
+														<input id="fileIcons" type="file" name="fileIcons" multiple style="height: 30px" />
+														<input type="hidden" id="hiddenIconIds" name="hiddenIconIds" />
+														<input type="hidden" id="hiddenIconPaths" name="hiddenIconPaths" />
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="element-group right">
+													<label class="control-label col-md-2" for="textRemark">菜单样式</label>
+													<div class="col-md-8">
+
+														<textarea id="textareaStyle" name="textareaStyle" class="form-control" rows="3"></textarea>
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="element-group right">
+													<label class="control-label col-md-2" for="textRemark">备注字段 </label>
+													<div class="col-md-8">
+
+														<textarea id="textareaRemark" name="textareaRemark" class="form-control" rows="3"></textarea>
+													</div>
+												</div>
+											</div>
+
+										</div>
+										<div class="form-actions">
+											<button id="buttonSubmit" type="submit" class="btn red-mint">提交</button>
+											<button id="buttonReset" type="button" class="btn red-mint">重置</button>
+										</div>
+									</form>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	<!--#include file="/pc/ss/gp/html/cl/Footer.html"-->
+</body>
+</html>

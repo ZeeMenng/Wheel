@@ -1,0 +1,363 @@
+﻿<!DOCTYPE html>
+
+<html lang="zh-cn">
+<head>
+<!--#include file="/pc/ss/gp/html/cl/Header.html"-->
+    <script src="../../js/pi/ChannelExt.js" type="text/javascript"></script>
+    <script src="../../js/co/CommonEdit.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var pageParam = {
+                formId: "formEdit",
+                validateRules: {
+      
+                }
+            };
+            var ajaxParam = {
+                url: RU_PICHANNELEXT_UPDATE,
+                updateListUrl:RU_PICHANNELEXT_UPDATELIST,
+                getModelUrl: RU_PICHANNELEXT_GETMODELBYPATH,
+                submitData: {}
+            };
+            initEditPage(pageParam, ajaxParam);
+        });
+    </script>
+</head>
+
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-wrapper">
+<!--#include file="/pc/ss/gp/html/cl/Top.html"-->
+<div class="page-container page-content-wrapper">
+<!--#include file="/pc/ss/gp/html/cl/Menu.html"-->
+    <div class="page-content">
+        <div class="row">
+            <div class="col-md-12 page-bar page-bar-height  portlet ">
+                <ul class="page-breadcrumb">
+                    <li>
+                        <i class="fa fa-home"></i>
+                        <a id="navbarIndexA" href="">主页</a>
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                    <li>
+                        <a id="navbarListA" href="">
+						CMS栏目内容表管理</a>
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                    <li>修改CMS栏目内容表</li>
+                </ul>
+            </div>
+            <div class="portlet light bordered">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet box red">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-pencil-square-o"></i>
+                                    <span class="caption-subject font-white sbold uppercase">修改CMS栏目内容表</span>
+                                </div>
+                            </div>
+                            <div class="form-body portlet-body">
+                                <form action="#" id="formEdit" class="form-horizontal">
+                                    <div class="form-body">
+                                        <input id="hiddenId" name="hiddenId" type="hidden" />
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textChannelId" class="control-label col-md-2">
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textChannelId" name="textChannelId" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textChannelName">名称
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textChannelName" name="textChannelName" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textFinalStep" class="control-label col-md-2">终审级别
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textFinalStep" name="textFinalStep" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textAfterCheck">审核后(1:不能修改删除;2:修改后退回;3:修改后不变)
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textAfterCheck" name="textAfterCheck" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textIsStaticChannel" class="control-label col-md-2">是否栏目静态化
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textIsStaticChannel" name="textIsStaticChannel" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textIsStaticContent">是否内容静态化
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textIsStaticContent" name="textIsStaticContent" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textIsAccessByDir" class="control-label col-md-2">是否使用目录访问
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textIsAccessByDir" name="textIsAccessByDir" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textIsListChild">是否使用子栏目列表
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textIsListChild" name="textIsListChild" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textPageSize" class="control-label col-md-2">每页多少条记录
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textPageSize" name="textPageSize" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textChannelRule">栏目页生成规则
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textChannelRule" name="textChannelRule" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textContentRule" class="control-label col-md-2">内容页生成规则
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textContentRule" name="textContentRule" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textLink">外部链接
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textLink" name="textLink" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textTplChannel" class="control-label col-md-2">栏目页模板
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textTplChannel" name="textTplChannel" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textTplContent">内容页模板
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textTplContent" name="textTplContent" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textTitleImg" class="control-label col-md-2">缩略图
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textTitleImg" name="textTitleImg" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textContentImg">内容图
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textContentImg" name="textContentImg" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textHasTitleImg" class="control-label col-md-2">内容是否有缩略图
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textHasTitleImg" name="textHasTitleImg" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textHasContentImg">内容是否有内容图
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textHasContentImg" name="textHasContentImg" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textTitleImgWidth" class="control-label col-md-2">内容标题图宽度
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textTitleImgWidth" name="textTitleImgWidth" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textTitleImgHeight">内容标题图高度
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textTitleImgHeight" name="textTitleImgHeight" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textContentImgWidth" class="control-label col-md-2">内容内容图宽度
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textContentImgWidth" name="textContentImgWidth" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textContentImgHeight">内容内容图高度
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textContentImgHeight" name="textContentImgHeight" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textCommentControl" class="control-label col-md-2">评论(0:匿名;1:会员;2:关闭)
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textCommentControl" name="textCommentControl" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textAllowUpdown">顶踩(true:开放;false:关闭)
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textAllowUpdown" name="textAllowUpdown" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textIsBlank" class="control-label col-md-2">是否新窗口打开
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textIsBlank" name="textIsBlank" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textTitle">TITLE
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textTitle" name="textTitle" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textKeywords" class="control-label col-md-2">KEYWORDS
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textKeywords" name="textKeywords" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textDescription">DESCRIPTION
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textDescription" name="textDescription" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textAllowShare" class="control-label col-md-2">分享(true:开放;false:关闭)
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textAllowShare" name="textAllowShare" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textAllowScore">评分(true:开放;false:关闭)
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textAllowScore" name="textAllowScore" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-actions">
+                                        <button id="buttonSubmit" type="submit" class="btn red-mint">提交</button>
+                                        <button id="buttonBack" type="button" class="btn red-mint">返回</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--#include file="/pc/ss/gp/html/cl/Footer.html"-->
+</body>
+</html>

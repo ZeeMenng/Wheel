@@ -1,0 +1,231 @@
+﻿<!DOCTYPE html>
+
+<html lang="zh-cn">
+<head>
+<!--#include file="/pc/ss/gp/html/cl/Header.html"-->
+<!--#include file="/pc/ss/gp/html/cl/HeaderZTree.html"-->
+<script src="../../js/co/CommonZTree.js" type="text/javascript"></script>
+<script src="../../js/co/CommonFileInput.js" type="text/javascript"></script>
+<script src="../../js/co/CommonEdit.js" type="text/javascript"></script>
+<script src="../../js/gp/Domain.js" type="text/javascript"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		var pageParam = {
+			formId : "formEdit",
+			validateRules : {
+				textName : {
+					required : true
+				},
+				textCom : {
+					url : true
+				}
+			}
+		};
+		var ajaxParam = {
+			getModelAsync : false,
+			url : RU_GPDOMAIN_UPDATE,
+			updateListUrl : RU_GPDOMAIN_UPDATELIST,
+			getModelUrl : RU_GPDOMAIN_GETMODELBYPATH,
+			submitData : {}
+		};
+		var initResult = initEditPage(pageParam, ajaxParam);
+		if (!initResult.isSuccess) {
+			layer.alert("查询信息错误" + initResult.resultMessage, {
+				icon : 6
+			});
+			return;
+		}
+		if (initResult.data.iconIds != null)
+			initEditFileInput(initResult.data.iconIds.split(","), initResult.data.iconPaths.split(","));
+
+		//初始化功能模块Tree
+		var setting = {
+			view : {
+				addHoverDom : addHoverDom,
+				removeHoverDom : removeHoverDom,
+				selectedMulti : true,
+				dblClickExpand : false
+			},
+			edit : {
+				enable : true,
+				editNameSelectAll : true,
+				showRemoveBtn : showRemoveBtn,
+				showRenameBtn : showRenameBtn
+			},
+			data : {
+				simpleData : {
+					enable : true,
+					idKey : "id",
+					pIdKey : "fartherId"
+				}
+			},
+			callback : {
+				beforeDrag : beforeDrag,
+				beforeEditName : beforeEditName,
+				beforeRemove : beforeRemove,
+				beforeRename : beforeRename,
+				onDrop : onDrop,
+				onRemove : onRemove,
+				onRename : onRename,
+				beforeDrop : beforeDrop
+			}
+		};
+		IS_IMMEDIATE = false;
+		var ajaxParamter = {
+			"url" : RU_GPMODULE_GETLISTBYDOMAINID + request("ID"),
+			"type" : "GET",
+			"async" : true,
+			"success" : function(resultData) {
+				var zNodes = [ {
+					id : null,
+					fartherId : 0,
+					name : "根节点",
+					open : true
+				} ];
+				if (resultData.data != null && resultData.data.length != 0)
+					zNodes = zNodes.concat(resultData.data);
+				$.fn.zTree.init($("#ulModuleTree"), setting, zNodes);
+				var moduleTree = $.fn.zTree.getZTreeObj("ulModuleTree");
+				$.each(zNodes, function(index, value) {
+					if (value.level < 2) {
+						var node = moduleTree.getNodeByParam("id", value.id);
+						moduleTree.expandNode(node, true);// 展开指定节点
+					}
+
+				});
+				var zTree = $.fn.zTree.getZTreeObj("ulModuleTree");
+				$("#ulModuleTree").on("keydown", "li", function(event) {
+					if (event.keyCode == 113) {
+						var node = zTree.getNodeByTId($(this).attr("id"));
+						if (node.isHover && node.level != 0)
+							zTree.editName(node);
+					}
+				});
+				//更新hiddenModule中的数据
+				updateModulesData("ulModuleTree", null, null)
+
+			}
+		};
+
+		universalAjax(ajaxParamter);
+
+	});
+</script>
+<style type="text/css">
+.ztree li span.button.add {
+	margin-left: 2px;
+	margin-right: -1px;
+	background-position: -144px 0;
+	vertical-align: top;
+	*vertical-align: middle
+}
+</style>
+</head>
+
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-wrapper">
+	<!--#include file="/pc/ss/gp/html/cl/Top.html"-->
+	<div class="page-container page-content-wrapper">
+		<!--#include file="/pc/ss/gp/html/cl/Menu.html"-->
+		<div class="page-content">
+			<div class="row">
+				<div class="col-md-12 page-bar page-bar-height  portlet ">
+					<ul class="page-breadcrumb">
+						<li>
+							<i class="fa fa-home"></i>
+							<a id="navbarIndexA" href="">主页</a>
+							<i class="fa fa-angle-right"></i>
+						</li>
+						<li>
+							<a id="navbarListA" href=""> 应用领域管理</a>
+							<i class="fa fa-angle-right"></i>
+						</li>
+						<li>修改应用领域</li>
+					</ul>
+				</div>
+				<div class="portlet light bordered">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="portlet box red">
+								<div class="portlet-title">
+									<div class="caption">
+										<i class="fa fa-pencil-square-o"></i>
+										<span class="caption-subject font-white sbold uppercase">修改应用领域</span>
+									</div>
+								</div>
+								<div class="form-body portlet-body">
+									<form action="#" id="formEdit" class="form-horizontal">
+										<div class="form-body">
+											<input id="hiddenId" name="hiddenId" type="hidden" />
+											<div class="form-group">
+												<div class="element-group left">
+													<label for="textName" class="control-label col-md-2">
+														领域名称
+														<span class="required" aria-required="true"> * </span>
+													</label>
+													<div class="col-md-8">
+														<input id="textName" name="textName" type="text" data-required="1" class="form-control" />
+													</div>
+												</div>
+												
+											</div>
+											<div class="form-group">
+												<div class="element-group left">
+													<label for="textCom" class="control-label col-md-2">领域域名 </label>
+													<div class="col-md-8">
+														<input id="textCom" name="textCom" type="text" data-required="1" class="form-control" />
+													</div>
+												</div>
+											</div>
+											<div class=" form-group">
+												<div class="element-group left">
+													<label for="fileResourceIds" class="control-label col-md-2">
+														领域图标
+													</label>
+
+													<div class="col-md-8" style="line-height: 32px;">
+														<input id="fileIcons" type="file" name="fileIcons" multiple style="height: 30px" />
+														<input type="hidden" id="hiddenIconIds" name="hiddenIconIds" />
+														<input type="hidden" id="hiddenIconPaths" name="hiddenIconPaths" />
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="element-group">
+													<label class="control-label col-md-2" for="textRemark">备注字段 </label>
+													<div class="col-md-8">
+														<textarea id="textareaRemark" name="textareaRemark" class="form-control" rows="3"></textarea>
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="element-group left">
+													<label class="control-label col-md-2" for="treeContainer"> 功能模块 </label>
+													<div class="col-md-8">
+														<ul id="ulModuleTree" class="ztree"></ul>
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="element-group left">
+													<div class="col-md-8">
+														<input id="hiddenModules" name="hiddenModules" type="hidden" />
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="form-actions">
+											<button id="buttonSubmit" type="submit" class="btn red-mint">提交</button>
+											<button id="buttonBack" type="button" class="btn red-mint">返回</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--#include file="/pc/ss/gp/html/cl/Footer.html"-->
+</body>
+</html>

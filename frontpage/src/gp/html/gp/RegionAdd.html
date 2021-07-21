@@ -1,0 +1,217 @@
+﻿<!DOCTYPE html>
+
+<html lang="zh-cn">
+<head>
+<!--#include file="/pc/ss/gp/html/cl/Header.html"-->
+    <script src="../../js/gp/Region.js" type="text/javascript"></script>
+    <script src="../../js/co/CommonAdd.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var pageParam = {
+                formId: "formAdd",
+                validateRules: {
+                    textCode: {
+                        required: true
+                    },
+                    textName: {
+                        required: true
+                    },
+                    textCategory: {
+                        required: true
+                    },
+                    /*textFartherCode: {
+                        required: true
+                    },*/
+                    selectIsDisplayCode: {
+                        required: true
+                    },
+                    selectRegionLevel: {
+                        required: true
+                    },
+                    textLongitude: {
+                        required: true
+                    },
+                    textLatitude: {
+                        required: true
+                    },
+                    textArea: {
+                        required: true,
+                        number:true
+                    }
+                }
+            };
+            var ajaxParam = {
+                url: RU_GPREGION_ADD,
+                submitData: {}
+            };
+            initAddPage(pageParam, ajaxParam);
+        });
+    </script>
+</head>
+
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-wrapper">
+<!--#include file="/pc/ss/gp/html/cl/Top.html"-->
+<div class="page-container page-content-wrapper">
+<!--#include file="/pc/ss/gp/html/cl/Menu.html"-->
+    <div class="page-content">
+        <div class="row">
+            <div class="col-md-12 page-bar page-bar-height  portlet ">
+                <ul class="page-breadcrumb">
+                    <li>
+                        <i class="fa fa-home"></i>
+                        <a id="navbarIndexA" href="">主页</a>
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                    <li>
+                        <a id="navbarListA" href="">
+						地区信息管理</a>
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                    <li>新增地区信息</li>
+                </ul>
+            </div>
+            <div class="portlet light bordered">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet box red">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-plus"></i>
+                                    <span class="caption-subject font-white sbold uppercase">新增地区信息</span>
+                                </div>
+                            </div>
+                            <div class="form-body portlet-body">
+                                <form action="#" id="formAdd" class="form-horizontal">
+                                    <div class="form-body">
+
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textCode" class="control-label col-md-2">地区编码<span
+                                                        class="required" aria-required="true"> * </span>
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textCode" name="textCode" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textName">地区名称<span
+                                                        class="required" aria-required="true"> * </span>
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textName" name="textName" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textCategory" class="control-label col-md-2">地区类别字典<span
+                                                        class="required" aria-required="true"> * </span>
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <!--<input id="textCategory" name="textCategory" type="text"-->
+                                                           <!--data-required="1"-->
+                                                           <!--class="form-control"/></div>-->
+                                                    <select id="textCategorySelect" name="textCategory" class="form-control" onchange="$('#queryBuilderForm').submit();">
+                                                        <option value=""></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textFartherCode">父级地区编码
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textFartherCode" name="textFartherCode" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textIsDisplayCode" class="control-label col-md-2">是否显示<span
+                                                        class="required" aria-required="true"> * </span>
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <select id="selectIsDisplayCode" name="selectIsDisplayCode" class="form-control" onchange="$('#queryBuilderForm').submit();">
+                                                        <option value=""></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textRegionLevel">区域等级<span
+                                                        class="required" aria-required="true"> * </span>
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <select id="selectRegionLevel" name="selectRegionLevel" class="form-control" onchange="$('#queryBuilderForm').submit();">
+                                                        <option value=""></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textLongitude" class="control-label col-md-2">地区经度<span
+                                                        class="required" aria-required="true"> * </span>
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textLongitude" name="textLongitude" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textLatitude">地区纬度<span
+                                                        class="required" aria-required="true"> * </span>
+                                                </label>
+                                                <div class="col-md-3">
+                                                  <input id="textLatitude" name="textLatitude" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textArea" class="control-label col-md-2">区域面积（平方公里）<span
+                                                        class="required" aria-required="true"> * </span>
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textArea" name="textArea" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group">
+                                                <label class="control-label col-md-2" for="textRemark">备注字段
+                                                </label>
+                                                <!--<div class="col-md-3">
+                                                  <input id="textRemark" name="textRemark" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>-->
+                                                <div class="col-md-8">
+                                                    <textarea id="textareaRemark" name="textareaRemark" class="form-control" rows="3"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-actions">
+                                        <button id="buttonSubmit" type="submit" class="btn red-mint">提交</button>
+                                        <button id="buttonBack" type="button" class="btn red-mint">返回</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--#include file="/pc/ss/gp/html/cl/Footer.html"-->
+</body>
+</html>

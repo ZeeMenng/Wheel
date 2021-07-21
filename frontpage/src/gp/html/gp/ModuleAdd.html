@@ -1,0 +1,269 @@
+﻿<!DOCTYPE html>
+
+<html lang="zh-cn">
+<head>
+    <!--#include file="/pc/ss/gp/html/cl/Header.html"-->
+    <script src="../../js/gp/Module.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var pageParam = {
+                formId: "formAdd",
+                validateRules: {
+                    textDomainId: {
+                        required: true
+                    },
+                    textName: {
+                        required: true
+                    },
+                    selectLevelCode: {
+                        required: true
+                    },
+                    textPriority: {
+                        digits:true
+                    }
+                }
+            };
+            var ajaxParam = {
+                url: RU_GPMODULE_ADD,
+                submitData: {}
+            };
+            initAddPage(pageParam, ajaxParam);
+
+            //模块级联三级begin
+            showSelect();
+
+            $("#selectLevelCode").change(function(){
+                showSelect();
+                hideVal();
+            })
+            $("#selectModuleFst").change(function(){
+                initSec();
+                hideVal();
+            });
+            $("#selectModuleSec").change(function(){
+                hideVal();
+            })
+
+            function showSelect(){
+                var val = $("#selectLevelCode").val();
+                if(val == 1){
+                    $("#divModuleFst").hide();
+                    $("#divModuleSec").hide();
+                }else if(val == 2){
+                    $("#divModuleFst").show();
+                    $("#divModuleSec").hide();
+                    initFst();
+                }else if(val == 3){
+                    $("#divModuleFst").show();
+                    $("#divModuleSec").show();
+                    initFst();
+                    initSec();
+                }else{
+                    $("#divModuleFst").hide();
+                    $("#divModuleSec").hide();
+                }
+            }
+
+            //改变隐藏域的值
+            function hideVal(){
+                var val = $("#selectLevelCode").val();
+                if(val == 1){
+                    $("#textLevelText").val("第一级");
+                    $("#textFartherId").val("");
+                }else if(val == 2){
+                    $("#textLevelText").val("第二级");
+                    $("#textFartherId").val($("#selectModuleFst").val());
+                }else if(val == 3){
+                    $("#textLevelText").val("第三级");
+                    $("#textFartherId").val($("#selectModuleSec").val());
+                }else{
+                    $("#textFartherId").val("");
+                }
+            }
+
+            //初始化一级
+            function initFst(){
+                $("#selectModuleFst").html('<option value=""></option>');
+                var commmitData = {
+                    entityRelated: {
+                        levelCode:1
+                    }
+                };
+                var paramsData = JSON.stringify(commmitData)
+                initSelect(paramsData,'selectModuleFst');
+                initSec();
+            }
+
+            //初始化二级
+            function initSec(){
+                $("#selectModuleSec").html('<option value=""></option>');
+                var ids = $("#selectModuleFst").val();
+                if(ids != '' && ids != null && ids != undefined){
+                    var commmitData = {
+                        entityRelated: {
+                            fartherId: ids
+                        }
+                    };
+                    var paramsData = JSON.stringify(commmitData)
+                    initSelect(paramsData,"selectModuleSec");
+                }
+            }
+
+            function initSelect(paramsData,domId){
+                var selectParam = {
+                    selectId : domId,
+                    textField : "name",
+                    valueField : "id"
+                };
+                var ajaxParam = {
+                    url : RU_GPMODULE_GETLISTBYJSONDATA+ "?jsonData="+paramsData
+                }
+                initDropDownList(selectParam, ajaxParam);
+            }
+            //模块级联三级end
+        });
+    </script>
+</head>
+
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-wrapper">
+<!--#include file="/pc/ss/gp/html/cl/Top.html"-->
+<div class="page-container page-content-wrapper">
+    <!--#include file="/pc/ss/gp/html/cl/Menu.html"-->
+    <div class="page-content">
+        <div class="row">
+            <div class="col-md-12 page-bar page-bar-height  portlet ">
+                <ul class="page-breadcrumb">
+                    <li>
+                        <i class="fa fa-home"></i>
+                        <a id="navbarIndexA" href="">主页</a>
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                    <li>
+                        <a id="navbarListA" href="">
+                            功能模块管理</a>
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                    <li>新增功能模块</li>
+                </ul>
+            </div>
+            <div class="portlet light bordered">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet box red">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-plus"></i>
+                                    <span class="caption-subject font-white sbold uppercase">新增功能模块</span>
+                                </div>
+                            </div>
+                            <div class="form-body portlet-body">
+                                <form action="#" id="formAdd" class="form-horizontal">
+                                    <div class="form-body">
+                                        <div class="form-hidden">
+                                            <input type="hidden" id="textFartherId" name="textFartherId" />
+                                            <input type="hidden" id="textLevelText" name="textLevelText" />
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textDomainId" class="control-label col-md-2">应用领域<span
+                                                        class="required" aria-required="true"> * </span>
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <select id="typeDomainSelect" name="textDomainId" class="form-control" >
+                                                        <option value=""></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textName">模块名称<span
+                                                        class="required" aria-required="true"> * </span>
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textName" name="textName" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="textSerialNo" class="control-label col-md-2">模块编号
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textSerialNo" name="textSerialNo" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                            <div class="element-group right">
+                                                <label for="textPriority" class="control-label col-md-2">排序字段
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <input id="textPriority" name="textPriority" type="text"
+                                                           data-required="1"
+                                                           class="form-control"/></div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left">
+                                                <label for="selectLevelCode" class="control-label col-md-2">模块级别<span
+                                                        class="required" aria-required="true"> * </span>
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <select class="form-control " id="selectLevelCode"
+                                                            name="selectLevelCode">
+                                                        <option value=""></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="element-group right" id="divModuleFst">
+                                                <label class="control-label col-md-2" for="selectModuleFst">一级模块<span
+                                                        class="required" aria-required="true"> * </span>
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <select class="form-control " id="selectModuleFst" name="selectModuleFst">
+                                                        <option value=""></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group left" id="divModuleSec">
+                                                <label class="control-label col-md-2" for="selectModuleSec">二级模块<span
+                                                        class="required" aria-required="true"> * </span>
+                                                </label>
+                                                <div class="col-md-3">
+                                                    <select class="form-control " id="selectModuleSec" name="selectModuleSec">
+                                                        <option value=""></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="element-group right">
+                                                <label class="control-label col-md-2" for="textRemark">备注
+                                                </label>
+                                                <div class="col-md-8">
+                                                    <textarea id="textareaRemark" name="textareaRemark"
+                                                              class="form-control" rows="3"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="form-actions">
+                                        <button id="buttonSubmit" type="submit" class="btn red-mint">提交</button>
+                                        <button id="buttonBack" type="button" class="btn red-mint">返回</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--#include file="/pc/ss/gp/html/cl/Footer.html"-->
+</body>
+</html>

@@ -1,0 +1,44 @@
+ul.ztree {
+	min-height: 450px;
+	height: 100%;
+	width: 100%;
+	margin-top: 10px;
+	background: #fff;
+	overflow-x: auto;
+}
+
+.ztree li span.button {
+	vertical-align: top;
+}
+
+/* 
+Metronic风格时这部分注释掉
+.ztree li span.button.add {
+	margin-left: 2px;
+	margin-right: 1px;
+	background-position: -143px -1px;
+	vertical-align: top;
+} */
+.ztree li span.node_name {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	font-weight: 300;
+}
+
+.ztree li a:hover {
+	text-decoration: none
+}
+
+.ztree li a.curSelectedNode {
+	height: 18px;
+}
+
+.ztree li a>span:not(.button){
+	max-width: 100 px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	display: inline-block;
+}
+
+
