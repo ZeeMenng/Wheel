@@ -6,7 +6,7 @@
 			"label": "debugMango",
 			"isBackground": true,
 			"type": "npm",
-			"script": "start",
+			"script": "build",
 			"group": "build",
 			"path": "/dist",
 			"detail": "编译至开发环境",
