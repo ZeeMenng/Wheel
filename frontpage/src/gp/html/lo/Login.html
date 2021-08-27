@@ -1,58 +1,54 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html lang="zh-cn">
-
 <head>
 
-
-    <!--#include file="../cl/Header.html"-->
-    <!--<script src="../../assets/pages/scripts/login.min.js" type="text/javascript"></script>-->
-    <script src='../../js/lo/Login.js'></script>
+<!--#include file="../cl/Header.html"-->
+<!--<script src="../../assets/pages/scripts/login.min.js" type="text/javascript"></script>-->
+<script src='../../js/lo/Login.js'></script>
 
 </head>
 
 <body class="login">
-    <div class="index-bg"></div>
-    <div class="logo">
-        <img src="../../assets/layouts/layout/img/logo.png" alt="" />
-        <span style="font-size: 32px; letter-spacing: 0.2em; text-align: center;">风火轮 后台管理系统</span>
-    </div>
-    <!-- END LOGO -->
-    <!-- BEGIN LOGIN -->
-    <div class="content">
-        <!-- BEGIN LOGIN FORM -->
-        <form class="login-form" method="post">
-            <h3 class="form-title font-green">用户登录</h3>
-            <div class="alert alert-danger display-hide" id="hide">
-                <button class="close" data-close="alert"></button>
-                <span> 输入用户名和密码. </span>
-            </div>
-            <div class="form-group">
-                <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
-                <label class="control-label visible-ie8 visible-ie9">用户名</label>
-                <input class="form-control form-control-solid placeholder-no-fix" type="text" autocomplete="off"
-                    placeholder="用户名" name="username" id="username" />
-            </div>
-            <div class="form-group">
-                <label class="control-label visible-ie8 visible-ie9">密码</label>
-                <input class="form-control form-control-solid placeholder-no-fix" type="password" autocomplete="off"
-                    placeholder="密码" name="password" id="password" />
-            </div>
-            <div class="form-actions">
-                <!-- <label class="rememberme check mt-checkbox mt-checkbox-outline">
+	<div class="index-bg"></div>
+	<div class="logo">
+		<img src="../../assets/layouts/layout/img/logo.png" alt="" />
+		<span style="font-size: 32px; letter-spacing: 0.2em; text-align: center;">风火轮 后台管理系统</span>
+	</div>
+	<!-- END LOGO -->
+	<!-- BEGIN LOGIN -->
+	<div class="content">
+		<!-- BEGIN LOGIN FORM -->
+		<form class="login-form" method="post">
+			<h3 class="form-title font-green">用户登录</h3>
+			<div class="alert alert-danger display-hide" id="hide">
+				<button class="close" data-close="alert"></button>
+				<span> 输入用户名和密码. </span>
+			</div>
+			<div class="form-group">
+				<!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+				<label class="control-label visible-ie8 visible-ie9">用户名</label>
+				<input class="form-control form-control-solid placeholder-no-fix" type="text" autocomplete="off" placeholder="用户名" name="username" id="username" />
+			</div>
+			<div class="form-group">
+				<label class="control-label visible-ie8 visible-ie9">密码</label>
+				<input class="form-control form-control-solid placeholder-no-fix" type="password" autocomplete="off" placeholder="密码" name="password" id="password" />
+			</div>
+			<div class="form-actions">
+				<!-- <label class="rememberme check mt-checkbox mt-checkbox-outline">
                 <input type="checkbox" name="remember" value="1" id="remember"/>
                 记住密码
                 <span></span>
             </label>
             <a href="javascript:;" id="forget-password" class="forget-password">忘记密码?</a> -->
-                <span class="btn green uppercase" id="login">登录</span>
-            </div>
-            <!-- <div class="create-account">
+				<span class="btn green uppercase" id="login">登录</span>
+			</div>
+			<!-- <div class="create-account">
                 <p>
                     <a href="javascript:;" id="register-btn" class="uppercase">申请一个新账号</a>
                 </p>
             </div> -->
-            <!--<div class="login-options">
+			<!--<div class="login-options">
             <h4>用第三方登录</h4>
         <ul class="social-icons">
             <li>
@@ -69,74 +65,69 @@
             </li>
         </ul>
         </div>-->
-        </form>
-        <!-- END LOGIN FORM -->
-        <!-- BEGIN FORGOT PASSWORD FORM -->
-        <form class="forget-form" method="post" id="forgetPassword">
-            <h3 class="font-green">忘记密码?</h3>
-            <p>输入您的电子邮件地址以重置您的密码.</p>
-            <div class="alert alert-danger display-hide" id="hide1">
-                <button class="close" data-close="alert"></button>
-                <span></span>
-            </div>
-            <div class="form-group">
-                <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Email"
-                    name="email" id="email" />
-            </div>
-            <div class="form-group">
-                <button type="button" id="codeBtn" class="btn btn-success uppercase pull-right">获取验证码</button>
-            </div>
+		</form>
+		<!-- END LOGIN FORM -->
+		<!-- BEGIN FORGOT PASSWORD FORM -->
+		<form class="forget-form" method="post" id="forgetPassword">
+			<h3 class="font-green">忘记密码?</h3>
+			<p>输入您的电子邮件地址以重置您的密码.</p>
+			<div class="alert alert-danger display-hide" id="hide1">
+				<button class="close" data-close="alert"></button>
+				<span></span>
+			</div>
+			<div class="form-group">
+				<input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Email" name="email" id="email" />
+			</div>
+			<div class="form-group">
+				<button type="button" id="codeBtn" class="btn btn-success uppercase pull-right">获取验证码</button>
+			</div>
 
-            <div class="form-actions">
-                <input class="form-control placeholder-no-fix" type="text" autocomplete="off"
-                    placeholder="请输入您邮箱中收到的验证码" name="code" id="code" />
-            </div>
-            <input type="hidden" id="hiddenId" />
-            <input type="hidden" id="hiddenCode" />
-            <input type="hidden" id="hiddenUserName" />
+			<div class="form-actions">
+				<input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="请输入您邮箱中收到的验证码" name="code" id="code" />
+			</div>
+			<input type="hidden" id="hiddenId" />
+			<input type="hidden" id="hiddenCode" />
+			<input type="hidden" id="hiddenUserName" />
 
-            <div class="form-actions" id="hidden-btn">
-                <button type="button" id="back-btn1" class="btn green btn-outline">返回</button>
-                <button type="button" id="submit-btn" class="btn btn-success uppercase pull-right">提交</button>
-            </div>
-        </form>
-        <!-- END FORGOT PASSWORD FORM -->
-        <!-- 修改密码 -->
-        <div id="hidden-form" align="center" style="display: none">
-            <form class="forget-form" method="post" id="resetPassword">
-                <div class="form-group reset-password">
-                    <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="用户名"
-                        name="reusername" id="reusername" />
-                    <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="新密码"
-                        name="newpassword" id="newpassword" />
-                    <input class="form-control placeholder-no-fix" type="password" autocomplete="off"
-                        placeholder="重复新密码" name="rpnewpassword" id="rpnewpassword" />
-                </div>
-                <div class="alert alert-danger display-hide" id="hide2">
-                    <button class="close" data-close="alert"></button>
-                    <span></span>
-                </div>
-                <div class="form-actions">
-                    <button type="button" id="back-btn" class="btn green btn-outline">返回</button>
-                    <button type="button" id="update-btn" class="btn btn-success uppercase pull-right">确认修改</button>
-                </div>
-            </form>
-        </div>
-        <!-- 结束修改密码 -->
-        <!-- BEGIN REGISTRATION FORM -->
-        <form class="register-form" method="post" id="formRegister">
-            <h3 class="font-green">用户注册</h3>
-            <p class="hint">在下面输入你的个人信息:</p>
-            <div class="form-group">
-                <label class="control-label visible-ie8 visible-ie9">全名</label>
-                <input class="form-control placeholder-no-fix" type="text" placeholder="全名" name="fullname" />
-            </div>
-            <div class="form-group">
-                <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
-                <label class="control-label visible-ie8 visible-ie9">邮箱</label>
-                <input class="form-control placeholder-no-fix" type="text" placeholder="邮箱" name="email" />
-            </div>
-            <!--<div class="form-group">
+			<div class="form-actions" id="hidden-btn">
+				<button type="button" id="back-btn1" class="btn green btn-outline">返回</button>
+				<button type="button" id="submit-btn" class="btn btn-success uppercase pull-right">提交</button>
+			</div>
+		</form>
+		<!-- END FORGOT PASSWORD FORM -->
+		<!-- 修改密码 -->
+		<div id="hidden-form" align="center" style="display: none">
+			<form class="forget-form" method="post" id="resetPassword">
+				<div class="form-group reset-password">
+					<input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="用户名" name="reusername" id="reusername" />
+					<input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="新密码" name="newpassword" id="newpassword" />
+					<input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="重复新密码" name="rpnewpassword" id="rpnewpassword" />
+				</div>
+				<div class="alert alert-danger display-hide" id="hide2">
+					<button class="close" data-close="alert"></button>
+					<span></span>
+				</div>
+				<div class="form-actions">
+					<button type="button" id="back-btn" class="btn green btn-outline">返回</button>
+					<button type="button" id="update-btn" class="btn btn-success uppercase pull-right">确认修改</button>
+				</div>
+			</form>
+		</div>
+		<!-- 结束修改密码 -->
+		<!-- BEGIN REGISTRATION FORM -->
+		<form class="register-form" method="post" id="formRegister">
+			<h3 class="font-green">用户注册</h3>
+			<p class="hint">在下面输入你的个人信息:</p>
+			<div class="form-group">
+				<label class="control-label visible-ie8 visible-ie9">全名</label>
+				<input class="form-control placeholder-no-fix" type="text" placeholder="全名" name="fullname" />
+			</div>
+			<div class="form-group">
+				<!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+				<label class="control-label visible-ie8 visible-ie9">邮箱</label>
+				<input class="form-control placeholder-no-fix" type="text" placeholder="邮箱" name="email" />
+			</div>
+			<!--<div class="form-group">
         <label class="control-label visible-ie8 visible-ie9">地址</label>
         <input class="form-control placeholder-no-fix" type="text" placeholder="地址" name="address"/></div>
     <div class="form-group">
@@ -382,40 +373,37 @@
             <option value="ZW">Zimbabwe</option>
         </select>
     </div>-->
-            <p class="hint">在下面输入你的注册信息:</p>
-            <div class="form-group">
-                <label class="control-label visible-ie8 visible-ie9">用户名</label>
-                <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="用户名"
-                    name="username" />
-            </div>
-            <div class="form-group">
-                <label class="control-label visible-ie8 visible-ie9">密码</label>
-                <input class="form-control placeholder-no-fix" type="password" autocomplete="off" id="register_password"
-                    placeholder="请设置密码" name="password" />
-            </div>
-            <div class="form-group">
-                <label class="control-label visible-ie8 visible-ie9">确认密码</label>
-                <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="确认密码"
-                    name="rpassword" />
-            </div>
-            <div class="form-group margin-top-20 margin-bottom-20">
-                <label class="mt-checkbox mt-checkbox-outline">
-                    <input type="checkbox" name="tnc" id="tnc" />
-                    我已阅读并承诺遵守
-                    <a href="javascript:;" id="registpolicy-btn">注册须知 </a>
-                    <span></span>
-                </label>
-                <div id="register_tnc_error"></div>
-            </div>
-            <div class="form-actions">
-                <button type="button" id="register-back-btn" class="btn green btn-outline">返回</button>
-                <button type="submit" id="register-submit-btn" class="btn btn-success uppercase pull-right">提交</button>
-            </div>
-        </form>
-        <!-- END REGISTRATION FORM -->
+			<p class="hint">在下面输入你的注册信息:</p>
+			<div class="form-group">
+				<label class="control-label visible-ie8 visible-ie9">用户名</label>
+				<input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="用户名" name="username" />
+			</div>
+			<div class="form-group">
+				<label class="control-label visible-ie8 visible-ie9">密码</label>
+				<input class="form-control placeholder-no-fix" type="password" autocomplete="off" id="register_password" placeholder="请设置密码" name="password" />
+			</div>
+			<div class="form-group">
+				<label class="control-label visible-ie8 visible-ie9">确认密码</label>
+				<input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="确认密码" name="rpassword" />
+			</div>
+			<div class="form-group margin-top-20 margin-bottom-20">
+				<label class="mt-checkbox mt-checkbox-outline">
+					<input type="checkbox" name="tnc" id="tnc" />
+					我已阅读并承诺遵守
+					<a href="javascript:;" id="registpolicy-btn">注册须知 </a>
+					<span></span>
+				</label>
+				<div id="register_tnc_error"></div>
+			</div>
+			<div class="form-actions">
+				<button type="button" id="register-back-btn" class="btn green btn-outline">返回</button>
+				<button type="submit" id="register-submit-btn" class="btn btn-success uppercase pull-right">提交</button>
+			</div>
+		</form>
+		<!-- END REGISTRATION FORM -->
 
-        <form class="registpolicy-form" id="registpolicy" style="display: none; margin-top: 30px;">
-            <textarea name="" id="" cols="45" rows="10">
+		<form class="registpolicy-form" id="registpolicy" style="display: none; margin-top: 30px;">
+			<textarea name="" id="" cols="45" rows="10">
 服务条款和声明
 
 注册前请仔细阅读，您只有无条件接受以下所有服务条款，才能继续申请：
@@ -573,11 +561,11 @@
 
 
         </textarea>
-        </form>
-    </div>
+		</form>
+	</div>
 
 
-    <div class="copyright">2018 © Zee. Admin Dashboard Template.</div>
+	<div class="copyright">2018 © Zee. Admin Dashboard Template.</div>
 
 
 </body>
