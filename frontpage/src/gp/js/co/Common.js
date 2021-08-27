@@ -1,13 +1,13 @@
 var txtActive;
 
 // 验证插件中加入手机号校验功能
-jQuery.validator.addMethod("phone", function(value, element) {
+jQuery.validator.addMethod("phone", function (value, element) {
 	var length = value.length;
 	var mobile = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/;
 	return this.optional(element) || (length == 11 && mobile.test(value));
 }, "请填写正确的手机号码");
 
-$(document).ready(function() {
+$(document).ready(function () {
 	if (!validateLogin()) {
 		return false;
 	}
@@ -31,22 +31,22 @@ $(document).ready(function() {
 	$("#batchEditButton").prop("class", "hidden");
 
 	// 注销按钮
-	$("#aLogout").click(function() {
+	$("#aLogout").click(function () {
 		var ajaxParamter = {
-			"url" : "/oauth/logout",
-			"data" : {},
-			"type" : "GET",
-			"async" : true,
-			"success" : function(resultData) {
+			"url": "/oauth/logout",
+			"data": {},
+			"type": "GET",
+			"async": true,
+			"success": function (resultData) {
 				if (!resultData["isSuccess"]) {
 					layer.alert("退出操作出错！" + resultData["resultMessage"], {
-						icon : 6
+						icon: 6
 					});
 					return false;
 				}
 
 				var cookieData = {
-					item : "token"
+					item: "token"
 				};
 				removeCookies(cookieData);
 
@@ -60,38 +60,38 @@ $(document).ready(function() {
 
 	if (jQuery().datepicker) {
 		$('.date-picker').datepicker({
-			language : 'zh-CN',
-			todayBtn : "linked",
-			autoclose : true,
-			rtl : App.isRTL(),
-			format : "yyyy-mm-dd",
-			fontAwesome : true,
-			orientation : "left",
-			todayHighlight : true,
+			language: 'zh-CN',
+			todayBtn: "linked",
+			autoclose: true,
+			rtl: App.isRTL(),
+			format: "yyyy-mm-dd",
+			fontAwesome: true,
+			orientation: "left",
+			todayHighlight: true,
 		});
 
 		initMessage();
 	}
 	if (jQuery().datetimepicker) {
 		$(".form-datetime").datetimepicker({
-			language : 'zh-CN',
-			format : "yyyy-mm-dd hh:ii P"
+			language: 'zh-CN',
+			format: "yyyy-mm-dd hh:ii P"
 
 		});
 	}
 	$(".form_datetime").datetimepicker({
-		language : 'zh-CN',
-		todayBtn : 1,
-		autoclose : true,
-		isRTL : App.isRTL(),
-		format : "yyyy-mm-dd hh:ii",
-		fontAwesome : true,
-		todayHighlight : true,
-		pickerPosition : (App.isRTL() ? "bottom-right" : "bottom-left")
+		language: 'zh-CN',
+		todayBtn: 1,
+		autoclose: true,
+		isRTL: App.isRTL(),
+		format: "yyyy-mm-dd hh:ii",
+		fontAwesome: true,
+		todayHighlight: true,
+		pickerPosition: (App.isRTL() ? "bottom-right" : "bottom-left")
 	});
 
 	initNavbar();
-	layui.use([ 'layer', 'form' ], function() {
+	layui.use(['layer', 'form'], function () {
 		var layer = layui.layer, form = layui.form;
 	});
 
@@ -116,12 +116,12 @@ function initNavbar() {
 	href = href.substring(0, lastUpperCodeIndex);
 	$("#navbarListA").attr("href", href + "List.html");
 
-	$("#navbarIndexA").click(function() {
+	$("#navbarIndexA").click(function () {
 		window.location = GP_INDEX;
 		return false;
 	});
 
-	$("#navbarListA").click(function() {
+	$("#navbarListA").click(function () {
 
 		window.location = href + "List.html";
 		return false;
@@ -132,20 +132,20 @@ function initNavbar() {
 // 初始化左侧菜单
 function initLinkMenu() {
 	var userInfo = JSON.parse(getCookies({
-		item : "token"
+		item: "token"
 	}));
 	var userName = userInfo.userName;
 	var ajaxParamter = {
-		"url" : RU_GPMODULE_GETLINKMENU + "?userName=" + userName,
-		"type" : "GET",
-		"data" : "jsonData=" + encodeURIComponent(JSON.stringify({
-			"domainId" : DOMAIN_ID_GP
+		"url": RU_GPMODULE_GETLINKMENU + "?userName=" + userName,
+		"type": "GET",
+		"data": "jsonData=" + encodeURIComponent(JSON.stringify({
+			"domainId": DOMAIN_ID_GP
 		})),
-		"async" : true,
-		"success" : function(result) {
+		"async": true,
+		"success": function (result) {
 			total = result.totalCount;
 			var data = result.data;
-			$.each(data, function(i, n) {
+			$.each(data, function (i, n) {
 
 				if (n["level"] == "1") {
 					var menu = $("#firstLevelMenuLi").clone();
@@ -153,12 +153,11 @@ function initLinkMenu() {
 					menu.attr("fartherId", n["fartherId"]);
 					menu.find("h3").html(n["name"]);
 					$("#linkMenuUl").append(menu);
-					console.log(n["name"]);
 				}
 
 			});
 
-			$.each(data, function(i, n) {
+			$.each(data, function (i, n) {
 				if (n["level"] == "2") {
 					{
 						var secondLevelMenu = $("#secondeLevelMenuLi").clone();
@@ -189,13 +188,13 @@ function initLinkMenu() {
 				}
 			});
 
-			$.each(data, function(i, n) {
+			$.each(data, function (i, n) {
 				if (n["level"] == "3") {
 					{
 						var thirdLevelMenu = $("#thirdLevelMenuLi").clone();
 						thirdLevelMenu.attr("id", n["id"]);
 						if (n["pageUrl"] != null) {
-							thirdLevelMenu.find("a").attr("href", n["pageUrl"]);
+							thirdLevelMenu.find("a").attr("href", BASE_PATH + n["pageUrl"]);
 						} else
 							thirdLevelMenu.find("a").attr("href", "javascript:;");
 
@@ -224,7 +223,7 @@ function initLinkMenu() {
 
 						/** * 左侧导航菜单隐藏事件 */
 						$("#linkMenuUl .sidebar-toggler").unbind("click");
-						$("#linkMenuUl .sidebar-toggler").click(function() {
+						$("#linkMenuUl .sidebar-toggler").click(function () {
 							if ($("#linkMenuUl").hasClass("page-sidebar-menu-closed")) {
 								var userConfig = getUserConfigByCode("isFold");
 								userConfig.configValue = false;
@@ -249,11 +248,11 @@ function initLinkMenu() {
 			// 是否命中
 			var isHist = false;
 			// 左侧搜索匹配激活状态
-			$("body").on("keyup mouseup", ".searchInput", function(e) {
+			$("body").on("keyup mouseup", ".searchInput", function (e) {
 				var keyword = $(this).val();
 				var txts = $('.badge').prev('.title');
 
-				txts.each(function(i, v) {
+				txts.each(function (i, v) {
 					var menuText = $(v).text();
 					var liParent = $(v).parent().parent().parent().parent();
 					var liParent2 = $(v).parent().parent();
@@ -298,28 +297,28 @@ function initLinkMenu() {
  */
 function initMessage() {
 	if (!getCookies({
-		item : "token"
+		item: "token"
 	}))
 		return false;
 
 	var token = JSON.parse(getCookies({
-		item : "token"
+		item: "token"
 	}));
 	var userInfo = token.gpUser;
 	$("#userName").text(userInfo.userName);
 
 	var ajaxParameter = {
-		"url" : "/extend/swagger/gp/gprMessageUser/getSysListByJsonData",
-		"data" : "jsonData=" + JSON.stringify({
-			"entityRelated" : {
-				"userName" : token.userName,
-				"userId" : token.userId
+		"url": "/extend/swagger/gp/gprMessageUser/getSysListByJsonData",
+		"data": "jsonData=" + JSON.stringify({
+			"entityRelated": {
+				"userName": token.userName,
+				"userId": token.userId
 			}
 		}),
-		"dataType" : "json",
-		"type" : "GET",
-		"async" : true,
-		"success" : function(res) {
+		"dataType": "json",
+		"type": "GET",
+		"async": true,
+		"success": function (res) {
 			if (!validateLogin(res.resultCode))
 				return false;
 			if (res.totalCount == 0) {
@@ -345,17 +344,17 @@ function initMessage() {
 	universalAjax(ajaxParameter);
 
 	ajaxParameter = {
-		"url" : "/extend/swagger/gp/gprMessageUser/getUserListByJsonData",
-		"dataType" : "json",
-		"type" : "GET",
-		"async" : false,
-		"data" : "jsonData=" + JSON.stringify({
-			"entityRelated" : {
-				"userName" : token.userName,
-				"userId" : token.userId
+		"url": "/extend/swagger/gp/gprMessageUser/getUserListByJsonData",
+		"dataType": "json",
+		"type": "GET",
+		"async": false,
+		"data": "jsonData=" + JSON.stringify({
+			"entityRelated": {
+				"userName": token.userName,
+				"userId": token.userId
 			}
 		}),
-		success : function(res) {
+		success: function (res) {
 			if (res.totalCount == 0) {
 				$("#header_inbox_bar .dropdown-menu").hide();
 				$("#header_inbox_bar .badge").hide();
@@ -385,15 +384,15 @@ function initMessage() {
 function setDomainConfig() {
 
 	var ajaxParameter = {
-		"url" : RU_GPRCONFIGUSER_GETCURRENTUSERCONFIG,
-		"type" : "GET",
-		"async" : false,
-		"success" : function(result) {
+		"url": RU_GPRCONFIGUSER_GETCURRENTUSERCONFIG,
+		"type": "GET",
+		"async": false,
+		"success": function (result) {
 			var infoData = JSON.stringify(result.data);
 			var cookieData = {
-				item : "userConfig",
-				data : infoData,
-				path : '/'
+				item: "userConfig",
+				data: infoData,
+				path: '/'
 			};
 			setCookies(cookieData);
 		}
@@ -410,13 +409,13 @@ function setDomainConfig() {
  */
 function getUserConfigByCode(code) {
 	var userConfigListCookie = getCookies({
-		item : "userConfig"
+		item: "userConfig"
 	});
 	var userConfig = null;
 	if (userConfigListCookie) {
 		var userConfigList = JSON.parse(userConfigListCookie);
 
-		$.each(userConfigList, function(i, n) {
+		$.each(userConfigList, function (i, n) {
 			if (n.code == code) {
 				userConfig = n;
 				return false;
@@ -434,12 +433,12 @@ function getUserConfigByCode(code) {
  */
 function updateUserConfig(userConfig) {
 	var ajaxParamter = {
-		"url" : RU_GPRCONFIGUSER_ADDORUPDATE,
-		"data" : JSON.stringify({
-			configId : userConfig.configId,
-			configValue : userConfig.configValue
+		"url": RU_GPRCONFIGUSER_ADDORUPDATE,
+		"data": JSON.stringify({
+			configId: userConfig.configId,
+			configValue: userConfig.configValue
 		}),
-		"success" : function(resultData) {
+		"success": function (resultData) {
 			// 后台更新成功后，重新初始化本地Cookie
 			setDomainConfig();
 		}
@@ -472,8 +471,8 @@ function setCookies(cookieData) {
 			cookieData.date = date;
 		}
 		Cookies.set(cookieData.item, cookieData.data, {
-			path : cookieData.path,
-			expires : cookieData.date
+			path: cookieData.path,
+			expires: cookieData.date
 		});
 	}
 }
@@ -617,18 +616,18 @@ function initDropDownList(selectParam, ajaxParam) {
 		submitData = JSON.stringify(submitData);
 
 	var ajaxParamter = {
-		"url" : ajaxParam.url,
-		"data" : submitData,
-		"type" : type,
-		"async" : false,
-		"success" : function(message) {
+		"url": ajaxParam.url,
+		"data": submitData,
+		"type": type,
+		"async": false,
+		"success": function (message) {
 			if (!message["isSuccess"]) {
 				layer.alert(resultData["resultMessage"], {
-					icon : 6
+					icon: 6
 				});
 				return false;
 			}
-			$.each(message.data, function(i, n) {
+			$.each(message.data, function (i, n) {
 				$("#" + selectParam.selectId).append("<option value='" + n[selectParam.valueField] + "'>" + n[selectParam.textField] + "</option>");
 			});
 
@@ -660,18 +659,18 @@ function initRadioList(radioParam, ajaxParam) {
 		submitData = JSON.stringify(submitData);
 
 	var ajaxParamter = {
-		"url" : ajaxParam.url,
-		"data" : submitData,
-		"type" : type,
-		"async" : false,
-		"success" : function(message) {
+		"url": ajaxParam.url,
+		"data": submitData,
+		"type": type,
+		"async": false,
+		"success": function (message) {
 			if (!message["isSuccess"]) {
 				layer.alert(resultData["resultMessage"], {
-					icon : 6
+					icon: 6
 				});
 				return false;
 			}
-			$.each(message.data, function(i, n) {
+			$.each(message.data, function (i, n) {
 				var html = "<label class='mt-radio'>";
 				html += "<input type='radio' name='";
 				html += radioParam.name;
@@ -699,7 +698,7 @@ function initAutoComplete(itemParam, ajaxParam) {
 	var autoCompleteCache = {};
 	// 失去输入焦点后，如果显示值为空，则同时清空隐藏值
 	$("#" + itemParam.textFieldInputId).unbind("blur");
-	$("#" + itemParam.textFieldInputId).bind("blur", function() {
+	$("#" + itemParam.textFieldInputId).bind("blur", function () {
 		if ($("#" + itemParam.textFieldInputId).val() == "") {
 			$("#" + itemParam.textFieldInputId).val("");
 			$("#" + itemParam.valueFieldInputId).val("");
@@ -713,16 +712,16 @@ function initAutoComplete(itemParam, ajaxParam) {
 	});
 
 	$("#" + itemParam.textFieldInputId).autocomplete({
-		minLength : 2,
-		autoFocus : true,
-		source : function(request, response) {
+		minLength: 2,
+		autoFocus: true,
+		source: function (request, response) {
 			var term = request.term;
 			if (term in autoCompleteCache) {
-				response($.map(autoCompleteCache[term], function(item) {
+				response($.map(autoCompleteCache[term], function (item) {
 					return {
-						value : item[itemParam.textField],
-						label : item[itemParam.textField],
-						submitValue : item[itemParam.valueField]
+						value: item[itemParam.textField],
+						label: item[itemParam.textField],
+						submitValue: item[itemParam.valueField]
 					}
 				}));
 				return;
@@ -731,16 +730,16 @@ function initAutoComplete(itemParam, ajaxParam) {
 			ajaxParam.jsonData.entityRelated.autoCompleteKey = request.term;
 
 			var ajaxParamter = {
-				"url" : ajaxParam.url + "?jsonData=" + encodeURIComponent(JSON.stringify(ajaxParam.jsonData)),
-				"async" : true,
-				"type" : "GET",
-				"success" : function(resultData) {
+				"url": ajaxParam.url + "?jsonData=" + encodeURIComponent(JSON.stringify(ajaxParam.jsonData)),
+				"async": true,
+				"type": "GET",
+				"success": function (resultData) {
 					autoCompleteCache[term] = resultData.data;
-					response($.map(resultData.data, function(item) {
+					response($.map(resultData.data, function (item) {
 						return {
-							value : item[itemParam.textField],
-							label : item[itemParam.textField],
-							submitValue : item[itemParam.valueField]
+							value: item[itemParam.textField],
+							label: item[itemParam.textField],
+							submitValue: item[itemParam.valueField]
 						}
 					}));
 				}
@@ -748,7 +747,7 @@ function initAutoComplete(itemParam, ajaxParam) {
 			universalAjax(ajaxParamter);
 
 		},
-		select : function(e, ui) {
+		select: function (e, ui) {
 			$("#" + itemParam.valueFieldInputId).val(ui.item.submitValue);
 		}
 	});
@@ -766,7 +765,7 @@ function universalAjax(ajaxParameter) {
 
 	if (ajaxParameter.url == null) {
 		layer.alert("请求链接不能为空！", {
-			icon : 6
+			icon: 6
 		});
 		return;
 	}
@@ -786,11 +785,11 @@ function universalAjax(ajaxParameter) {
 		ajaxParameter.error = ajaxErrorFunction;
 	if (ajaxParameter.headers == null) {
 		var dataStr = getCookies({
-			item : "token"
+			item: "token"
 		});
 		ajaxParameter.headers = {
-			"Authorization" : "Bearer " + JSON.parse(dataStr).accessToken,
-			"ClientId" : JSON.parse(dataStr).clientId
+			"Authorization": "Bearer " + JSON.parse(dataStr).accessToken,
+			"ClientId": JSON.parse(dataStr).clientId
 		};
 	}
 
@@ -800,16 +799,16 @@ function universalAjax(ajaxParameter) {
 	url = INTERFACE_SERVER + url;
 
 	$.ajax({
-		url : url,
-		type : ajaxParameter.type,
-		contentType : ajaxParameter.contentType,
-		headers : ajaxParameter.headers,
-		data : data,
-		dataType : ajaxParameter.dataType,
-		async : ajaxParameter.async,
-		error : ajaxParameter.error,
-		beforeSend : ajaxParameter.beforeSend,
-		success : ajaxParameter.success
+		url: url,
+		type: ajaxParameter.type,
+		contentType: ajaxParameter.contentType,
+		headers: ajaxParameter.headers,
+		data: data,
+		dataType: ajaxParameter.dataType,
+		async: ajaxParameter.async,
+		error: ajaxParameter.error,
+		beforeSend: ajaxParameter.beforeSend,
+		success: ajaxParameter.success
 	});
 }
 
@@ -832,27 +831,27 @@ function ajaxErrorFunction(XMLHttpRequest, textStatus, errorThrown) {
 		// Token过期
 		if (result.resultCode == RESULT_CODE_TOKEN_EXPIRED) {
 			layer.msg(result.resultMessage, {
-				time : 1500
+				time: 1500
 			});
 			removeCookies({
-				item : "token"
+				item: "token"
 			});
 			location.href = '../lo/Login.html';
 			return;
 		}
 
 		layer.alert(result.resultMessage, {
-			icon : 6
+			icon: 6
 		});
 
 	} else if (textStatus == "error" && statusText.indexOf("NetworkError") > -1) {
 		layer.alert("调用后台接口时出现错误！请检查网络连接……", {
-			icon : 6
+			icon: 6
 		});
 		return false;
 	} else {
 		layer.alert("调用后台接口时出现错误！" + textStatus + " " + errorThrown, {
-			icon : 6
+			icon: 6
 		});
 	}
 }
@@ -903,20 +902,20 @@ function historyBack() {
 function validateLogin(resultCode) {
 	if (resultCode === RESULT_CODE_TOKEN_EXPIRED && window.location.pathname.indexOf("/lo/Login.html") == -1) {
 		removeCookies({
-			item : "token"
+			item: "token"
 		});
 		location.href = '../lo/Login.html';
 		return fasle;
 	}
-	$("#goHome").click(function() {
+	$("#goHome").click(function () {
 		location.href = HOME_PATH + RP_ININDEX
 	});
 
 	if (getCookies({
-		item : "token"
+		item: "token"
 	})) {
 		var token = JSON.parse(getCookies({
-			item : "token"
+			item: "token"
 		}));
 		$("#userName").text(token.userName);
 		if (token.gpUser != null && token.gpUser.icon != null && token.gpUser.icon != "")
@@ -957,10 +956,10 @@ function popUpPage(pageParam) {
 		offsetRight = pageParam.offsetRight;
 
 	layer.open({
-		type : 2,
-		title : pageParam.title,
-		content : pageParam.url,
-		area : [ width, height ],
-		offset : [ offsetTop, offsetRight ]
+		type: 2,
+		title: pageParam.title,
+		content: pageParam.url,
+		area: [width, height],
+		offset: [offsetTop, offsetRight]
 	});
 }

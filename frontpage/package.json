@@ -701,6 +701,7 @@
     "handlebars-loader": "^1.7.1",
     "html-loader": "^2.1.2",
     "html-webpack-plugin": "^5.3.2",
+    "jquery-ui": "^1.12.1",
     "mini-css-extract-plugin": "^2.2.0",
     "postcss-loader": "^6.1.1",
     "sass-loader": "^12.1.0",
