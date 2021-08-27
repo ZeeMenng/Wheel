@@ -1,124 +1,122 @@
 ﻿<!DOCTYPE html>
 
 <html lang="zh-cn">
-
 <head>
-	<!--#include file="../cl/Header.html"-->
+<!-- #include file="../cl/Header.html"	 -->
 
-	<script src="../../js/co/CommonList.js" type="text/javascript"></script>
-	<script src="../../js/gp/Config.js" type="text/javascript"></script>
-	<script type="text/javascript">
-		$(document).ready(function () {
+<script src="../../js/co/CommonList.js" type="text/javascript"></script>
+<script src="../../js/gp/Config.js" type="text/javascript"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
 
-			//初始化列表页主体部分，包括查询条件表单及数据表格等。
-			var pageParam = {
-				formId: "queryBuilderForm",
-				tableId: "contentTable",
-				editPage: {
-					title: "批量修改表单",
-					url: RP_GPCONFIG_EDIT
+		//初始化列表页主体部分，包括查询条件表单及数据表格等。
+		var pageParam = {
+			formId : "queryBuilderForm",
+			tableId : "contentTable",
+			editPage : {
+				title : "批量修改表单",
+				url : RP_GPCONFIG_EDIT
+			},
+			detailPage : {
+				url : RP_GPCONFIG_DETAIL
+			},
+			addPage : {
+				url : RP_GPCONFIG_ADD
+			},
+			deleteInterface : {
+				url : RU_GPCONFIG_DELETE
+			},
+			deleteListInterface : {
+				url : RU_GPCONFIG_DELETELIST
+			}
+
+		};
+		var ajaxParam = {
+			url : RU_GPRCONFIGDOMAIN_GETLISTBYJSONDATA,
+			type : "GET",
+			submitData : {
+				"entityRelated" : {
+
 				},
-				detailPage: {
-					url: RP_GPCONFIG_DETAIL
-				},
-				addPage: {
-					url: RP_GPCONFIG_ADD
-				},
-				deleteInterface: {
-					url: RU_GPCONFIG_DELETE
-				},
-				deleteListInterface: {
-					url: RU_GPCONFIG_DELETELIST
+				"orderList" : [ {
+					"columnName" : "updateTime",
+					"isASC" : false
+				} ],
+				"page" : {
+					"pageIndex" : DEFAULT_PAGE_INDEX,
+					"pageSize" : DEFAULT_PAGE_SIZE
 				}
-
-			};
-			var ajaxParam = {
-				url: RU_GPRCONFIGDOMAIN_GETLISTBYJSONDATA,
-				type: "GET",
-				submitData: {
-					"entityRelated": {
-
-					},
-					"orderList": [{
-						"columnName": "updateTime",
-						"isASC": false
-					}],
-					"page": {
-						"pageIndex": DEFAULT_PAGE_INDEX,
-						"pageSize": DEFAULT_PAGE_SIZE
-					}
+			},
+			columnInfo : [ {
+				"columnName" : "name",
+				"columnText" : "名称",
+				"style" : "text-align:left",
+				"linkFunction" : function(event) {
+					var href = RP_GPCONFIG_DETAIL + "?" + RECORD_ID + "=" + event.id;
+					return href;
 				},
-				columnInfo: [{
-					"columnName": "name",
-					"columnText": "名称",
-					"style": "text-align:left",
-					"linkFunction": function (event) {
-						var href = RP_GPCONFIG_DETAIL + "?" + RECORD_ID + "=" + event.id;
-						return href;
-					},
-				}, {
-					"columnName": "code",
-					"columnText": "Key",
-					"style": "text-align:left",
-				}, {
-					"columnName": "configValue",
-					"columnText": "当前值",
-					"style": "text-align:left",
-				}, {
-					"columnName": "domainName",
-					"columnText": "应用领域",
-					"style": "text-align:left",
-				}, {
-					"columnName": "updateTime",
-					"columnText": "配置时间",
-					"style": "text-align:left",
-				}
-
-				]
-			};
-
-			var operationParam = [{
-				"operationText": "修改",
-				"buttonClass": "yellow",
-				"iconClass": "fa fa-pencil-square-o",
-				"clickFunction": function (event) {
-					window.location.href = pageParam.editPage.url + "?" + RECORD_ID + "=" + event.data.id;
-				}
 			}, {
-				"operationText": "删除",
-				"buttonClass": "red",
-				"iconClass": "fa fa-trash-o",
-				"clickFunction": function (event) {
-					layer.confirm('您确定要删除当前记录？', {
-						btn: ['确定', '取消']
-					}, function () {
-						layer.closeAll('dialog');
-						ajaxParam.submitData.page.pageSize = $("#pageSizeText").val();
-						ajaxParam.submitData.page.pageIndex = $("#pageIndexHidden").val();
-						pageParam.deleteInterface.url = RU_GPCONFIG_DELETE;
-						pageParam.deleteInterface.type = "GET";
-						pageParam.deleteInterface.submitData = {
-							"id": event.data.id,
-						};
-						deleteRecord(pageParam, ajaxParam, operationParam);
-					});
-				},
-				"visibleFunction": function (recordData) {
-					if (recordData.status == "1")
-						return false;
-					return true;
-				}
-			}];
-			initQueryForm(pageParam, ajaxParam, operationParam);
+				"columnName" : "code",
+				"columnText" : "Key",
+				"style" : "text-align:left",
+			}, {
+				"columnName" : "configValue",
+				"columnText" : "当前值",
+				"style" : "text-align:left",
+			}, {
+				"columnName" : "domainName",
+				"columnText" : "应用领域",
+				"style" : "text-align:left",
+			}, {
+				"columnName" : "updateTime",
+				"columnText" : "配置时间",
+				"style" : "text-align:left",
+			}
 
-		});
-	</script>
+			]
+		};
+
+		var operationParam = [ {
+			"operationText" : "修改",
+			"buttonClass" : "yellow",
+			"iconClass" : "fa fa-pencil-square-o",
+			"clickFunction" : function(event) {
+				window.location.href = pageParam.editPage.url + "?" + RECORD_ID + "=" + event.data.id;
+			}
+		}, {
+			"operationText" : "删除",
+			"buttonClass" : "red",
+			"iconClass" : "fa fa-trash-o",
+			"clickFunction" : function(event) {
+				layer.confirm('您确定要删除当前记录？', {
+					btn : [ '确定', '取消' ]
+				}, function() {
+					layer.closeAll('dialog');
+					ajaxParam.submitData.page.pageSize = $("#pageSizeText").val();
+					ajaxParam.submitData.page.pageIndex = $("#pageIndexHidden").val();
+					pageParam.deleteInterface.url = RU_GPCONFIG_DELETE;
+					pageParam.deleteInterface.type = "GET";
+					pageParam.deleteInterface.submitData = {
+						"id" : event.data.id,
+					};
+					deleteRecord(pageParam, ajaxParam, operationParam);
+				});
+			},
+			"visibleFunction" : function(recordData) {
+				if (recordData.status == "1")
+					return false;
+				return true;
+			}
+		} ];
+		initQueryForm(pageParam, ajaxParam, operationParam);
+
+	});
+</script>
 </head>
-
 <body class="page-header-fixed page-sidebar-closed-hide-logo page-wrapper">
-	<!--#include file="../cl/Top.html"-->
+	<!-- #include file="../cl/Top.html"	 -->
 	<div class="page-container page-content-wrapper">
-		<!--#include file="../cl/Menu.html"-->
+		<!-- #include file="../cl/Menu.html"	 -->
 		<div class="page-content">
 			<div class="row">
 				<div class="col-md-12 page-bar page-bar-height  portlet ">
@@ -136,8 +134,7 @@
 				<div class="col-md-12 portlet light bordered">
 					<form class="portlet-body form form-inline form-body" role="form" id="queryBuilderForm">
 						<label class="control-label">关键词：</label>
-						<input class="form-control " id="textKeywords" name="kewwords" size="45" type="text"
-							placeholder="可输入  /Key/名称/当前值/应用领域……" />
+						<input class="form-control " id="textKeywords" name="kewwords" size="45" type="text" placeholder="可输入  /Key/名称/当前值/应用领域……" />
 						&nbsp;&nbsp;&nbsp;&nbsp;
 						<div class="search-button">
 							<button type="submit" class="btn red-mint" id="submitButton">
@@ -179,18 +176,16 @@
 						</div>
 						<div class="portlet-body">
 							<div class="dataTables_wrapper no-footer">
-								<div class="table-scrollable">
-									<table
-										class="table dataTable table-striped table-bordered table-hover table-checkable order-column"
-										id="contentTable">
-										<thead>
+							<div class="table-scrollable">
+								<table class="table dataTable table-striped table-bordered table-hover table-checkable order-column" id="contentTable">
+									<thead>
 
-										</thead>
-										<tbody>
+									</thead>
+									<tbody>
 
-										</tbody>
-									</table>
-								</div>
+									</tbody>
+								</table>
+</div>
 								<div class="row">
 									<div class="col-md-5 col-sm-5 dataTables_info" role="status" aria-live="polite">
 										共有
@@ -233,8 +228,7 @@
 													</a>
 												</li>
 											</ul>
-											<div class="form-inline nowrap col-md-2 col-sm-2"
-												style="float: right; padding-left: 25px;">
+											<div class="form-inline nowrap col-md-2 col-sm-2" style="float: right; padding-left: 25px;">
 												<div class="form-group ">
 													<label class="form-label">转到第</label>
 													<input class="form-control" id="gotoPageText" size="3" type="text">
@@ -255,7 +249,7 @@
 			</div>
 		</div>
 	</div>
-	<!--#include file="../cl/Footer.html"-->
+	<!-- #include file="../cl/Footer.html"	 -->
 </body>
 
 </html>

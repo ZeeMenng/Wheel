@@ -26,6 +26,8 @@ textarea {
 	width: 200px;
 }
 
+
+
 a {
 	text-decoration: none;
 }
@@ -39,6 +41,8 @@ td a {
 select {
 	cursor: pointer;
 }
+
+
 
 /*不显示列表前面的点*/
 li {
@@ -159,6 +163,7 @@ table.table-bordered.dataTable tbody td:last-child {
 	display: inline-block !important;
 }
 
+
 embed {
 	margin: 0;
 	width: 980px !important;
@@ -236,7 +241,7 @@ embed {
 	top: 15px;
 	height: 15px;
 	width: 15px;
-	background: url(../assets/layouts/layout/img/search_icon_light.png)
+	background: url(../assets/layouts/layout2/img/search_icon_light.png)
 		no-repeat;
 	background-position: 96% 68%;
 	cursor: pointer;
@@ -269,18 +274,6 @@ embed {
 	background: url(../img/loginBg.png) no-repeat center center;
 	background-size: 100% 100%;
 	overflow: auto;
-}
-
-.login .logo img {
-	width: 60px;
-	height: 60px;
-	margin-right: 20px;
-	margin-top: -10px;
-}
-
-.login .logo span {
-	color: #fff;
-	font-size: 18px;
 }
 
 html, body {
@@ -469,3 +462,5 @@ ul.ztree {
 }
 
 /**************** Font Awesome ***************************/
+
+

@@ -5,8 +5,8 @@
 <html lang="zh-cn">
 
 <head>
-<!--#include file="../cl/Header.html"-->
-<!--#include file="../cl/HeaderZTree.html"-->
+<!--#include file="/pc/ss/gp/html/cl/Header.html"-->
+<!--#include file="/pc/ss/gp/html/cl/HeaderZTree.html"-->
 <link href="../../css/CommonZTree.css" rel="stylesheet" type="text/css" />
 <script src="../../js/co/CommonZTree.js" type="text/javascript"></script>
 <script src="../../js/co/CommonList.js" type="text/javascript"></script>
@@ -50,7 +50,7 @@
 }
 
 .left-div .portlet {
-	background-color: white !important;
+	background-color: white;
 	min-height: 670px;
 	min-width: 200px;
 	margin-right: 2px;
@@ -78,9 +78,9 @@ a:hover {
 </head>
 
 <body class="page-header-fixed page-sidebar-closed-hide-logo page-wrapper">
-	<!--#include file="../cl/Top.html"-->
+	<!--#include file="/pc/ss/gp/html/cl/Top.html"-->
 	<div id="content_right" class="page-container page-content-wrapper">
-		<!--#include file="../cl/Menu.html"-->
+		<!--#include file="/pc/ss/gp/html/cl/Menu.html"-->
 		<div class="page-content topnav_box">
 			<div class="row">
 				<div class="col-md-12 page-bar page-bar-height  portlet ">
@@ -139,11 +139,6 @@ a:hover {
 								<select id="selectIsPublicCode" name="isPublicCode" class="form-control" onchange="$('#queryBuilderForm').submit();">
 									<option value="">全部</option>
 								</select>
-								<!-- &nbsp;&nbsp;&nbsp;&nbsp;
-								<label class="control-label">请求方法：</label>
-								<select id="selectTypeCode" name="typeCode" class="form-control" onchange="$('#queryBuilderForm').submit();">
-									<option value="">全部</option>
-								</select> -->
 								<div class="search-button">
 									<button type="submit" class="btn red-mint" id="submitButton">
 										<i class="fa fa-search"></i>
@@ -292,7 +287,7 @@ a:hover {
 			</div>
 		</div>
 	</div>
-	<!--#include file="../cl/Footer.html"-->
+	<!--#include file="/pc/ss/gp/html/cl/Footer.html"-->
 
 
 </body>
