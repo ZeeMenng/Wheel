@@ -5,3 +5,4 @@ backstage/.apt_generated
 backstage/.idea
 backstage/.settings
 backstage/target
+backstage/src/main/resources/application.yml
