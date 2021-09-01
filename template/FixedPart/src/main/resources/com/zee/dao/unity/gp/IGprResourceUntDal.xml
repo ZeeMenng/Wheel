@@ -1,0 +1,304 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zee.dao.unity.gp.IGprResourceUntDal" >
+
+  <resultMap id="BaseResultMap" type="com.zee.ent.extend.gp.GprResource" >
+              <id column="id" property="id" jdbcType="VARCHAR" />
+              <result column="business_id" property="businessId" jdbcType="VARCHAR" />
+              <result column="resource_id" property="resourceId" jdbcType="VARCHAR" />
+              <result column="is_default" property="isDefault" jdbcType="TINYINT" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+        id,business_id,resource_id,is_default
+  </sql>
+  
+  <insert id="add" parameterType="com.zee.ent.extend.gp.GprResource" >
+    insert into gpr_resource
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+          <if test="id != null and id != '' " >
+              id,
+          </if>
+      
+          <if test="businessId != null and businessId != '' " >
+              business_id,
+          </if>
+      
+          <if test="resourceId != null and resourceId != '' " >
+              resource_id,
+          </if>
+      
+          <if test="isDefault != null " >
+              is_default,
+          </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+          <if test="id != null and id != '' " >
+              #{id,jdbcType=VARCHAR},
+          </if>
+          <if test="businessId != null and businessId != '' " >
+              #{businessId,jdbcType=VARCHAR},
+          </if>
+          <if test="resourceId != null and resourceId != '' " >
+              #{resourceId,jdbcType=VARCHAR},
+          </if>
+          <if test="isDefault != null " >
+              #{isDefault,jdbcType=TINYINT},
+          </if>
+    </trim>
+  </insert>
+  
+  <insert id="addList" parameterType="list">
+    	insert into gpr_resource
+    	<trim prefix="(" suffix=")">
+    		<include refid="Base_Column_List" />
+    	</trim>
+    	values
+    	<foreach collection="list" item="gprResource" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides="," >
+
+          #{gprResource.id,jdbcType=VARCHAR},
+          #{gprResource.businessId,jdbcType=VARCHAR},
+          #{gprResource.resourceId,jdbcType=VARCHAR},
+          #{gprResource.isDefault,jdbcType=TINYINT},
+
+        </trim>
+    	</foreach>
+    </insert>
+
+
+  <insert id="addListWithDffOrAdd" parameterType="list">
+    	insert into gpr_resource
+    	<trim prefix="(" suffix=")">
+    		<include refid="Base_Column_List" />
+    	</trim>
+    	values
+    	<foreach collection="list" item="gprResource" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides="," >
+
+          #{gprResource.id,jdbcType=VARCHAR},
+          #{gprResource.businessId,jdbcType=VARCHAR},
+          #{gprResource.resourceId,jdbcType=VARCHAR},
+          #{gprResource.isDefault,jdbcType=TINYINT},
+
+        </trim>
+    	</foreach>
+        ON DUPLICATE KEY UPDATE
+id=values(id),
+business_id=values(business_id),
+resource_id=values(resource_id),
+is_default=values(is_default)
+        
+    </insert>
+
+
+    <delete id="delete" parameterType="java.lang.String" >
+        delete from gpr_resource
+        where  id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+	<delete id="deleteByResourceId" parameterType="java.lang.String">
+    	delete from gpr_resource
+    	where resource_id = #{resourceId,jdbcType=VARCHAR}
+    </delete>
+    
+   <delete id="deleteByResourceIdList" parameterType="list">
+		delete from gpr_resource
+		where resource_id  in
+		<foreach collection="list" item="ResourceId " index="index" open="(" close=")" separator=",">
+			#{ResourceId }
+		</foreach>
+	</delete>
+    
+    
+    <select id="getListByResourceId" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from gpr_resource where resource_id = #{resourceId,jdbcType=VARCHAR}
+	</select>
+        
+
+	<delete id="deleteByIdList" parameterType="list">
+		delete from gpr_resource
+		where id  in
+		<foreach collection="list" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+	</delete>
+  
+  
+  
+  <update id="update" parameterType="com.zee.ent.extend.gp.GprResource" >
+    update gpr_resource
+    <set >
+                    <choose>
+                   <when test="businessId != null and businessId=='-1'">
+                     business_id = null,
+                  </when>
+                  <when test="businessId != null and businessId=='-2'">
+                     business_id = '',
+                  </when>
+                  <when test="businessId != null  and businessId != '' " >
+                     business_id = #{businessId,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="resourceId != null and resourceId=='-1'">
+                     resource_id = null,
+                  </when>
+                  <when test="resourceId != null and resourceId=='-2'">
+                     resource_id = '',
+                  </when>
+                  <when test="resourceId != null  and resourceId != '' " >
+                     resource_id = #{resourceId,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                  <if test="isDefault != null ">
+                     is_default = #{isDefault,jdbcType=TINYINT},
+                  </if>
+   </set>
+                 where  id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+<update id="updateList">
+    update gpr_resource
+    <set >
+                  <if test="t.businessId != null  and t.businessId != '' " >
+                     business_id = #{t.businessId,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.resourceId != null  and t.resourceId != '' " >
+                     resource_id = #{t.resourceId,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.isDefault != null ">
+                     is_default = #{t.isDefault,jdbcType=TINYINT},
+                  </if>
+   </set>
+	
+		where id  in
+		<foreach collection="idList" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+   
+  </update>
+  
+<update id="updateListWithDff"  parameterType="list">
+    update gpr_resource
+		<trim prefix="set" suffixOverrides=",">
+         <trim prefix="business_id =case" suffix="end,">
+              <foreach collection="list" item="gprResource" index="index">
+                  <if test="gprResource.businessId != null and gprResource.businessId  != ''  and gprResource.businessId  != '-1' ">
+                     when id=#{gprResource.id} then #{gprResource.businessId,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gprResource.businessId != null  and gprResource.businessId  == '-1' ">
+                     when id=#{gprResource.id} then null
+                  </if>  
+                   <if test="gprResource.businessId != null  and gprResource.businessId  == '-2' ">
+                     when id=#{gprResource.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="resource_id =case" suffix="end,">
+              <foreach collection="list" item="gprResource" index="index">
+                  <if test="gprResource.resourceId != null and gprResource.resourceId  != ''  and gprResource.resourceId  != '-1' ">
+                     when id=#{gprResource.id} then #{gprResource.resourceId,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gprResource.resourceId != null  and gprResource.resourceId  == '-1' ">
+                     when id=#{gprResource.id} then null
+                  </if>  
+                   <if test="gprResource.resourceId != null  and gprResource.resourceId  == '-2' ">
+                     when id=#{gprResource.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="is_default =case" suffix="end,">
+              <foreach collection="list" item="gprResource" index="index">
+                  <if test="gprResource.isDefault != null " >
+                     when id=#{gprResource.id} then #{gprResource.isDefault,jdbcType=TINYINT}
+                  </if>
+              </foreach>
+         </trim>
+    </trim>
+    where id in
+		<foreach collection="list" item="gprResource" index="index" open="(" close=")" separator=",">
+			#{gprResource.id,jdbcType=VARCHAR}
+		</foreach>
+  </update>
+
+  
+  
+  <insert id="updateListWithDffOrAdd" useGeneratedKeys="true" keyProperty="id" parameterType="list">
+    replace into gpr_resource
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+id,
+business_id,
+resource_id,
+is_default,
+    </trim>
+    VALUES
+    <foreach collection="list" item="gprResource" index="index" separator=",">
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+              #{gprResource.id ,jdbcType=VARCHAR},
+                  
+                     #{gprResource.businessId ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gprResource.resourceId ,jdbcType=VARCHAR},
+                  
+                  
+                    #{gprResource.isDefault,jdbcType=TINYINT},
+            
+      </trim>
+    </foreach>
+  </insert>
+
+
+  <select id="getModel" resultMap="BaseResultMap" parameterType="java.lang.String" >
+          select 
+                 <include refid="Base_Column_List" />
+          from gpr_resource
+           where  id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+   
+  
+  <select id="getList" resultMap="BaseResultMap" parameterType="map" >
+          select
+                <include refid="Base_Column_List" />
+          from gpr_resource where 1 = 1
+        <if test="EntityRelated.id != null and EntityRelated.id != '' ">
+			and id LIKE CONCAT('%',#{EntityRelated.id,jdbcType=VARCHAR},'%')
+		</if>
+
+		<if test="EntityRelated.businessId != null and EntityRelated.businessId != '' ">
+				and business_id = #{EntityRelated.businessId,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.id != null and EntityRelated.id != '' ">
+				and id = #{EntityRelated.id,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.resourceId != null and EntityRelated.resourceId != '' ">
+				and resource_id = #{EntityRelated.resourceId,jdbcType=VARCHAR} 
+		</if>
+
+
+		<if test="OrderList != null and OrderList!=null">
+			order by
+			<foreach collection="OrderList" item="Order" index="index" separator=",">
+				${Order.columnName}
+				<if test="Order.isASC">
+					ASC
+				</if>
+				<if test="!Order.isASC">
+					DESC
+				</if>
+			</foreach>
+		</if>
+  </select>
+  
+	<select id="getListBySQL" resultType="java.util.HashMap" parameterType="String">
+		<if test="value!=null and value!=''">
+			${value}
+		</if>
+	</select>
+
+  <cache />
+</mapper>

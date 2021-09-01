@@ -1,0 +1,520 @@
+﻿<%@ CodeTemplate Inherits="CodeTemplate" TargetLanguage="java" Language="C#" Description="NetTiers main template." Debug="True" ResponseEncoding="UTF-8" %>
+
+<%@ Assembly Name="SchemaExplorer" %>
+<%@ Assembly Name="CustomCodeSmithHelper" %>
+
+<%@ Import Namespace="SchemaExplorer" %>
+<%@ Import Namespace="CustomCodeSmithHelper" %>
+
+<%-- 要打印的表 --%>
+<%@ Property Name="Table" Type="TableSchema" DeepLoad="True" Optional="False" Category="01. Getting Started - Required"Description="Database that the tables views, and stored procedures shouldbe based on. IMPORTANT!!! If SourceTables and SourceViews are left blank, theEntire Database will then be generated." %>
+<%@ Property Name="DeveloperName" Type="String" Category="Context" Description="The name to include in the comment header" %>
+<%@ Property Name="ModulePackageName" Type="String" Category="Context" Description="The name to include in the comment header" %>
+
+package com.zee.bll.generate.unity.<%=ModulePackageName%>;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.zee.bll.generate.unity.base.BaseUntBll;
+import com.zee.dao.unity.<%=ModulePackageName%>.I<%=StringUtil.ToPascalCase(Table.Name)%>UntDal;
+import com.zee.ent.custom.ResultModel;
+import com.zee.ent.extend.<%=ModulePackageName%>.<%=StringUtil.ToPascalCase(Table.Name)%>;
+<%
+ColumnSchemaCollection columns = Table.Columns;
+ColumnNameComparer com = new ColumnNameComparer();
+columns.Sort(com);
+TableKeySchemaCollection keyCol = Table.Keys;
+keyCol.Sort(new TableKeyNameComparer());
+%>
+import com.zee.ent.parameter.<%=ModulePackageName%>.<%=StringUtil.ToPascalCase(Table.Name)%>Parameter;
+import com.zee.set.enumer.OperResult;
+import com.zee.set.enumer.OperType;
+import com.zee.set.exception.GlobalException;
+import com.zee.utl.DateUtils;
+import com.zee.set.symbolic.CustomSymbolic;
+import com.zee.utl.Tools;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
+
+/**
+ * @author <%= DeveloperName%>
+ * @createDate 2017/05/22 14:01:41
+ * @updateDate <%= DateTime.Now %>
+ * @description <%=Table.Description%> 业务逻辑处理类，扩展自BaseUntBll<<%=StringUtil.ToPascalCase(Table.Name)%>>，自动生成。
+ */
+public class <%=StringUtil.ToPascalCase(Table.Name)%>GenUntBll extends BaseUntBll<<%=StringUtil.ToPascalCase(Table.Name)%>> {
+
+	@Autowired
+	protected I<%=StringUtil.ToPascalCase(Table.Name)%>UntDal <%=StringUtil.ToCamelCase(Table.Name)%>UntDal;
+
+
+	public ResultModel updateList(<%=StringUtil.ToPascalCase(Table.Name)%>Parameter.UpdateList updateListParam) {
+		return updateList(updateListParam, isLogWrite);
+	}
+
+	public ResultModel updateList(<%=StringUtil.ToPascalCase(Table.Name)%>Parameter.UpdateList updateListParam, boolean isLog) {
+
+		ResultModel result = new ResultModel();
+
+		try {
+			JSONObject jsonObject = JSONObject.fromObject(updateListParam);
+
+			result.setAddTime(DateUtils.getCurrentTime());
+			result.setId(Tools.getUUID());
+			result.setIncomeValue(jsonObject.toString());
+            result.setIncomeCount(updateListParam.getIdList().size());
+			result.setTableName(this.getClass().getSimpleName());
+			result.setOperTypeCode(OperType.UPDATELIST.getCode());
+			result.setOperTypeText(OperType.UPDATELIST.getText());
+			result.setRemark("");
+
+			int i = baseUntDal.updateList(updateListParam.getIdList(),updateListParam.getEntity());
+
+			result.setReturnValue(String.valueOf(i));
+			result.setData(i);
+			result.setTotalCount(new Long(i));
+			result.setResultCode(OperResult.UPDATELIST_S.getCode());
+			result.setResultMessage(OperResult.UPDATELIST_S.getText());
+			result.setIsSuccessCode(CustomSymbolic.DCODE_BOOLEAN_T);
+
+		} catch (Exception e) {
+			result.setIsSuccessCode(CustomSymbolic.DCODE_BOOLEAN_F);
+			result.setResultCode(OperResult.UPDATE_F.getCode());
+			result.setResultMessage(OperResult.UPDATE_F.getText() );
+			result.setReturnValue(e.getMessage());
+            result.setOriginException(e);
+			GlobalException globalException = new GlobalException();
+			globalException.setResultModel(result);
+			throw globalException;
+		} finally {
+			if (isLog)
+				addOperationLog(result);
+		}
+
+		return result;
+	}
+
+	public ResultModel getList(<%=StringUtil.ToPascalCase(Table.Name)%>Parameter.GetList getListParam) {
+		return getList(getListParam, isLogRead);
+	}
+
+	public ResultModel getList(<%=StringUtil.ToPascalCase(Table.Name)%>Parameter.GetList getListParam, boolean isLog) {
+		ResultModel result = new ResultModel();
+
+		try {
+
+			JSONObject jsonObject = JSONObject.fromObject(getListParam);
+
+			result.setAddTime(DateUtils.getCurrentTime());
+			result.setId(Tools.getUUID());
+			result.setIncomeValue(jsonObject.toString());
+            result.setIncomeCount(0);
+			result.setObjectId("");
+			result.setTableName(this.getClass().getSimpleName());
+			result.setOperTypeCode(OperType.GETLIST.getCode());
+            result.setOperTypeText(OperType.GETLIST.getText());
+			result.setRemark("");
+			
+
+			<%=StringUtil.ToPascalCase(Table.Name)%>Parameter.GetList.EntityRelated entityRelated = getListParam.getEntityRelated();
+			<%=StringUtil.ToPascalCase(Table.Name)%>Parameter.GetList.Page page = getListParam.getPage();
+			ArrayList<<%=StringUtil.ToPascalCase(Table.Name)%>Parameter.GetList.Order> orderList = getListParam.getOrderList();
+
+			Map<String, Object> map = new HashMap<String, Object>();
+			if (entityRelated != null)
+				map.put("EntityRelated", entityRelated);
+			if (page != null) {
+				map.put("Page", page);
+			}
+			if (orderList != null) {
+				map.put("OrderList", orderList);
+			}
+
+			PageHelper.startPage(page.getPageIndex(), page.getPageSize());
+
+			List<<%=StringUtil.ToPascalCase(Table.Name)%>> list = baseUntDal.getList(map);
+			PageInfo<<%=StringUtil.ToPascalCase(Table.Name)%>> pageInfo = new PageInfo<<%=StringUtil.ToPascalCase(Table.Name)%>>(list);
+			List<<%=StringUtil.ToPascalCase(Table.Name)%>> modelList = pageInfo.getList();
+
+			result.setReturnValue(JSONArray.fromObject(modelList).toString());
+			result.setData(modelList);
+			result.setTotalCount(pageInfo.getTotal());
+			result.setResultCode(OperResult.GETLIST_S.getCode());
+			result.setResultMessage(OperResult.GETLIST_S.getText());
+			result.setIsSuccessCode(CustomSymbolic.DCODE_BOOLEAN_T);
+		} catch (Exception e) {
+			result.setIsSuccessCode(CustomSymbolic.DCODE_BOOLEAN_F);
+			result.setResultCode(OperResult.GETLIST_F.getCode());
+			result.setResultMessage(OperResult.GETLIST_F.getText() );
+			result.setReturnValue(e.getMessage());
+            result.setOriginException(e);
+			GlobalException globalException = new GlobalException();
+			globalException.setResultModel(result);
+			throw globalException;
+		} finally {
+			if (isLog)
+				addOperationLog(result);
+		}
+		return result;
+	}
+		<%
+int foreignKeyCount=0;
+for (int i = 0; i<Table.Keys.Count; i++) {
+
+    TableSchema parentTable = Table.Keys[i].PrimaryKeyTable;
+    ColumnSchema parentColumn = Table.Keys[i].ForeignKeyMemberColumns[0].Column;
+
+    TableSchema clildTable = Table.Keys[i].ForeignKeyTable;
+    ColumnSchema childCoumn = Table.Keys[i].ForeignKeyMemberColumns[0].Column;
+        //逻辑只处理子表中的记录，不处理父表。同时排除一对一时主键即外键的情况
+        if (Table.Name != parentTable.Name &&childCoumn.Name!=Table.PrimaryKey.MemberColumns[0].Name){
+            foreignKeyCount++;
+ %>
+ 
+ 	public ResultModel deleteBy<%=StringUtil.ToPascalCase(childCoumn.Name)%>(String <%=StringUtil.ToCamelCase(childCoumn.Name)%>) {
+		return deleteBy<%=StringUtil.ToPascalCase(childCoumn.Name)%>(<%=StringUtil.ToCamelCase(childCoumn.Name)%>, isLogRead);
+	}
+
+	public ResultModel deleteBy<%=StringUtil.ToPascalCase(childCoumn.Name)%>(String <%=StringUtil.ToCamelCase(childCoumn.Name)%>, boolean isLog) {
+		ResultModel result = new ResultModel();
+		try {
+			result.setAddTime(DateUtils.getCurrentTime());
+			result.setId(Tools.getUUID());
+			result.setIncomeValue(<%=StringUtil.ToCamelCase(childCoumn.Name)%>);
+			result.setIncomeCount(0);
+            result.setTableName(this.getClass().getSimpleName());
+			result.setOperTypeCode(OperType.DELETE.getCode());
+			result.setOperTypeText(OperType.DELETE.getText());
+			result.setRemark("根据外键，删除中间表数据。");
+
+			int i = <%=StringUtil.ToCamelCase(Table.Name)%>UntDal.deleteBy<%=StringUtil.ToPascalCase(childCoumn.Name)%>( <%=StringUtil.ToCamelCase(childCoumn.Name)%>);
+
+			result.setReturnValue(String.valueOf(i));
+			result.setData(i);
+			result.setTotalCount(new Long(i));
+			result.setResultCode(OperResult.DELETE_S.getCode());
+			result.setResultMessage(OperResult.DELETE_S.getText());
+			result.setIsSuccessCode(CustomSymbolic.DCODE_BOOLEAN_T);
+			
+		} catch (Exception e) {
+			result.setIsSuccessCode(CustomSymbolic.DCODE_BOOLEAN_F);
+			result.setResultCode(OperResult.DELETE_F.getCode());
+			result.setResultMessage(OperResult.DELETE_F.getText() );
+			result.setReturnValue(e.getMessage());
+            result.setOriginException(e);
+			GlobalException globalException = new GlobalException();
+			globalException.setResultModel(result);
+			throw globalException;
+		} finally {
+			if (isLog)
+				addOperationLog(result);
+		}
+
+		return result;
+	}
+
+
+ 	public ResultModel deleteBy<%=StringUtil.ToPascalCase(childCoumn.Name)%>List(ArrayList<String> <%=StringUtil.ToCamelCase(childCoumn.Name)%>List) {
+		return deleteBy<%=StringUtil.ToPascalCase(childCoumn.Name)%>List(<%=StringUtil.ToCamelCase(childCoumn.Name)%>List, isLogRead);
+	}
+
+	public ResultModel deleteBy<%=StringUtil.ToPascalCase(childCoumn.Name)%>List(ArrayList<String> <%=StringUtil.ToCamelCase(childCoumn.Name)%>List, boolean isLog) {
+		ResultModel result = new ResultModel();
+		try {
+			result.setAddTime(DateUtils.getCurrentTime());
+			result.setId(Tools.getUUID());
+			result.setIncomeValue(JSONArray.fromObject( <%=StringUtil.ToCamelCase(childCoumn.Name)%>List).toString());
+			result.setIncomeCount(0);
+            result.setObjectId("");
+			result.setTableName(this.getClass().getSimpleName());
+			result.setOperTypeCode(OperType.DELETELIST.getCode());
+			result.setOperTypeText(OperType.DELETELIST.getText());
+			result.setRemark("根据外键列表，批量删除本表数据。");
+
+			int i = <%=StringUtil.ToCamelCase(Table.Name)%>UntDal.deleteBy<%=StringUtil.ToPascalCase(childCoumn.Name)%>List(<%=StringUtil.ToCamelCase(childCoumn.Name)%>List);
+
+			result.setReturnValue(String.valueOf(i));
+			result.setData(i);
+			result.setTotalCount(new Long(i));
+			result.setResultCode(OperResult.DELETELIST_S.getCode());
+			result.setResultMessage(OperResult.DELETELIST_S.getText());
+			result.setIsSuccessCode(CustomSymbolic.DCODE_BOOLEAN_T);
+			
+		} catch (Exception e) {
+			result.setIsSuccessCode(CustomSymbolic.DCODE_BOOLEAN_F);
+			result.setResultCode(OperResult.DELETELIST_F.getCode());
+			result.setResultMessage(OperResult.DELETELIST_F.getText() );
+			result.setReturnValue(e.getMessage());
+            result.setOriginException(e);
+			GlobalException globalException = new GlobalException();
+			globalException.setResultModel(result);
+			throw globalException;
+		} finally {
+			if (isLog)
+				addOperationLog(result);
+		}
+
+		return result;
+	}
+
+
+	public ResultModel getListBy<%=StringUtil.ToPascalCase(childCoumn.Name)%>(String <%=StringUtil.ToCamelCase(childCoumn.Name)%>) {
+		return getListBy<%=StringUtil.ToPascalCase(childCoumn.Name)%>(<%=StringUtil.ToCamelCase(childCoumn.Name)%>, isLogRead);
+	}
+
+	public ResultModel getListBy<%=StringUtil.ToPascalCase(childCoumn.Name)%>(String <%=StringUtil.ToCamelCase(childCoumn.Name)%>, boolean isLog) {
+		ResultModel result = new ResultModel();
+		try {
+			result.setAddTime(DateUtils.getCurrentTime());
+			result.setId(Tools.getUUID());
+			result.setIncomeValue(<%=StringUtil.ToCamelCase(childCoumn.Name)%>);
+            result.setIncomeCount(0);
+			result.setTableName(this.getClass().getSimpleName());
+			result.setOperTypeCode(OperType.GETLISTBYFOREIGNKEY.getCode());
+			result.setOperTypeText(OperType.GETLISTBYFOREIGNKEY.getText());
+			result.setRemark("根据外键，查询中间表。");
+
+			List<<%=StringUtil.ToPascalCase(Table.Name)%>> modelList = <%=StringUtil.ToCamelCase(Table.Name)%>UntDal.getListBy<%=StringUtil.ToPascalCase(childCoumn.Name)%>(<%=StringUtil.ToCamelCase(childCoumn.Name)%>);
+
+			result.setReturnValue(JSONArray.fromObject(modelList).toString());
+			result.setData(modelList);
+			result.setTotalCount(modelList.size());
+			result.setResultCode(OperResult.GETLISTBYFOREIGNKEY_S.getCode());
+			result.setResultMessage(OperResult.GETLISTBYFOREIGNKEY_S.getText());
+			result.setIsSuccessCode(CustomSymbolic.DCODE_BOOLEAN_T);
+		} catch (Exception e) {
+			result.setIsSuccessCode(CustomSymbolic.DCODE_BOOLEAN_F);
+			result.setResultCode(OperResult.GETLISTBYFOREIGNKEY_F.getCode());
+			result.setResultMessage(OperResult.GETLISTBYFOREIGNKEY_F.getText() );
+			result.setReturnValue(e.getMessage());
+            result.setOriginException(e);
+			GlobalException globalException = new GlobalException();
+			globalException.setResultModel(result);
+			throw globalException;
+		} finally {
+			if (isLog)
+				addOperationLog(result);
+		}
+
+		return result;
+	}
+<%
+}}
+//如果外键个数大于1个，则生成根据外键删除的方法
+    if (foreignKeyCount>1) {
+ %>
+ 
+ 	public ResultModel deleteByCompositeIdList(ArrayList<<%=StringUtil.ToPascalCase(Table.Name)%>> <%=StringUtil.ToCamelCase(Table.Name)%>List) {
+		return deleteByCompositeIdList(<%=StringUtil.ToCamelCase(Table.Name)%>List, isLogWrite);
+	}
+
+	public ResultModel deleteByCompositeIdList(ArrayList<<%=StringUtil.ToPascalCase(Table.Name)%>> <%=StringUtil.ToCamelCase(Table.Name)%>List, boolean isLog) {
+		ResultModel result = new ResultModel();
+		if (<%=StringUtil.ToCamelCase(Table.Name)%>List == null || <%=StringUtil.ToCamelCase(Table.Name)%>List.isEmpty()) {
+			result.setResultCode(OperResult.ADDLIST_F.getCode());
+			result.setResultMessage("传入的为空数组！");
+			return result;
+		}
+
+		try {
+			result.setId(Tools.getUUID());
+			result.setIncomeValue(JSONArray.fromObject(<%=StringUtil.ToCamelCase(Table.Name)%>List).toString());
+			result.setIncomeCount(0);
+            result.setAddTime(DateUtils.getCurrentTime());
+			result.setTableName(this.getClass().getSimpleName());
+			result.setOperTypeCode(OperType.DELETELIST.getCode());
+			result.setOperTypeText(OperType.DELETELIST.getText());
+			result.setRemark("");
+
+			int i = <%=StringUtil.ToCamelCase(Table.Name)%>UntDal.deleteByCompositeIdList(<%=StringUtil.ToCamelCase(Table.Name)%>List);
+
+			result.setReturnValue(String.valueOf(i));
+			result.setData(i);
+			result.setTotalCount(new Long(i));
+			result.setResultCode(OperResult.DELETELIST_S.getCode());
+			result.setResultMessage(OperResult.DELETELIST_S.getText());
+			result.setIsSuccessCode(CustomSymbolic.DCODE_BOOLEAN_T);
+		} catch (Exception e) {
+			result.setIsSuccessCode(CustomSymbolic.DCODE_BOOLEAN_F);
+			result.setResultCode(OperResult.DELETELIST_F.getCode());
+			result.setResultMessage(OperResult.DELETELIST_F.getText() );
+			result.setReturnValue(e.getMessage());
+            result.setOriginException(e);
+			GlobalException globalException = new GlobalException();
+			globalException.setResultModel(result);
+			throw globalException;
+		} finally {
+			if (isLog)
+				addOperationLog(result);
+		}
+
+		return result;
+
+	}
+   
+<%}
+
+   %>
+
+<%foreach(ColumnSchema col in Table.Columns){ 
+  if(col.IsUnique&&(!col.IsPrimaryKeyMember)){
+%>
+
+	public ResultModel deleteBy<%=StringUtil.ToPascalCase(col.Name)%>(String <%=StringUtil.ToCamelCase(col.Name)%>){
+		return deleteBy<%=StringUtil.ToPascalCase(col.Name)%>( <%=StringUtil.ToCamelCase(col.Name)%>, isLogRead);
+	}
+
+	public ResultModel deleteBy<%=StringUtil.ToPascalCase(col.Name)%>(String <%=StringUtil.ToCamelCase(col.Name)%>, boolean isLog) {
+		ResultModel result = new ResultModel();
+
+		try {
+			result.setAddTime(DateUtils.getCurrentTime());
+			result.setId(Tools.getUUID());
+			result.setIncomeValue(<%=StringUtil.ToCamelCase(col.Name)%>);
+			result.setIncomeCount(1);
+			
+			result.setTableName(this.getClass().getSimpleName());
+			result.setOperTypeCode(OperType.DELETEBYUNIQUE.getCode());
+			result.setOperTypeText(OperType.DELETEBYUNIQUE.getText());
+			result.setRemark("");
+
+			int i = <%=StringUtil.ToCamelCase(Table.Name)%>UntDal.deleteBy<%=StringUtil.ToPascalCase(col.Name)%>(<%=StringUtil.ToCamelCase(col.Name)%>);
+
+            result.setReturnValue(String.valueOf(i));
+			result.setData(i);
+			result.setTotalCount(new Long(i));
+			result.setResultCode(OperResult.DELETEBYUNIQUE_S.getCode());
+			result.setResultMessage(OperResult.DELETEBYUNIQUE_S.getText());
+			result.setIsSuccessCode(CustomSymbolic.DCODE_BOOLEAN_T);
+		} catch (Exception e) {
+			result.setReturnValue(e.getMessage());
+			result.setOriginException(e);
+			GlobalException globalException = new GlobalException();
+			globalException.setResultModel(result);
+			result.setIsSuccessCode(CustomSymbolic.DCODE_BOOLEAN_F);
+			result.setResultCode(OperResult.DELETEBYUNIQUE_F.getCode());
+			result.setResultMessage(OperResult.DELETEBYUNIQUE_F.getText());
+			throw globalException;
+
+		} finally {
+			if (isLog)
+				addOperationLog(result);
+		}
+		return result;
+	}
+    
+
+	public ResultModel getModelBy<%=StringUtil.ToPascalCase(col.Name)%>(String <%=StringUtil.ToCamelCase(col.Name)%>){
+		return getModelBy<%=StringUtil.ToPascalCase(col.Name)%>( <%=StringUtil.ToCamelCase(col.Name)%>, isLogRead);
+	}
+
+	public ResultModel getModelBy<%=StringUtil.ToPascalCase(col.Name)%>(String <%=StringUtil.ToCamelCase(col.Name)%>, boolean isLog) {
+		ResultModel result = new ResultModel();
+
+		try {
+			result.setAddTime(DateUtils.getCurrentTime());
+			result.setId(Tools.getUUID());
+			result.setIncomeValue(<%=StringUtil.ToCamelCase(col.Name)%>);
+			result.setIncomeCount(0);
+			
+			result.setTableName(this.getClass().getSimpleName());
+			result.setOperTypeCode(OperType.GETMODELBYUNIQUE.getCode());
+			result.setOperTypeText(OperType.GETMODELBYUNIQUE.getText());
+			result.setRemark("");
+
+			<%=StringUtil.ToPascalCase(Table.Name)%> t = <%=StringUtil.ToCamelCase(Table.Name)%>UntDal.getModelBy<%=StringUtil.ToPascalCase(col.Name)%>(<%=StringUtil.ToCamelCase(col.Name)%>);
+
+			result.setData(t);
+			result.setTotalCount(new Long(1));
+			result.setResultCode(OperResult.GETMODELBYUNIQUE_S.getCode());
+			result.setResultMessage(OperResult.GETMODELBYUNIQUE_S.getText());
+			result.setIsSuccessCode(CustomSymbolic.DCODE_BOOLEAN_T);
+			if (t == null)
+				result.setTotalCount(0);
+			else{
+				result.setObjectId(t.getId());
+				result.setReturnValue(JSONObject.fromObject(t).toString());
+            }
+		} catch (Exception e) {
+
+			result.setReturnValue(e.getMessage());
+			result.setOriginException(e);
+			GlobalException globalException = new GlobalException();
+			globalException.setResultModel(result);
+			result.setIsSuccessCode(CustomSymbolic.DCODE_BOOLEAN_F);
+			result.setResultCode(OperResult.GETMODELBYUNIQUE_F.getCode());
+			result.setResultMessage(OperResult.GETMODELBYUNIQUE_F.getText());
+			throw globalException;
+
+		} finally {
+			if (isLog)
+				addOperationLog(result);
+		}
+		return result;
+	}
+    
+   public ResultModel isUnique<%=StringUtil.ToPascalCase(col.Name)%>(String <%=StringUtil.ToCamelCase(col.Name)%>){
+		return isUnique<%=StringUtil.ToPascalCase(col.Name)%>(<%=StringUtil.ToCamelCase(col.Name)%>, isLogRead);
+	}
+
+	public ResultModel isUnique<%=StringUtil.ToPascalCase(col.Name)%>(String <%=StringUtil.ToCamelCase(col.Name)%>, boolean isLog) {
+		ResultModel result = new ResultModel();
+
+		try {
+			result.setAddTime(DateUtils.getCurrentTime());
+			result.setId(Tools.getUUID());
+			result.setIncomeValue(<%=StringUtil.ToCamelCase(col.Name)%>);
+			result.setIncomeCount(0);
+			result.setObjectId(null);
+			result.setTableName(this.getClass().getSimpleName());
+			result.setOperTypeCode(OperType.ISUNIQUE.getCode());
+			result.setOperTypeText(OperType.ISUNIQUE.getText());
+			result.setRemark("");
+
+			int i = <%=StringUtil.ToCamelCase(Table.Name)%>UntDal.isUnique<%=StringUtil.ToPascalCase(col.Name)%>(<%=StringUtil.ToCamelCase(col.Name)%>);
+
+			result.setTotalCount(i);
+            result.setReturnValue(String.valueOf(i));
+			result.setResultCode(OperResult.ISUNIQUE_S.getCode());
+			result.setResultMessage(OperResult.ISUNIQUE_S.getText());
+			result.setIsSuccessCode(CustomSymbolic.DCODE_BOOLEAN_T);
+			if (i == 0){
+                result.setData(true);
+            }else{
+                result.setData(false);
+				
+            }
+		} catch (Exception e) {
+
+			result.setReturnValue(e.getMessage());
+			result.setOriginException(e);
+			GlobalException globalException = new GlobalException();
+			globalException.setResultModel(result);
+			result.setIsSuccessCode(CustomSymbolic.DCODE_BOOLEAN_F);
+			result.setResultCode(OperResult.ISUNIQUE_F.getCode());
+			result.setResultMessage(OperResult.ISUNIQUE_F.getText());
+			throw globalException;
+
+		} finally {
+			if (isLog)
+				addOperationLog(result);
+		}
+		return result;
+	}
+<%}}%>
+
+}
+
+
+
+
+

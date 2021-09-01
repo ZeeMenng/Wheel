@@ -1,0 +1,55 @@
+﻿<%@ CodeTemplate Inherits="CodeTemplate" TargetLanguage="java" Language="C#" Description="NetTiers main template." Debug="True" ResponseEncoding="UTF-8" %>
+
+<%@ Assembly Name="SchemaExplorer" %>
+<%@ Assembly Name="CustomCodeSmithHelper" %>
+
+<%@ Import Namespace="SchemaExplorer" %>
+<%@ Import Namespace="CustomCodeSmithHelper" %>
+
+<%-- 要打印的表 --%>
+<%@ Property Name="Table" Type="TableSchema" DeepLoad="True" Optional="False" Category="01. Getting Started - Required"Description="Database that the tables views, and stored procedures shouldbe based on. IMPORTANT!!! If SourceTables and SourceViews are left blank, theEntire Database will then be generated." %>
+<%@ Property Name="DeveloperName" Type="String" Category="Context" Description="The name to include in the comment header" %>
+<%@ Property Name="ModulePackageName" Type="String" Category="Context" Description="The name to include in the comment header" %>
+
+package com.zee.dao.split.<%=ModulePackageName%>;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import com.zee.dao.split.base.IBaseSplDal;
+import com.zee.ent.extend.<%=ModulePackageName%>.<%=StringUtil.ToPascalCase(Table.Name)%>;
+
+
+
+/**
+ * @author <%= DeveloperName%>
+ * @createDate 2017/05/22 14:01:41
+ * @updateDate <%= DateTime.Now %>
+ * @description 扩展自实体类IBaseUntDal<<%=StringUtil.ToPascalCase(Table.Name)%>>，可手动更改。<%=Table.Description%>
+ */
+
+public interface I<%=StringUtil.ToPascalCase(Table.Name)%>SplDal extends IBaseSplDal {
+
+	public int add(<%=StringUtil.ToPascalCase(Table.Name)%> <%=StringUtil.ToCamelCase(Table.Name)%>);
+
+	public int addList(ArrayList<<%=StringUtil.ToPascalCase(Table.Name)%>> <%=StringUtil.ToCamelCase(Table.Name)%>List);
+
+	public int delete(String id);
+
+	public int deleteByIdList(ArrayList<String> idList);
+
+	public int update(<%=StringUtil.ToPascalCase(Table.Name)%> <%=StringUtil.ToCamelCase(Table.Name)%>);
+
+	public <%=StringUtil.ToPascalCase(Table.Name)%> getModel(String id);
+
+	public List<<%=StringUtil.ToPascalCase(Table.Name)%>> getList(Map<String, Object> map);
+
+	public List<Map<String, Object>> getListBySQL(String sql);
+
+}
+
+
+
+
+

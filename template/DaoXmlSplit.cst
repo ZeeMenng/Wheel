@@ -1,0 +1,237 @@
+﻿<%@ CodeTemplate Inherits="CodeTemplate" TargetLanguage="XML" Language="C#" Description="NetTiers main template." Debug="True" ResponseEncoding="UTF-8" %>
+
+<%@ Assembly Name="SchemaExplorer" %>
+<%@ Assembly Name="CustomCodeSmithHelper" %>
+
+<%@ Import Namespace="SchemaExplorer" %>
+<%@ Import Namespace="CustomCodeSmithHelper" %>
+
+<%-- 要打印的表 --%>
+<%@ Property Name="Table" Type="TableSchema" DeepLoad="True" Optional="False" Category="01. Getting Started - Required"Description="Database that the tables views, and stored procedures shouldbe based on. IMPORTANT!!! If SourceTables and SourceViews are left blank, theEntire Database will then be generated." %>
+<%@ Property Name="DeveloperName" Type="String" Category="Context" Description="The name to include in the comment header" %>
+<%@ Property Name="ModulePackageName" Type="String" Category="Context" Description="The name to include in the comment header" %>
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zee.dao.split.<%=ModulePackageName%>.I<%=StringUtil.ToPascalCase(Table.Name)%>SplDal" >
+
+  <resultMap id="BaseResultMap" type="com.zee.ent.extend.<%=ModulePackageName%>.<%=StringUtil.ToPascalCase(Table.Name)%>" >
+          <%foreach(ColumnSchema col in Table.Columns){ %> 
+           <% if(col.IsPrimaryKeyMember == true){%> 
+              <id column="<%= col.Name %>" property="<%=JavaUtility.GetPropertyName(col.Name)%>" jdbcType="<%= JavaUtility.DataType2JDBCType(col.DataType)%>" />
+           <% }else{ %>
+              <result column="<%= col.Name %>" property="<%=JavaUtility.GetPropertyName(col.Name)%>" jdbcType="<%= JavaUtility.DataType2JDBCType(col.DataType)%>" />
+           <%}%>
+          <%}%>
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+        <%= JavaUtility.GetColNameList(Table.Columns.ToArray()) %>
+  </sql>
+  
+  <insert id="add" parameterType="com.zee.ent.extend.<%=ModulePackageName%>.<%=StringUtil.ToPascalCase(Table.Name)%>" >
+    insert into <%= Table%>
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <%foreach(ColumnSchema col in Table.Columns){ %>
+         <%if(JavaUtility.DataType2JavaType(col.DataType) == "String"){%>
+          <if test="<%=JavaUtility.GetPropertyName(col.Name)%> != null and <%=JavaUtility.GetPropertyName(col.Name)%> != '' " >
+              <%= col.Name %>,
+          </if>
+      
+     <%}else{%>
+          <if test="<%=JavaUtility.GetPropertyName(col.Name)%> != null " >
+              <%= col.Name %>,
+          </if>
+    <%}}%>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <%foreach(ColumnSchema col in Table.Columns){ %>
+        <%if(JavaUtility.DataType2JavaType(col.DataType) == "String"){%>
+          <if test="<%=JavaUtility.GetPropertyName(col.Name)%> != null and <%=JavaUtility.GetPropertyName(col.Name)%> != '' " >
+              #{<%=JavaUtility.GetPropertyName(col.Name)%>,jdbcType=<%= JavaUtility.DataType2JDBCType(col.DataType)%>},
+          </if>
+      <%}else{%>
+          <if test="<%= JavaUtility.GetPropertyName(col.Name) %> != null " >
+              #{<%= JavaUtility.GetPropertyName(col.Name) %>,jdbcType=<%= JavaUtility.DataType2JDBCType(col.DataType)%>},
+          </if>
+        <%}}%>
+    </trim>
+  </insert>
+  
+ 
+    <insert id="addList" parameterType="list">
+    	insert into <%= Table%>
+    	<trim prefix="(" suffix=")">
+    		<include refid="Base_Column_List" />
+    	</trim>
+    	values
+    	<foreach collection="list" item="<%=StringUtil.ToCamelCase(Table.Name)%>" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides="," >
+
+        <%foreach(ColumnSchema col in Table.Columns){ %>
+      
+          #{<%=StringUtil.ToCamelCase(Table.Name)%>.<%=JavaUtility.GetPropertyName(col.Name)%>,jdbcType=<%= JavaUtility.DataType2JDBCType(col.DataType)%>},
+
+        <%}%>
+
+        </trim>
+    	</foreach>
+    </insert>
+
+  
+  
+  <delete id="delete" parameterType="java.lang.String" >
+    <%foreach(ColumnSchema col in Table.Columns){ %> 
+           <% if(col.IsPrimaryKeyMember == true){%> 
+                 delete from <%= Table%>
+                 where  <%= col.Name %> = #{<%= JavaUtility.GetPropertyName(col.Name) %>,jdbcType=<%= JavaUtility.DataType2JDBCType(col.DataType)%>}
+           <%}%>
+    <%}%>
+  </delete>
+  
+	<delete id="deleteByIdList" parameterType="list">
+        <%foreach(ColumnSchema col in Table.Columns){ %> 
+           <% if(col.IsPrimaryKeyMember == true){%> 
+		delete from <%=Table.Name %>
+		where <%= col.Name %>  in
+		<foreach collection="list" item="<%= col.Name %> " index="index" open="(" close=")" separator=",">
+			#{<%= col.Name %> }
+		</foreach>
+     <%}%>
+    <%}%>
+	</delete>
+  
+  <update id="update" parameterType="com.zee.ent.extend.<%=ModulePackageName%>.<%=StringUtil.ToPascalCase(Table.Name)%>" >
+    update <%= Table%>
+    <set >
+         <%foreach(ColumnSchema col in Table.Columns){ %> 
+            <% if(col.IsPrimaryKeyMember == false){%> 
+              <%if(JavaUtility.DataType2JavaType(col.DataType) == "String"){%>
+                  <if test="<%= JavaUtility.GetPropertyName(col.Name) %> != null  and <%= JavaUtility.GetPropertyName(col.Name) %> != '' " >
+                     <%= col.Name %> = #{<%= JavaUtility.GetPropertyName(col.Name) %>,jdbcType=<%= JavaUtility.DataType2JDBCType(col.DataType)%>},
+                  </if>
+              <%}else{%>
+                  <if test="<%= StringUtil.ToCamelCase(col.Name) %> != null ">
+                     <%= col.Name %> = #{<%= JavaUtility.GetPropertyName(col.Name) %>,jdbcType=<%= JavaUtility.DataType2JDBCType(col.DataType)%>},
+                  </if>
+              <%}%>
+          <%}%>
+        <%}%>
+   </set>
+   <%foreach(ColumnSchema col in Table.Columns){ %> 
+           <% if(col.IsPrimaryKeyMember == true){%> 
+                 where  <%= col.Name %> = #{<%= JavaUtility.GetPropertyName(col.Name) %>,jdbcType=<%= JavaUtility.DataType2JDBCType(col.DataType)%>}
+           <%}%>
+    <%}%>
+</update>
+  
+<update id="updateList">
+    update <%= Table%>
+    <set >
+         <%foreach(ColumnSchema col in Table.Columns){ %> 
+            <% if(col.IsPrimaryKeyMember == false){%> 
+              <%if(JavaUtility.DataType2JavaType(col.DataType) == "String"){%>
+                  <if test="t.<%= JavaUtility.GetPropertyName(col.Name) %> != null  and t.<%= JavaUtility.GetPropertyName(col.Name) %> != '' " >
+                     <%= col.Name %> = #{t.<%= JavaUtility.GetPropertyName(col.Name) %>,jdbcType=<%= JavaUtility.DataType2JDBCType(col.DataType)%>},
+                  </if>
+              <%}else{%>
+                  <if test="t.<%= StringUtil.ToCamelCase(col.Name) %> != null ">
+                     <%= col.Name %> = #{t.<%= JavaUtility.GetPropertyName(col.Name) %>,jdbcType=<%= JavaUtility.DataType2JDBCType(col.DataType)%>},
+                  </if>
+              <%}%>
+          <%}%>
+        <%}%>
+   </set>
+   <%foreach(ColumnSchema col in Table.Columns){ %> 
+        <% if(col.IsPrimaryKeyMember == true){%> 
+	
+		where <%= col.Name %>  in
+		<foreach collection="idList" item="<%= col.Name %> " index="index" open="(" close=")" separator=",">
+			#{<%= col.Name %> }
+		</foreach>
+     <%}%>
+    <%}%>
+</update>
+  
+  <select id="getModel" resultMap="BaseResultMap" parameterType="java.lang.String" >
+          select 
+                 <include refid="Base_Column_List" />
+          from <%= Table%>
+     <%foreach(ColumnSchema col in Table.Columns){ %> 
+           <% if(col.IsPrimaryKeyMember){%> 
+           where  <%= col.Name %> = #{<%= JavaUtility.GetPropertyName(col.Name) %>,jdbcType=<%= JavaUtility.DataType2JDBCType(col.DataType)%>}
+           <%}%>
+    <%}%>
+  </select>
+  
+  <select id="getList" resultMap="BaseResultMap" parameterType="map" >
+          select
+                <include refid="Base_Column_List" />
+          from <%= Table%> where 1 = 1
+        <if test="EntityRelated.id != null and EntityRelated.id != '' ">
+			and id LIKE CONCAT('%',#{EntityRelated.id,jdbcType=VARCHAR},'%')
+		</if>
+
+        <%
+
+    //获取数据表的所有列，并按字母排序
+    ColumnSchemaCollection columns = Table.Columns;
+    ColumnNameComparer com = new ColumnNameComparer();
+    columns.Sort(com);
+
+    for (int i = 0; i<columns.Count; i++) {
+        ColumnSchema col = columns[i];
+        if (col.Name.EndsWith("id")) {
+            Response.WriteLine("		<if test=\"EntityRelated." + JavaUtility.GetPropertyName(col.Name) + " != null and EntityRelated." + JavaUtility.GetPropertyName(col.Name) + " != '' \">");
+            Response.WriteLine("				and " + col.Name + " = #{EntityRelated." + JavaUtility.GetPropertyName(col.Name) + ",jdbcType=VARCHAR} ");
+            Response.WriteLine("		</if>");
+        }
+        else if (col.Name.EndsWith("_code")) {
+            Response.WriteLine("		<if test=\"EntityRelated." + JavaUtility.GetPropertyName(col.Name )+ " != null\">");
+            Response.WriteLine("				and " + col.Name  + " = #{EntityRelated." + JavaUtility.GetPropertyName(col.Name) + ",jdbcType=TINYINT} ");
+            Response.WriteLine("		</if>");
+        }
+        else if (JavaUtility.DataType2JavaType(col.DataType) == "Date") {
+
+            Response.WriteLine("		<if test=\"EntityRelated.begin" + JavaUtility.GetPropertyName_Upper(col.Name) + " != null \">");
+            Response.WriteLine("				<![CDATA[ AND  unix_timestamp(" + col.Name + ")>=unix_timestamp(#{EntityRelated.begin" + JavaUtility.GetPropertyName_Upper(col.Name) + "})]]> ");
+            Response.WriteLine("		</if>");
+
+            Response.WriteLine("		<if test=\"EntityRelated.end" + JavaUtility.GetPropertyName_Upper(col.Name) + " != null \">");
+            Response.WriteLine("				<![CDATA[ AND  unix_timestamp(" + col.Name + ")<unix_timestamp(#{EntityRelated.end" + JavaUtility.GetPropertyName_Upper(col.Name) + "})]]> ");
+            Response.WriteLine("		</if>");
+            continue ;
+        }
+        else if(JavaUtility.DataType2JavaType(col.DataType) == "String") {
+            Response.WriteLine("		<if test=\"EntityRelated." + JavaUtility.GetPropertyName(col.Name) + " != null and EntityRelated." + JavaUtility.GetPropertyName(col.Name) + " != '' \">");
+            Response.WriteLine(" 				and  " + col.Name + " LIKE CONCAT('%',#{EntityRelated." + JavaUtility.GetPropertyName(col.Name) + ",jdbcType=VARCHAR},'%') ");
+            Response.WriteLine("		</if>");
+        }
+
+    }
+    
+    %>
+
+
+		<if test="OrderList != null and OrderList!=null">
+			order by
+			<foreach collection="OrderList" item="Order" index="index" separator=",">
+				${Order.columnName}
+				<if test="Order.isASC">
+					ASC
+				</if>
+				<if test="!Order.isASC">
+					DESC
+				</if>
+			</foreach>
+		</if>
+  </select>
+  
+	<select id="getListBySQL" resultType="java.util.HashMap" parameterType="String">
+		<if test="value!=null and value!=''">
+			${value}
+		</if>
+	</select>
+
+  <cache />
+</mapper>

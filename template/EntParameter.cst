@@ -1,0 +1,147 @@
+﻿<%@ CodeTemplate Inherits="CodeTemplate" TargetLanguage="java" Language="C#" Description="NetTiers main template." Debug="True" ResponseEncoding="UTF-8" %>
+
+<%@ Assembly Name="SchemaExplorer" %>
+<%@ Assembly Name="CustomCodeSmithHelper" %>
+
+<%@ Import Namespace="SchemaExplorer" %>
+<%@ Import Namespace="CustomCodeSmithHelper" %>
+<%@ Import Namespace="System.Text" %>
+
+
+<%-- 要打印的表 --%>
+<%@ Property Name="Table" Type="TableSchema" DeepLoad="True" Optional="False" Category="01. Getting Started - Required"Description="Database that the tables views, and stored procedures shouldbe based on. IMPORTANT!!! If SourceTables and SourceViews are left blank, theEntire Database will then be generated." %>
+<%@ Property Name="DeveloperName" Type="String" Category="Context" Description="The name to include in the comment header" %>
+<%@ Property Name="ModulePackageName" Type="String" Category="Context" Description="The name to include in the comment header" %>
+
+package com.zee.ent.parameter.<%=ModulePackageName%>;
+
+import java.util.*;
+
+import com.zee.ent.extend.<%=ModulePackageName%>.<%=StringUtil.ToPascalCase(Table.Name)%>;
+import com.zee.ent.generate.<%=ModulePackageName%>.<%=StringUtil.ToPascalCase(Table.Name)%>GenEnt;
+import com.zee.ent.parameter.base.BaseParameter;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+
+
+/**
+ * @author <%= DeveloperName%>
+ * @createDate 2017/05/18 14:54:22
+ * @updateDate <%= DateTime.Now %>
+ * @description 实体类<%=StringUtil.ToPascalCase(Table.Name)%>Parameter，方法参数，自动生成。<%=Table.Description%>
+ */
+
+public class <%=StringUtil.ToPascalCase(Table.Name)%>Parameter extends BaseParameter {
+
+	@ApiModel(value = "<%=StringUtil.ToPascalCase(Table.Name)%>AddList", description = "批量添加<%=StringUtil.ToPascalCase(Table.Name)%>所需参数")
+	public static class AddList extends BaseParameter.BaseParamAddList {
+
+		@ApiModelProperty(value = "要新增的记录列表 ", required = false)
+		private ArrayList<<%=StringUtil.ToPascalCase(Table.Name)%>> entityList = new ArrayList<<%=StringUtil.ToPascalCase(Table.Name)%>>();
+
+		public ArrayList<<%=StringUtil.ToPascalCase(Table.Name)%>> getEntityList() {
+			return entityList;
+		}
+
+		public void setEntityList(ArrayList<<%=StringUtil.ToPascalCase(Table.Name)%>> entityList) {
+			this.entityList = entityList;
+		}
+
+	}
+
+	@ApiModel(value = "<%=StringUtil.ToPascalCase(Table.Name)%>DeleteByIdList", description = "批量删除<%=StringUtil.ToPascalCase(Table.Name)%>所需参数")
+	public static class DeleteByIdList extends BaseParameter.BaseParamDeleteByIdList {
+
+	}
+
+	@ApiModel(value = "<%=StringUtil.ToPascalCase(Table.Name)%>UpdateList", description = "批量修改<%=StringUtil.ToPascalCase(Table.Name)%>所需参数")
+	public static class UpdateList extends BaseParameter.BaseParamUpdateList {
+
+		@ApiModelProperty(value = "要修改为的信息承载实体 ", required = false)
+		private <%=StringUtil.ToPascalCase(Table.Name)%> entity = new <%=StringUtil.ToPascalCase(Table.Name)%>();
+
+		public <%=StringUtil.ToPascalCase(Table.Name)%> getEntity() {
+			return entity;
+		}
+
+		public void setEntity(<%=StringUtil.ToPascalCase(Table.Name)%> entity) {
+			this.entity = entity;
+		}
+
+	}
+
+	@ApiModel(value = "<%=StringUtil.ToPascalCase(Table.Name)%>GetList", description = "模糊查询<%=StringUtil.ToPascalCase(Table.Name)%>所需参数")
+	public static class GetList extends BaseParameter.BaseParamGetList {
+
+		@ApiModelProperty(value = "实体相关的查询条件 ", required = false)
+		private EntityRelated entityRelated = new EntityRelated();
+
+		public EntityRelated getEntityRelated() {
+			return entityRelated;
+		}
+
+		public void setEntityRelated(EntityRelated entityRelated) {
+			this.entityRelated = entityRelated;
+		}
+
+		@ApiModel(value = "<%=StringUtil.ToPascalCase(Table.Name)%>GetListEntityRelated", description = "模糊查询<%=StringUtil.ToPascalCase(Table.Name)%>所需的参数，实体类相关。")
+		public static class EntityRelated extends <%=StringUtil.ToPascalCase(Table.Name)%>GenEnt{
+        
+        <%
+        
+//获取数据表的所有列，并按字母排序
+ColumnSchemaCollection columns = Table.Columns;
+ColumnNameComparer com = new ColumnNameComparer();
+columns.Sort(com);
+
+for (int i = 0; i<columns.Count; i++) {
+      ColumnSchema col = columns[i];
+    
+    if (JavaUtility.DataType2JavaType(col.DataType) == "Date") {
+        Response.WriteLine("        @ApiModelProperty(value=\""+col.Description+"查询起止时间。\",required=false)");
+        Response.WriteLine("		private Date begin" + JavaUtility.GetPropertyName_Upper(col.Name) + ";");
+        Response.WriteLine();
+        Response.WriteLine("        @ApiModelProperty(value=\""+col.Description+"查询结束时间。\",required=false)");
+        Response.WriteLine("		private Date end" + JavaUtility.GetPropertyName_Upper(col.Name) + ";");
+        Response.WriteLine();
+        continue;
+    }
+
+  
+}        for (int i = 0; i<columns.Count; i++) {
+    ColumnSchema col = columns[i];
+
+
+    if (JavaUtility.DataType2JavaType(col.DataType) == "Date") {
+
+    %>
+		public Date getBegin<%=JavaUtility.GetPropertyName_Upper(col.Name)%>() {
+			return this.begin<%=JavaUtility.GetPropertyName_Upper(col.Name)%>;
+		}
+        
+		public void setBegin<%=JavaUtility.GetPropertyName_Upper(col.Name)%>(Date begin<%=JavaUtility.GetPropertyName_Upper(col.Name)%>) {
+			this.begin<%=JavaUtility.GetPropertyName_Upper(col.Name)%> = begin<%=JavaUtility.GetPropertyName_Upper(col.Name)%>;
+		}
+        
+        public Date getEnd<%=JavaUtility.GetPropertyName_Upper(col.Name)%>() {
+			return this.end<%=JavaUtility.GetPropertyName_Upper(col.Name)%>;
+		}
+        
+		public void setEnd<%=JavaUtility.GetPropertyName_Upper(col.Name)%>(Date end<%=JavaUtility.GetPropertyName_Upper(col.Name)%>) {
+			this.end<%=JavaUtility.GetPropertyName_Upper(col.Name)%> = end<%=JavaUtility.GetPropertyName_Upper(col.Name)%>;
+		}
+        
+ <%}} %>
+		}
+	}
+
+}
+
+
+
+
+
+
+

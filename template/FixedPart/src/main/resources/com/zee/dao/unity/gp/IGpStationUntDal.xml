@@ -1,0 +1,478 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zee.dao.unity.gp.IGpStationUntDal" >
+
+  <resultMap id="BaseResultMap" type="com.zee.ent.extend.gp.GpStation" >
+              <id column="id" property="id" jdbcType="VARCHAR" />
+              <result column="serial_no" property="serialNo" jdbcType="VARCHAR" />
+              <result column="organization_id" property="organizationId" jdbcType="VARCHAR" />
+              <result column="name" property="name" jdbcType="VARCHAR" />
+              <result column="responsibility" property="responsibility" jdbcType="VARCHAR" />
+              <result column="remark" property="remark" jdbcType="VARCHAR" />
+              <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+              <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+        id,serial_no,organization_id,name,responsibility,remark,add_time,update_time
+  </sql>
+  
+  <insert id="add" parameterType="com.zee.ent.extend.gp.GpStation" >
+    insert into gp_station
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+          <if test="id != null and id != '' " >
+              id,
+          </if>
+      
+          <if test="serialNo != null and serialNo != '' " >
+              serial_no,
+          </if>
+      
+          <if test="organizationId != null and organizationId != '' " >
+              organization_id,
+          </if>
+      
+          <if test="name != null and name != '' " >
+              name,
+          </if>
+      
+          <if test="responsibility != null and responsibility != '' " >
+              responsibility,
+          </if>
+      
+          <if test="remark != null and remark != '' " >
+              remark,
+          </if>
+      
+          <if test="addTime != null " >
+              add_time,
+          </if>
+          <if test="updateTime != null " >
+              update_time,
+          </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+          <if test="id != null and id != '' " >
+              #{id,jdbcType=VARCHAR},
+          </if>
+          <if test="serialNo != null and serialNo != '' " >
+              #{serialNo,jdbcType=VARCHAR},
+          </if>
+          <if test="organizationId != null and organizationId != '' " >
+              #{organizationId,jdbcType=VARCHAR},
+          </if>
+          <if test="name != null and name != '' " >
+              #{name,jdbcType=VARCHAR},
+          </if>
+          <if test="responsibility != null and responsibility != '' " >
+              #{responsibility,jdbcType=VARCHAR},
+          </if>
+          <if test="remark != null and remark != '' " >
+              #{remark,jdbcType=VARCHAR},
+          </if>
+          <if test="addTime != null " >
+              #{addTime,jdbcType=TIMESTAMP},
+          </if>
+          <if test="updateTime != null " >
+              #{updateTime,jdbcType=TIMESTAMP},
+          </if>
+    </trim>
+  </insert>
+  
+  <insert id="addList" parameterType="list">
+    	insert into gp_station
+    	<trim prefix="(" suffix=")">
+    		<include refid="Base_Column_List" />
+    	</trim>
+    	values
+    	<foreach collection="list" item="gpStation" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides="," >
+
+          #{gpStation.id,jdbcType=VARCHAR},
+          #{gpStation.serialNo,jdbcType=VARCHAR},
+          #{gpStation.organizationId,jdbcType=VARCHAR},
+          #{gpStation.name,jdbcType=VARCHAR},
+          #{gpStation.responsibility,jdbcType=VARCHAR},
+          #{gpStation.remark,jdbcType=VARCHAR},
+          #{gpStation.addTime,jdbcType=TIMESTAMP},
+          #{gpStation.updateTime,jdbcType=TIMESTAMP},
+
+        </trim>
+    	</foreach>
+    </insert>
+
+
+  <insert id="addListWithDffOrAdd" parameterType="list">
+    	insert into gp_station
+    	<trim prefix="(" suffix=")">
+    		<include refid="Base_Column_List" />
+    	</trim>
+    	values
+    	<foreach collection="list" item="gpStation" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides="," >
+
+          #{gpStation.id,jdbcType=VARCHAR},
+          #{gpStation.serialNo,jdbcType=VARCHAR},
+          #{gpStation.organizationId,jdbcType=VARCHAR},
+          #{gpStation.name,jdbcType=VARCHAR},
+          #{gpStation.responsibility,jdbcType=VARCHAR},
+          #{gpStation.remark,jdbcType=VARCHAR},
+          #{gpStation.addTime,jdbcType=TIMESTAMP},
+          #{gpStation.updateTime,jdbcType=TIMESTAMP},
+
+        </trim>
+    	</foreach>
+        ON DUPLICATE KEY UPDATE
+id=values(id),
+serial_no=values(serial_no),
+organization_id=values(organization_id),
+name=values(name),
+responsibility=values(responsibility),
+remark=values(remark),
+add_time=values(add_time),
+update_time=values(update_time)
+        
+    </insert>
+
+
+    <delete id="delete" parameterType="java.lang.String" >
+        delete from gp_station
+        where  id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+	<delete id="deleteByOrganizationId" parameterType="java.lang.String">
+    	delete from gp_station
+    	where organization_id = #{organizationId,jdbcType=VARCHAR}
+    </delete>
+    
+   <delete id="deleteByOrganizationIdList" parameterType="list">
+		delete from gp_station
+		where organization_id  in
+		<foreach collection="list" item="OrganizationId " index="index" open="(" close=")" separator=",">
+			#{OrganizationId }
+		</foreach>
+	</delete>
+    
+    
+    <select id="getListByOrganizationId" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from gp_station where organization_id = #{organizationId,jdbcType=VARCHAR}
+	</select>
+        
+
+	<delete id="deleteByIdList" parameterType="list">
+		delete from gp_station
+		where id  in
+		<foreach collection="list" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+	</delete>
+  
+  
+  
+  <update id="update" parameterType="com.zee.ent.extend.gp.GpStation" >
+    update gp_station
+    <set >
+                    <choose>
+                   <when test="serialNo != null and serialNo=='-1'">
+                     serial_no = null,
+                  </when>
+                  <when test="serialNo != null and serialNo=='-2'">
+                     serial_no = '',
+                  </when>
+                  <when test="serialNo != null  and serialNo != '' " >
+                     serial_no = #{serialNo,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="organizationId != null and organizationId=='-1'">
+                     organization_id = null,
+                  </when>
+                  <when test="organizationId != null and organizationId=='-2'">
+                     organization_id = '',
+                  </when>
+                  <when test="organizationId != null  and organizationId != '' " >
+                     organization_id = #{organizationId,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="name != null and name=='-1'">
+                     name = null,
+                  </when>
+                  <when test="name != null and name=='-2'">
+                     name = '',
+                  </when>
+                  <when test="name != null  and name != '' " >
+                     name = #{name,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="responsibility != null and responsibility=='-1'">
+                     responsibility = null,
+                  </when>
+                  <when test="responsibility != null and responsibility=='-2'">
+                     responsibility = '',
+                  </when>
+                  <when test="responsibility != null  and responsibility != '' " >
+                     responsibility = #{responsibility,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="remark != null and remark=='-1'">
+                     remark = null,
+                  </when>
+                  <when test="remark != null and remark=='-2'">
+                     remark = '',
+                  </when>
+                  <when test="remark != null  and remark != '' " >
+                     remark = #{remark,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                  <if test="addTime != null ">
+                     add_time = #{addTime,jdbcType=TIMESTAMP},
+                  </if>
+                  <if test="updateTime != null ">
+                     update_time = #{updateTime,jdbcType=TIMESTAMP},
+                  </if>
+   </set>
+                 where  id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+<update id="updateList">
+    update gp_station
+    <set >
+                  <if test="t.serialNo != null  and t.serialNo != '' " >
+                     serial_no = #{t.serialNo,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.organizationId != null  and t.organizationId != '' " >
+                     organization_id = #{t.organizationId,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.name != null  and t.name != '' " >
+                     name = #{t.name,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.responsibility != null  and t.responsibility != '' " >
+                     responsibility = #{t.responsibility,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.remark != null  and t.remark != '' " >
+                     remark = #{t.remark,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.addTime != null ">
+                     add_time = #{t.addTime,jdbcType=TIMESTAMP},
+                  </if>
+                  <if test="t.updateTime != null ">
+                     update_time = #{t.updateTime,jdbcType=TIMESTAMP},
+                  </if>
+   </set>
+	
+		where id  in
+		<foreach collection="idList" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+   
+  </update>
+  
+<update id="updateListWithDff"  parameterType="list">
+    update gp_station
+		<trim prefix="set" suffixOverrides=",">
+         <trim prefix="serial_no =case" suffix="end,">
+              <foreach collection="list" item="gpStation" index="index">
+                  <if test="gpStation.serialNo != null and gpStation.serialNo  != ''  and gpStation.serialNo  != '-1' ">
+                     when id=#{gpStation.id} then #{gpStation.serialNo,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpStation.serialNo != null  and gpStation.serialNo  == '-1' ">
+                     when id=#{gpStation.id} then null
+                  </if>  
+                   <if test="gpStation.serialNo != null  and gpStation.serialNo  == '-2' ">
+                     when id=#{gpStation.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="organization_id =case" suffix="end,">
+              <foreach collection="list" item="gpStation" index="index">
+                  <if test="gpStation.organizationId != null and gpStation.organizationId  != ''  and gpStation.organizationId  != '-1' ">
+                     when id=#{gpStation.id} then #{gpStation.organizationId,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpStation.organizationId != null  and gpStation.organizationId  == '-1' ">
+                     when id=#{gpStation.id} then null
+                  </if>  
+                   <if test="gpStation.organizationId != null  and gpStation.organizationId  == '-2' ">
+                     when id=#{gpStation.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="name =case" suffix="end,">
+              <foreach collection="list" item="gpStation" index="index">
+                  <if test="gpStation.name != null and gpStation.name  != ''  and gpStation.name  != '-1' ">
+                     when id=#{gpStation.id} then #{gpStation.name,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpStation.name != null  and gpStation.name  == '-1' ">
+                     when id=#{gpStation.id} then null
+                  </if>  
+                   <if test="gpStation.name != null  and gpStation.name  == '-2' ">
+                     when id=#{gpStation.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="responsibility =case" suffix="end,">
+              <foreach collection="list" item="gpStation" index="index">
+                  <if test="gpStation.responsibility != null and gpStation.responsibility  != ''  and gpStation.responsibility  != '-1' ">
+                     when id=#{gpStation.id} then #{gpStation.responsibility,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpStation.responsibility != null  and gpStation.responsibility  == '-1' ">
+                     when id=#{gpStation.id} then null
+                  </if>  
+                   <if test="gpStation.responsibility != null  and gpStation.responsibility  == '-2' ">
+                     when id=#{gpStation.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="remark =case" suffix="end,">
+              <foreach collection="list" item="gpStation" index="index">
+                  <if test="gpStation.remark != null and gpStation.remark  != ''  and gpStation.remark  != '-1' ">
+                     when id=#{gpStation.id} then #{gpStation.remark,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpStation.remark != null  and gpStation.remark  == '-1' ">
+                     when id=#{gpStation.id} then null
+                  </if>  
+                   <if test="gpStation.remark != null  and gpStation.remark  == '-2' ">
+                     when id=#{gpStation.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="add_time =case" suffix="end,">
+              <foreach collection="list" item="gpStation" index="index">
+                  <if test="gpStation.addTime != null " >
+                     when id=#{gpStation.id} then #{gpStation.addTime,jdbcType=TIMESTAMP}
+                  </if>
+              </foreach>
+         </trim>
+         <trim prefix="update_time =case" suffix="end,">
+              <foreach collection="list" item="gpStation" index="index">
+                  <if test="gpStation.updateTime != null " >
+                     when id=#{gpStation.id} then #{gpStation.updateTime,jdbcType=TIMESTAMP}
+                  </if>
+              </foreach>
+         </trim>
+    </trim>
+    where id in
+		<foreach collection="list" item="gpStation" index="index" open="(" close=")" separator=",">
+			#{gpStation.id,jdbcType=VARCHAR}
+		</foreach>
+  </update>
+
+  
+  
+  <insert id="updateListWithDffOrAdd" useGeneratedKeys="true" keyProperty="id" parameterType="list">
+    replace into gp_station
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+id,
+serial_no,
+organization_id,
+name,
+responsibility,
+remark,
+add_time,
+update_time,
+    </trim>
+    VALUES
+    <foreach collection="list" item="gpStation" index="index" separator=",">
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+              #{gpStation.id ,jdbcType=VARCHAR},
+                  
+                     #{gpStation.serialNo ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpStation.organizationId ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpStation.name ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpStation.responsibility ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpStation.remark ,jdbcType=VARCHAR},
+                  
+                  
+                    #{gpStation.addTime,jdbcType=TIMESTAMP},
+            
+                  
+                    #{gpStation.updateTime,jdbcType=TIMESTAMP},
+            
+      </trim>
+    </foreach>
+  </insert>
+
+
+  <select id="getModel" resultMap="BaseResultMap" parameterType="java.lang.String" >
+          select 
+                 <include refid="Base_Column_List" />
+          from gp_station
+           where  id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+   
+  
+  <select id="getList" resultMap="BaseResultMap" parameterType="map" >
+          select
+                <include refid="Base_Column_List" />
+          from gp_station where 1 = 1
+        <if test="EntityRelated.id != null and EntityRelated.id != '' ">
+			and id LIKE CONCAT('%',#{EntityRelated.id,jdbcType=VARCHAR},'%')
+		</if>
+
+		<if test="EntityRelated.beginAddTime != null ">
+				<![CDATA[ AND  unix_timestamp(add_time)>=unix_timestamp(#{EntityRelated.beginAddTime})]]> 
+		</if>
+		<if test="EntityRelated.endAddTime != null ">
+				<![CDATA[ AND  unix_timestamp(add_time)<unix_timestamp(#{EntityRelated.endAddTime})]]> 
+		</if>
+		<if test="EntityRelated.id != null and EntityRelated.id != '' ">
+				and id = #{EntityRelated.id,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.name != null and EntityRelated.name != '' ">
+ 				and  name LIKE CONCAT('%',#{EntityRelated.name,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.organizationId != null and EntityRelated.organizationId != '' ">
+				and organization_id = #{EntityRelated.organizationId,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.remark != null and EntityRelated.remark != '' ">
+ 				and  remark LIKE CONCAT('%',#{EntityRelated.remark,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.responsibility != null and EntityRelated.responsibility != '' ">
+ 				and  responsibility LIKE CONCAT('%',#{EntityRelated.responsibility,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.serialNo != null and EntityRelated.serialNo != '' ">
+ 				and  serial_no LIKE CONCAT('%',#{EntityRelated.serialNo,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.beginUpdateTime != null ">
+				<![CDATA[ AND  unix_timestamp(update_time)>=unix_timestamp(#{EntityRelated.beginUpdateTime})]]> 
+		</if>
+		<if test="EntityRelated.endUpdateTime != null ">
+				<![CDATA[ AND  unix_timestamp(update_time)<unix_timestamp(#{EntityRelated.endUpdateTime})]]> 
+		</if>
+
+
+		<if test="OrderList != null and OrderList!=null">
+			order by
+			<foreach collection="OrderList" item="Order" index="index" separator=",">
+				${Order.columnName}
+				<if test="Order.isASC">
+					ASC
+				</if>
+				<if test="!Order.isASC">
+					DESC
+				</if>
+			</foreach>
+		</if>
+  </select>
+  
+	<select id="getListBySQL" resultType="java.util.HashMap" parameterType="String">
+		<if test="value!=null and value!=''">
+			${value}
+		</if>
+	</select>
+
+  <cache />
+</mapper>

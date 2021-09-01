@@ -1,0 +1,39 @@
+﻿<%@ CodeTemplate Inherits="CodeTemplate" TargetLanguage="java" Language="C#" Description="NetTiers main template." Debug="True" ResponseEncoding="UTF-8" %>
+
+<%@ Assembly Name="SchemaExplorer" %>
+<%@ Assembly Name="CustomCodeSmithHelper" %>
+
+<%@ Import Namespace="SchemaExplorer" %>
+<%@ Import Namespace="CustomCodeSmithHelper" %>
+
+<%-- 要打印的表 --%>
+<%@ Property Name="Table" Type="TableSchema" DeepLoad="True" Optional="False" Category="01. Getting Started - Required"Description="Database that the tables views, and stored procedures shouldbe based on. IMPORTANT!!! If SourceTables and SourceViews are left blank, theEntire Database will then be generated." %>
+<%@ Property Name="DeveloperName" Type="String" Category="Context" Description="The name to include in the comment header" %>
+<%@ Property Name="ModulePackageName" Type="String" Category="Context" Description="The name to include in the comment header" %>
+
+package com.zee.bll.generate.split.<%=ModulePackageName%>;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.zee.bll.generate.split.base.BaseSplBll;
+import com.zee.dao.split.<%=ModulePackageName%>.I<%=StringUtil.ToPascalCase(Table.Name)%>SplDal;
+
+
+
+/**
+ * @author <%= DeveloperName%>
+ * @createDate 2017/05/22 14:35:56
+ * @updateDate <%= DateTime.Now %>
+ * @description <%=Table.Description%> 业务逻辑处理类，扩展自BaseSplBll<<%=StringUtil.ToPascalCase(Table.Name)%>>，自动生成。
+ */
+public class <%=StringUtil.ToPascalCase(Table.Name)%>GenSplBll extends BaseSplBll {
+
+	@Autowired
+	protected I<%=StringUtil.ToPascalCase(Table.Name)%>SplDal <%=StringUtil.ToCamelCase(Table.Name)%>SplDal;
+
+}
+
+
+
+
+

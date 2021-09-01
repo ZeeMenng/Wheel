@@ -1,0 +1,561 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zee.dao.unity.gp.IGpRegionCountryUntDal" >
+
+  <resultMap id="BaseResultMap" type="com.zee.ent.extend.gp.GpRegionCountry" >
+              <id column="id" property="id" jdbcType="VARCHAR" />
+              <result column="iso_code" property="isoCode" jdbcType="VARCHAR" />
+              <result column="chinese_name" property="chineseName" jdbcType="VARCHAR" />
+              <result column="english_name" property="englishName" jdbcType="VARCHAR" />
+              <result column="abbreviation" property="abbreviation" jdbcType="VARCHAR" />
+              <result column="is_display_code" property="isDisplayCode" jdbcType="TINYINT" />
+              <result column="longitude" property="longitude" jdbcType="VARCHAR" />
+              <result column="latitude" property="latitude" jdbcType="VARCHAR" />
+              <result column="area" property="area" jdbcType="INTEGER" />
+              <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+        id,iso_code,chinese_name,english_name,abbreviation,is_display_code,longitude,latitude,area,remark
+  </sql>
+  
+  <insert id="add" parameterType="com.zee.ent.extend.gp.GpRegionCountry" >
+    insert into gp_region_country
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+          <if test="id != null and id != '' " >
+              id,
+          </if>
+      
+          <if test="isoCode != null and isoCode != '' " >
+              iso_code,
+          </if>
+      
+          <if test="chineseName != null and chineseName != '' " >
+              chinese_name,
+          </if>
+      
+          <if test="englishName != null and englishName != '' " >
+              english_name,
+          </if>
+      
+          <if test="abbreviation != null and abbreviation != '' " >
+              abbreviation,
+          </if>
+      
+          <if test="isDisplayCode != null " >
+              is_display_code,
+          </if>
+          <if test="longitude != null and longitude != '' " >
+              longitude,
+          </if>
+      
+          <if test="latitude != null and latitude != '' " >
+              latitude,
+          </if>
+      
+          <if test="area != null " >
+              area,
+          </if>
+          <if test="remark != null and remark != '' " >
+              remark,
+          </if>
+      
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+          <if test="id != null and id != '' " >
+              #{id,jdbcType=VARCHAR},
+          </if>
+          <if test="isoCode != null and isoCode != '' " >
+              #{isoCode,jdbcType=VARCHAR},
+          </if>
+          <if test="chineseName != null and chineseName != '' " >
+              #{chineseName,jdbcType=VARCHAR},
+          </if>
+          <if test="englishName != null and englishName != '' " >
+              #{englishName,jdbcType=VARCHAR},
+          </if>
+          <if test="abbreviation != null and abbreviation != '' " >
+              #{abbreviation,jdbcType=VARCHAR},
+          </if>
+          <if test="isDisplayCode != null " >
+              #{isDisplayCode,jdbcType=TINYINT},
+          </if>
+          <if test="longitude != null and longitude != '' " >
+              #{longitude,jdbcType=VARCHAR},
+          </if>
+          <if test="latitude != null and latitude != '' " >
+              #{latitude,jdbcType=VARCHAR},
+          </if>
+          <if test="area != null " >
+              #{area,jdbcType=INTEGER},
+          </if>
+          <if test="remark != null and remark != '' " >
+              #{remark,jdbcType=VARCHAR},
+          </if>
+    </trim>
+  </insert>
+  
+  <insert id="addList" parameterType="list">
+    	insert into gp_region_country
+    	<trim prefix="(" suffix=")">
+    		<include refid="Base_Column_List" />
+    	</trim>
+    	values
+    	<foreach collection="list" item="gpRegionCountry" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides="," >
+
+          #{gpRegionCountry.id,jdbcType=VARCHAR},
+          #{gpRegionCountry.isoCode,jdbcType=VARCHAR},
+          #{gpRegionCountry.chineseName,jdbcType=VARCHAR},
+          #{gpRegionCountry.englishName,jdbcType=VARCHAR},
+          #{gpRegionCountry.abbreviation,jdbcType=VARCHAR},
+          #{gpRegionCountry.isDisplayCode,jdbcType=TINYINT},
+          #{gpRegionCountry.longitude,jdbcType=VARCHAR},
+          #{gpRegionCountry.latitude,jdbcType=VARCHAR},
+          #{gpRegionCountry.area,jdbcType=INTEGER},
+          #{gpRegionCountry.remark,jdbcType=VARCHAR},
+
+        </trim>
+    	</foreach>
+    </insert>
+
+
+  <insert id="addListWithDffOrAdd" parameterType="list">
+    	insert into gp_region_country
+    	<trim prefix="(" suffix=")">
+    		<include refid="Base_Column_List" />
+    	</trim>
+    	values
+    	<foreach collection="list" item="gpRegionCountry" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides="," >
+
+          #{gpRegionCountry.id,jdbcType=VARCHAR},
+          #{gpRegionCountry.isoCode,jdbcType=VARCHAR},
+          #{gpRegionCountry.chineseName,jdbcType=VARCHAR},
+          #{gpRegionCountry.englishName,jdbcType=VARCHAR},
+          #{gpRegionCountry.abbreviation,jdbcType=VARCHAR},
+          #{gpRegionCountry.isDisplayCode,jdbcType=TINYINT},
+          #{gpRegionCountry.longitude,jdbcType=VARCHAR},
+          #{gpRegionCountry.latitude,jdbcType=VARCHAR},
+          #{gpRegionCountry.area,jdbcType=INTEGER},
+          #{gpRegionCountry.remark,jdbcType=VARCHAR},
+
+        </trim>
+    	</foreach>
+        ON DUPLICATE KEY UPDATE
+id=values(id),
+iso_code=values(iso_code),
+chinese_name=values(chinese_name),
+english_name=values(english_name),
+abbreviation=values(abbreviation),
+is_display_code=values(is_display_code),
+longitude=values(longitude),
+latitude=values(latitude),
+area=values(area),
+remark=values(remark)
+        
+    </insert>
+
+
+    <delete id="delete" parameterType="java.lang.String" >
+        delete from gp_region_country
+        where  id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+        
+
+	<delete id="deleteByIdList" parameterType="list">
+		delete from gp_region_country
+		where id  in
+		<foreach collection="list" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+	</delete>
+  
+  
+  
+  <update id="update" parameterType="com.zee.ent.extend.gp.GpRegionCountry" >
+    update gp_region_country
+    <set >
+                    <choose>
+                   <when test="isoCode != null and isoCode=='-1'">
+                     iso_code = null,
+                  </when>
+                  <when test="isoCode != null and isoCode=='-2'">
+                     iso_code = '',
+                  </when>
+                  <when test="isoCode != null  and isoCode != '' " >
+                     iso_code = #{isoCode,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="chineseName != null and chineseName=='-1'">
+                     chinese_name = null,
+                  </when>
+                  <when test="chineseName != null and chineseName=='-2'">
+                     chinese_name = '',
+                  </when>
+                  <when test="chineseName != null  and chineseName != '' " >
+                     chinese_name = #{chineseName,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="englishName != null and englishName=='-1'">
+                     english_name = null,
+                  </when>
+                  <when test="englishName != null and englishName=='-2'">
+                     english_name = '',
+                  </when>
+                  <when test="englishName != null  and englishName != '' " >
+                     english_name = #{englishName,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="abbreviation != null and abbreviation=='-1'">
+                     abbreviation = null,
+                  </when>
+                  <when test="abbreviation != null and abbreviation=='-2'">
+                     abbreviation = '',
+                  </when>
+                  <when test="abbreviation != null  and abbreviation != '' " >
+                     abbreviation = #{abbreviation,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                  <if test="isDisplayCode != null ">
+                     is_display_code = #{isDisplayCode,jdbcType=TINYINT},
+                  </if>
+                    <choose>
+                   <when test="longitude != null and longitude=='-1'">
+                     longitude = null,
+                  </when>
+                  <when test="longitude != null and longitude=='-2'">
+                     longitude = '',
+                  </when>
+                  <when test="longitude != null  and longitude != '' " >
+                     longitude = #{longitude,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="latitude != null and latitude=='-1'">
+                     latitude = null,
+                  </when>
+                  <when test="latitude != null and latitude=='-2'">
+                     latitude = '',
+                  </when>
+                  <when test="latitude != null  and latitude != '' " >
+                     latitude = #{latitude,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                  <if test="area != null ">
+                     area = #{area,jdbcType=INTEGER},
+                  </if>
+                    <choose>
+                   <when test="remark != null and remark=='-1'">
+                     remark = null,
+                  </when>
+                  <when test="remark != null and remark=='-2'">
+                     remark = '',
+                  </when>
+                  <when test="remark != null  and remark != '' " >
+                     remark = #{remark,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+   </set>
+                 where  id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+<update id="updateList">
+    update gp_region_country
+    <set >
+                  <if test="t.isoCode != null  and t.isoCode != '' " >
+                     iso_code = #{t.isoCode,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.chineseName != null  and t.chineseName != '' " >
+                     chinese_name = #{t.chineseName,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.englishName != null  and t.englishName != '' " >
+                     english_name = #{t.englishName,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.abbreviation != null  and t.abbreviation != '' " >
+                     abbreviation = #{t.abbreviation,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.isDisplayCode != null ">
+                     is_display_code = #{t.isDisplayCode,jdbcType=TINYINT},
+                  </if>
+                  <if test="t.longitude != null  and t.longitude != '' " >
+                     longitude = #{t.longitude,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.latitude != null  and t.latitude != '' " >
+                     latitude = #{t.latitude,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.area != null ">
+                     area = #{t.area,jdbcType=INTEGER},
+                  </if>
+                  <if test="t.remark != null  and t.remark != '' " >
+                     remark = #{t.remark,jdbcType=VARCHAR},
+                  </if>
+   </set>
+	
+		where id  in
+		<foreach collection="idList" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+   
+  </update>
+  
+<update id="updateListWithDff"  parameterType="list">
+    update gp_region_country
+		<trim prefix="set" suffixOverrides=",">
+         <trim prefix="iso_code =case" suffix="end,">
+              <foreach collection="list" item="gpRegionCountry" index="index">
+                  <if test="gpRegionCountry.isoCode != null and gpRegionCountry.isoCode  != ''  and gpRegionCountry.isoCode  != '-1' ">
+                     when id=#{gpRegionCountry.id} then #{gpRegionCountry.isoCode,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpRegionCountry.isoCode != null  and gpRegionCountry.isoCode  == '-1' ">
+                     when id=#{gpRegionCountry.id} then null
+                  </if>  
+                   <if test="gpRegionCountry.isoCode != null  and gpRegionCountry.isoCode  == '-2' ">
+                     when id=#{gpRegionCountry.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="chinese_name =case" suffix="end,">
+              <foreach collection="list" item="gpRegionCountry" index="index">
+                  <if test="gpRegionCountry.chineseName != null and gpRegionCountry.chineseName  != ''  and gpRegionCountry.chineseName  != '-1' ">
+                     when id=#{gpRegionCountry.id} then #{gpRegionCountry.chineseName,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpRegionCountry.chineseName != null  and gpRegionCountry.chineseName  == '-1' ">
+                     when id=#{gpRegionCountry.id} then null
+                  </if>  
+                   <if test="gpRegionCountry.chineseName != null  and gpRegionCountry.chineseName  == '-2' ">
+                     when id=#{gpRegionCountry.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="english_name =case" suffix="end,">
+              <foreach collection="list" item="gpRegionCountry" index="index">
+                  <if test="gpRegionCountry.englishName != null and gpRegionCountry.englishName  != ''  and gpRegionCountry.englishName  != '-1' ">
+                     when id=#{gpRegionCountry.id} then #{gpRegionCountry.englishName,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpRegionCountry.englishName != null  and gpRegionCountry.englishName  == '-1' ">
+                     when id=#{gpRegionCountry.id} then null
+                  </if>  
+                   <if test="gpRegionCountry.englishName != null  and gpRegionCountry.englishName  == '-2' ">
+                     when id=#{gpRegionCountry.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="abbreviation =case" suffix="end,">
+              <foreach collection="list" item="gpRegionCountry" index="index">
+                  <if test="gpRegionCountry.abbreviation != null and gpRegionCountry.abbreviation  != ''  and gpRegionCountry.abbreviation  != '-1' ">
+                     when id=#{gpRegionCountry.id} then #{gpRegionCountry.abbreviation,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpRegionCountry.abbreviation != null  and gpRegionCountry.abbreviation  == '-1' ">
+                     when id=#{gpRegionCountry.id} then null
+                  </if>  
+                   <if test="gpRegionCountry.abbreviation != null  and gpRegionCountry.abbreviation  == '-2' ">
+                     when id=#{gpRegionCountry.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="is_display_code =case" suffix="end,">
+              <foreach collection="list" item="gpRegionCountry" index="index">
+                  <if test="gpRegionCountry.isDisplayCode != null " >
+                     when id=#{gpRegionCountry.id} then #{gpRegionCountry.isDisplayCode,jdbcType=TINYINT}
+                  </if>
+              </foreach>
+         </trim>
+         <trim prefix="longitude =case" suffix="end,">
+              <foreach collection="list" item="gpRegionCountry" index="index">
+                  <if test="gpRegionCountry.longitude != null and gpRegionCountry.longitude  != ''  and gpRegionCountry.longitude  != '-1' ">
+                     when id=#{gpRegionCountry.id} then #{gpRegionCountry.longitude,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpRegionCountry.longitude != null  and gpRegionCountry.longitude  == '-1' ">
+                     when id=#{gpRegionCountry.id} then null
+                  </if>  
+                   <if test="gpRegionCountry.longitude != null  and gpRegionCountry.longitude  == '-2' ">
+                     when id=#{gpRegionCountry.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="latitude =case" suffix="end,">
+              <foreach collection="list" item="gpRegionCountry" index="index">
+                  <if test="gpRegionCountry.latitude != null and gpRegionCountry.latitude  != ''  and gpRegionCountry.latitude  != '-1' ">
+                     when id=#{gpRegionCountry.id} then #{gpRegionCountry.latitude,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpRegionCountry.latitude != null  and gpRegionCountry.latitude  == '-1' ">
+                     when id=#{gpRegionCountry.id} then null
+                  </if>  
+                   <if test="gpRegionCountry.latitude != null  and gpRegionCountry.latitude  == '-2' ">
+                     when id=#{gpRegionCountry.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="area =case" suffix="end,">
+              <foreach collection="list" item="gpRegionCountry" index="index">
+                  <if test="gpRegionCountry.area != null " >
+                     when id=#{gpRegionCountry.id} then #{gpRegionCountry.area,jdbcType=INTEGER}
+                  </if>
+              </foreach>
+         </trim>
+         <trim prefix="remark =case" suffix="end,">
+              <foreach collection="list" item="gpRegionCountry" index="index">
+                  <if test="gpRegionCountry.remark != null and gpRegionCountry.remark  != ''  and gpRegionCountry.remark  != '-1' ">
+                     when id=#{gpRegionCountry.id} then #{gpRegionCountry.remark,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpRegionCountry.remark != null  and gpRegionCountry.remark  == '-1' ">
+                     when id=#{gpRegionCountry.id} then null
+                  </if>  
+                   <if test="gpRegionCountry.remark != null  and gpRegionCountry.remark  == '-2' ">
+                     when id=#{gpRegionCountry.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+    </trim>
+    where id in
+		<foreach collection="list" item="gpRegionCountry" index="index" open="(" close=")" separator=",">
+			#{gpRegionCountry.id,jdbcType=VARCHAR}
+		</foreach>
+  </update>
+
+  
+  
+  <insert id="updateListWithDffOrAdd" useGeneratedKeys="true" keyProperty="id" parameterType="list">
+    replace into gp_region_country
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+id,
+iso_code,
+chinese_name,
+english_name,
+abbreviation,
+is_display_code,
+longitude,
+latitude,
+area,
+remark,
+    </trim>
+    VALUES
+    <foreach collection="list" item="gpRegionCountry" index="index" separator=",">
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+              #{gpRegionCountry.id ,jdbcType=VARCHAR},
+                  
+                     #{gpRegionCountry.isoCode ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpRegionCountry.chineseName ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpRegionCountry.englishName ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpRegionCountry.abbreviation ,jdbcType=VARCHAR},
+                  
+                  
+                    #{gpRegionCountry.isDisplayCode,jdbcType=TINYINT},
+            
+                  
+                     #{gpRegionCountry.longitude ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpRegionCountry.latitude ,jdbcType=VARCHAR},
+                  
+                  
+                    #{gpRegionCountry.area,jdbcType=INTEGER},
+            
+                  
+                     #{gpRegionCountry.remark ,jdbcType=VARCHAR},
+                  
+      </trim>
+    </foreach>
+  </insert>
+
+
+  <select id="getModel" resultMap="BaseResultMap" parameterType="java.lang.String" >
+          select 
+                 <include refid="Base_Column_List" />
+          from gp_region_country
+           where  id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+
+<delete id="deleteByIsoCode" parameterType="java.lang.String" >
+
+        delete from gp_region_country
+        where  iso_code = #{isoCode,jdbcType=VARCHAR}
+
+</delete>
+    
+ <select id="getModelByIsoCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+          select 
+                 <include refid="Base_Column_List" />
+          from gp_region_country
+          where  iso_code = #{isoCode,jdbcType=VARCHAR}
+  </select>
+  
+   <select id="isUniqueIsoCode" resultType="java.lang.Integer" parameterType="java.lang.String" >
+          select 
+                 count(1)
+          from gp_region_country
+          where  iso_code = #{isoCode,jdbcType=VARCHAR}
+  </select>
+   
+  
+  <select id="getList" resultMap="BaseResultMap" parameterType="map" >
+          select
+                <include refid="Base_Column_List" />
+          from gp_region_country where 1 = 1
+        <if test="EntityRelated.id != null and EntityRelated.id != '' ">
+			and id LIKE CONCAT('%',#{EntityRelated.id,jdbcType=VARCHAR},'%')
+		</if>
+
+		<if test="EntityRelated.abbreviation != null and EntityRelated.abbreviation != '' ">
+ 				and  abbreviation LIKE CONCAT('%',#{EntityRelated.abbreviation,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.chineseName != null and EntityRelated.chineseName != '' ">
+ 				and  chinese_name LIKE CONCAT('%',#{EntityRelated.chineseName,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.englishName != null and EntityRelated.englishName != '' ">
+ 				and  english_name LIKE CONCAT('%',#{EntityRelated.englishName,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.id != null and EntityRelated.id != '' ">
+				and id = #{EntityRelated.id,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.isDisplayCode != null">
+				and is_display_code = #{EntityRelated.isDisplayCode,jdbcType=TINYINT} 
+		</if>
+		<if test="EntityRelated.isoCode != null">
+				and iso_code = #{EntityRelated.isoCode,jdbcType=TINYINT} 
+		</if>
+		<if test="EntityRelated.latitude != null and EntityRelated.latitude != '' ">
+ 				and  latitude LIKE CONCAT('%',#{EntityRelated.latitude,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.longitude != null and EntityRelated.longitude != '' ">
+ 				and  longitude LIKE CONCAT('%',#{EntityRelated.longitude,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.remark != null and EntityRelated.remark != '' ">
+ 				and  remark LIKE CONCAT('%',#{EntityRelated.remark,jdbcType=VARCHAR},'%') 
+		</if>
+
+
+		<if test="OrderList != null and OrderList!=null">
+			order by
+			<foreach collection="OrderList" item="Order" index="index" separator=",">
+				${Order.columnName}
+				<if test="Order.isASC">
+					ASC
+				</if>
+				<if test="!Order.isASC">
+					DESC
+				</if>
+			</foreach>
+		</if>
+  </select>
+  
+	<select id="getListBySQL" resultType="java.util.HashMap" parameterType="String">
+		<if test="value!=null and value!=''">
+			${value}
+		</if>
+	</select>
+
+  <cache />
+</mapper>

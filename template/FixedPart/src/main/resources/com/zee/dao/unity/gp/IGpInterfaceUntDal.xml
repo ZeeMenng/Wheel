@@ -1,0 +1,604 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zee.dao.unity.gp.IGpInterfaceUntDal" >
+
+  <resultMap id="BaseResultMap" type="com.zee.ent.extend.gp.GpInterface" >
+              <id column="id" property="id" jdbcType="VARCHAR" />
+              <result column="serial_no" property="serialNo" jdbcType="VARCHAR" />
+              <result column="domain_id" property="domainId" jdbcType="VARCHAR" />
+              <result column="name" property="name" jdbcType="VARCHAR" />
+              <result column="table_name" property="tableName" jdbcType="VARCHAR" />
+              <result column="is_public_code" property="isPublicCode" jdbcType="TINYINT" />
+              <result column="type_code" property="typeCode" jdbcType="TINYINT" />
+              <result column="url" property="url" jdbcType="VARCHAR" />
+              <result column="remark" property="remark" jdbcType="VARCHAR" />
+              <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+              <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+        id,serial_no,domain_id,name,table_name,is_public_code,type_code,url,remark,add_time,update_time
+  </sql>
+  
+  <insert id="add" parameterType="com.zee.ent.extend.gp.GpInterface" >
+    insert into gp_interface
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+          <if test="id != null and id != '' " >
+              id,
+          </if>
+      
+          <if test="serialNo != null and serialNo != '' " >
+              serial_no,
+          </if>
+      
+          <if test="domainId != null and domainId != '' " >
+              domain_id,
+          </if>
+      
+          <if test="name != null and name != '' " >
+              name,
+          </if>
+      
+          <if test="tableName != null and tableName != '' " >
+              table_name,
+          </if>
+      
+          <if test="isPublicCode != null " >
+              is_public_code,
+          </if>
+          <if test="typeCode != null " >
+              type_code,
+          </if>
+          <if test="url != null and url != '' " >
+              url,
+          </if>
+      
+          <if test="remark != null and remark != '' " >
+              remark,
+          </if>
+      
+          <if test="addTime != null " >
+              add_time,
+          </if>
+          <if test="updateTime != null " >
+              update_time,
+          </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+          <if test="id != null and id != '' " >
+              #{id,jdbcType=VARCHAR},
+          </if>
+          <if test="serialNo != null and serialNo != '' " >
+              #{serialNo,jdbcType=VARCHAR},
+          </if>
+          <if test="domainId != null and domainId != '' " >
+              #{domainId,jdbcType=VARCHAR},
+          </if>
+          <if test="name != null and name != '' " >
+              #{name,jdbcType=VARCHAR},
+          </if>
+          <if test="tableName != null and tableName != '' " >
+              #{tableName,jdbcType=VARCHAR},
+          </if>
+          <if test="isPublicCode != null " >
+              #{isPublicCode,jdbcType=TINYINT},
+          </if>
+          <if test="typeCode != null " >
+              #{typeCode,jdbcType=TINYINT},
+          </if>
+          <if test="url != null and url != '' " >
+              #{url,jdbcType=VARCHAR},
+          </if>
+          <if test="remark != null and remark != '' " >
+              #{remark,jdbcType=VARCHAR},
+          </if>
+          <if test="addTime != null " >
+              #{addTime,jdbcType=TIMESTAMP},
+          </if>
+          <if test="updateTime != null " >
+              #{updateTime,jdbcType=TIMESTAMP},
+          </if>
+    </trim>
+  </insert>
+  
+  <insert id="addList" parameterType="list">
+    	insert into gp_interface
+    	<trim prefix="(" suffix=")">
+    		<include refid="Base_Column_List" />
+    	</trim>
+    	values
+    	<foreach collection="list" item="gpInterface" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides="," >
+
+          #{gpInterface.id,jdbcType=VARCHAR},
+          #{gpInterface.serialNo,jdbcType=VARCHAR},
+          #{gpInterface.domainId,jdbcType=VARCHAR},
+          #{gpInterface.name,jdbcType=VARCHAR},
+          #{gpInterface.tableName,jdbcType=VARCHAR},
+          #{gpInterface.isPublicCode,jdbcType=TINYINT},
+          #{gpInterface.typeCode,jdbcType=TINYINT},
+          #{gpInterface.url,jdbcType=VARCHAR},
+          #{gpInterface.remark,jdbcType=VARCHAR},
+          #{gpInterface.addTime,jdbcType=TIMESTAMP},
+          #{gpInterface.updateTime,jdbcType=TIMESTAMP},
+
+        </trim>
+    	</foreach>
+    </insert>
+
+
+  <insert id="addListWithDffOrAdd" parameterType="list">
+    	insert into gp_interface
+    	<trim prefix="(" suffix=")">
+    		<include refid="Base_Column_List" />
+    	</trim>
+    	values
+    	<foreach collection="list" item="gpInterface" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides="," >
+
+          #{gpInterface.id,jdbcType=VARCHAR},
+          #{gpInterface.serialNo,jdbcType=VARCHAR},
+          #{gpInterface.domainId,jdbcType=VARCHAR},
+          #{gpInterface.name,jdbcType=VARCHAR},
+          #{gpInterface.tableName,jdbcType=VARCHAR},
+          #{gpInterface.isPublicCode,jdbcType=TINYINT},
+          #{gpInterface.typeCode,jdbcType=TINYINT},
+          #{gpInterface.url,jdbcType=VARCHAR},
+          #{gpInterface.remark,jdbcType=VARCHAR},
+          #{gpInterface.addTime,jdbcType=TIMESTAMP},
+          #{gpInterface.updateTime,jdbcType=TIMESTAMP},
+
+        </trim>
+    	</foreach>
+        ON DUPLICATE KEY UPDATE
+id=values(id),
+serial_no=values(serial_no),
+domain_id=values(domain_id),
+name=values(name),
+table_name=values(table_name),
+is_public_code=values(is_public_code),
+type_code=values(type_code),
+url=values(url),
+remark=values(remark),
+add_time=values(add_time),
+update_time=values(update_time)
+        
+    </insert>
+
+
+    <delete id="delete" parameterType="java.lang.String" >
+        delete from gp_interface
+        where  id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+	<delete id="deleteByDomainId" parameterType="java.lang.String">
+    	delete from gp_interface
+    	where domain_id = #{domainId,jdbcType=VARCHAR}
+    </delete>
+    
+   <delete id="deleteByDomainIdList" parameterType="list">
+		delete from gp_interface
+		where domain_id  in
+		<foreach collection="list" item="DomainId " index="index" open="(" close=")" separator=",">
+			#{DomainId }
+		</foreach>
+	</delete>
+    
+    
+    <select id="getListByDomainId" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from gp_interface where domain_id = #{domainId,jdbcType=VARCHAR}
+	</select>
+        
+
+	<delete id="deleteByIdList" parameterType="list">
+		delete from gp_interface
+		where id  in
+		<foreach collection="list" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+	</delete>
+  
+  
+  
+  <update id="update" parameterType="com.zee.ent.extend.gp.GpInterface" >
+    update gp_interface
+    <set >
+                    <choose>
+                   <when test="serialNo != null and serialNo=='-1'">
+                     serial_no = null,
+                  </when>
+                  <when test="serialNo != null and serialNo=='-2'">
+                     serial_no = '',
+                  </when>
+                  <when test="serialNo != null  and serialNo != '' " >
+                     serial_no = #{serialNo,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="domainId != null and domainId=='-1'">
+                     domain_id = null,
+                  </when>
+                  <when test="domainId != null and domainId=='-2'">
+                     domain_id = '',
+                  </when>
+                  <when test="domainId != null  and domainId != '' " >
+                     domain_id = #{domainId,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="name != null and name=='-1'">
+                     name = null,
+                  </when>
+                  <when test="name != null and name=='-2'">
+                     name = '',
+                  </when>
+                  <when test="name != null  and name != '' " >
+                     name = #{name,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="tableName != null and tableName=='-1'">
+                     table_name = null,
+                  </when>
+                  <when test="tableName != null and tableName=='-2'">
+                     table_name = '',
+                  </when>
+                  <when test="tableName != null  and tableName != '' " >
+                     table_name = #{tableName,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                  <if test="isPublicCode != null ">
+                     is_public_code = #{isPublicCode,jdbcType=TINYINT},
+                  </if>
+                  <if test="typeCode != null ">
+                     type_code = #{typeCode,jdbcType=TINYINT},
+                  </if>
+                    <choose>
+                   <when test="url != null and url=='-1'">
+                     url = null,
+                  </when>
+                  <when test="url != null and url=='-2'">
+                     url = '',
+                  </when>
+                  <when test="url != null  and url != '' " >
+                     url = #{url,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="remark != null and remark=='-1'">
+                     remark = null,
+                  </when>
+                  <when test="remark != null and remark=='-2'">
+                     remark = '',
+                  </when>
+                  <when test="remark != null  and remark != '' " >
+                     remark = #{remark,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                  <if test="addTime != null ">
+                     add_time = #{addTime,jdbcType=TIMESTAMP},
+                  </if>
+                  <if test="updateTime != null ">
+                     update_time = #{updateTime,jdbcType=TIMESTAMP},
+                  </if>
+   </set>
+                 where  id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+<update id="updateList">
+    update gp_interface
+    <set >
+                  <if test="t.serialNo != null  and t.serialNo != '' " >
+                     serial_no = #{t.serialNo,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.domainId != null  and t.domainId != '' " >
+                     domain_id = #{t.domainId,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.name != null  and t.name != '' " >
+                     name = #{t.name,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.tableName != null  and t.tableName != '' " >
+                     table_name = #{t.tableName,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.isPublicCode != null ">
+                     is_public_code = #{t.isPublicCode,jdbcType=TINYINT},
+                  </if>
+                  <if test="t.typeCode != null ">
+                     type_code = #{t.typeCode,jdbcType=TINYINT},
+                  </if>
+                  <if test="t.url != null  and t.url != '' " >
+                     url = #{t.url,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.remark != null  and t.remark != '' " >
+                     remark = #{t.remark,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.addTime != null ">
+                     add_time = #{t.addTime,jdbcType=TIMESTAMP},
+                  </if>
+                  <if test="t.updateTime != null ">
+                     update_time = #{t.updateTime,jdbcType=TIMESTAMP},
+                  </if>
+   </set>
+	
+		where id  in
+		<foreach collection="idList" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+   
+  </update>
+  
+<update id="updateListWithDff"  parameterType="list">
+    update gp_interface
+		<trim prefix="set" suffixOverrides=",">
+         <trim prefix="serial_no =case" suffix="end,">
+              <foreach collection="list" item="gpInterface" index="index">
+                  <if test="gpInterface.serialNo != null and gpInterface.serialNo  != ''  and gpInterface.serialNo  != '-1' ">
+                     when id=#{gpInterface.id} then #{gpInterface.serialNo,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpInterface.serialNo != null  and gpInterface.serialNo  == '-1' ">
+                     when id=#{gpInterface.id} then null
+                  </if>  
+                   <if test="gpInterface.serialNo != null  and gpInterface.serialNo  == '-2' ">
+                     when id=#{gpInterface.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="domain_id =case" suffix="end,">
+              <foreach collection="list" item="gpInterface" index="index">
+                  <if test="gpInterface.domainId != null and gpInterface.domainId  != ''  and gpInterface.domainId  != '-1' ">
+                     when id=#{gpInterface.id} then #{gpInterface.domainId,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpInterface.domainId != null  and gpInterface.domainId  == '-1' ">
+                     when id=#{gpInterface.id} then null
+                  </if>  
+                   <if test="gpInterface.domainId != null  and gpInterface.domainId  == '-2' ">
+                     when id=#{gpInterface.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="name =case" suffix="end,">
+              <foreach collection="list" item="gpInterface" index="index">
+                  <if test="gpInterface.name != null and gpInterface.name  != ''  and gpInterface.name  != '-1' ">
+                     when id=#{gpInterface.id} then #{gpInterface.name,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpInterface.name != null  and gpInterface.name  == '-1' ">
+                     when id=#{gpInterface.id} then null
+                  </if>  
+                   <if test="gpInterface.name != null  and gpInterface.name  == '-2' ">
+                     when id=#{gpInterface.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="table_name =case" suffix="end,">
+              <foreach collection="list" item="gpInterface" index="index">
+                  <if test="gpInterface.tableName != null and gpInterface.tableName  != ''  and gpInterface.tableName  != '-1' ">
+                     when id=#{gpInterface.id} then #{gpInterface.tableName,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpInterface.tableName != null  and gpInterface.tableName  == '-1' ">
+                     when id=#{gpInterface.id} then null
+                  </if>  
+                   <if test="gpInterface.tableName != null  and gpInterface.tableName  == '-2' ">
+                     when id=#{gpInterface.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="is_public_code =case" suffix="end,">
+              <foreach collection="list" item="gpInterface" index="index">
+                  <if test="gpInterface.isPublicCode != null " >
+                     when id=#{gpInterface.id} then #{gpInterface.isPublicCode,jdbcType=TINYINT}
+                  </if>
+              </foreach>
+         </trim>
+         <trim prefix="type_code =case" suffix="end,">
+              <foreach collection="list" item="gpInterface" index="index">
+                  <if test="gpInterface.typeCode != null " >
+                     when id=#{gpInterface.id} then #{gpInterface.typeCode,jdbcType=TINYINT}
+                  </if>
+              </foreach>
+         </trim>
+         <trim prefix="url =case" suffix="end,">
+              <foreach collection="list" item="gpInterface" index="index">
+                  <if test="gpInterface.url != null and gpInterface.url  != ''  and gpInterface.url  != '-1' ">
+                     when id=#{gpInterface.id} then #{gpInterface.url,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpInterface.url != null  and gpInterface.url  == '-1' ">
+                     when id=#{gpInterface.id} then null
+                  </if>  
+                   <if test="gpInterface.url != null  and gpInterface.url  == '-2' ">
+                     when id=#{gpInterface.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="remark =case" suffix="end,">
+              <foreach collection="list" item="gpInterface" index="index">
+                  <if test="gpInterface.remark != null and gpInterface.remark  != ''  and gpInterface.remark  != '-1' ">
+                     when id=#{gpInterface.id} then #{gpInterface.remark,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpInterface.remark != null  and gpInterface.remark  == '-1' ">
+                     when id=#{gpInterface.id} then null
+                  </if>  
+                   <if test="gpInterface.remark != null  and gpInterface.remark  == '-2' ">
+                     when id=#{gpInterface.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="add_time =case" suffix="end,">
+              <foreach collection="list" item="gpInterface" index="index">
+                  <if test="gpInterface.addTime != null " >
+                     when id=#{gpInterface.id} then #{gpInterface.addTime,jdbcType=TIMESTAMP}
+                  </if>
+              </foreach>
+         </trim>
+         <trim prefix="update_time =case" suffix="end,">
+              <foreach collection="list" item="gpInterface" index="index">
+                  <if test="gpInterface.updateTime != null " >
+                     when id=#{gpInterface.id} then #{gpInterface.updateTime,jdbcType=TIMESTAMP}
+                  </if>
+              </foreach>
+         </trim>
+    </trim>
+    where id in
+		<foreach collection="list" item="gpInterface" index="index" open="(" close=")" separator=",">
+			#{gpInterface.id,jdbcType=VARCHAR}
+		</foreach>
+  </update>
+
+  
+  
+  <insert id="updateListWithDffOrAdd" useGeneratedKeys="true" keyProperty="id" parameterType="list">
+    replace into gp_interface
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+id,
+serial_no,
+domain_id,
+name,
+table_name,
+is_public_code,
+type_code,
+url,
+remark,
+add_time,
+update_time,
+    </trim>
+    VALUES
+    <foreach collection="list" item="gpInterface" index="index" separator=",">
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+              #{gpInterface.id ,jdbcType=VARCHAR},
+                  
+                     #{gpInterface.serialNo ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpInterface.domainId ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpInterface.name ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpInterface.tableName ,jdbcType=VARCHAR},
+                  
+                  
+                    #{gpInterface.isPublicCode,jdbcType=TINYINT},
+            
+                  
+                    #{gpInterface.typeCode,jdbcType=TINYINT},
+            
+                  
+                     #{gpInterface.url ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpInterface.remark ,jdbcType=VARCHAR},
+                  
+                  
+                    #{gpInterface.addTime,jdbcType=TIMESTAMP},
+            
+                  
+                    #{gpInterface.updateTime,jdbcType=TIMESTAMP},
+            
+      </trim>
+    </foreach>
+  </insert>
+
+
+  <select id="getModel" resultMap="BaseResultMap" parameterType="java.lang.String" >
+          select 
+                 <include refid="Base_Column_List" />
+          from gp_interface
+           where  id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+
+<delete id="deleteByUrl" parameterType="java.lang.String" >
+
+        delete from gp_interface
+        where  url = #{url,jdbcType=VARCHAR}
+
+</delete>
+    
+ <select id="getModelByUrl" resultMap="BaseResultMap" parameterType="java.lang.String" >
+          select 
+                 <include refid="Base_Column_List" />
+          from gp_interface
+          where  url = #{url,jdbcType=VARCHAR}
+  </select>
+  
+   <select id="isUniqueUrl" resultType="java.lang.Integer" parameterType="java.lang.String" >
+          select 
+                 count(1)
+          from gp_interface
+          where  url = #{url,jdbcType=VARCHAR}
+  </select>
+   
+  
+  <select id="getList" resultMap="BaseResultMap" parameterType="map" >
+          select
+                <include refid="Base_Column_List" />
+          from gp_interface where 1 = 1
+        <if test="EntityRelated.id != null and EntityRelated.id != '' ">
+			and id LIKE CONCAT('%',#{EntityRelated.id,jdbcType=VARCHAR},'%')
+		</if>
+
+		<if test="EntityRelated.beginAddTime != null ">
+				<![CDATA[ AND  unix_timestamp(add_time)>=unix_timestamp(#{EntityRelated.beginAddTime})]]> 
+		</if>
+		<if test="EntityRelated.endAddTime != null ">
+				<![CDATA[ AND  unix_timestamp(add_time)<unix_timestamp(#{EntityRelated.endAddTime})]]> 
+		</if>
+		<if test="EntityRelated.domainId != null and EntityRelated.domainId != '' ">
+				and domain_id = #{EntityRelated.domainId,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.id != null and EntityRelated.id != '' ">
+				and id = #{EntityRelated.id,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.isPublicCode != null">
+				and is_public_code = #{EntityRelated.isPublicCode,jdbcType=TINYINT} 
+		</if>
+		<if test="EntityRelated.name != null and EntityRelated.name != '' ">
+ 				and  name LIKE CONCAT('%',#{EntityRelated.name,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.remark != null and EntityRelated.remark != '' ">
+ 				and  remark LIKE CONCAT('%',#{EntityRelated.remark,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.serialNo != null and EntityRelated.serialNo != '' ">
+ 				and  serial_no LIKE CONCAT('%',#{EntityRelated.serialNo,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.tableName != null and EntityRelated.tableName != '' ">
+ 				and  table_name LIKE CONCAT('%',#{EntityRelated.tableName,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.typeCode != null">
+				and type_code = #{EntityRelated.typeCode,jdbcType=TINYINT} 
+		</if>
+		<if test="EntityRelated.beginUpdateTime != null ">
+				<![CDATA[ AND  unix_timestamp(update_time)>=unix_timestamp(#{EntityRelated.beginUpdateTime})]]> 
+		</if>
+		<if test="EntityRelated.endUpdateTime != null ">
+				<![CDATA[ AND  unix_timestamp(update_time)<unix_timestamp(#{EntityRelated.endUpdateTime})]]> 
+		</if>
+		<if test="EntityRelated.url != null and EntityRelated.url != '' ">
+ 				and  url LIKE CONCAT('%',#{EntityRelated.url,jdbcType=VARCHAR},'%') 
+		</if>
+
+
+		<if test="OrderList != null and OrderList!=null">
+			order by
+			<foreach collection="OrderList" item="Order" index="index" separator=",">
+				${Order.columnName}
+				<if test="Order.isASC">
+					ASC
+				</if>
+				<if test="!Order.isASC">
+					DESC
+				</if>
+			</foreach>
+		</if>
+  </select>
+  
+	<select id="getListBySQL" resultType="java.util.HashMap" parameterType="String">
+		<if test="value!=null and value!=''">
+			${value}
+		</if>
+	</select>
+
+  <cache />
+</mapper>

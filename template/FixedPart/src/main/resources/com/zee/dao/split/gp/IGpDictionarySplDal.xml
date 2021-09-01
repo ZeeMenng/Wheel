@@ -1,0 +1,212 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zee.dao.split.gp.IGpDictionarySplDal" >
+
+  <resultMap id="BaseResultMap" type="com.zee.ent.extend.gp.GpDictionary" >
+              <id column="id" property="id" jdbcType="VARCHAR" />
+              <result column="type_id" property="typeId" jdbcType="VARCHAR" />
+              <result column="code" property="code" jdbcType="TINYINT" />
+              <result column="text" property="text" jdbcType="VARCHAR" />
+              <result column="priority" property="priority" jdbcType="INTEGER" />
+              <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+        id,type_id,code,text,priority,remark
+  </sql>
+  
+  <insert id="add" parameterType="com.zee.ent.extend.gp.GpDictionary" >
+    insert into gp_dictionary
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+          <if test="id != null and id != '' " >
+              id,
+          </if>
+      
+          <if test="typeId != null and typeId != '' " >
+              type_id,
+          </if>
+      
+          <if test="code != null " >
+              code,
+          </if>
+          <if test="text != null and text != '' " >
+              text,
+          </if>
+      
+          <if test="priority != null " >
+              priority,
+          </if>
+          <if test="remark != null and remark != '' " >
+              remark,
+          </if>
+      
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+          <if test="id != null and id != '' " >
+              #{id,jdbcType=VARCHAR},
+          </if>
+          <if test="typeId != null and typeId != '' " >
+              #{typeId,jdbcType=VARCHAR},
+          </if>
+          <if test="code != null " >
+              #{code,jdbcType=TINYINT},
+          </if>
+          <if test="text != null and text != '' " >
+              #{text,jdbcType=VARCHAR},
+          </if>
+          <if test="priority != null " >
+              #{priority,jdbcType=INTEGER},
+          </if>
+          <if test="remark != null and remark != '' " >
+              #{remark,jdbcType=VARCHAR},
+          </if>
+    </trim>
+  </insert>
+  
+ 
+    <insert id="addList" parameterType="list">
+    	insert into gp_dictionary
+    	<trim prefix="(" suffix=")">
+    		<include refid="Base_Column_List" />
+    	</trim>
+    	values
+    	<foreach collection="list" item="gpDictionary" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides="," >
+
+      
+          #{gpDictionary.id,jdbcType=VARCHAR},
+
+      
+          #{gpDictionary.typeId,jdbcType=VARCHAR},
+
+      
+          #{gpDictionary.code,jdbcType=TINYINT},
+
+      
+          #{gpDictionary.text,jdbcType=VARCHAR},
+
+      
+          #{gpDictionary.priority,jdbcType=INTEGER},
+
+      
+          #{gpDictionary.remark,jdbcType=VARCHAR},
+
+
+        </trim>
+    	</foreach>
+    </insert>
+
+  
+  
+  <delete id="delete" parameterType="java.lang.String" >
+                 delete from gp_dictionary
+                 where  id = #{id,jdbcType=VARCHAR}
+  </delete>
+  
+	<delete id="deleteByIdList" parameterType="list">
+		delete from gp_dictionary
+		where id  in
+		<foreach collection="list" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+	</delete>
+  
+  <update id="update" parameterType="com.zee.ent.extend.gp.GpDictionary" >
+    update gp_dictionary
+    <set >
+                  <if test="typeId != null  and typeId != '' " >
+                     type_id = #{typeId,jdbcType=VARCHAR},
+                  </if>
+                  <if test="code != null ">
+                     code = #{code,jdbcType=TINYINT},
+                  </if>
+                  <if test="text != null  and text != '' " >
+                     text = #{text,jdbcType=VARCHAR},
+                  </if>
+                  <if test="priority != null ">
+                     priority = #{priority,jdbcType=INTEGER},
+                  </if>
+                  <if test="remark != null  and remark != '' " >
+                     remark = #{remark,jdbcType=VARCHAR},
+                  </if>
+   </set>
+                 where  id = #{id,jdbcType=VARCHAR}
+</update>
+  
+<update id="updateList">
+    update gp_dictionary
+    <set >
+                  <if test="t.typeId != null  and t.typeId != '' " >
+                     type_id = #{t.typeId,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.code != null ">
+                     code = #{t.code,jdbcType=TINYINT},
+                  </if>
+                  <if test="t.text != null  and t.text != '' " >
+                     text = #{t.text,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.priority != null ">
+                     priority = #{t.priority,jdbcType=INTEGER},
+                  </if>
+                  <if test="t.remark != null  and t.remark != '' " >
+                     remark = #{t.remark,jdbcType=VARCHAR},
+                  </if>
+   </set>
+	
+		where id  in
+		<foreach collection="idList" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+</update>
+  
+  <select id="getModel" resultMap="BaseResultMap" parameterType="java.lang.String" >
+          select 
+                 <include refid="Base_Column_List" />
+          from gp_dictionary
+           where  id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="getList" resultMap="BaseResultMap" parameterType="map" >
+          select
+                <include refid="Base_Column_List" />
+          from gp_dictionary where 1 = 1
+        <if test="EntityRelated.id != null and EntityRelated.id != '' ">
+			and id LIKE CONCAT('%',#{EntityRelated.id,jdbcType=VARCHAR},'%')
+		</if>
+
+		<if test="EntityRelated.id != null and EntityRelated.id != '' ">
+				and id = #{EntityRelated.id,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.remark != null and EntityRelated.remark != '' ">
+ 				and  remark LIKE CONCAT('%',#{EntityRelated.remark,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.text != null and EntityRelated.text != '' ">
+ 				and  text LIKE CONCAT('%',#{EntityRelated.text,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.typeId != null and EntityRelated.typeId != '' ">
+				and type_id = #{EntityRelated.typeId,jdbcType=VARCHAR} 
+		</if>
+
+
+		<if test="OrderList != null and OrderList!=null">
+			order by
+			<foreach collection="OrderList" item="Order" index="index" separator=",">
+				${Order.columnName}
+				<if test="Order.isASC">
+					ASC
+				</if>
+				<if test="!Order.isASC">
+					DESC
+				</if>
+			</foreach>
+		</if>
+  </select>
+  
+	<select id="getListBySQL" resultType="java.util.HashMap" parameterType="String">
+		<if test="value!=null and value!=''">
+			${value}
+		</if>
+	</select>
+
+  <cache />
+</mapper>

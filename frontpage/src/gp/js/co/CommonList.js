@@ -774,20 +774,20 @@ function deleteRecordList(pageParam, ajaxParam, operationParam) {
 
 function initPageSizeSelect() {
 	var selectData = [ {
-		value : 5,
-		text : 5
-	}, {
 		value : 10,
 		text : 10
-	}, {
-		value : 15,
-		text : 15
 	}, {
 		value : 30,
 		text : 30
 	}, {
 		value : 50,
 		text : 50
+	}, {
+		value : 100,
+		text : 100
+	}, {
+		value : 200,
+		text : 200
 	},
 	// {
 	// value: 'All',

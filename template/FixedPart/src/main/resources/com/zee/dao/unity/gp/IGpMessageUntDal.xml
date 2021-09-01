@@ -1,0 +1,520 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zee.dao.unity.gp.IGpMessageUntDal" >
+
+  <resultMap id="BaseResultMap" type="com.zee.ent.extend.gp.GpMessage" >
+              <id column="id" property="id" jdbcType="VARCHAR" />
+              <result column="user_id" property="userId" jdbcType="VARCHAR" />
+              <result column="user_name" property="userName" jdbcType="VARCHAR" />
+              <result column="title" property="title" jdbcType="VARCHAR" />
+              <result column="content" property="content" jdbcType="VARCHAR" />
+              <result column="type_code" property="typeCode" jdbcType="TINYINT" />
+              <result column="type_text" property="typeText" jdbcType="VARCHAR" />
+              <result column="remark" property="remark" jdbcType="VARCHAR" />
+              <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+        id,user_id,user_name,title,content,type_code,type_text,remark,add_time
+  </sql>
+  
+  <insert id="add" parameterType="com.zee.ent.extend.gp.GpMessage" >
+    insert into gp_message
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+          <if test="id != null and id != '' " >
+              id,
+          </if>
+      
+          <if test="userId != null and userId != '' " >
+              user_id,
+          </if>
+      
+          <if test="userName != null and userName != '' " >
+              user_name,
+          </if>
+      
+          <if test="title != null and title != '' " >
+              title,
+          </if>
+      
+          <if test="content != null and content != '' " >
+              content,
+          </if>
+      
+          <if test="typeCode != null " >
+              type_code,
+          </if>
+          <if test="typeText != null and typeText != '' " >
+              type_text,
+          </if>
+      
+          <if test="remark != null and remark != '' " >
+              remark,
+          </if>
+      
+          <if test="addTime != null " >
+              add_time,
+          </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+          <if test="id != null and id != '' " >
+              #{id,jdbcType=VARCHAR},
+          </if>
+          <if test="userId != null and userId != '' " >
+              #{userId,jdbcType=VARCHAR},
+          </if>
+          <if test="userName != null and userName != '' " >
+              #{userName,jdbcType=VARCHAR},
+          </if>
+          <if test="title != null and title != '' " >
+              #{title,jdbcType=VARCHAR},
+          </if>
+          <if test="content != null and content != '' " >
+              #{content,jdbcType=VARCHAR},
+          </if>
+          <if test="typeCode != null " >
+              #{typeCode,jdbcType=TINYINT},
+          </if>
+          <if test="typeText != null and typeText != '' " >
+              #{typeText,jdbcType=VARCHAR},
+          </if>
+          <if test="remark != null and remark != '' " >
+              #{remark,jdbcType=VARCHAR},
+          </if>
+          <if test="addTime != null " >
+              #{addTime,jdbcType=TIMESTAMP},
+          </if>
+    </trim>
+  </insert>
+  
+  <insert id="addList" parameterType="list">
+    	insert into gp_message
+    	<trim prefix="(" suffix=")">
+    		<include refid="Base_Column_List" />
+    	</trim>
+    	values
+    	<foreach collection="list" item="gpMessage" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides="," >
+
+          #{gpMessage.id,jdbcType=VARCHAR},
+          #{gpMessage.userId,jdbcType=VARCHAR},
+          #{gpMessage.userName,jdbcType=VARCHAR},
+          #{gpMessage.title,jdbcType=VARCHAR},
+          #{gpMessage.content,jdbcType=VARCHAR},
+          #{gpMessage.typeCode,jdbcType=TINYINT},
+          #{gpMessage.typeText,jdbcType=VARCHAR},
+          #{gpMessage.remark,jdbcType=VARCHAR},
+          #{gpMessage.addTime,jdbcType=TIMESTAMP},
+
+        </trim>
+    	</foreach>
+    </insert>
+
+
+  <insert id="addListWithDffOrAdd" parameterType="list">
+    	insert into gp_message
+    	<trim prefix="(" suffix=")">
+    		<include refid="Base_Column_List" />
+    	</trim>
+    	values
+    	<foreach collection="list" item="gpMessage" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides="," >
+
+          #{gpMessage.id,jdbcType=VARCHAR},
+          #{gpMessage.userId,jdbcType=VARCHAR},
+          #{gpMessage.userName,jdbcType=VARCHAR},
+          #{gpMessage.title,jdbcType=VARCHAR},
+          #{gpMessage.content,jdbcType=VARCHAR},
+          #{gpMessage.typeCode,jdbcType=TINYINT},
+          #{gpMessage.typeText,jdbcType=VARCHAR},
+          #{gpMessage.remark,jdbcType=VARCHAR},
+          #{gpMessage.addTime,jdbcType=TIMESTAMP},
+
+        </trim>
+    	</foreach>
+        ON DUPLICATE KEY UPDATE
+id=values(id),
+user_id=values(user_id),
+user_name=values(user_name),
+title=values(title),
+content=values(content),
+type_code=values(type_code),
+type_text=values(type_text),
+remark=values(remark),
+add_time=values(add_time)
+        
+    </insert>
+
+
+    <delete id="delete" parameterType="java.lang.String" >
+        delete from gp_message
+        where  id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+	<delete id="deleteByUserId" parameterType="java.lang.String">
+    	delete from gp_message
+    	where user_id = #{userId,jdbcType=VARCHAR}
+    </delete>
+    
+   <delete id="deleteByUserIdList" parameterType="list">
+		delete from gp_message
+		where user_id  in
+		<foreach collection="list" item="UserId " index="index" open="(" close=")" separator=",">
+			#{UserId }
+		</foreach>
+	</delete>
+    
+    
+    <select id="getListByUserId" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from gp_message where user_id = #{userId,jdbcType=VARCHAR}
+	</select>
+        
+
+	<delete id="deleteByIdList" parameterType="list">
+		delete from gp_message
+		where id  in
+		<foreach collection="list" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+	</delete>
+  
+  
+  
+  <update id="update" parameterType="com.zee.ent.extend.gp.GpMessage" >
+    update gp_message
+    <set >
+                    <choose>
+                   <when test="userId != null and userId=='-1'">
+                     user_id = null,
+                  </when>
+                  <when test="userId != null and userId=='-2'">
+                     user_id = '',
+                  </when>
+                  <when test="userId != null  and userId != '' " >
+                     user_id = #{userId,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="userName != null and userName=='-1'">
+                     user_name = null,
+                  </when>
+                  <when test="userName != null and userName=='-2'">
+                     user_name = '',
+                  </when>
+                  <when test="userName != null  and userName != '' " >
+                     user_name = #{userName,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="title != null and title=='-1'">
+                     title = null,
+                  </when>
+                  <when test="title != null and title=='-2'">
+                     title = '',
+                  </when>
+                  <when test="title != null  and title != '' " >
+                     title = #{title,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="content != null and content=='-1'">
+                     content = null,
+                  </when>
+                  <when test="content != null and content=='-2'">
+                     content = '',
+                  </when>
+                  <when test="content != null  and content != '' " >
+                     content = #{content,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                  <if test="typeCode != null ">
+                     type_code = #{typeCode,jdbcType=TINYINT},
+                  </if>
+                    <choose>
+                   <when test="typeText != null and typeText=='-1'">
+                     type_text = null,
+                  </when>
+                  <when test="typeText != null and typeText=='-2'">
+                     type_text = '',
+                  </when>
+                  <when test="typeText != null  and typeText != '' " >
+                     type_text = #{typeText,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="remark != null and remark=='-1'">
+                     remark = null,
+                  </when>
+                  <when test="remark != null and remark=='-2'">
+                     remark = '',
+                  </when>
+                  <when test="remark != null  and remark != '' " >
+                     remark = #{remark,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                  <if test="addTime != null ">
+                     add_time = #{addTime,jdbcType=TIMESTAMP},
+                  </if>
+   </set>
+                 where  id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+<update id="updateList">
+    update gp_message
+    <set >
+                  <if test="t.userId != null  and t.userId != '' " >
+                     user_id = #{t.userId,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.userName != null  and t.userName != '' " >
+                     user_name = #{t.userName,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.title != null  and t.title != '' " >
+                     title = #{t.title,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.content != null  and t.content != '' " >
+                     content = #{t.content,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.typeCode != null ">
+                     type_code = #{t.typeCode,jdbcType=TINYINT},
+                  </if>
+                  <if test="t.typeText != null  and t.typeText != '' " >
+                     type_text = #{t.typeText,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.remark != null  and t.remark != '' " >
+                     remark = #{t.remark,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.addTime != null ">
+                     add_time = #{t.addTime,jdbcType=TIMESTAMP},
+                  </if>
+   </set>
+	
+		where id  in
+		<foreach collection="idList" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+   
+  </update>
+  
+<update id="updateListWithDff"  parameterType="list">
+    update gp_message
+		<trim prefix="set" suffixOverrides=",">
+         <trim prefix="user_id =case" suffix="end,">
+              <foreach collection="list" item="gpMessage" index="index">
+                  <if test="gpMessage.userId != null and gpMessage.userId  != ''  and gpMessage.userId  != '-1' ">
+                     when id=#{gpMessage.id} then #{gpMessage.userId,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpMessage.userId != null  and gpMessage.userId  == '-1' ">
+                     when id=#{gpMessage.id} then null
+                  </if>  
+                   <if test="gpMessage.userId != null  and gpMessage.userId  == '-2' ">
+                     when id=#{gpMessage.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="user_name =case" suffix="end,">
+              <foreach collection="list" item="gpMessage" index="index">
+                  <if test="gpMessage.userName != null and gpMessage.userName  != ''  and gpMessage.userName  != '-1' ">
+                     when id=#{gpMessage.id} then #{gpMessage.userName,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpMessage.userName != null  and gpMessage.userName  == '-1' ">
+                     when id=#{gpMessage.id} then null
+                  </if>  
+                   <if test="gpMessage.userName != null  and gpMessage.userName  == '-2' ">
+                     when id=#{gpMessage.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="title =case" suffix="end,">
+              <foreach collection="list" item="gpMessage" index="index">
+                  <if test="gpMessage.title != null and gpMessage.title  != ''  and gpMessage.title  != '-1' ">
+                     when id=#{gpMessage.id} then #{gpMessage.title,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpMessage.title != null  and gpMessage.title  == '-1' ">
+                     when id=#{gpMessage.id} then null
+                  </if>  
+                   <if test="gpMessage.title != null  and gpMessage.title  == '-2' ">
+                     when id=#{gpMessage.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="content =case" suffix="end,">
+              <foreach collection="list" item="gpMessage" index="index">
+                  <if test="gpMessage.content != null and gpMessage.content  != ''  and gpMessage.content  != '-1' ">
+                     when id=#{gpMessage.id} then #{gpMessage.content,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpMessage.content != null  and gpMessage.content  == '-1' ">
+                     when id=#{gpMessage.id} then null
+                  </if>  
+                   <if test="gpMessage.content != null  and gpMessage.content  == '-2' ">
+                     when id=#{gpMessage.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="type_code =case" suffix="end,">
+              <foreach collection="list" item="gpMessage" index="index">
+                  <if test="gpMessage.typeCode != null " >
+                     when id=#{gpMessage.id} then #{gpMessage.typeCode,jdbcType=TINYINT}
+                  </if>
+              </foreach>
+         </trim>
+         <trim prefix="type_text =case" suffix="end,">
+              <foreach collection="list" item="gpMessage" index="index">
+                  <if test="gpMessage.typeText != null and gpMessage.typeText  != ''  and gpMessage.typeText  != '-1' ">
+                     when id=#{gpMessage.id} then #{gpMessage.typeText,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpMessage.typeText != null  and gpMessage.typeText  == '-1' ">
+                     when id=#{gpMessage.id} then null
+                  </if>  
+                   <if test="gpMessage.typeText != null  and gpMessage.typeText  == '-2' ">
+                     when id=#{gpMessage.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="remark =case" suffix="end,">
+              <foreach collection="list" item="gpMessage" index="index">
+                  <if test="gpMessage.remark != null and gpMessage.remark  != ''  and gpMessage.remark  != '-1' ">
+                     when id=#{gpMessage.id} then #{gpMessage.remark,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpMessage.remark != null  and gpMessage.remark  == '-1' ">
+                     when id=#{gpMessage.id} then null
+                  </if>  
+                   <if test="gpMessage.remark != null  and gpMessage.remark  == '-2' ">
+                     when id=#{gpMessage.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="add_time =case" suffix="end,">
+              <foreach collection="list" item="gpMessage" index="index">
+                  <if test="gpMessage.addTime != null " >
+                     when id=#{gpMessage.id} then #{gpMessage.addTime,jdbcType=TIMESTAMP}
+                  </if>
+              </foreach>
+         </trim>
+    </trim>
+    where id in
+		<foreach collection="list" item="gpMessage" index="index" open="(" close=")" separator=",">
+			#{gpMessage.id,jdbcType=VARCHAR}
+		</foreach>
+  </update>
+
+  
+  
+  <insert id="updateListWithDffOrAdd" useGeneratedKeys="true" keyProperty="id" parameterType="list">
+    replace into gp_message
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+id,
+user_id,
+user_name,
+title,
+content,
+type_code,
+type_text,
+remark,
+add_time,
+    </trim>
+    VALUES
+    <foreach collection="list" item="gpMessage" index="index" separator=",">
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+              #{gpMessage.id ,jdbcType=VARCHAR},
+                  
+                     #{gpMessage.userId ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpMessage.userName ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpMessage.title ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpMessage.content ,jdbcType=VARCHAR},
+                  
+                  
+                    #{gpMessage.typeCode,jdbcType=TINYINT},
+            
+                  
+                     #{gpMessage.typeText ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpMessage.remark ,jdbcType=VARCHAR},
+                  
+                  
+                    #{gpMessage.addTime,jdbcType=TIMESTAMP},
+            
+      </trim>
+    </foreach>
+  </insert>
+
+
+  <select id="getModel" resultMap="BaseResultMap" parameterType="java.lang.String" >
+          select 
+                 <include refid="Base_Column_List" />
+          from gp_message
+           where  id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+   
+  
+  <select id="getList" resultMap="BaseResultMap" parameterType="map" >
+          select
+                <include refid="Base_Column_List" />
+          from gp_message where 1 = 1
+        <if test="EntityRelated.id != null and EntityRelated.id != '' ">
+			and id LIKE CONCAT('%',#{EntityRelated.id,jdbcType=VARCHAR},'%')
+		</if>
+
+		<if test="EntityRelated.beginAddTime != null ">
+				<![CDATA[ AND  unix_timestamp(add_time)>=unix_timestamp(#{EntityRelated.beginAddTime})]]> 
+		</if>
+		<if test="EntityRelated.endAddTime != null ">
+				<![CDATA[ AND  unix_timestamp(add_time)<unix_timestamp(#{EntityRelated.endAddTime})]]> 
+		</if>
+		<if test="EntityRelated.content != null and EntityRelated.content != '' ">
+ 				and  content LIKE CONCAT('%',#{EntityRelated.content,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.id != null and EntityRelated.id != '' ">
+				and id = #{EntityRelated.id,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.remark != null and EntityRelated.remark != '' ">
+ 				and  remark LIKE CONCAT('%',#{EntityRelated.remark,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.title != null and EntityRelated.title != '' ">
+ 				and  title LIKE CONCAT('%',#{EntityRelated.title,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.typeCode != null">
+				and type_code = #{EntityRelated.typeCode,jdbcType=TINYINT} 
+		</if>
+		<if test="EntityRelated.typeText != null and EntityRelated.typeText != '' ">
+ 				and  type_text LIKE CONCAT('%',#{EntityRelated.typeText,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.userId != null and EntityRelated.userId != '' ">
+				and user_id = #{EntityRelated.userId,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.userName != null and EntityRelated.userName != '' ">
+ 				and  user_name LIKE CONCAT('%',#{EntityRelated.userName,jdbcType=VARCHAR},'%') 
+		</if>
+
+
+		<if test="OrderList != null and OrderList!=null">
+			order by
+			<foreach collection="OrderList" item="Order" index="index" separator=",">
+				${Order.columnName}
+				<if test="Order.isASC">
+					ASC
+				</if>
+				<if test="!Order.isASC">
+					DESC
+				</if>
+			</foreach>
+		</if>
+  </select>
+  
+	<select id="getListBySQL" resultType="java.util.HashMap" parameterType="String">
+		<if test="value!=null and value!=''">
+			${value}
+		</if>
+	</select>
+
+  <cache />
+</mapper>

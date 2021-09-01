@@ -1,0 +1,10 @@
+[ConnectionProfile]
+ConnectionType=JDBC
+Dbms=MySQL
+Description=·ç»ðÂÖ
+DisableBind=0
+Driver=com.mysql.jdbc.Driver
+JarFiles=C:\Program Files\Java\jdk1.8.0_201\lib\mysql-connector-java-5.1.13-bin.jar
+LogId=root
+TrimSpaces=0
+URL=jdbc:mysql://127.0.0.1:3306/wheel

@@ -1,0 +1,705 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zee.dao.unity.gp.IGpEarlyWarningUntDal" >
+
+  <resultMap id="BaseResultMap" type="com.zee.ent.extend.gp.GpEarlyWarning" >
+              <id column="id" property="id" jdbcType="VARCHAR" />
+              <result column="growth_id" property="growthId" jdbcType="VARCHAR" />
+              <result column="growth_name" property="growthName" jdbcType="VARCHAR" />
+              <result column="begin_date" property="beginDate" jdbcType="VARCHAR" />
+              <result column="end_date" property="endDate" jdbcType="VARCHAR" />
+              <result column="warning_type" property="warningType" jdbcType="INTEGER" />
+              <result column="warning_name" property="warningName" jdbcType="VARCHAR" />
+              <result column="max_val" property="maxVal" jdbcType="DOUBLE" />
+              <result column="min_val" property="minVal" jdbcType="DOUBLE" />
+              <result column="tips_mess" property="tipsMess" jdbcType="VARCHAR" />
+              <result column="stutas_code" property="stutasCode" jdbcType="TINYINT" />
+              <result column="stutas_text" property="stutasText" jdbcType="VARCHAR" />
+              <result column="remark" property="remark" jdbcType="VARCHAR" />
+              <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+              <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+        id,growth_id,growth_name,begin_date,end_date,warning_type,warning_name,max_val,min_val,tips_mess,stutas_code,stutas_text,remark,add_time,update_time
+  </sql>
+  
+  <insert id="add" parameterType="com.zee.ent.extend.gp.GpEarlyWarning" >
+    insert into gp_early_warning
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+          <if test="id != null and id != '' " >
+              id,
+          </if>
+      
+          <if test="growthId != null and growthId != '' " >
+              growth_id,
+          </if>
+      
+          <if test="growthName != null and growthName != '' " >
+              growth_name,
+          </if>
+      
+          <if test="beginDate != null and beginDate != '' " >
+              begin_date,
+          </if>
+      
+          <if test="endDate != null and endDate != '' " >
+              end_date,
+          </if>
+      
+          <if test="warningType != null " >
+              warning_type,
+          </if>
+          <if test="warningName != null and warningName != '' " >
+              warning_name,
+          </if>
+      
+          <if test="maxVal != null " >
+              max_val,
+          </if>
+          <if test="minVal != null " >
+              min_val,
+          </if>
+          <if test="tipsMess != null and tipsMess != '' " >
+              tips_mess,
+          </if>
+      
+          <if test="stutasCode != null " >
+              stutas_code,
+          </if>
+          <if test="stutasText != null and stutasText != '' " >
+              stutas_text,
+          </if>
+      
+          <if test="remark != null and remark != '' " >
+              remark,
+          </if>
+      
+          <if test="addTime != null " >
+              add_time,
+          </if>
+          <if test="updateTime != null " >
+              update_time,
+          </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+          <if test="id != null and id != '' " >
+              #{id,jdbcType=VARCHAR},
+          </if>
+          <if test="growthId != null and growthId != '' " >
+              #{growthId,jdbcType=VARCHAR},
+          </if>
+          <if test="growthName != null and growthName != '' " >
+              #{growthName,jdbcType=VARCHAR},
+          </if>
+          <if test="beginDate != null and beginDate != '' " >
+              #{beginDate,jdbcType=VARCHAR},
+          </if>
+          <if test="endDate != null and endDate != '' " >
+              #{endDate,jdbcType=VARCHAR},
+          </if>
+          <if test="warningType != null " >
+              #{warningType,jdbcType=INTEGER},
+          </if>
+          <if test="warningName != null and warningName != '' " >
+              #{warningName,jdbcType=VARCHAR},
+          </if>
+          <if test="maxVal != null " >
+              #{maxVal,jdbcType=DOUBLE},
+          </if>
+          <if test="minVal != null " >
+              #{minVal,jdbcType=DOUBLE},
+          </if>
+          <if test="tipsMess != null and tipsMess != '' " >
+              #{tipsMess,jdbcType=VARCHAR},
+          </if>
+          <if test="stutasCode != null " >
+              #{stutasCode,jdbcType=TINYINT},
+          </if>
+          <if test="stutasText != null and stutasText != '' " >
+              #{stutasText,jdbcType=VARCHAR},
+          </if>
+          <if test="remark != null and remark != '' " >
+              #{remark,jdbcType=VARCHAR},
+          </if>
+          <if test="addTime != null " >
+              #{addTime,jdbcType=TIMESTAMP},
+          </if>
+          <if test="updateTime != null " >
+              #{updateTime,jdbcType=TIMESTAMP},
+          </if>
+    </trim>
+  </insert>
+  
+  <insert id="addList" parameterType="list">
+    	insert into gp_early_warning
+    	<trim prefix="(" suffix=")">
+    		<include refid="Base_Column_List" />
+    	</trim>
+    	values
+    	<foreach collection="list" item="gpEarlyWarning" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides="," >
+
+          #{gpEarlyWarning.id,jdbcType=VARCHAR},
+          #{gpEarlyWarning.growthId,jdbcType=VARCHAR},
+          #{gpEarlyWarning.growthName,jdbcType=VARCHAR},
+          #{gpEarlyWarning.beginDate,jdbcType=VARCHAR},
+          #{gpEarlyWarning.endDate,jdbcType=VARCHAR},
+          #{gpEarlyWarning.warningType,jdbcType=INTEGER},
+          #{gpEarlyWarning.warningName,jdbcType=VARCHAR},
+          #{gpEarlyWarning.maxVal,jdbcType=DOUBLE},
+          #{gpEarlyWarning.minVal,jdbcType=DOUBLE},
+          #{gpEarlyWarning.tipsMess,jdbcType=VARCHAR},
+          #{gpEarlyWarning.stutasCode,jdbcType=TINYINT},
+          #{gpEarlyWarning.stutasText,jdbcType=VARCHAR},
+          #{gpEarlyWarning.remark,jdbcType=VARCHAR},
+          #{gpEarlyWarning.addTime,jdbcType=TIMESTAMP},
+          #{gpEarlyWarning.updateTime,jdbcType=TIMESTAMP},
+
+        </trim>
+    	</foreach>
+    </insert>
+
+
+  <insert id="addListWithDffOrAdd" parameterType="list">
+    	insert into gp_early_warning
+    	<trim prefix="(" suffix=")">
+    		<include refid="Base_Column_List" />
+    	</trim>
+    	values
+    	<foreach collection="list" item="gpEarlyWarning" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides="," >
+
+          #{gpEarlyWarning.id,jdbcType=VARCHAR},
+          #{gpEarlyWarning.growthId,jdbcType=VARCHAR},
+          #{gpEarlyWarning.growthName,jdbcType=VARCHAR},
+          #{gpEarlyWarning.beginDate,jdbcType=VARCHAR},
+          #{gpEarlyWarning.endDate,jdbcType=VARCHAR},
+          #{gpEarlyWarning.warningType,jdbcType=INTEGER},
+          #{gpEarlyWarning.warningName,jdbcType=VARCHAR},
+          #{gpEarlyWarning.maxVal,jdbcType=DOUBLE},
+          #{gpEarlyWarning.minVal,jdbcType=DOUBLE},
+          #{gpEarlyWarning.tipsMess,jdbcType=VARCHAR},
+          #{gpEarlyWarning.stutasCode,jdbcType=TINYINT},
+          #{gpEarlyWarning.stutasText,jdbcType=VARCHAR},
+          #{gpEarlyWarning.remark,jdbcType=VARCHAR},
+          #{gpEarlyWarning.addTime,jdbcType=TIMESTAMP},
+          #{gpEarlyWarning.updateTime,jdbcType=TIMESTAMP},
+
+        </trim>
+    	</foreach>
+        ON DUPLICATE KEY UPDATE
+id=values(id),
+growth_id=values(growth_id),
+growth_name=values(growth_name),
+begin_date=values(begin_date),
+end_date=values(end_date),
+warning_type=values(warning_type),
+warning_name=values(warning_name),
+max_val=values(max_val),
+min_val=values(min_val),
+tips_mess=values(tips_mess),
+stutas_code=values(stutas_code),
+stutas_text=values(stutas_text),
+remark=values(remark),
+add_time=values(add_time),
+update_time=values(update_time)
+        
+    </insert>
+
+
+    <delete id="delete" parameterType="java.lang.String" >
+        delete from gp_early_warning
+        where  id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+        
+
+	<delete id="deleteByIdList" parameterType="list">
+		delete from gp_early_warning
+		where id  in
+		<foreach collection="list" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+	</delete>
+  
+  
+  
+  <update id="update" parameterType="com.zee.ent.extend.gp.GpEarlyWarning" >
+    update gp_early_warning
+    <set >
+                    <choose>
+                   <when test="growthId != null and growthId=='-1'">
+                     growth_id = null,
+                  </when>
+                  <when test="growthId != null and growthId=='-2'">
+                     growth_id = '',
+                  </when>
+                  <when test="growthId != null  and growthId != '' " >
+                     growth_id = #{growthId,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="growthName != null and growthName=='-1'">
+                     growth_name = null,
+                  </when>
+                  <when test="growthName != null and growthName=='-2'">
+                     growth_name = '',
+                  </when>
+                  <when test="growthName != null  and growthName != '' " >
+                     growth_name = #{growthName,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="beginDate != null and beginDate=='-1'">
+                     begin_date = null,
+                  </when>
+                  <when test="beginDate != null and beginDate=='-2'">
+                     begin_date = '',
+                  </when>
+                  <when test="beginDate != null  and beginDate != '' " >
+                     begin_date = #{beginDate,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="endDate != null and endDate=='-1'">
+                     end_date = null,
+                  </when>
+                  <when test="endDate != null and endDate=='-2'">
+                     end_date = '',
+                  </when>
+                  <when test="endDate != null  and endDate != '' " >
+                     end_date = #{endDate,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                  <if test="warningType != null ">
+                     warning_type = #{warningType,jdbcType=INTEGER},
+                  </if>
+                    <choose>
+                   <when test="warningName != null and warningName=='-1'">
+                     warning_name = null,
+                  </when>
+                  <when test="warningName != null and warningName=='-2'">
+                     warning_name = '',
+                  </when>
+                  <when test="warningName != null  and warningName != '' " >
+                     warning_name = #{warningName,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                  <if test="maxVal != null ">
+                     max_val = #{maxVal,jdbcType=DOUBLE},
+                  </if>
+                  <if test="minVal != null ">
+                     min_val = #{minVal,jdbcType=DOUBLE},
+                  </if>
+                    <choose>
+                   <when test="tipsMess != null and tipsMess=='-1'">
+                     tips_mess = null,
+                  </when>
+                  <when test="tipsMess != null and tipsMess=='-2'">
+                     tips_mess = '',
+                  </when>
+                  <when test="tipsMess != null  and tipsMess != '' " >
+                     tips_mess = #{tipsMess,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                  <if test="stutasCode != null ">
+                     stutas_code = #{stutasCode,jdbcType=TINYINT},
+                  </if>
+                    <choose>
+                   <when test="stutasText != null and stutasText=='-1'">
+                     stutas_text = null,
+                  </when>
+                  <when test="stutasText != null and stutasText=='-2'">
+                     stutas_text = '',
+                  </when>
+                  <when test="stutasText != null  and stutasText != '' " >
+                     stutas_text = #{stutasText,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="remark != null and remark=='-1'">
+                     remark = null,
+                  </when>
+                  <when test="remark != null and remark=='-2'">
+                     remark = '',
+                  </when>
+                  <when test="remark != null  and remark != '' " >
+                     remark = #{remark,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                  <if test="addTime != null ">
+                     add_time = #{addTime,jdbcType=TIMESTAMP},
+                  </if>
+                  <if test="updateTime != null ">
+                     update_time = #{updateTime,jdbcType=TIMESTAMP},
+                  </if>
+   </set>
+                 where  id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+<update id="updateList">
+    update gp_early_warning
+    <set >
+                  <if test="t.growthId != null  and t.growthId != '' " >
+                     growth_id = #{t.growthId,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.growthName != null  and t.growthName != '' " >
+                     growth_name = #{t.growthName,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.beginDate != null  and t.beginDate != '' " >
+                     begin_date = #{t.beginDate,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.endDate != null  and t.endDate != '' " >
+                     end_date = #{t.endDate,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.warningType != null ">
+                     warning_type = #{t.warningType,jdbcType=INTEGER},
+                  </if>
+                  <if test="t.warningName != null  and t.warningName != '' " >
+                     warning_name = #{t.warningName,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.maxVal != null ">
+                     max_val = #{t.maxVal,jdbcType=DOUBLE},
+                  </if>
+                  <if test="t.minVal != null ">
+                     min_val = #{t.minVal,jdbcType=DOUBLE},
+                  </if>
+                  <if test="t.tipsMess != null  and t.tipsMess != '' " >
+                     tips_mess = #{t.tipsMess,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.stutasCode != null ">
+                     stutas_code = #{t.stutasCode,jdbcType=TINYINT},
+                  </if>
+                  <if test="t.stutasText != null  and t.stutasText != '' " >
+                     stutas_text = #{t.stutasText,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.remark != null  and t.remark != '' " >
+                     remark = #{t.remark,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.addTime != null ">
+                     add_time = #{t.addTime,jdbcType=TIMESTAMP},
+                  </if>
+                  <if test="t.updateTime != null ">
+                     update_time = #{t.updateTime,jdbcType=TIMESTAMP},
+                  </if>
+   </set>
+	
+		where id  in
+		<foreach collection="idList" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+   
+  </update>
+  
+<update id="updateListWithDff"  parameterType="list">
+    update gp_early_warning
+		<trim prefix="set" suffixOverrides=",">
+         <trim prefix="growth_id =case" suffix="end,">
+              <foreach collection="list" item="gpEarlyWarning" index="index">
+                  <if test="gpEarlyWarning.growthId != null and gpEarlyWarning.growthId  != ''  and gpEarlyWarning.growthId  != '-1' ">
+                     when id=#{gpEarlyWarning.id} then #{gpEarlyWarning.growthId,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpEarlyWarning.growthId != null  and gpEarlyWarning.growthId  == '-1' ">
+                     when id=#{gpEarlyWarning.id} then null
+                  </if>  
+                   <if test="gpEarlyWarning.growthId != null  and gpEarlyWarning.growthId  == '-2' ">
+                     when id=#{gpEarlyWarning.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="growth_name =case" suffix="end,">
+              <foreach collection="list" item="gpEarlyWarning" index="index">
+                  <if test="gpEarlyWarning.growthName != null and gpEarlyWarning.growthName  != ''  and gpEarlyWarning.growthName  != '-1' ">
+                     when id=#{gpEarlyWarning.id} then #{gpEarlyWarning.growthName,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpEarlyWarning.growthName != null  and gpEarlyWarning.growthName  == '-1' ">
+                     when id=#{gpEarlyWarning.id} then null
+                  </if>  
+                   <if test="gpEarlyWarning.growthName != null  and gpEarlyWarning.growthName  == '-2' ">
+                     when id=#{gpEarlyWarning.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="begin_date =case" suffix="end,">
+              <foreach collection="list" item="gpEarlyWarning" index="index">
+                  <if test="gpEarlyWarning.beginDate != null and gpEarlyWarning.beginDate  != ''  and gpEarlyWarning.beginDate  != '-1' ">
+                     when id=#{gpEarlyWarning.id} then #{gpEarlyWarning.beginDate,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpEarlyWarning.beginDate != null  and gpEarlyWarning.beginDate  == '-1' ">
+                     when id=#{gpEarlyWarning.id} then null
+                  </if>  
+                   <if test="gpEarlyWarning.beginDate != null  and gpEarlyWarning.beginDate  == '-2' ">
+                     when id=#{gpEarlyWarning.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="end_date =case" suffix="end,">
+              <foreach collection="list" item="gpEarlyWarning" index="index">
+                  <if test="gpEarlyWarning.endDate != null and gpEarlyWarning.endDate  != ''  and gpEarlyWarning.endDate  != '-1' ">
+                     when id=#{gpEarlyWarning.id} then #{gpEarlyWarning.endDate,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpEarlyWarning.endDate != null  and gpEarlyWarning.endDate  == '-1' ">
+                     when id=#{gpEarlyWarning.id} then null
+                  </if>  
+                   <if test="gpEarlyWarning.endDate != null  and gpEarlyWarning.endDate  == '-2' ">
+                     when id=#{gpEarlyWarning.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="warning_type =case" suffix="end,">
+              <foreach collection="list" item="gpEarlyWarning" index="index">
+                  <if test="gpEarlyWarning.warningType != null " >
+                     when id=#{gpEarlyWarning.id} then #{gpEarlyWarning.warningType,jdbcType=INTEGER}
+                  </if>
+              </foreach>
+         </trim>
+         <trim prefix="warning_name =case" suffix="end,">
+              <foreach collection="list" item="gpEarlyWarning" index="index">
+                  <if test="gpEarlyWarning.warningName != null and gpEarlyWarning.warningName  != ''  and gpEarlyWarning.warningName  != '-1' ">
+                     when id=#{gpEarlyWarning.id} then #{gpEarlyWarning.warningName,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpEarlyWarning.warningName != null  and gpEarlyWarning.warningName  == '-1' ">
+                     when id=#{gpEarlyWarning.id} then null
+                  </if>  
+                   <if test="gpEarlyWarning.warningName != null  and gpEarlyWarning.warningName  == '-2' ">
+                     when id=#{gpEarlyWarning.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="max_val =case" suffix="end,">
+              <foreach collection="list" item="gpEarlyWarning" index="index">
+                  <if test="gpEarlyWarning.maxVal != null " >
+                     when id=#{gpEarlyWarning.id} then #{gpEarlyWarning.maxVal,jdbcType=DOUBLE}
+                  </if>
+              </foreach>
+         </trim>
+         <trim prefix="min_val =case" suffix="end,">
+              <foreach collection="list" item="gpEarlyWarning" index="index">
+                  <if test="gpEarlyWarning.minVal != null " >
+                     when id=#{gpEarlyWarning.id} then #{gpEarlyWarning.minVal,jdbcType=DOUBLE}
+                  </if>
+              </foreach>
+         </trim>
+         <trim prefix="tips_mess =case" suffix="end,">
+              <foreach collection="list" item="gpEarlyWarning" index="index">
+                  <if test="gpEarlyWarning.tipsMess != null and gpEarlyWarning.tipsMess  != ''  and gpEarlyWarning.tipsMess  != '-1' ">
+                     when id=#{gpEarlyWarning.id} then #{gpEarlyWarning.tipsMess,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpEarlyWarning.tipsMess != null  and gpEarlyWarning.tipsMess  == '-1' ">
+                     when id=#{gpEarlyWarning.id} then null
+                  </if>  
+                   <if test="gpEarlyWarning.tipsMess != null  and gpEarlyWarning.tipsMess  == '-2' ">
+                     when id=#{gpEarlyWarning.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="stutas_code =case" suffix="end,">
+              <foreach collection="list" item="gpEarlyWarning" index="index">
+                  <if test="gpEarlyWarning.stutasCode != null " >
+                     when id=#{gpEarlyWarning.id} then #{gpEarlyWarning.stutasCode,jdbcType=TINYINT}
+                  </if>
+              </foreach>
+         </trim>
+         <trim prefix="stutas_text =case" suffix="end,">
+              <foreach collection="list" item="gpEarlyWarning" index="index">
+                  <if test="gpEarlyWarning.stutasText != null and gpEarlyWarning.stutasText  != ''  and gpEarlyWarning.stutasText  != '-1' ">
+                     when id=#{gpEarlyWarning.id} then #{gpEarlyWarning.stutasText,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpEarlyWarning.stutasText != null  and gpEarlyWarning.stutasText  == '-1' ">
+                     when id=#{gpEarlyWarning.id} then null
+                  </if>  
+                   <if test="gpEarlyWarning.stutasText != null  and gpEarlyWarning.stutasText  == '-2' ">
+                     when id=#{gpEarlyWarning.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="remark =case" suffix="end,">
+              <foreach collection="list" item="gpEarlyWarning" index="index">
+                  <if test="gpEarlyWarning.remark != null and gpEarlyWarning.remark  != ''  and gpEarlyWarning.remark  != '-1' ">
+                     when id=#{gpEarlyWarning.id} then #{gpEarlyWarning.remark,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpEarlyWarning.remark != null  and gpEarlyWarning.remark  == '-1' ">
+                     when id=#{gpEarlyWarning.id} then null
+                  </if>  
+                   <if test="gpEarlyWarning.remark != null  and gpEarlyWarning.remark  == '-2' ">
+                     when id=#{gpEarlyWarning.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="add_time =case" suffix="end,">
+              <foreach collection="list" item="gpEarlyWarning" index="index">
+                  <if test="gpEarlyWarning.addTime != null " >
+                     when id=#{gpEarlyWarning.id} then #{gpEarlyWarning.addTime,jdbcType=TIMESTAMP}
+                  </if>
+              </foreach>
+         </trim>
+         <trim prefix="update_time =case" suffix="end,">
+              <foreach collection="list" item="gpEarlyWarning" index="index">
+                  <if test="gpEarlyWarning.updateTime != null " >
+                     when id=#{gpEarlyWarning.id} then #{gpEarlyWarning.updateTime,jdbcType=TIMESTAMP}
+                  </if>
+              </foreach>
+         </trim>
+    </trim>
+    where id in
+		<foreach collection="list" item="gpEarlyWarning" index="index" open="(" close=")" separator=",">
+			#{gpEarlyWarning.id,jdbcType=VARCHAR}
+		</foreach>
+  </update>
+
+  
+  
+  <insert id="updateListWithDffOrAdd" useGeneratedKeys="true" keyProperty="id" parameterType="list">
+    replace into gp_early_warning
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+id,
+growth_id,
+growth_name,
+begin_date,
+end_date,
+warning_type,
+warning_name,
+max_val,
+min_val,
+tips_mess,
+stutas_code,
+stutas_text,
+remark,
+add_time,
+update_time,
+    </trim>
+    VALUES
+    <foreach collection="list" item="gpEarlyWarning" index="index" separator=",">
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+              #{gpEarlyWarning.id ,jdbcType=VARCHAR},
+                  
+                     #{gpEarlyWarning.growthId ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpEarlyWarning.growthName ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpEarlyWarning.beginDate ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpEarlyWarning.endDate ,jdbcType=VARCHAR},
+                  
+                  
+                    #{gpEarlyWarning.warningType,jdbcType=INTEGER},
+            
+                  
+                     #{gpEarlyWarning.warningName ,jdbcType=VARCHAR},
+                  
+                  
+                    #{gpEarlyWarning.maxVal,jdbcType=DOUBLE},
+            
+                  
+                    #{gpEarlyWarning.minVal,jdbcType=DOUBLE},
+            
+                  
+                     #{gpEarlyWarning.tipsMess ,jdbcType=VARCHAR},
+                  
+                  
+                    #{gpEarlyWarning.stutasCode,jdbcType=TINYINT},
+            
+                  
+                     #{gpEarlyWarning.stutasText ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpEarlyWarning.remark ,jdbcType=VARCHAR},
+                  
+                  
+                    #{gpEarlyWarning.addTime,jdbcType=TIMESTAMP},
+            
+                  
+                    #{gpEarlyWarning.updateTime,jdbcType=TIMESTAMP},
+            
+      </trim>
+    </foreach>
+  </insert>
+
+
+  <select id="getModel" resultMap="BaseResultMap" parameterType="java.lang.String" >
+          select 
+                 <include refid="Base_Column_List" />
+          from gp_early_warning
+           where  id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+   
+  
+  <select id="getList" resultMap="BaseResultMap" parameterType="map" >
+          select
+                <include refid="Base_Column_List" />
+          from gp_early_warning where 1 = 1
+        <if test="EntityRelated.id != null and EntityRelated.id != '' ">
+			and id LIKE CONCAT('%',#{EntityRelated.id,jdbcType=VARCHAR},'%')
+		</if>
+
+		<if test="EntityRelated.beginAddTime != null ">
+				<![CDATA[ AND  unix_timestamp(add_time)>=unix_timestamp(#{EntityRelated.beginAddTime})]]> 
+		</if>
+		<if test="EntityRelated.endAddTime != null ">
+				<![CDATA[ AND  unix_timestamp(add_time)<unix_timestamp(#{EntityRelated.endAddTime})]]> 
+		</if>
+		<if test="EntityRelated.beginDate != null and EntityRelated.beginDate != '' ">
+ 				and  begin_date LIKE CONCAT('%',#{EntityRelated.beginDate,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.endDate != null and EntityRelated.endDate != '' ">
+ 				and  end_date LIKE CONCAT('%',#{EntityRelated.endDate,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.growthId != null and EntityRelated.growthId != '' ">
+				and growth_id = #{EntityRelated.growthId,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.growthName != null and EntityRelated.growthName != '' ">
+ 				and  growth_name LIKE CONCAT('%',#{EntityRelated.growthName,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.id != null and EntityRelated.id != '' ">
+				and id = #{EntityRelated.id,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.remark != null and EntityRelated.remark != '' ">
+ 				and  remark LIKE CONCAT('%',#{EntityRelated.remark,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.stutasCode != null">
+				and stutas_code = #{EntityRelated.stutasCode,jdbcType=TINYINT} 
+		</if>
+		<if test="EntityRelated.stutasText != null and EntityRelated.stutasText != '' ">
+ 				and  stutas_text LIKE CONCAT('%',#{EntityRelated.stutasText,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.tipsMess != null and EntityRelated.tipsMess != '' ">
+ 				and  tips_mess LIKE CONCAT('%',#{EntityRelated.tipsMess,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.beginUpdateTime != null ">
+				<![CDATA[ AND  unix_timestamp(update_time)>=unix_timestamp(#{EntityRelated.beginUpdateTime})]]> 
+		</if>
+		<if test="EntityRelated.endUpdateTime != null ">
+				<![CDATA[ AND  unix_timestamp(update_time)<unix_timestamp(#{EntityRelated.endUpdateTime})]]> 
+		</if>
+		<if test="EntityRelated.warningName != null and EntityRelated.warningName != '' ">
+ 				and  warning_name LIKE CONCAT('%',#{EntityRelated.warningName,jdbcType=VARCHAR},'%') 
+		</if>
+
+
+		<if test="OrderList != null and OrderList!=null">
+			order by
+			<foreach collection="OrderList" item="Order" index="index" separator=",">
+				${Order.columnName}
+				<if test="Order.isASC">
+					ASC
+				</if>
+				<if test="!Order.isASC">
+					DESC
+				</if>
+			</foreach>
+		</if>
+  </select>
+  
+	<select id="getListBySQL" resultType="java.util.HashMap" parameterType="String">
+		<if test="value!=null and value!=''">
+			${value}
+		</if>
+	</select>
+
+  <cache />
+</mapper>

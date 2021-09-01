@@ -1,0 +1,471 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zee.dao.unity.gp.IGpValueLocationUntDal" >
+
+  <resultMap id="BaseResultMap" type="com.zee.ent.extend.gp.GpValueLocation" >
+              <id column="id" property="id" jdbcType="VARCHAR" />
+              <result column="column_value" property="columnValue" jdbcType="VARCHAR" />
+              <result column="origin_table_name" property="originTableName" jdbcType="VARCHAR" />
+              <result column="target_column_name" property="targetColumnName" jdbcType="VARCHAR" />
+              <result column="target_table_name" property="targetTableName" jdbcType="VARCHAR" />
+              <result column="target_record_id" property="targetRecordId" jdbcType="VARCHAR" />
+              <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+              <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+        id,column_value,origin_table_name,target_column_name,target_table_name,target_record_id,remarks,add_time
+  </sql>
+  
+  <insert id="add" parameterType="com.zee.ent.extend.gp.GpValueLocation" >
+    insert into gp_value_location
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+          <if test="id != null and id != '' " >
+              id,
+          </if>
+      
+          <if test="columnValue != null and columnValue != '' " >
+              column_value,
+          </if>
+      
+          <if test="originTableName != null and originTableName != '' " >
+              origin_table_name,
+          </if>
+      
+          <if test="targetColumnName != null and targetColumnName != '' " >
+              target_column_name,
+          </if>
+      
+          <if test="targetTableName != null and targetTableName != '' " >
+              target_table_name,
+          </if>
+      
+          <if test="targetRecordId != null and targetRecordId != '' " >
+              target_record_id,
+          </if>
+      
+          <if test="remarks != null and remarks != '' " >
+              remarks,
+          </if>
+      
+          <if test="addTime != null " >
+              add_time,
+          </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+          <if test="id != null and id != '' " >
+              #{id,jdbcType=VARCHAR},
+          </if>
+          <if test="columnValue != null and columnValue != '' " >
+              #{columnValue,jdbcType=VARCHAR},
+          </if>
+          <if test="originTableName != null and originTableName != '' " >
+              #{originTableName,jdbcType=VARCHAR},
+          </if>
+          <if test="targetColumnName != null and targetColumnName != '' " >
+              #{targetColumnName,jdbcType=VARCHAR},
+          </if>
+          <if test="targetTableName != null and targetTableName != '' " >
+              #{targetTableName,jdbcType=VARCHAR},
+          </if>
+          <if test="targetRecordId != null and targetRecordId != '' " >
+              #{targetRecordId,jdbcType=VARCHAR},
+          </if>
+          <if test="remarks != null and remarks != '' " >
+              #{remarks,jdbcType=VARCHAR},
+          </if>
+          <if test="addTime != null " >
+              #{addTime,jdbcType=TIMESTAMP},
+          </if>
+    </trim>
+  </insert>
+  
+  <insert id="addList" parameterType="list">
+    	insert into gp_value_location
+    	<trim prefix="(" suffix=")">
+    		<include refid="Base_Column_List" />
+    	</trim>
+    	values
+    	<foreach collection="list" item="gpValueLocation" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides="," >
+
+          #{gpValueLocation.id,jdbcType=VARCHAR},
+          #{gpValueLocation.columnValue,jdbcType=VARCHAR},
+          #{gpValueLocation.originTableName,jdbcType=VARCHAR},
+          #{gpValueLocation.targetColumnName,jdbcType=VARCHAR},
+          #{gpValueLocation.targetTableName,jdbcType=VARCHAR},
+          #{gpValueLocation.targetRecordId,jdbcType=VARCHAR},
+          #{gpValueLocation.remarks,jdbcType=VARCHAR},
+          #{gpValueLocation.addTime,jdbcType=TIMESTAMP},
+
+        </trim>
+    	</foreach>
+    </insert>
+
+
+  <insert id="addListWithDffOrAdd" parameterType="list">
+    	insert into gp_value_location
+    	<trim prefix="(" suffix=")">
+    		<include refid="Base_Column_List" />
+    	</trim>
+    	values
+    	<foreach collection="list" item="gpValueLocation" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides="," >
+
+          #{gpValueLocation.id,jdbcType=VARCHAR},
+          #{gpValueLocation.columnValue,jdbcType=VARCHAR},
+          #{gpValueLocation.originTableName,jdbcType=VARCHAR},
+          #{gpValueLocation.targetColumnName,jdbcType=VARCHAR},
+          #{gpValueLocation.targetTableName,jdbcType=VARCHAR},
+          #{gpValueLocation.targetRecordId,jdbcType=VARCHAR},
+          #{gpValueLocation.remarks,jdbcType=VARCHAR},
+          #{gpValueLocation.addTime,jdbcType=TIMESTAMP},
+
+        </trim>
+    	</foreach>
+        ON DUPLICATE KEY UPDATE
+id=values(id),
+column_value=values(column_value),
+origin_table_name=values(origin_table_name),
+target_column_name=values(target_column_name),
+target_table_name=values(target_table_name),
+target_record_id=values(target_record_id),
+remarks=values(remarks),
+add_time=values(add_time)
+        
+    </insert>
+
+
+    <delete id="delete" parameterType="java.lang.String" >
+        delete from gp_value_location
+        where  id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+        
+
+	<delete id="deleteByIdList" parameterType="list">
+		delete from gp_value_location
+		where id  in
+		<foreach collection="list" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+	</delete>
+  
+  
+  
+  <update id="update" parameterType="com.zee.ent.extend.gp.GpValueLocation" >
+    update gp_value_location
+    <set >
+                    <choose>
+                   <when test="columnValue != null and columnValue=='-1'">
+                     column_value = null,
+                  </when>
+                  <when test="columnValue != null and columnValue=='-2'">
+                     column_value = '',
+                  </when>
+                  <when test="columnValue != null  and columnValue != '' " >
+                     column_value = #{columnValue,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="originTableName != null and originTableName=='-1'">
+                     origin_table_name = null,
+                  </when>
+                  <when test="originTableName != null and originTableName=='-2'">
+                     origin_table_name = '',
+                  </when>
+                  <when test="originTableName != null  and originTableName != '' " >
+                     origin_table_name = #{originTableName,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="targetColumnName != null and targetColumnName=='-1'">
+                     target_column_name = null,
+                  </when>
+                  <when test="targetColumnName != null and targetColumnName=='-2'">
+                     target_column_name = '',
+                  </when>
+                  <when test="targetColumnName != null  and targetColumnName != '' " >
+                     target_column_name = #{targetColumnName,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="targetTableName != null and targetTableName=='-1'">
+                     target_table_name = null,
+                  </when>
+                  <when test="targetTableName != null and targetTableName=='-2'">
+                     target_table_name = '',
+                  </when>
+                  <when test="targetTableName != null  and targetTableName != '' " >
+                     target_table_name = #{targetTableName,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="targetRecordId != null and targetRecordId=='-1'">
+                     target_record_id = null,
+                  </when>
+                  <when test="targetRecordId != null and targetRecordId=='-2'">
+                     target_record_id = '',
+                  </when>
+                  <when test="targetRecordId != null  and targetRecordId != '' " >
+                     target_record_id = #{targetRecordId,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="remarks != null and remarks=='-1'">
+                     remarks = null,
+                  </when>
+                  <when test="remarks != null and remarks=='-2'">
+                     remarks = '',
+                  </when>
+                  <when test="remarks != null  and remarks != '' " >
+                     remarks = #{remarks,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                  <if test="addTime != null ">
+                     add_time = #{addTime,jdbcType=TIMESTAMP},
+                  </if>
+   </set>
+                 where  id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+<update id="updateList">
+    update gp_value_location
+    <set >
+                  <if test="t.columnValue != null  and t.columnValue != '' " >
+                     column_value = #{t.columnValue,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.originTableName != null  and t.originTableName != '' " >
+                     origin_table_name = #{t.originTableName,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.targetColumnName != null  and t.targetColumnName != '' " >
+                     target_column_name = #{t.targetColumnName,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.targetTableName != null  and t.targetTableName != '' " >
+                     target_table_name = #{t.targetTableName,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.targetRecordId != null  and t.targetRecordId != '' " >
+                     target_record_id = #{t.targetRecordId,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.remarks != null  and t.remarks != '' " >
+                     remarks = #{t.remarks,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.addTime != null ">
+                     add_time = #{t.addTime,jdbcType=TIMESTAMP},
+                  </if>
+   </set>
+	
+		where id  in
+		<foreach collection="idList" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+   
+  </update>
+  
+<update id="updateListWithDff"  parameterType="list">
+    update gp_value_location
+		<trim prefix="set" suffixOverrides=",">
+         <trim prefix="column_value =case" suffix="end,">
+              <foreach collection="list" item="gpValueLocation" index="index">
+                  <if test="gpValueLocation.columnValue != null and gpValueLocation.columnValue  != ''  and gpValueLocation.columnValue  != '-1' ">
+                     when id=#{gpValueLocation.id} then #{gpValueLocation.columnValue,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpValueLocation.columnValue != null  and gpValueLocation.columnValue  == '-1' ">
+                     when id=#{gpValueLocation.id} then null
+                  </if>  
+                   <if test="gpValueLocation.columnValue != null  and gpValueLocation.columnValue  == '-2' ">
+                     when id=#{gpValueLocation.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="origin_table_name =case" suffix="end,">
+              <foreach collection="list" item="gpValueLocation" index="index">
+                  <if test="gpValueLocation.originTableName != null and gpValueLocation.originTableName  != ''  and gpValueLocation.originTableName  != '-1' ">
+                     when id=#{gpValueLocation.id} then #{gpValueLocation.originTableName,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpValueLocation.originTableName != null  and gpValueLocation.originTableName  == '-1' ">
+                     when id=#{gpValueLocation.id} then null
+                  </if>  
+                   <if test="gpValueLocation.originTableName != null  and gpValueLocation.originTableName  == '-2' ">
+                     when id=#{gpValueLocation.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="target_column_name =case" suffix="end,">
+              <foreach collection="list" item="gpValueLocation" index="index">
+                  <if test="gpValueLocation.targetColumnName != null and gpValueLocation.targetColumnName  != ''  and gpValueLocation.targetColumnName  != '-1' ">
+                     when id=#{gpValueLocation.id} then #{gpValueLocation.targetColumnName,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpValueLocation.targetColumnName != null  and gpValueLocation.targetColumnName  == '-1' ">
+                     when id=#{gpValueLocation.id} then null
+                  </if>  
+                   <if test="gpValueLocation.targetColumnName != null  and gpValueLocation.targetColumnName  == '-2' ">
+                     when id=#{gpValueLocation.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="target_table_name =case" suffix="end,">
+              <foreach collection="list" item="gpValueLocation" index="index">
+                  <if test="gpValueLocation.targetTableName != null and gpValueLocation.targetTableName  != ''  and gpValueLocation.targetTableName  != '-1' ">
+                     when id=#{gpValueLocation.id} then #{gpValueLocation.targetTableName,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpValueLocation.targetTableName != null  and gpValueLocation.targetTableName  == '-1' ">
+                     when id=#{gpValueLocation.id} then null
+                  </if>  
+                   <if test="gpValueLocation.targetTableName != null  and gpValueLocation.targetTableName  == '-2' ">
+                     when id=#{gpValueLocation.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="target_record_id =case" suffix="end,">
+              <foreach collection="list" item="gpValueLocation" index="index">
+                  <if test="gpValueLocation.targetRecordId != null and gpValueLocation.targetRecordId  != ''  and gpValueLocation.targetRecordId  != '-1' ">
+                     when id=#{gpValueLocation.id} then #{gpValueLocation.targetRecordId,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpValueLocation.targetRecordId != null  and gpValueLocation.targetRecordId  == '-1' ">
+                     when id=#{gpValueLocation.id} then null
+                  </if>  
+                   <if test="gpValueLocation.targetRecordId != null  and gpValueLocation.targetRecordId  == '-2' ">
+                     when id=#{gpValueLocation.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="remarks =case" suffix="end,">
+              <foreach collection="list" item="gpValueLocation" index="index">
+                  <if test="gpValueLocation.remarks != null and gpValueLocation.remarks  != ''  and gpValueLocation.remarks  != '-1' ">
+                     when id=#{gpValueLocation.id} then #{gpValueLocation.remarks,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpValueLocation.remarks != null  and gpValueLocation.remarks  == '-1' ">
+                     when id=#{gpValueLocation.id} then null
+                  </if>  
+                   <if test="gpValueLocation.remarks != null  and gpValueLocation.remarks  == '-2' ">
+                     when id=#{gpValueLocation.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="add_time =case" suffix="end,">
+              <foreach collection="list" item="gpValueLocation" index="index">
+                  <if test="gpValueLocation.addTime != null " >
+                     when id=#{gpValueLocation.id} then #{gpValueLocation.addTime,jdbcType=TIMESTAMP}
+                  </if>
+              </foreach>
+         </trim>
+    </trim>
+    where id in
+		<foreach collection="list" item="gpValueLocation" index="index" open="(" close=")" separator=",">
+			#{gpValueLocation.id,jdbcType=VARCHAR}
+		</foreach>
+  </update>
+
+  
+  
+  <insert id="updateListWithDffOrAdd" useGeneratedKeys="true" keyProperty="id" parameterType="list">
+    replace into gp_value_location
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+id,
+column_value,
+origin_table_name,
+target_column_name,
+target_table_name,
+target_record_id,
+remarks,
+add_time,
+    </trim>
+    VALUES
+    <foreach collection="list" item="gpValueLocation" index="index" separator=",">
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+              #{gpValueLocation.id ,jdbcType=VARCHAR},
+                  
+                     #{gpValueLocation.columnValue ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpValueLocation.originTableName ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpValueLocation.targetColumnName ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpValueLocation.targetTableName ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpValueLocation.targetRecordId ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpValueLocation.remarks ,jdbcType=VARCHAR},
+                  
+                  
+                    #{gpValueLocation.addTime,jdbcType=TIMESTAMP},
+            
+      </trim>
+    </foreach>
+  </insert>
+
+
+  <select id="getModel" resultMap="BaseResultMap" parameterType="java.lang.String" >
+          select 
+                 <include refid="Base_Column_List" />
+          from gp_value_location
+           where  id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+   
+  
+  <select id="getList" resultMap="BaseResultMap" parameterType="map" >
+          select
+                <include refid="Base_Column_List" />
+          from gp_value_location where 1 = 1
+        <if test="EntityRelated.id != null and EntityRelated.id != '' ">
+			and id LIKE CONCAT('%',#{EntityRelated.id,jdbcType=VARCHAR},'%')
+		</if>
+
+		<if test="EntityRelated.beginAddTime != null ">
+				<![CDATA[ AND  unix_timestamp(add_time)>=unix_timestamp(#{EntityRelated.beginAddTime})]]> 
+		</if>
+		<if test="EntityRelated.endAddTime != null ">
+				<![CDATA[ AND  unix_timestamp(add_time)<unix_timestamp(#{EntityRelated.endAddTime})]]> 
+		</if>
+		<if test="EntityRelated.columnValue != null and EntityRelated.columnValue != '' ">
+ 				and  column_value LIKE CONCAT('%',#{EntityRelated.columnValue,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.id != null and EntityRelated.id != '' ">
+				and id = #{EntityRelated.id,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.originTableName != null and EntityRelated.originTableName != '' ">
+ 				and  origin_table_name LIKE CONCAT('%',#{EntityRelated.originTableName,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.remarks != null and EntityRelated.remarks != '' ">
+ 				and  remarks LIKE CONCAT('%',#{EntityRelated.remarks,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.targetColumnName != null and EntityRelated.targetColumnName != '' ">
+ 				and  target_column_name LIKE CONCAT('%',#{EntityRelated.targetColumnName,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.targetRecordId != null and EntityRelated.targetRecordId != '' ">
+				and target_record_id = #{EntityRelated.targetRecordId,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.targetTableName != null and EntityRelated.targetTableName != '' ">
+ 				and  target_table_name LIKE CONCAT('%',#{EntityRelated.targetTableName,jdbcType=VARCHAR},'%') 
+		</if>
+
+
+		<if test="OrderList != null and OrderList!=null">
+			order by
+			<foreach collection="OrderList" item="Order" index="index" separator=",">
+				${Order.columnName}
+				<if test="Order.isASC">
+					ASC
+				</if>
+				<if test="!Order.isASC">
+					DESC
+				</if>
+			</foreach>
+		</if>
+  </select>
+  
+	<select id="getListBySQL" resultType="java.util.HashMap" parameterType="String">
+		<if test="value!=null and value!=''">
+			${value}
+		</if>
+	</select>
+
+  <cache />
+</mapper>

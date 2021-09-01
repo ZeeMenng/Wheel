@@ -1,0 +1,451 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zee.dao.unity.gp.IGprMessageUserUntDal" >
+
+  <resultMap id="BaseResultMap" type="com.zee.ent.extend.gp.GprMessageUser" >
+              <id column="id" property="id" jdbcType="VARCHAR" />
+              <result column="message_id" property="messageId" jdbcType="VARCHAR" />
+              <result column="user_id" property="userId" jdbcType="VARCHAR" />
+              <result column="user_name" property="userName" jdbcType="VARCHAR" />
+              <result column="is_read_code" property="isReadCode" jdbcType="TINYINT" />
+              <result column="read_time" property="readTime" jdbcType="TIMESTAMP" />
+              <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+        id,message_id,user_id,user_name,is_read_code,read_time,add_time
+  </sql>
+  
+  <insert id="add" parameterType="com.zee.ent.extend.gp.GprMessageUser" >
+    insert into gpr_message_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+          <if test="id != null and id != '' " >
+              id,
+          </if>
+      
+          <if test="messageId != null and messageId != '' " >
+              message_id,
+          </if>
+      
+          <if test="userId != null and userId != '' " >
+              user_id,
+          </if>
+      
+          <if test="userName != null and userName != '' " >
+              user_name,
+          </if>
+      
+          <if test="isReadCode != null " >
+              is_read_code,
+          </if>
+          <if test="readTime != null " >
+              read_time,
+          </if>
+          <if test="addTime != null " >
+              add_time,
+          </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+          <if test="id != null and id != '' " >
+              #{id,jdbcType=VARCHAR},
+          </if>
+          <if test="messageId != null and messageId != '' " >
+              #{messageId,jdbcType=VARCHAR},
+          </if>
+          <if test="userId != null and userId != '' " >
+              #{userId,jdbcType=VARCHAR},
+          </if>
+          <if test="userName != null and userName != '' " >
+              #{userName,jdbcType=VARCHAR},
+          </if>
+          <if test="isReadCode != null " >
+              #{isReadCode,jdbcType=TINYINT},
+          </if>
+          <if test="readTime != null " >
+              #{readTime,jdbcType=TIMESTAMP},
+          </if>
+          <if test="addTime != null " >
+              #{addTime,jdbcType=TIMESTAMP},
+          </if>
+    </trim>
+  </insert>
+  
+  <insert id="addList" parameterType="list">
+    	insert into gpr_message_user
+    	<trim prefix="(" suffix=")">
+    		<include refid="Base_Column_List" />
+    	</trim>
+    	values
+    	<foreach collection="list" item="gprMessageUser" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides="," >
+
+          #{gprMessageUser.id,jdbcType=VARCHAR},
+          #{gprMessageUser.messageId,jdbcType=VARCHAR},
+          #{gprMessageUser.userId,jdbcType=VARCHAR},
+          #{gprMessageUser.userName,jdbcType=VARCHAR},
+          #{gprMessageUser.isReadCode,jdbcType=TINYINT},
+          #{gprMessageUser.readTime,jdbcType=TIMESTAMP},
+          #{gprMessageUser.addTime,jdbcType=TIMESTAMP},
+
+        </trim>
+    	</foreach>
+    </insert>
+
+
+  <insert id="addListWithDffOrAdd" parameterType="list">
+    	insert into gpr_message_user
+    	<trim prefix="(" suffix=")">
+    		<include refid="Base_Column_List" />
+    	</trim>
+    	values
+    	<foreach collection="list" item="gprMessageUser" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides="," >
+
+          #{gprMessageUser.id,jdbcType=VARCHAR},
+          #{gprMessageUser.messageId,jdbcType=VARCHAR},
+          #{gprMessageUser.userId,jdbcType=VARCHAR},
+          #{gprMessageUser.userName,jdbcType=VARCHAR},
+          #{gprMessageUser.isReadCode,jdbcType=TINYINT},
+          #{gprMessageUser.readTime,jdbcType=TIMESTAMP},
+          #{gprMessageUser.addTime,jdbcType=TIMESTAMP},
+
+        </trim>
+    	</foreach>
+        ON DUPLICATE KEY UPDATE
+id=values(id),
+message_id=values(message_id),
+user_id=values(user_id),
+user_name=values(user_name),
+is_read_code=values(is_read_code),
+read_time=values(read_time),
+add_time=values(add_time)
+        
+    </insert>
+
+
+    <delete id="delete" parameterType="java.lang.String" >
+        delete from gpr_message_user
+        where  id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+	<delete id="deleteByMessageId" parameterType="java.lang.String">
+    	delete from gpr_message_user
+    	where message_id = #{messageId,jdbcType=VARCHAR}
+    </delete>
+    
+   <delete id="deleteByMessageIdList" parameterType="list">
+		delete from gpr_message_user
+		where message_id  in
+		<foreach collection="list" item="MessageId " index="index" open="(" close=")" separator=",">
+			#{MessageId }
+		</foreach>
+	</delete>
+    
+    
+    <select id="getListByMessageId" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from gpr_message_user where message_id = #{messageId,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByUserId" parameterType="java.lang.String">
+    	delete from gpr_message_user
+    	where user_id = #{userId,jdbcType=VARCHAR}
+    </delete>
+    
+   <delete id="deleteByUserIdList" parameterType="list">
+		delete from gpr_message_user
+		where user_id  in
+		<foreach collection="list" item="UserId " index="index" open="(" close=")" separator=",">
+			#{UserId }
+		</foreach>
+	</delete>
+    
+    
+    <select id="getListByUserId" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from gpr_message_user where user_id = #{userId,jdbcType=VARCHAR}
+	</select>
+        
+ 	<delete id="deleteByCompositeIdList" parameterType="list">
+		delete from gpr_message_user
+		where 1=1
+
+   and message_id in
+		<foreach collection="list" item="gprMessageUser" index="index" open="(" close=")" separator=",">
+				#{gprMessageUser.messageId,jdbcType=VARCHAR}
+		</foreach>
+   and user_id in
+		<foreach collection="list" item="gprMessageUser" index="index" open="(" close=")" separator=",">
+				#{gprMessageUser.userId,jdbcType=VARCHAR}
+		</foreach>
+	</delete>
+        
+
+	<delete id="deleteByIdList" parameterType="list">
+		delete from gpr_message_user
+		where id  in
+		<foreach collection="list" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+	</delete>
+  
+  
+  
+  <update id="update" parameterType="com.zee.ent.extend.gp.GprMessageUser" >
+    update gpr_message_user
+    <set >
+                    <choose>
+                   <when test="messageId != null and messageId=='-1'">
+                     message_id = null,
+                  </when>
+                  <when test="messageId != null and messageId=='-2'">
+                     message_id = '',
+                  </when>
+                  <when test="messageId != null  and messageId != '' " >
+                     message_id = #{messageId,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="userId != null and userId=='-1'">
+                     user_id = null,
+                  </when>
+                  <when test="userId != null and userId=='-2'">
+                     user_id = '',
+                  </when>
+                  <when test="userId != null  and userId != '' " >
+                     user_id = #{userId,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="userName != null and userName=='-1'">
+                     user_name = null,
+                  </when>
+                  <when test="userName != null and userName=='-2'">
+                     user_name = '',
+                  </when>
+                  <when test="userName != null  and userName != '' " >
+                     user_name = #{userName,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                  <if test="isReadCode != null ">
+                     is_read_code = #{isReadCode,jdbcType=TINYINT},
+                  </if>
+                  <if test="readTime != null ">
+                     read_time = #{readTime,jdbcType=TIMESTAMP},
+                  </if>
+                  <if test="addTime != null ">
+                     add_time = #{addTime,jdbcType=TIMESTAMP},
+                  </if>
+   </set>
+                 where  id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+<update id="updateList">
+    update gpr_message_user
+    <set >
+                  <if test="t.messageId != null  and t.messageId != '' " >
+                     message_id = #{t.messageId,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.userId != null  and t.userId != '' " >
+                     user_id = #{t.userId,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.userName != null  and t.userName != '' " >
+                     user_name = #{t.userName,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.isReadCode != null ">
+                     is_read_code = #{t.isReadCode,jdbcType=TINYINT},
+                  </if>
+                  <if test="t.readTime != null ">
+                     read_time = #{t.readTime,jdbcType=TIMESTAMP},
+                  </if>
+                  <if test="t.addTime != null ">
+                     add_time = #{t.addTime,jdbcType=TIMESTAMP},
+                  </if>
+   </set>
+	
+		where id  in
+		<foreach collection="idList" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+   
+  </update>
+  
+<update id="updateListWithDff"  parameterType="list">
+    update gpr_message_user
+		<trim prefix="set" suffixOverrides=",">
+         <trim prefix="message_id =case" suffix="end,">
+              <foreach collection="list" item="gprMessageUser" index="index">
+                  <if test="gprMessageUser.messageId != null and gprMessageUser.messageId  != ''  and gprMessageUser.messageId  != '-1' ">
+                     when id=#{gprMessageUser.id} then #{gprMessageUser.messageId,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gprMessageUser.messageId != null  and gprMessageUser.messageId  == '-1' ">
+                     when id=#{gprMessageUser.id} then null
+                  </if>  
+                   <if test="gprMessageUser.messageId != null  and gprMessageUser.messageId  == '-2' ">
+                     when id=#{gprMessageUser.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="user_id =case" suffix="end,">
+              <foreach collection="list" item="gprMessageUser" index="index">
+                  <if test="gprMessageUser.userId != null and gprMessageUser.userId  != ''  and gprMessageUser.userId  != '-1' ">
+                     when id=#{gprMessageUser.id} then #{gprMessageUser.userId,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gprMessageUser.userId != null  and gprMessageUser.userId  == '-1' ">
+                     when id=#{gprMessageUser.id} then null
+                  </if>  
+                   <if test="gprMessageUser.userId != null  and gprMessageUser.userId  == '-2' ">
+                     when id=#{gprMessageUser.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="user_name =case" suffix="end,">
+              <foreach collection="list" item="gprMessageUser" index="index">
+                  <if test="gprMessageUser.userName != null and gprMessageUser.userName  != ''  and gprMessageUser.userName  != '-1' ">
+                     when id=#{gprMessageUser.id} then #{gprMessageUser.userName,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gprMessageUser.userName != null  and gprMessageUser.userName  == '-1' ">
+                     when id=#{gprMessageUser.id} then null
+                  </if>  
+                   <if test="gprMessageUser.userName != null  and gprMessageUser.userName  == '-2' ">
+                     when id=#{gprMessageUser.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="is_read_code =case" suffix="end,">
+              <foreach collection="list" item="gprMessageUser" index="index">
+                  <if test="gprMessageUser.isReadCode != null " >
+                     when id=#{gprMessageUser.id} then #{gprMessageUser.isReadCode,jdbcType=TINYINT}
+                  </if>
+              </foreach>
+         </trim>
+         <trim prefix="read_time =case" suffix="end,">
+              <foreach collection="list" item="gprMessageUser" index="index">
+                  <if test="gprMessageUser.readTime != null " >
+                     when id=#{gprMessageUser.id} then #{gprMessageUser.readTime,jdbcType=TIMESTAMP}
+                  </if>
+              </foreach>
+         </trim>
+         <trim prefix="add_time =case" suffix="end,">
+              <foreach collection="list" item="gprMessageUser" index="index">
+                  <if test="gprMessageUser.addTime != null " >
+                     when id=#{gprMessageUser.id} then #{gprMessageUser.addTime,jdbcType=TIMESTAMP}
+                  </if>
+              </foreach>
+         </trim>
+    </trim>
+    where id in
+		<foreach collection="list" item="gprMessageUser" index="index" open="(" close=")" separator=",">
+			#{gprMessageUser.id,jdbcType=VARCHAR}
+		</foreach>
+  </update>
+
+  
+  
+  <insert id="updateListWithDffOrAdd" useGeneratedKeys="true" keyProperty="id" parameterType="list">
+    replace into gpr_message_user
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+id,
+message_id,
+user_id,
+user_name,
+is_read_code,
+read_time,
+add_time,
+    </trim>
+    VALUES
+    <foreach collection="list" item="gprMessageUser" index="index" separator=",">
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+              #{gprMessageUser.id ,jdbcType=VARCHAR},
+                  
+                     #{gprMessageUser.messageId ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gprMessageUser.userId ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gprMessageUser.userName ,jdbcType=VARCHAR},
+                  
+                  
+                    #{gprMessageUser.isReadCode,jdbcType=TINYINT},
+            
+                  
+                    #{gprMessageUser.readTime,jdbcType=TIMESTAMP},
+            
+                  
+                    #{gprMessageUser.addTime,jdbcType=TIMESTAMP},
+            
+      </trim>
+    </foreach>
+  </insert>
+
+
+  <select id="getModel" resultMap="BaseResultMap" parameterType="java.lang.String" >
+          select 
+                 <include refid="Base_Column_List" />
+          from gpr_message_user
+           where  id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+   
+  
+  <select id="getList" resultMap="BaseResultMap" parameterType="map" >
+          select
+                <include refid="Base_Column_List" />
+          from gpr_message_user where 1 = 1
+        <if test="EntityRelated.id != null and EntityRelated.id != '' ">
+			and id LIKE CONCAT('%',#{EntityRelated.id,jdbcType=VARCHAR},'%')
+		</if>
+
+		<if test="EntityRelated.beginAddTime != null ">
+				<![CDATA[ AND  unix_timestamp(add_time)>=unix_timestamp(#{EntityRelated.beginAddTime})]]> 
+		</if>
+		<if test="EntityRelated.endAddTime != null ">
+				<![CDATA[ AND  unix_timestamp(add_time)<unix_timestamp(#{EntityRelated.endAddTime})]]> 
+		</if>
+		<if test="EntityRelated.id != null and EntityRelated.id != '' ">
+				and id = #{EntityRelated.id,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.isReadCode != null">
+				and is_read_code = #{EntityRelated.isReadCode,jdbcType=TINYINT} 
+		</if>
+		<if test="EntityRelated.messageId != null and EntityRelated.messageId != '' ">
+				and message_id = #{EntityRelated.messageId,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.beginReadTime != null ">
+				<![CDATA[ AND  unix_timestamp(read_time)>=unix_timestamp(#{EntityRelated.beginReadTime})]]> 
+		</if>
+		<if test="EntityRelated.endReadTime != null ">
+				<![CDATA[ AND  unix_timestamp(read_time)<unix_timestamp(#{EntityRelated.endReadTime})]]> 
+		</if>
+		<if test="EntityRelated.userId != null and EntityRelated.userId != '' ">
+				and user_id = #{EntityRelated.userId,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.userName != null and EntityRelated.userName != '' ">
+ 				and  user_name LIKE CONCAT('%',#{EntityRelated.userName,jdbcType=VARCHAR},'%') 
+		</if>
+
+
+		<if test="OrderList != null and OrderList!=null">
+			order by
+			<foreach collection="OrderList" item="Order" index="index" separator=",">
+				${Order.columnName}
+				<if test="Order.isASC">
+					ASC
+				</if>
+				<if test="!Order.isASC">
+					DESC
+				</if>
+			</foreach>
+		</if>
+  </select>
+  
+	<select id="getListBySQL" resultType="java.util.HashMap" parameterType="String">
+		<if test="value!=null and value!=''">
+			${value}
+		</if>
+	</select>
+
+  <cache />
+</mapper>

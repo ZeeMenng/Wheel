@@ -1,0 +1,280 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zee.dao.split.gp.IGpInterfaceSplDal">
+
+	<resultMap id="BaseResultMap" type="com.zee.ent.extend.gp.GpInterface">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="domain_id" property="domainId" jdbcType="VARCHAR" />
+		<result column="table_name" property="tableName" jdbcType="VARCHAR" />
+		<result column="url" property="url" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+		<result column="is_public_code" property="isPublicCode" jdbcType="TINYINT" />
+		<result column="type_code" property="typeCode" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id,domain_id,table_name,url,remark,add_time,is_public_code,type_code
+	</sql>
+
+	<insert id="add" parameterType="com.zee.ent.extend.gp.GpInterface">
+		insert into gp_interface
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null and id != '' ">
+				id,
+			</if>
+
+			<if test="domainId != null and domainId != '' ">
+				domain_id,
+			</if>
+
+			<if test="tableName != null and tableName != '' ">
+				table_name,
+			</if>
+
+			<if test="url != null and url != '' ">
+				url,
+			</if>
+
+			<if test="remark != null and remark != '' ">
+				remark,
+			</if>
+
+			<if test="addTime != null ">
+				add_time,
+			</if>
+			<if test="isPublicCode != null ">
+				is_public_code,
+			</if>
+			<if test="typeCode != null and typeCode != '' ">
+				type_code,
+			</if>
+
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null and id != '' ">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="domainId != null and domainId != '' ">
+				#{domainId,jdbcType=VARCHAR},
+			</if>
+			<if test="tableName != null and tableName != '' ">
+				#{tableName,jdbcType=VARCHAR},
+			</if>
+			<if test="url != null and url != '' ">
+				#{url,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null and remark != '' ">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="addTime != null ">
+				#{addTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isPublicCode != null ">
+				#{isPublicCode,jdbcType=TINYINT},
+			</if>
+			<if test="typeCode != null and typeCode != '' ">
+				#{typeCode,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<insert id="addList" parameterType="list">
+		insert into gp_interface
+		<trim prefix="(" suffix=")">
+			<include refid="Base_Column_List" />
+		</trim>
+		values
+		<foreach collection="list" item="gpInterface" index="index" separator=",">
+			<trim prefix="(" suffix=")" suffixOverrides=",">
+				#{gpInterface.id,jdbcType=VARCHAR},
+				#{gpInterface.domainId,jdbcType=VARCHAR},
+				#{gpInterface.tableName,jdbcType=VARCHAR},
+				#{gpInterface.url,jdbcType=VARCHAR},
+				#{gpInterface.remark,jdbcType=VARCHAR},
+				#{gpInterface.addTime,jdbcType=TIMESTAMP},
+				#{gpInterface.isPublicCode,jdbcType=TINYINT},
+				#{gpInterface.typeCode,jdbcType=VARCHAR},
+			</trim>
+		</foreach>
+	</insert>
+
+	<delete id="delete" parameterType="java.lang.String">
+		delete a,b from gp_interface a left join gpr_role_interface b on a.id=b.interface_id
+		where a.id = #{id,jdbcType=VARCHAR}
+	</delete>
+
+	<delete id="deleteByDomainId" parameterType="java.lang.String">
+		delete a,b from gp_interface a left join gpr_role_interface b on a.id=b.interface_id
+		where a.domain_id = #{domainId,jdbcType=VARCHAR}
+	</delete>
+
+	<delete id="deleteByIdList" parameterType="list">
+		delete a,b from gp_interface a left join gpr_role_interface b on a.id=b.interface_id
+		where a.id in
+		<foreach collection="list" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+	</delete>
+
+	<delete id="deleteByDomainIdList" parameterType="list">
+		delete a,b from gp_interface a left join gpr_role_interface b on a.id=b.interface_id
+		where a.domain_id in
+		<foreach collection="list" item="domainId" index="index" open="(" close=")" separator=",">
+			#{domainId}
+		</foreach>
+	</delete>
+
+	<update id="update" parameterType="com.zee.ent.extend.gp.GpInterface">
+		update gp_interface
+		<set>
+			<if test="domainId != null  and domainId != '' ">
+				domain_id = #{domainId,jdbcType=VARCHAR},
+			</if>
+			<if test="tableName != null  and tableName != '' ">
+				table_name = #{tableName,jdbcType=VARCHAR},
+			</if>
+			<if test="url != null  and url != '' ">
+				url = #{url,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null  and remark != '' ">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="addTime != null ">
+				add_time = #{addTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isPublicCode != null ">
+				is_public_code = #{isPublicCode,jdbcType=TINYINT},
+			</if>
+			<if test="typeCode != null  and typeCode != '' ">
+				type_code = #{typeCode,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<update id="updateList">
+		update gp_interface
+		<set>
+			<if test="t.domainId != null  and t.domainId != '' ">
+				domain_id = #{t.domainId,jdbcType=VARCHAR},
+			</if>
+			<if test="t.tableName != null  and t.tableName != '' ">
+				table_name = #{t.tableName,jdbcType=VARCHAR},
+			</if>
+			<if test="t.url != null  and t.url != '' ">
+				url = #{t.url,jdbcType=VARCHAR},
+			</if>
+			<if test="t.remark != null  and t.remark != '' ">
+				remark = #{t.remark,jdbcType=VARCHAR},
+			</if>
+			<if test="t.addTime != null ">
+				add_time = #{t.addTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="t.isPublicCode != null ">
+				is_public_code = #{t.isPublicCode,jdbcType=TINYINT},
+			</if>
+			<if test="t.typeCode != null  and t.typeCode != '' ">
+				type_code = #{t.typeCode,jdbcType=VARCHAR},
+			</if>
+		</set>
+
+		where id in
+		<foreach collection="idList" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+	</update>
+
+	<select id="getModel" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from gp_interface
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<select id="getModelByUrl" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from gp_interface
+		where url = #{url,jdbcType=VARCHAR}
+	</select>
+
+	<select id="getList" resultMap="BaseResultMap" parameterType="map">
+		select
+		<include refid="Base_Column_List" />
+		from gp_interface where 1 = 1
+		<if test="EntityRelated.id != null and EntityRelated.id != '' ">
+			and id LIKE CONCAT('%',#{EntityRelated.id,jdbcType=VARCHAR},'%')
+		</if>
+
+		<if test="EntityRelated.beginAddTime != null ">
+				<![CDATA[ AND  unix_timestamp(add_time)>=unix_timestamp(#{EntityRelated.beginAddTime})]]>
+		</if>
+		<if test="EntityRelated.endAddTime != null ">
+				<![CDATA[ AND  unix_timestamp(add_time)<unix_timestamp(#{EntityRelated.endAddTime})]]>
+		</if>
+		<if test="EntityRelated.domainId != null and EntityRelated.domainId != '' ">
+			and domain_id = #{EntityRelated.domainId,jdbcType=VARCHAR}
+		</if>
+		<if test="EntityRelated.id != null and EntityRelated.id != '' ">
+			and id = #{EntityRelated.id,jdbcType=VARCHAR}
+		</if>
+		<if test="EntityRelated.isPublicCode != null">
+			and is_public_code = #{EntityRelated.isPublicCode,jdbcType=TINYINT}
+		</if>
+		<if test="EntityRelated.remark != null and EntityRelated.remark != '' ">
+			and remark LIKE CONCAT('%',#{EntityRelated.remark,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="EntityRelated.tableName != null and EntityRelated.tableName != '' ">
+			and table_name LIKE CONCAT('%',#{EntityRelated.tableName,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="EntityRelated.typeCode != null">
+			and type_code = #{EntityRelated.typeCode,jdbcType=TINYINT}
+		</if>
+		<if test="EntityRelated.url != null and EntityRelated.url != '' ">
+			and url LIKE CONCAT('%',#{EntityRelated.url,jdbcType=VARCHAR},'%')
+		</if>
+
+
+		<if test="OrderList != null and OrderList!=null">
+			order by
+			<foreach collection="OrderList" item="Order" index="index" separator=",">
+				${Order.columnName}
+				<if test="Order.isASC">
+					ASC
+				</if>
+				<if test="!Order.isASC">
+					DESC
+				</if>
+			</foreach>
+		</if>
+	</select>
+
+	<select id="getListBySQL" resultType="java.util.HashMap" parameterType="String">
+		<if test="value!=null and value!=''">
+			${value}
+		</if>
+	</select>
+
+	<select id="isPermitted" resultType="java.lang.Integer">
+		SELECT
+		count(1)
+		FROM
+		gp_interface A
+		left JOIN
+		gpr_role_interface B ON A.id = B.interface_id
+		left JOIN
+		gpr_user_role C
+		ON B.role_id = C.role_id
+		WHERE
+		( #{url,jdbcType=VARCHAR} like concat(A.url,'%') )
+		AND
+		(A.is_public_code='0'
+		OR (C.user_id = #{userId,jdbcType=VARCHAR}
+		AND B.is_enable_code = '0'))
+	</select>
+
+
+
+	<cache />
+</mapper>

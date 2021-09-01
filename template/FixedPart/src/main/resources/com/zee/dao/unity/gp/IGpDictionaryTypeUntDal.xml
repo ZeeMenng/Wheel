@@ -1,0 +1,303 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zee.dao.unity.gp.IGpDictionaryTypeUntDal" >
+
+  <resultMap id="BaseResultMap" type="com.zee.ent.extend.gp.GpDictionaryType" >
+              <id column="id" property="id" jdbcType="VARCHAR" />
+              <result column="name" property="name" jdbcType="VARCHAR" />
+              <result column="remark" property="remark" jdbcType="VARCHAR" />
+              <result column="constant_name" property="constantName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+        id,name,remark,constant_name
+  </sql>
+  
+  <insert id="add" parameterType="com.zee.ent.extend.gp.GpDictionaryType" >
+    insert into gp_dictionary_type
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+          <if test="id != null and id != '' " >
+              id,
+          </if>
+      
+          <if test="name != null and name != '' " >
+              name,
+          </if>
+      
+          <if test="remark != null and remark != '' " >
+              remark,
+          </if>
+      
+          <if test="constantName != null and constantName != '' " >
+              constant_name,
+          </if>
+      
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+          <if test="id != null and id != '' " >
+              #{id,jdbcType=VARCHAR},
+          </if>
+          <if test="name != null and name != '' " >
+              #{name,jdbcType=VARCHAR},
+          </if>
+          <if test="remark != null and remark != '' " >
+              #{remark,jdbcType=VARCHAR},
+          </if>
+          <if test="constantName != null and constantName != '' " >
+              #{constantName,jdbcType=VARCHAR},
+          </if>
+    </trim>
+  </insert>
+  
+  <insert id="addList" parameterType="list">
+    	insert into gp_dictionary_type
+    	<trim prefix="(" suffix=")">
+    		<include refid="Base_Column_List" />
+    	</trim>
+    	values
+    	<foreach collection="list" item="gpDictionaryType" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides="," >
+
+          #{gpDictionaryType.id,jdbcType=VARCHAR},
+          #{gpDictionaryType.name,jdbcType=VARCHAR},
+          #{gpDictionaryType.remark,jdbcType=VARCHAR},
+          #{gpDictionaryType.constantName,jdbcType=VARCHAR},
+
+        </trim>
+    	</foreach>
+    </insert>
+
+
+  <insert id="addListWithDffOrAdd" parameterType="list">
+    	insert into gp_dictionary_type
+    	<trim prefix="(" suffix=")">
+    		<include refid="Base_Column_List" />
+    	</trim>
+    	values
+    	<foreach collection="list" item="gpDictionaryType" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides="," >
+
+          #{gpDictionaryType.id,jdbcType=VARCHAR},
+          #{gpDictionaryType.name,jdbcType=VARCHAR},
+          #{gpDictionaryType.remark,jdbcType=VARCHAR},
+          #{gpDictionaryType.constantName,jdbcType=VARCHAR},
+
+        </trim>
+    	</foreach>
+        ON DUPLICATE KEY UPDATE
+id=values(id),
+name=values(name),
+remark=values(remark),
+constant_name=values(constant_name)
+        
+    </insert>
+
+
+    <delete id="delete" parameterType="java.lang.String" >
+        delete from gp_dictionary_type
+        where  id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+        
+
+	<delete id="deleteByIdList" parameterType="list">
+		delete from gp_dictionary_type
+		where id  in
+		<foreach collection="list" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+	</delete>
+  
+  
+  
+  <update id="update" parameterType="com.zee.ent.extend.gp.GpDictionaryType" >
+    update gp_dictionary_type
+    <set >
+                    <choose>
+                   <when test="name != null and name=='-1'">
+                     name = null,
+                  </when>
+                  <when test="name != null and name=='-2'">
+                     name = '',
+                  </when>
+                  <when test="name != null  and name != '' " >
+                     name = #{name,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="remark != null and remark=='-1'">
+                     remark = null,
+                  </when>
+                  <when test="remark != null and remark=='-2'">
+                     remark = '',
+                  </when>
+                  <when test="remark != null  and remark != '' " >
+                     remark = #{remark,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="constantName != null and constantName=='-1'">
+                     constant_name = null,
+                  </when>
+                  <when test="constantName != null and constantName=='-2'">
+                     constant_name = '',
+                  </when>
+                  <when test="constantName != null  and constantName != '' " >
+                     constant_name = #{constantName,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+   </set>
+                 where  id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+<update id="updateList">
+    update gp_dictionary_type
+    <set >
+                  <if test="t.name != null  and t.name != '' " >
+                     name = #{t.name,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.remark != null  and t.remark != '' " >
+                     remark = #{t.remark,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.constantName != null  and t.constantName != '' " >
+                     constant_name = #{t.constantName,jdbcType=VARCHAR},
+                  </if>
+   </set>
+	
+		where id  in
+		<foreach collection="idList" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+   
+  </update>
+  
+<update id="updateListWithDff"  parameterType="list">
+    update gp_dictionary_type
+		<trim prefix="set" suffixOverrides=",">
+         <trim prefix="name =case" suffix="end,">
+              <foreach collection="list" item="gpDictionaryType" index="index">
+                  <if test="gpDictionaryType.name != null and gpDictionaryType.name  != ''  and gpDictionaryType.name  != '-1' ">
+                     when id=#{gpDictionaryType.id} then #{gpDictionaryType.name,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpDictionaryType.name != null  and gpDictionaryType.name  == '-1' ">
+                     when id=#{gpDictionaryType.id} then null
+                  </if>  
+                   <if test="gpDictionaryType.name != null  and gpDictionaryType.name  == '-2' ">
+                     when id=#{gpDictionaryType.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="remark =case" suffix="end,">
+              <foreach collection="list" item="gpDictionaryType" index="index">
+                  <if test="gpDictionaryType.remark != null and gpDictionaryType.remark  != ''  and gpDictionaryType.remark  != '-1' ">
+                     when id=#{gpDictionaryType.id} then #{gpDictionaryType.remark,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpDictionaryType.remark != null  and gpDictionaryType.remark  == '-1' ">
+                     when id=#{gpDictionaryType.id} then null
+                  </if>  
+                   <if test="gpDictionaryType.remark != null  and gpDictionaryType.remark  == '-2' ">
+                     when id=#{gpDictionaryType.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="constant_name =case" suffix="end,">
+              <foreach collection="list" item="gpDictionaryType" index="index">
+                  <if test="gpDictionaryType.constantName != null and gpDictionaryType.constantName  != ''  and gpDictionaryType.constantName  != '-1' ">
+                     when id=#{gpDictionaryType.id} then #{gpDictionaryType.constantName,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpDictionaryType.constantName != null  and gpDictionaryType.constantName  == '-1' ">
+                     when id=#{gpDictionaryType.id} then null
+                  </if>  
+                   <if test="gpDictionaryType.constantName != null  and gpDictionaryType.constantName  == '-2' ">
+                     when id=#{gpDictionaryType.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+    </trim>
+    where id in
+		<foreach collection="list" item="gpDictionaryType" index="index" open="(" close=")" separator=",">
+			#{gpDictionaryType.id,jdbcType=VARCHAR}
+		</foreach>
+  </update>
+
+  
+  
+  <insert id="updateListWithDffOrAdd" useGeneratedKeys="true" keyProperty="id" parameterType="list">
+    replace into gp_dictionary_type
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+id,
+name,
+remark,
+constant_name,
+    </trim>
+    VALUES
+    <foreach collection="list" item="gpDictionaryType" index="index" separator=",">
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+              #{gpDictionaryType.id ,jdbcType=VARCHAR},
+                  
+                     #{gpDictionaryType.name ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpDictionaryType.remark ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpDictionaryType.constantName ,jdbcType=VARCHAR},
+                  
+      </trim>
+    </foreach>
+  </insert>
+
+
+  <select id="getModel" resultMap="BaseResultMap" parameterType="java.lang.String" >
+          select 
+                 <include refid="Base_Column_List" />
+          from gp_dictionary_type
+           where  id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+   
+  
+  <select id="getList" resultMap="BaseResultMap" parameterType="map" >
+          select
+                <include refid="Base_Column_List" />
+          from gp_dictionary_type where 1 = 1
+        <if test="EntityRelated.id != null and EntityRelated.id != '' ">
+			and id LIKE CONCAT('%',#{EntityRelated.id,jdbcType=VARCHAR},'%')
+		</if>
+
+		<if test="EntityRelated.constantName != null and EntityRelated.constantName != '' ">
+ 				and  constant_name LIKE CONCAT('%',#{EntityRelated.constantName,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.id != null and EntityRelated.id != '' ">
+				and id = #{EntityRelated.id,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.name != null and EntityRelated.name != '' ">
+ 				and  name LIKE CONCAT('%',#{EntityRelated.name,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.remark != null and EntityRelated.remark != '' ">
+ 				and  remark LIKE CONCAT('%',#{EntityRelated.remark,jdbcType=VARCHAR},'%') 
+		</if>
+
+
+		<if test="OrderList != null and OrderList!=null">
+			order by
+			<foreach collection="OrderList" item="Order" index="index" separator=",">
+				${Order.columnName}
+				<if test="Order.isASC">
+					ASC
+				</if>
+				<if test="!Order.isASC">
+					DESC
+				</if>
+			</foreach>
+		</if>
+  </select>
+  
+	<select id="getListBySQL" resultType="java.util.HashMap" parameterType="String">
+		<if test="value!=null and value!=''">
+			${value}
+		</if>
+	</select>
+
+  <cache />
+</mapper>

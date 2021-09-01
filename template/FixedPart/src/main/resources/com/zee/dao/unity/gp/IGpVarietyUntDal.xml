@@ -1,0 +1,723 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zee.dao.unity.gp.IGpVarietyUntDal" >
+
+  <resultMap id="BaseResultMap" type="com.zee.ent.extend.gp.GpVariety" >
+              <id column="id" property="id" jdbcType="VARCHAR" />
+              <result column="name" property="name" jdbcType="VARCHAR" />
+              <result column="parent_id" property="parentId" jdbcType="VARCHAR" />
+              <result column="relation_id" property="relationId" jdbcType="VARCHAR" />
+              <result column="describes" property="describes" jdbcType="VARCHAR" />
+              <result column="resource_id" property="resourceId" jdbcType="VARCHAR" />
+              <result column="resource_url" property="resourceUrl" jdbcType="VARCHAR" />
+              <result column="stutas_code" property="stutasCode" jdbcType="TINYINT" />
+              <result column="stutas_text" property="stutasText" jdbcType="VARCHAR" />
+              <result column="cycle_time" property="cycleTime" jdbcType="INTEGER" />
+              <result column="priority" property="priority" jdbcType="INTEGER" />
+              <result column="remark" property="remark" jdbcType="VARCHAR" />
+              <result column="add_user_id" property="addUserId" jdbcType="VARCHAR" />
+              <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+              <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+        id,name,parent_id,relation_id,describes,resource_id,resource_url,stutas_code,stutas_text,cycle_time,priority,remark,add_user_id,add_time,update_time
+  </sql>
+  
+  <insert id="add" parameterType="com.zee.ent.extend.gp.GpVariety" >
+    insert into gp_variety
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+          <if test="id != null and id != '' " >
+              id,
+          </if>
+      
+          <if test="name != null and name != '' " >
+              name,
+          </if>
+      
+          <if test="parentId != null and parentId != '' " >
+              parent_id,
+          </if>
+      
+          <if test="relationId != null and relationId != '' " >
+              relation_id,
+          </if>
+      
+          <if test="describes != null and describes != '' " >
+              describes,
+          </if>
+      
+          <if test="resourceId != null and resourceId != '' " >
+              resource_id,
+          </if>
+      
+          <if test="resourceUrl != null and resourceUrl != '' " >
+              resource_url,
+          </if>
+      
+          <if test="stutasCode != null " >
+              stutas_code,
+          </if>
+          <if test="stutasText != null and stutasText != '' " >
+              stutas_text,
+          </if>
+      
+          <if test="cycleTime != null " >
+              cycle_time,
+          </if>
+          <if test="priority != null " >
+              priority,
+          </if>
+          <if test="remark != null and remark != '' " >
+              remark,
+          </if>
+      
+          <if test="addUserId != null and addUserId != '' " >
+              add_user_id,
+          </if>
+      
+          <if test="addTime != null " >
+              add_time,
+          </if>
+          <if test="updateTime != null " >
+              update_time,
+          </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+          <if test="id != null and id != '' " >
+              #{id,jdbcType=VARCHAR},
+          </if>
+          <if test="name != null and name != '' " >
+              #{name,jdbcType=VARCHAR},
+          </if>
+          <if test="parentId != null and parentId != '' " >
+              #{parentId,jdbcType=VARCHAR},
+          </if>
+          <if test="relationId != null and relationId != '' " >
+              #{relationId,jdbcType=VARCHAR},
+          </if>
+          <if test="describes != null and describes != '' " >
+              #{describes,jdbcType=VARCHAR},
+          </if>
+          <if test="resourceId != null and resourceId != '' " >
+              #{resourceId,jdbcType=VARCHAR},
+          </if>
+          <if test="resourceUrl != null and resourceUrl != '' " >
+              #{resourceUrl,jdbcType=VARCHAR},
+          </if>
+          <if test="stutasCode != null " >
+              #{stutasCode,jdbcType=TINYINT},
+          </if>
+          <if test="stutasText != null and stutasText != '' " >
+              #{stutasText,jdbcType=VARCHAR},
+          </if>
+          <if test="cycleTime != null " >
+              #{cycleTime,jdbcType=INTEGER},
+          </if>
+          <if test="priority != null " >
+              #{priority,jdbcType=INTEGER},
+          </if>
+          <if test="remark != null and remark != '' " >
+              #{remark,jdbcType=VARCHAR},
+          </if>
+          <if test="addUserId != null and addUserId != '' " >
+              #{addUserId,jdbcType=VARCHAR},
+          </if>
+          <if test="addTime != null " >
+              #{addTime,jdbcType=TIMESTAMP},
+          </if>
+          <if test="updateTime != null " >
+              #{updateTime,jdbcType=TIMESTAMP},
+          </if>
+    </trim>
+  </insert>
+  
+  <insert id="addList" parameterType="list">
+    	insert into gp_variety
+    	<trim prefix="(" suffix=")">
+    		<include refid="Base_Column_List" />
+    	</trim>
+    	values
+    	<foreach collection="list" item="gpVariety" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides="," >
+
+          #{gpVariety.id,jdbcType=VARCHAR},
+          #{gpVariety.name,jdbcType=VARCHAR},
+          #{gpVariety.parentId,jdbcType=VARCHAR},
+          #{gpVariety.relationId,jdbcType=VARCHAR},
+          #{gpVariety.describes,jdbcType=VARCHAR},
+          #{gpVariety.resourceId,jdbcType=VARCHAR},
+          #{gpVariety.resourceUrl,jdbcType=VARCHAR},
+          #{gpVariety.stutasCode,jdbcType=TINYINT},
+          #{gpVariety.stutasText,jdbcType=VARCHAR},
+          #{gpVariety.cycleTime,jdbcType=INTEGER},
+          #{gpVariety.priority,jdbcType=INTEGER},
+          #{gpVariety.remark,jdbcType=VARCHAR},
+          #{gpVariety.addUserId,jdbcType=VARCHAR},
+          #{gpVariety.addTime,jdbcType=TIMESTAMP},
+          #{gpVariety.updateTime,jdbcType=TIMESTAMP},
+
+        </trim>
+    	</foreach>
+    </insert>
+
+
+  <insert id="addListWithDffOrAdd" parameterType="list">
+    	insert into gp_variety
+    	<trim prefix="(" suffix=")">
+    		<include refid="Base_Column_List" />
+    	</trim>
+    	values
+    	<foreach collection="list" item="gpVariety" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides="," >
+
+          #{gpVariety.id,jdbcType=VARCHAR},
+          #{gpVariety.name,jdbcType=VARCHAR},
+          #{gpVariety.parentId,jdbcType=VARCHAR},
+          #{gpVariety.relationId,jdbcType=VARCHAR},
+          #{gpVariety.describes,jdbcType=VARCHAR},
+          #{gpVariety.resourceId,jdbcType=VARCHAR},
+          #{gpVariety.resourceUrl,jdbcType=VARCHAR},
+          #{gpVariety.stutasCode,jdbcType=TINYINT},
+          #{gpVariety.stutasText,jdbcType=VARCHAR},
+          #{gpVariety.cycleTime,jdbcType=INTEGER},
+          #{gpVariety.priority,jdbcType=INTEGER},
+          #{gpVariety.remark,jdbcType=VARCHAR},
+          #{gpVariety.addUserId,jdbcType=VARCHAR},
+          #{gpVariety.addTime,jdbcType=TIMESTAMP},
+          #{gpVariety.updateTime,jdbcType=TIMESTAMP},
+
+        </trim>
+    	</foreach>
+        ON DUPLICATE KEY UPDATE
+id=values(id),
+name=values(name),
+parent_id=values(parent_id),
+relation_id=values(relation_id),
+describes=values(describes),
+resource_id=values(resource_id),
+resource_url=values(resource_url),
+stutas_code=values(stutas_code),
+stutas_text=values(stutas_text),
+cycle_time=values(cycle_time),
+priority=values(priority),
+remark=values(remark),
+add_user_id=values(add_user_id),
+add_time=values(add_time),
+update_time=values(update_time)
+        
+    </insert>
+
+
+    <delete id="delete" parameterType="java.lang.String" >
+        delete from gp_variety
+        where  id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+        
+
+	<delete id="deleteByIdList" parameterType="list">
+		delete from gp_variety
+		where id  in
+		<foreach collection="list" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+	</delete>
+  
+  
+  
+  <update id="update" parameterType="com.zee.ent.extend.gp.GpVariety" >
+    update gp_variety
+    <set >
+                    <choose>
+                   <when test="name != null and name=='-1'">
+                     name = null,
+                  </when>
+                  <when test="name != null and name=='-2'">
+                     name = '',
+                  </when>
+                  <when test="name != null  and name != '' " >
+                     name = #{name,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="parentId != null and parentId=='-1'">
+                     parent_id = null,
+                  </when>
+                  <when test="parentId != null and parentId=='-2'">
+                     parent_id = '',
+                  </when>
+                  <when test="parentId != null  and parentId != '' " >
+                     parent_id = #{parentId,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="relationId != null and relationId=='-1'">
+                     relation_id = null,
+                  </when>
+                  <when test="relationId != null and relationId=='-2'">
+                     relation_id = '',
+                  </when>
+                  <when test="relationId != null  and relationId != '' " >
+                     relation_id = #{relationId,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="describes != null and describes=='-1'">
+                     describes = null,
+                  </when>
+                  <when test="describes != null and describes=='-2'">
+                     describes = '',
+                  </when>
+                  <when test="describes != null  and describes != '' " >
+                     describes = #{describes,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="resourceId != null and resourceId=='-1'">
+                     resource_id = null,
+                  </when>
+                  <when test="resourceId != null and resourceId=='-2'">
+                     resource_id = '',
+                  </when>
+                  <when test="resourceId != null  and resourceId != '' " >
+                     resource_id = #{resourceId,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="resourceUrl != null and resourceUrl=='-1'">
+                     resource_url = null,
+                  </when>
+                  <when test="resourceUrl != null and resourceUrl=='-2'">
+                     resource_url = '',
+                  </when>
+                  <when test="resourceUrl != null  and resourceUrl != '' " >
+                     resource_url = #{resourceUrl,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                  <if test="stutasCode != null ">
+                     stutas_code = #{stutasCode,jdbcType=TINYINT},
+                  </if>
+                    <choose>
+                   <when test="stutasText != null and stutasText=='-1'">
+                     stutas_text = null,
+                  </when>
+                  <when test="stutasText != null and stutasText=='-2'">
+                     stutas_text = '',
+                  </when>
+                  <when test="stutasText != null  and stutasText != '' " >
+                     stutas_text = #{stutasText,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                  <if test="cycleTime != null ">
+                     cycle_time = #{cycleTime,jdbcType=INTEGER},
+                  </if>
+                  <if test="priority != null ">
+                     priority = #{priority,jdbcType=INTEGER},
+                  </if>
+                    <choose>
+                   <when test="remark != null and remark=='-1'">
+                     remark = null,
+                  </when>
+                  <when test="remark != null and remark=='-2'">
+                     remark = '',
+                  </when>
+                  <when test="remark != null  and remark != '' " >
+                     remark = #{remark,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="addUserId != null and addUserId=='-1'">
+                     add_user_id = null,
+                  </when>
+                  <when test="addUserId != null and addUserId=='-2'">
+                     add_user_id = '',
+                  </when>
+                  <when test="addUserId != null  and addUserId != '' " >
+                     add_user_id = #{addUserId,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                  <if test="addTime != null ">
+                     add_time = #{addTime,jdbcType=TIMESTAMP},
+                  </if>
+                  <if test="updateTime != null ">
+                     update_time = #{updateTime,jdbcType=TIMESTAMP},
+                  </if>
+   </set>
+                 where  id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+<update id="updateList">
+    update gp_variety
+    <set >
+                  <if test="t.name != null  and t.name != '' " >
+                     name = #{t.name,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.parentId != null  and t.parentId != '' " >
+                     parent_id = #{t.parentId,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.relationId != null  and t.relationId != '' " >
+                     relation_id = #{t.relationId,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.describes != null  and t.describes != '' " >
+                     describes = #{t.describes,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.resourceId != null  and t.resourceId != '' " >
+                     resource_id = #{t.resourceId,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.resourceUrl != null  and t.resourceUrl != '' " >
+                     resource_url = #{t.resourceUrl,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.stutasCode != null ">
+                     stutas_code = #{t.stutasCode,jdbcType=TINYINT},
+                  </if>
+                  <if test="t.stutasText != null  and t.stutasText != '' " >
+                     stutas_text = #{t.stutasText,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.cycleTime != null ">
+                     cycle_time = #{t.cycleTime,jdbcType=INTEGER},
+                  </if>
+                  <if test="t.priority != null ">
+                     priority = #{t.priority,jdbcType=INTEGER},
+                  </if>
+                  <if test="t.remark != null  and t.remark != '' " >
+                     remark = #{t.remark,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.addUserId != null  and t.addUserId != '' " >
+                     add_user_id = #{t.addUserId,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.addTime != null ">
+                     add_time = #{t.addTime,jdbcType=TIMESTAMP},
+                  </if>
+                  <if test="t.updateTime != null ">
+                     update_time = #{t.updateTime,jdbcType=TIMESTAMP},
+                  </if>
+   </set>
+	
+		where id  in
+		<foreach collection="idList" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+   
+  </update>
+  
+<update id="updateListWithDff"  parameterType="list">
+    update gp_variety
+		<trim prefix="set" suffixOverrides=",">
+         <trim prefix="name =case" suffix="end,">
+              <foreach collection="list" item="gpVariety" index="index">
+                  <if test="gpVariety.name != null and gpVariety.name  != ''  and gpVariety.name  != '-1' ">
+                     when id=#{gpVariety.id} then #{gpVariety.name,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpVariety.name != null  and gpVariety.name  == '-1' ">
+                     when id=#{gpVariety.id} then null
+                  </if>  
+                   <if test="gpVariety.name != null  and gpVariety.name  == '-2' ">
+                     when id=#{gpVariety.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="parent_id =case" suffix="end,">
+              <foreach collection="list" item="gpVariety" index="index">
+                  <if test="gpVariety.parentId != null and gpVariety.parentId  != ''  and gpVariety.parentId  != '-1' ">
+                     when id=#{gpVariety.id} then #{gpVariety.parentId,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpVariety.parentId != null  and gpVariety.parentId  == '-1' ">
+                     when id=#{gpVariety.id} then null
+                  </if>  
+                   <if test="gpVariety.parentId != null  and gpVariety.parentId  == '-2' ">
+                     when id=#{gpVariety.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="relation_id =case" suffix="end,">
+              <foreach collection="list" item="gpVariety" index="index">
+                  <if test="gpVariety.relationId != null and gpVariety.relationId  != ''  and gpVariety.relationId  != '-1' ">
+                     when id=#{gpVariety.id} then #{gpVariety.relationId,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpVariety.relationId != null  and gpVariety.relationId  == '-1' ">
+                     when id=#{gpVariety.id} then null
+                  </if>  
+                   <if test="gpVariety.relationId != null  and gpVariety.relationId  == '-2' ">
+                     when id=#{gpVariety.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="describes =case" suffix="end,">
+              <foreach collection="list" item="gpVariety" index="index">
+                  <if test="gpVariety.describes != null and gpVariety.describes  != ''  and gpVariety.describes  != '-1' ">
+                     when id=#{gpVariety.id} then #{gpVariety.describes,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpVariety.describes != null  and gpVariety.describes  == '-1' ">
+                     when id=#{gpVariety.id} then null
+                  </if>  
+                   <if test="gpVariety.describes != null  and gpVariety.describes  == '-2' ">
+                     when id=#{gpVariety.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="resource_id =case" suffix="end,">
+              <foreach collection="list" item="gpVariety" index="index">
+                  <if test="gpVariety.resourceId != null and gpVariety.resourceId  != ''  and gpVariety.resourceId  != '-1' ">
+                     when id=#{gpVariety.id} then #{gpVariety.resourceId,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpVariety.resourceId != null  and gpVariety.resourceId  == '-1' ">
+                     when id=#{gpVariety.id} then null
+                  </if>  
+                   <if test="gpVariety.resourceId != null  and gpVariety.resourceId  == '-2' ">
+                     when id=#{gpVariety.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="resource_url =case" suffix="end,">
+              <foreach collection="list" item="gpVariety" index="index">
+                  <if test="gpVariety.resourceUrl != null and gpVariety.resourceUrl  != ''  and gpVariety.resourceUrl  != '-1' ">
+                     when id=#{gpVariety.id} then #{gpVariety.resourceUrl,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpVariety.resourceUrl != null  and gpVariety.resourceUrl  == '-1' ">
+                     when id=#{gpVariety.id} then null
+                  </if>  
+                   <if test="gpVariety.resourceUrl != null  and gpVariety.resourceUrl  == '-2' ">
+                     when id=#{gpVariety.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="stutas_code =case" suffix="end,">
+              <foreach collection="list" item="gpVariety" index="index">
+                  <if test="gpVariety.stutasCode != null " >
+                     when id=#{gpVariety.id} then #{gpVariety.stutasCode,jdbcType=TINYINT}
+                  </if>
+              </foreach>
+         </trim>
+         <trim prefix="stutas_text =case" suffix="end,">
+              <foreach collection="list" item="gpVariety" index="index">
+                  <if test="gpVariety.stutasText != null and gpVariety.stutasText  != ''  and gpVariety.stutasText  != '-1' ">
+                     when id=#{gpVariety.id} then #{gpVariety.stutasText,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpVariety.stutasText != null  and gpVariety.stutasText  == '-1' ">
+                     when id=#{gpVariety.id} then null
+                  </if>  
+                   <if test="gpVariety.stutasText != null  and gpVariety.stutasText  == '-2' ">
+                     when id=#{gpVariety.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="cycle_time =case" suffix="end,">
+              <foreach collection="list" item="gpVariety" index="index">
+                  <if test="gpVariety.cycleTime != null " >
+                     when id=#{gpVariety.id} then #{gpVariety.cycleTime,jdbcType=INTEGER}
+                  </if>
+              </foreach>
+         </trim>
+         <trim prefix="priority =case" suffix="end,">
+              <foreach collection="list" item="gpVariety" index="index">
+                  <if test="gpVariety.priority != null " >
+                     when id=#{gpVariety.id} then #{gpVariety.priority,jdbcType=INTEGER}
+                  </if>
+              </foreach>
+         </trim>
+         <trim prefix="remark =case" suffix="end,">
+              <foreach collection="list" item="gpVariety" index="index">
+                  <if test="gpVariety.remark != null and gpVariety.remark  != ''  and gpVariety.remark  != '-1' ">
+                     when id=#{gpVariety.id} then #{gpVariety.remark,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpVariety.remark != null  and gpVariety.remark  == '-1' ">
+                     when id=#{gpVariety.id} then null
+                  </if>  
+                   <if test="gpVariety.remark != null  and gpVariety.remark  == '-2' ">
+                     when id=#{gpVariety.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="add_user_id =case" suffix="end,">
+              <foreach collection="list" item="gpVariety" index="index">
+                  <if test="gpVariety.addUserId != null and gpVariety.addUserId  != ''  and gpVariety.addUserId  != '-1' ">
+                     when id=#{gpVariety.id} then #{gpVariety.addUserId,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpVariety.addUserId != null  and gpVariety.addUserId  == '-1' ">
+                     when id=#{gpVariety.id} then null
+                  </if>  
+                   <if test="gpVariety.addUserId != null  and gpVariety.addUserId  == '-2' ">
+                     when id=#{gpVariety.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="add_time =case" suffix="end,">
+              <foreach collection="list" item="gpVariety" index="index">
+                  <if test="gpVariety.addTime != null " >
+                     when id=#{gpVariety.id} then #{gpVariety.addTime,jdbcType=TIMESTAMP}
+                  </if>
+              </foreach>
+         </trim>
+         <trim prefix="update_time =case" suffix="end,">
+              <foreach collection="list" item="gpVariety" index="index">
+                  <if test="gpVariety.updateTime != null " >
+                     when id=#{gpVariety.id} then #{gpVariety.updateTime,jdbcType=TIMESTAMP}
+                  </if>
+              </foreach>
+         </trim>
+    </trim>
+    where id in
+		<foreach collection="list" item="gpVariety" index="index" open="(" close=")" separator=",">
+			#{gpVariety.id,jdbcType=VARCHAR}
+		</foreach>
+  </update>
+
+  
+  
+  <insert id="updateListWithDffOrAdd" useGeneratedKeys="true" keyProperty="id" parameterType="list">
+    replace into gp_variety
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+id,
+name,
+parent_id,
+relation_id,
+describes,
+resource_id,
+resource_url,
+stutas_code,
+stutas_text,
+cycle_time,
+priority,
+remark,
+add_user_id,
+add_time,
+update_time,
+    </trim>
+    VALUES
+    <foreach collection="list" item="gpVariety" index="index" separator=",">
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+              #{gpVariety.id ,jdbcType=VARCHAR},
+                  
+                     #{gpVariety.name ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpVariety.parentId ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpVariety.relationId ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpVariety.describes ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpVariety.resourceId ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpVariety.resourceUrl ,jdbcType=VARCHAR},
+                  
+                  
+                    #{gpVariety.stutasCode,jdbcType=TINYINT},
+            
+                  
+                     #{gpVariety.stutasText ,jdbcType=VARCHAR},
+                  
+                  
+                    #{gpVariety.cycleTime,jdbcType=INTEGER},
+            
+                  
+                    #{gpVariety.priority,jdbcType=INTEGER},
+            
+                  
+                     #{gpVariety.remark ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpVariety.addUserId ,jdbcType=VARCHAR},
+                  
+                  
+                    #{gpVariety.addTime,jdbcType=TIMESTAMP},
+            
+                  
+                    #{gpVariety.updateTime,jdbcType=TIMESTAMP},
+            
+      </trim>
+    </foreach>
+  </insert>
+
+
+  <select id="getModel" resultMap="BaseResultMap" parameterType="java.lang.String" >
+          select 
+                 <include refid="Base_Column_List" />
+          from gp_variety
+           where  id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+   
+  
+  <select id="getList" resultMap="BaseResultMap" parameterType="map" >
+          select
+                <include refid="Base_Column_List" />
+          from gp_variety where 1 = 1
+        <if test="EntityRelated.id != null and EntityRelated.id != '' ">
+			and id LIKE CONCAT('%',#{EntityRelated.id,jdbcType=VARCHAR},'%')
+		</if>
+
+		<if test="EntityRelated.beginAddTime != null ">
+				<![CDATA[ AND  unix_timestamp(add_time)>=unix_timestamp(#{EntityRelated.beginAddTime})]]> 
+		</if>
+		<if test="EntityRelated.endAddTime != null ">
+				<![CDATA[ AND  unix_timestamp(add_time)<unix_timestamp(#{EntityRelated.endAddTime})]]> 
+		</if>
+		<if test="EntityRelated.addUserId != null and EntityRelated.addUserId != '' ">
+				and add_user_id = #{EntityRelated.addUserId,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.describes != null and EntityRelated.describes != '' ">
+ 				and  describes LIKE CONCAT('%',#{EntityRelated.describes,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.id != null and EntityRelated.id != '' ">
+				and id = #{EntityRelated.id,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.name != null and EntityRelated.name != '' ">
+ 				and  name LIKE CONCAT('%',#{EntityRelated.name,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.parentId != null and EntityRelated.parentId != '' ">
+				and parent_id = #{EntityRelated.parentId,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.relationId != null and EntityRelated.relationId != '' ">
+				and relation_id = #{EntityRelated.relationId,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.remark != null and EntityRelated.remark != '' ">
+ 				and  remark LIKE CONCAT('%',#{EntityRelated.remark,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.resourceId != null and EntityRelated.resourceId != '' ">
+				and resource_id = #{EntityRelated.resourceId,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.resourceUrl != null and EntityRelated.resourceUrl != '' ">
+ 				and  resource_url LIKE CONCAT('%',#{EntityRelated.resourceUrl,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.stutasCode != null">
+				and stutas_code = #{EntityRelated.stutasCode,jdbcType=TINYINT} 
+		</if>
+		<if test="EntityRelated.stutasText != null and EntityRelated.stutasText != '' ">
+ 				and  stutas_text LIKE CONCAT('%',#{EntityRelated.stutasText,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.beginUpdateTime != null ">
+				<![CDATA[ AND  unix_timestamp(update_time)>=unix_timestamp(#{EntityRelated.beginUpdateTime})]]> 
+		</if>
+		<if test="EntityRelated.endUpdateTime != null ">
+				<![CDATA[ AND  unix_timestamp(update_time)<unix_timestamp(#{EntityRelated.endUpdateTime})]]> 
+		</if>
+
+
+		<if test="OrderList != null and OrderList!=null">
+			order by
+			<foreach collection="OrderList" item="Order" index="index" separator=",">
+				${Order.columnName}
+				<if test="Order.isASC">
+					ASC
+				</if>
+				<if test="!Order.isASC">
+					DESC
+				</if>
+			</foreach>
+		</if>
+  </select>
+  
+	<select id="getListBySQL" resultType="java.util.HashMap" parameterType="String">
+		<if test="value!=null and value!=''">
+			${value}
+		</if>
+	</select>
+
+  <cache />
+</mapper>

@@ -1,0 +1,235 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zee.dao.split.gp.IGpCatalogInterfaceSplDal" >
+
+  <resultMap id="BaseResultMap" type="com.zee.ent.extend.gp.GpCatalogInterface" >
+              <id column="id" property="id" jdbcType="VARCHAR" />
+              <result column="name" property="name" jdbcType="VARCHAR" />
+              <result column="code" property="code" jdbcType="VARCHAR" />
+              <result column="level" property="level" jdbcType="TINYINT" />
+              <result column="farther_code" property="fartherCode" jdbcType="VARCHAR" />
+              <result column="category_code" property="categoryCode" jdbcType="TINYINT" />
+              <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+        id,name,code,level,farther_code,category_code,remark
+  </sql>
+  
+  <insert id="add" parameterType="com.zee.ent.extend.gp.GpCatalogInterface" >
+    insert into gp_catalog_interface
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+          <if test="id != null and id != '' " >
+              id,
+          </if>
+      
+          <if test="name != null and name != '' " >
+              name,
+          </if>
+      
+          <if test="code != null and code != '' " >
+              code,
+          </if>
+      
+          <if test="level != null " >
+              level,
+          </if>
+          <if test="fartherCode != null and fartherCode != '' " >
+              farther_code,
+          </if>
+      
+          <if test="categoryCode != null " >
+              category_code,
+          </if>
+          <if test="remark != null and remark != '' " >
+              remark,
+          </if>
+      
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+          <if test="id != null and id != '' " >
+              #{id,jdbcType=VARCHAR},
+          </if>
+          <if test="name != null and name != '' " >
+              #{name,jdbcType=VARCHAR},
+          </if>
+          <if test="code != null and code != '' " >
+              #{code,jdbcType=VARCHAR},
+          </if>
+          <if test="level != null " >
+              #{level,jdbcType=TINYINT},
+          </if>
+          <if test="fartherCode != null and fartherCode != '' " >
+              #{fartherCode,jdbcType=VARCHAR},
+          </if>
+          <if test="categoryCode != null " >
+              #{categoryCode,jdbcType=TINYINT},
+          </if>
+          <if test="remark != null and remark != '' " >
+              #{remark,jdbcType=VARCHAR},
+          </if>
+    </trim>
+  </insert>
+  
+ 
+    <insert id="addList" parameterType="list">
+    	insert into gp_catalog_interface
+    	<trim prefix="(" suffix=")">
+    		<include refid="Base_Column_List" />
+    	</trim>
+    	values
+    	<foreach collection="list" item="gpCatalogInterface" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides="," >
+
+      
+          #{gpCatalogInterface.id,jdbcType=VARCHAR},
+
+      
+          #{gpCatalogInterface.name,jdbcType=VARCHAR},
+
+      
+          #{gpCatalogInterface.code,jdbcType=VARCHAR},
+
+      
+          #{gpCatalogInterface.level,jdbcType=TINYINT},
+
+      
+          #{gpCatalogInterface.fartherCode,jdbcType=VARCHAR},
+
+      
+          #{gpCatalogInterface.categoryCode,jdbcType=TINYINT},
+
+      
+          #{gpCatalogInterface.remark,jdbcType=VARCHAR},
+
+
+        </trim>
+    	</foreach>
+    </insert>
+
+  
+  
+  <delete id="delete" parameterType="java.lang.String" >
+                 delete from gp_catalog_interface
+                 where  id = #{id,jdbcType=VARCHAR}
+  </delete>
+  
+	<delete id="deleteByIdList" parameterType="list">
+		delete from gp_catalog_interface
+		where id  in
+		<foreach collection="list" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+	</delete>
+  
+  <update id="update" parameterType="com.zee.ent.extend.gp.GpCatalogInterface" >
+    update gp_catalog_interface
+    <set >
+                  <if test="name != null  and name != '' " >
+                     name = #{name,jdbcType=VARCHAR},
+                  </if>
+                  <if test="code != null  and code != '' " >
+                     code = #{code,jdbcType=VARCHAR},
+                  </if>
+                  <if test="level != null ">
+                     level = #{level,jdbcType=TINYINT},
+                  </if>
+                  <if test="fartherCode != null  and fartherCode != '' " >
+                     farther_code = #{fartherCode,jdbcType=VARCHAR},
+                  </if>
+                  <if test="categoryCode != null ">
+                     category_code = #{categoryCode,jdbcType=TINYINT},
+                  </if>
+                  <if test="remark != null  and remark != '' " >
+                     remark = #{remark,jdbcType=VARCHAR},
+                  </if>
+   </set>
+                 where  id = #{id,jdbcType=VARCHAR}
+</update>
+  
+<update id="updateList">
+    update gp_catalog_interface
+    <set >
+                  <if test="t.name != null  and t.name != '' " >
+                     name = #{t.name,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.code != null  and t.code != '' " >
+                     code = #{t.code,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.level != null ">
+                     level = #{t.level,jdbcType=TINYINT},
+                  </if>
+                  <if test="t.fartherCode != null  and t.fartherCode != '' " >
+                     farther_code = #{t.fartherCode,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.categoryCode != null ">
+                     category_code = #{t.categoryCode,jdbcType=TINYINT},
+                  </if>
+                  <if test="t.remark != null  and t.remark != '' " >
+                     remark = #{t.remark,jdbcType=VARCHAR},
+                  </if>
+   </set>
+	
+		where id  in
+		<foreach collection="idList" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+</update>
+  
+  <select id="getModel" resultMap="BaseResultMap" parameterType="java.lang.String" >
+          select 
+                 <include refid="Base_Column_List" />
+          from gp_catalog_interface
+           where  id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="getList" resultMap="BaseResultMap" parameterType="map" >
+          select
+                <include refid="Base_Column_List" />
+          from gp_catalog_interface where 1 = 1
+        <if test="EntityRelated.id != null and EntityRelated.id != '' ">
+			and id LIKE CONCAT('%',#{EntityRelated.id,jdbcType=VARCHAR},'%')
+		</if>
+
+		<if test="EntityRelated.categoryCode != null">
+				and category_code = #{EntityRelated.categoryCode,jdbcType=TINYINT} 
+		</if>
+		<if test="EntityRelated.code != null and EntityRelated.code != '' ">
+ 				and  code LIKE CONCAT('%',#{EntityRelated.code,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.fartherCode != null">
+				and farther_code = #{EntityRelated.fartherCode,jdbcType=TINYINT} 
+		</if>
+		<if test="EntityRelated.id != null and EntityRelated.id != '' ">
+				and id = #{EntityRelated.id,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.name != null and EntityRelated.name != '' ">
+ 				and  name LIKE CONCAT('%',#{EntityRelated.name,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.remark != null and EntityRelated.remark != '' ">
+ 				and  remark LIKE CONCAT('%',#{EntityRelated.remark,jdbcType=VARCHAR},'%') 
+		</if>
+
+
+		<if test="OrderList != null and OrderList!=null">
+			order by
+			<foreach collection="OrderList" item="Order" index="index" separator=",">
+				${Order.columnName}
+				<if test="Order.isASC">
+					ASC
+				</if>
+				<if test="!Order.isASC">
+					DESC
+				</if>
+			</foreach>
+		</if>
+  </select>
+  
+	<select id="getListBySQL" resultType="java.util.HashMap" parameterType="String">
+		<if test="value!=null and value!=''">
+			${value}
+		</if>
+	</select>
+
+  <cache />
+</mapper>

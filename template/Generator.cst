@@ -1,0 +1,216 @@
+﻿
+<%@ CodeTemplate Language="C#" OutputType="None" Src="NHibernateHelper.cs" Inherits="NHibernateHelper" Description="Generates HBM files for PLINQO for NHibernate." Debug="False"%>
+
+<%@ Property Name="ProjectName" Type="String" Category="Context" Description="" %>
+<%@ Property Category="1. Required" Name="SourceDatabase" Type="SchemaExplorer.DatabaseSchema" Optional="False" Description="The source databse to generate from." OnChanged="OnSourceDatabaseChanged" %>
+<%@ Assembly Name="CodeSmith.CustomProperties" %>
+<%@ Assembly Name="SchemaExplorer" %>
+<%@ Assembly Name="System.Data" %>
+<%@ Assembly Name="CodeSmith.SchemaHelper" Path="Common" %>
+<%@ Assembly Name="CodeSmith.SchemaHelper.NHibernate" Path="Common" %>
+<%@ Assembly Name="CustomCodeSmithHelper" %>
+
+
+<%@ Import Namespace="System.IO" %>
+<%@ Import Namespace="System.Collections" %>
+<%@ Import Namespace="System.Text.RegularExpressions" %>
+<%@ Import Namespace="System.Collections.Generic" %>
+<%@ Import Namespace="CodeSmith.CustomProperties" %>
+<%@ Import Namespace="SchemaExplorer" %>
+<%@ Import Namespace="System.Data" %>
+<%@ Import Namespace="System.Linq" %>
+<%@ Import Namespace="CodeSmith.SchemaHelper" %>
+<%@ Import Namespace="CodeSmith.SchemaHelper.NHibernate" %>
+<%-- 注册自定义实体层Entity模板 --%>
+<%@ Register Name="HtmListTemplate" Template="HtmList.cst" MergeProperties="False" %>
+<%@ Register Name="HtmAddTemplate" Template="HtmAdd.cst" MergeProperties="False" %>
+<%@ Register Name="HtmEditTemplate" Template="HtmEdit.cst" MergeProperties="False" %>
+<%@ Register Name="HtmDetailTemplate" Template="HtmDetail.cst" MergeProperties="False" %>
+<%@ Register Name="HtmJsTemplate" Template="HtmJs.cst" MergeProperties="False" %>
+
+<%@ Register Name="AppGenSwaggerTemplate" Template="AppGenSwagger.cst" MergeProperties="False" %>
+<%@ Register Name="AppExtSwaggerTemplate" Template="AppExtSwagger.cst" MergeProperties="False" %>
+
+<%@ Register Name="BllExtSplitTemplate" Template="BllExtSplit.cst" MergeProperties="False" %>
+<%@ Register Name="BllExtUnityTemplate" Template="BllExtUnity.cst" MergeProperties="False" %>
+<%@ Register Name="BllGenSplitTemplate" Template="BllGenSplit.cst" MergeProperties="False" %>
+<%@ Register Name="BllGenUnityTemplate" Template="BllGenUnity.cst" MergeProperties="False" %>
+<%@ Register Name="DaoUnityTemplate" Template="DaoUnity.cst" MergeProperties="False" %>
+<%@ Register Name="DaoSplitTemplate" Template="DaoSplit.cst" MergeProperties="False" %>
+<%@ Register Name="DaoXmlUnityTemplate" Template="DaoXmlUnity.cst" MergeProperties="False" %>
+<%@ Register Name="DaoXmlSplitTemplate" Template="DaoXmlSplit.cst" MergeProperties="False" %>
+<%@ Register Name="EntGenTemplate" Template="EntGen.cst" MergeProperties="Flase" ExcludeProperties=""%>
+<%@ Register Name="EntExtTemplate" Template="EntExt.cst" MergeProperties="False" %>
+<%@ Register Name="EntParameterTemplate" Template="EntParameter.cst" MergeProperties="False" %>
+<%@ Register Name="ProjectTemplate" Template="Project.cst" MergeProperties="True" %>
+<%@ Register Name="ProjectPomXmlTemplate" Template="ProjectPomXml.cst" MergeProperties="True"  %>
+
+
+<% Generate(); %>
+
+<script runat="template">
+//实体类输出路径
+private string classDirectory = String.Empty;
+[Editor(typeof (System.Windows.Forms.Design.FolderNameEditor), typeof (System.Drawing.Design.UITypeEditor))]
+    [Optional, NotChecked]
+    [DefaultValue("")]
+    public string ProjectOutputDirectory {
+    get {
+        return classDirectory;
+    }
+    set {
+        if (value.EndsWith("\\")) value = value.Substring(0, value.Length - 1);
+        classDirectory = value;
+    }
+}
+
+</script>
+
+
+<script runat="template">
+    public void Generate() {
+        
+        string url =ProjectOutputDirectory+"\\" +ProjectName;
+
+        string htmAddOutputDirectory = ProjectOutputDirectory + "\\FrontPage\\pc\\ss\\gp\\html\\{1}\\{0}Add.html";
+        string htmEditOutputDirectory = ProjectOutputDirectory + "\\FrontPage\\pc\\ss\\gp\\html\\{1}\\{0}Edit.html";
+        string htmDetailOutputDirectory = ProjectOutputDirectory + "\\FrontPage\\pc\\ss\\gp\\html\\{1}\\{0}Detail.html";
+        string htmListOutputDirectory = ProjectOutputDirectory + "\\FrontPage\\pc\\ss\\gp\\html\\{1}\\{0}List.html";
+        string htmJsOutputDirectory = ProjectOutputDirectory + "\\FrontPage\\pc\\ss\\gp\\js\\{1}\\{0}.js";
+        
+        string appGenSwaggerOutputDirectory = url + "\\src\\main\\java\\com\\zee\\app\\generate\\swagger\\{1}\\{0}GenSwgApp.java";
+        string appExtSwaggerOutputDirectory = url + "\\src\\main\\java\\com\\zee\\app\\extend\\swagger\\{1}\\{0}SwgApp.java";
+
+        string bllGenSplitOutputDirectory = url + "\\src\\main\\java\\com\\zee\\bll\\generate\\split\\{1}\\{0}GenSplBll.java";
+        string bllGenUnityOutputDirectory = url + "\\src\\main\\java\\com\\zee\\bll\\generate\\unity\\{1}\\{0}GenUntBll.java";
+        string bllExtSplitOutputDirectory = url + "\\src\\main\\java\\com\\zee\\bll\\extend\\split\\{1}\\{0}SplBll.java";
+        string bllExtUnityOutputDirectory = url + "\\src\\main\\java\\com\\zee\\bll\\extend\\unity\\{1}\\{0}UntBll.java";
+
+        string daoUnityOutputDirectory = url + "\\src\\main\\java\\com\\zee\\dao\\unity\\{1}\\I{0}UntDal.java";
+        string daoXmlUnityOutputDirectory = url + "\\src\\main\\resources\\com\\zee\\dao\\unity\\{1}\\I{0}UntDal.xml";
+        string daoSplitOutputDirectory = url + "\\src\\main\\java\\com\\zee\\dao\\split\\{1}\\I{0}SplDal.java";
+        string daoXmlSplitOutputDirectory = url + "\\src\\main\\resources\\com\\zee\\dao\\split\\{1}\\I{0}SplDal.xml";
+
+        string entGenOutputDirectory = url + "\\src\\main\\java\\com\\zee\\ent\\generate\\{1}\\{0}GenEnt.java";
+        string entExtOutputDirectory = url + "\\src\\main\\java\\com\\zee\\ent\\extend\\{1}\\{0}.java";
+        string entParameterOutputDirectory = url + "\\src\\main\\java\\com\\zee\\ent\\parameter\\{1}\\{0}Parameter.java";
+
+
+        CodeTemplate htmAddTemplate = new HtmAddTemplate();
+        CodeTemplate htmEditTemplate = new HtmEditTemplate();
+        CodeTemplate htmDetailTemplate = new HtmDetailTemplate();
+        CodeTemplate htmListTemplate = new HtmListTemplate();
+        CodeTemplate htmJsTemplate = new HtmJsTemplate();
+        
+        
+        CodeTemplate appGenSwaggerTemplate = new AppGenSwaggerTemplate();
+        CodeTemplate appExtSwaggerTemplate = new AppExtSwaggerTemplate();
+        CodeTemplate bllExtSplitTemplate = new BllExtSplitTemplate();
+        CodeTemplate bllExtUnityTemplate = new BllExtUnityTemplate();
+        CodeTemplate bllGenSplitTemplate = new BllGenSplitTemplate();
+        CodeTemplate bllGenUnityTemplate = new BllGenUnityTemplate();
+        CodeTemplate daoUnityTemplate = new DaoUnityTemplate();
+        CodeTemplate daoSplitTemplate = new DaoSplitTemplate();
+        CodeTemplate entGenTemplate = new EntGenTemplate();
+        CodeTemplate entExtTemplate = new EntExtTemplate();
+        CodeTemplate entParameterTemplate = new EntParameterTemplate();
+        CodeTemplate daoXmlUnityParameterTemplate = new DaoXmlUnityTemplate();
+        CodeTemplate daoXmlSplitParameterTemplate = new DaoXmlSplitTemplate();
+
+        //只生成一次的部分
+        ////此方法在项目搭建之后不再使用
+        
+      /*** MakeFixedPart(); ****/        
+      
+        
+        /************危险**************/        
+        /*** MakeTemplate(htmAddTemplate, htmAddOutputDirectory);
+        MakeTemplate(htmEditTemplate, htmEditOutputDirectory);
+        MakeTemplate(htmDetailTemplate, htmDetailOutputDirectory);
+        MakeTemplate(htmListTemplate, htmListOutputDirectory);
+        MakeTemplate(htmJsTemplate, htmJsOutputDirectory);
+        MakeTemplate(appExtSwaggerTemplate, appExtSwaggerOutputDirectory);
+        MakeTemplate(bllExtUnityTemplate, bllExtUnityOutputDirectory);
+        MakeTemplate(bllExtSplitTemplate, bllExtSplitOutputDirectory);
+        MakeTemplate(daoSplitTemplate, daoSplitOutputDirectory);
+        MakeTemplate(entExtTemplate, entExtOutputDirectory);
+        MakeTemplate(entParameterTemplate, entParameterOutputDirectory);
+        MakeTemplate(bllGenSplitTemplate, bllGenSplitOutputDirectory);
+        MakeTemplate(daoXmlSplitParameterTemplate, daoXmlSplitOutputDirectory);    
+        MakeTemplate(entParameterTemplate, entParameterOutputDirectory);****/    
+        
+        //频繁往复生成的部分。
+       //MakeTemplate(appGenSwaggerTemplate, appGenSwaggerOutputDirectory);
+       //MakeTemplate(bllGenUnityTemplate, bllGenUnityOutputDirectory);
+       //MakeTemplate(daoUnityTemplate, daoUnityOutputDirectory);
+       MakeTemplate(daoXmlUnityParameterTemplate, daoXmlUnityOutputDirectory);
+       MakeTemplate(entGenTemplate, entGenOutputDirectory);
+      
+    }
+
+    private void OnSourceDatabaseChanged(object sender, EventArgs e) {
+        if (SourceDatabase == null)
+            return ;
+
+        string name = StringUtil.ToPascalCase(SourceDatabase.Database.Name);
+    }
+
+    private void MakeFixedPart() {
+
+        string projectUrl = ProjectOutputDirectory + "\\" + ProjectName;
+        Directory.CreateDirectory(projectUrl);
+
+        string sourcePath = ".\\FixedPart";
+        DirectoryInfo info = new DirectoryInfo(sourcePath);
+
+        FileHelper.CopyDirectory(sourcePath, projectUrl);
+
+        string projectOutputDirectory = projectUrl + "\\.project";
+        string projectPomXmlOutputDirectory = projectUrl + "\\pom.xml";
+        CodeTemplate projectTemplate = new ProjectTemplate();
+        CodeTemplate projectPomXmlTemplate = new ProjectPomXmlTemplate();
+
+        //生成模板
+        projectTemplate.SetProperty("ProjectName", ProjectName);
+        projectPomXmlTemplate.SetProperty("ProjectName", ProjectName);
+        //文件输出
+        projectTemplate.RenderToFile(projectOutputDirectory, true);
+        projectPomXmlTemplate.RenderToFile(projectPomXmlOutputDirectory, true);
+
+    }
+
+
+    //生成自定义的实体Entity类
+    private void MakeTemplate(CodeTemplate template, String outputDirectory) {
+
+        foreach (TableSchema table in this.SourceDatabase.Tables) {
+
+            ArrayList tableList = new ArrayList();
+
+           tableList.Add("gp_control");
+
+        if (tableList.Contains(table.Name))
+            //   if (!table.Name.StartsWith("ds_"))  
+            if (table.Name.StartsWith("gp")) 
+           {
+               
+                String fileUrl = "";
+                if (outputDirectory.EndsWith(".html") || outputDirectory.EndsWith(".js")) {
+                    if (table.Name.Substring(2, 1) == "r")
+                    continue ;
+                    fileUrl = String.Format(outputDirectory, StringUtil.ToPascalCase(table.Name).Substring(2), table.Name.Substring(0, 2));
+                }else {
+                    fileUrl = String.Format(outputDirectory, StringUtil.ToPascalCase(table.Name), table.Name.Substring(0, 2));
+                }
+                //生成模板，ModulePackageName是按模块分子包的包名
+                template.SetProperty("Table", table);
+                template.SetProperty("DeveloperName", "Zee");
+                template.SetProperty("ModulePackageName", table.Name.Substring(0, 2));
+
+                //文件输出
+                template.RenderToFile(fileUrl,true);
+            }
+        }
+
+        }
+</script>
