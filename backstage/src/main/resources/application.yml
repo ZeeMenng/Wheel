@@ -1,11 +1,11 @@
 #spring mail
 mail:
    smtp:
-      username: 850912828@qq.com
+      username: 850934828@qq.com
       password: abcdefg
       smtpServer: smtp.qq.com
       port: 465
-      fromMailAddress: 850124828@qq.com
+      fromMailAddress: 850934828@qq.com
       auth: true
       timeout: 1000
 
@@ -66,7 +66,7 @@ spring:
       date-format: yyyy-MM-dd HH:mm:ss
       joda-date-time-format: yyyy-MM-dd HH:mm:ss
 
-      
+
 mongo:
    address: 192.168.200.39
    port: 27017
@@ -77,15 +77,15 @@ mongo:
    database: mango
    collection: DaIotMonitorData
 upload:
-   diskPath: D:\ProgramData\ApplicationResource\Wheel
+   diskPath: D:\ProgramData\ApplicationResource\Mango
    linkPath: http://localhost/resource
-   swfPath: http://localhost:8081/resource/swf/flvplayer.swf
+   swfPath: http://localhsot:8081/resource/swf/flvplayer.swf
 mangoTaskSwitch:
    sentimentTask: false
    ecTask: false
 # mongoProperties
    wholesaleTask: false
-   
+
 # ===== 自带swagger配置 ===== #
 springfox:
   documentation:
@@ -94,7 +94,7 @@ springfox:
       enabled: false
     #  生产环境时关闭自动启动扫描注解
     auto-startup: false
-    
+
 # ===== 自定义swagger配置 ===== #
 swagger:
   enable: true
