@@ -1,0 +1,310 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zee.dao.unity.gp.IGprDomainUserUntDal" >
+
+  <resultMap id="BaseResultMap" type="com.zee.ent.extend.gp.GprDomainUser" >
+              <id column="id" property="id" jdbcType="VARCHAR" />
+              <result column="domain_id" property="domainId" jdbcType="VARCHAR" />
+              <result column="user_id" property="userId" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+        id,domain_id,user_id
+  </sql>
+  
+  <insert id="add" parameterType="com.zee.ent.extend.gp.GprDomainUser" >
+    insert into gpr_domain_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+          <if test="id != null and id != '' " >
+              id,
+          </if>
+      
+          <if test="domainId != null and domainId != '' " >
+              domain_id,
+          </if>
+      
+          <if test="userId != null and userId != '' " >
+              user_id,
+          </if>
+      
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+          <if test="id != null and id != '' " >
+              #{id,jdbcType=VARCHAR},
+          </if>
+          <if test="domainId != null and domainId != '' " >
+              #{domainId,jdbcType=VARCHAR},
+          </if>
+          <if test="userId != null and userId != '' " >
+              #{userId,jdbcType=VARCHAR},
+          </if>
+    </trim>
+  </insert>
+  
+  <insert id="addList" parameterType="list">
+    	insert into gpr_domain_user
+    	<trim prefix="(" suffix=")">
+    		<include refid="Base_Column_List" />
+    	</trim>
+    	values
+    	<foreach collection="list" item="gprDomainUser" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides="," >
+
+          #{gprDomainUser.id,jdbcType=VARCHAR},
+          #{gprDomainUser.domainId,jdbcType=VARCHAR},
+          #{gprDomainUser.userId,jdbcType=VARCHAR},
+
+        </trim>
+    	</foreach>
+    </insert>
+
+
+  <insert id="addListWithDffOrAdd" parameterType="list">
+    	insert into gpr_domain_user
+    	<trim prefix="(" suffix=")">
+    		<include refid="Base_Column_List" />
+    	</trim>
+    	values
+    	<foreach collection="list" item="gprDomainUser" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides="," >
+
+          #{gprDomainUser.id,jdbcType=VARCHAR},
+          #{gprDomainUser.domainId,jdbcType=VARCHAR},
+          #{gprDomainUser.userId,jdbcType=VARCHAR},
+
+        </trim>
+    	</foreach>
+        ON DUPLICATE KEY UPDATE
+id=values(id),
+domain_id=values(domain_id),
+user_id=values(user_id)
+        
+    </insert>
+
+
+    <delete id="delete" parameterType="java.lang.String" >
+        delete from gpr_domain_user
+        where  id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+	<delete id="deleteByDomainId" parameterType="java.lang.String">
+    	delete from gpr_domain_user
+    	where domain_id = #{domainId,jdbcType=VARCHAR}
+    </delete>
+    
+   <delete id="deleteByDomainIdList" parameterType="list">
+		delete from gpr_domain_user
+		where domain_id  in
+		<foreach collection="list" item="DomainId " index="index" open="(" close=")" separator=",">
+			#{DomainId }
+		</foreach>
+	</delete>
+    
+    
+    <select id="getListByDomainId" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from gpr_domain_user where domain_id = #{domainId,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByUserId" parameterType="java.lang.String">
+    	delete from gpr_domain_user
+    	where user_id = #{userId,jdbcType=VARCHAR}
+    </delete>
+    
+   <delete id="deleteByUserIdList" parameterType="list">
+		delete from gpr_domain_user
+		where user_id  in
+		<foreach collection="list" item="UserId " index="index" open="(" close=")" separator=",">
+			#{UserId }
+		</foreach>
+	</delete>
+    
+    
+    <select id="getListByUserId" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from gpr_domain_user where user_id = #{userId,jdbcType=VARCHAR}
+	</select>
+        
+ 	<delete id="deleteByCompositeIdList" parameterType="list">
+		delete from gpr_domain_user
+		where 1=1
+
+   and domain_id in
+		<foreach collection="list" item="gprDomainUser" index="index" open="(" close=")" separator=",">
+				#{gprDomainUser.domainId,jdbcType=VARCHAR}
+		</foreach>
+   and user_id in
+		<foreach collection="list" item="gprDomainUser" index="index" open="(" close=")" separator=",">
+				#{gprDomainUser.userId,jdbcType=VARCHAR}
+		</foreach>
+	</delete>
+        
+
+	<delete id="deleteByIdList" parameterType="list">
+		delete from gpr_domain_user
+		where id  in
+		<foreach collection="list" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+	</delete>
+  
+  
+  
+  <update id="update" parameterType="com.zee.ent.extend.gp.GprDomainUser" >
+    update gpr_domain_user
+    <set >
+                    <choose>
+                   <when test="domainId != null and domainId=='-1'">
+                     domain_id = null,
+                  </when>
+                  <when test="domainId != null and domainId=='-2'">
+                     domain_id = '',
+                  </when>
+                  <when test="domainId != null  and domainId != '' " >
+                     domain_id = #{domainId,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="userId != null and userId=='-1'">
+                     user_id = null,
+                  </when>
+                  <when test="userId != null and userId=='-2'">
+                     user_id = '',
+                  </when>
+                  <when test="userId != null  and userId != '' " >
+                     user_id = #{userId,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+   </set>
+                 where  id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+<update id="updateList">
+    update gpr_domain_user
+    <set >
+                  <if test="t.domainId != null  and t.domainId != '' " >
+                     domain_id = #{t.domainId,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.userId != null  and t.userId != '' " >
+                     user_id = #{t.userId,jdbcType=VARCHAR},
+                  </if>
+   </set>
+	
+		where id  in
+		<foreach collection="idList" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+   
+  </update>
+  
+<update id="updateListWithDff"  parameterType="list">
+    update gpr_domain_user
+		<trim prefix="set" suffixOverrides=",">
+         <trim prefix="domain_id =case" suffix="end,">
+              <foreach collection="list" item="gprDomainUser" index="index">
+                  <if test="gprDomainUser.domainId != null and gprDomainUser.domainId  != ''  and gprDomainUser.domainId  != '-1' ">
+                     when id=#{gprDomainUser.id} then #{gprDomainUser.domainId,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gprDomainUser.domainId != null  and gprDomainUser.domainId  == '-1' ">
+                     when id=#{gprDomainUser.id} then null
+                  </if>  
+                   <if test="gprDomainUser.domainId != null  and gprDomainUser.domainId  == '-2' ">
+                     when id=#{gprDomainUser.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="user_id =case" suffix="end,">
+              <foreach collection="list" item="gprDomainUser" index="index">
+                  <if test="gprDomainUser.userId != null and gprDomainUser.userId  != ''  and gprDomainUser.userId  != '-1' ">
+                     when id=#{gprDomainUser.id} then #{gprDomainUser.userId,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gprDomainUser.userId != null  and gprDomainUser.userId  == '-1' ">
+                     when id=#{gprDomainUser.id} then null
+                  </if>  
+                   <if test="gprDomainUser.userId != null  and gprDomainUser.userId  == '-2' ">
+                     when id=#{gprDomainUser.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+    </trim>
+    where id in
+		<foreach collection="list" item="gprDomainUser" index="index" open="(" close=")" separator=",">
+			#{gprDomainUser.id,jdbcType=VARCHAR}
+		</foreach>
+  </update>
+
+  
+  
+  <insert id="updateListWithDffOrAdd" useGeneratedKeys="true" keyProperty="id" parameterType="list">
+    replace into gpr_domain_user
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+id,
+domain_id,
+user_id,
+    </trim>
+    VALUES
+    <foreach collection="list" item="gprDomainUser" index="index" separator=",">
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+              #{gprDomainUser.id ,jdbcType=VARCHAR},
+                  
+                     #{gprDomainUser.domainId ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gprDomainUser.userId ,jdbcType=VARCHAR},
+                  
+      </trim>
+    </foreach>
+  </insert>
+
+
+  <select id="getModel" resultMap="BaseResultMap" parameterType="java.lang.String" >
+          select 
+                 <include refid="Base_Column_List" />
+          from gpr_domain_user
+           where  id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+   
+  
+  <select id="getList" resultMap="BaseResultMap" parameterType="map" >
+          select
+                <include refid="Base_Column_List" />
+          from gpr_domain_user where 1 = 1
+        <if test="EntityRelated.id != null and EntityRelated.id != '' ">
+			and id LIKE CONCAT('%',#{EntityRelated.id,jdbcType=VARCHAR},'%')
+		</if>
+
+		<if test="EntityRelated.domainId != null and EntityRelated.domainId != '' ">
+				and domain_id = #{EntityRelated.domainId,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.id != null and EntityRelated.id != '' ">
+				and id = #{EntityRelated.id,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.userId != null and EntityRelated.userId != '' ">
+				and user_id = #{EntityRelated.userId,jdbcType=VARCHAR} 
+		</if>
+
+
+		<if test="OrderList != null and OrderList!=null">
+			order by
+			<foreach collection="OrderList" item="Order" index="index" separator=",">
+				${Order.columnName}
+				<if test="Order.isASC">
+					ASC
+				</if>
+				<if test="!Order.isASC">
+					DESC
+				</if>
+			</foreach>
+		</if>
+  </select>
+  
+	<select id="getListBySQL" resultType="java.util.HashMap" parameterType="String">
+		<if test="value!=null and value!=''">
+			${value}
+		</if>
+	</select>
+
+  <cache />
+</mapper>

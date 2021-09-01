@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zee.dao.split.gp.IGprRoleInterfaceSplDal">
+
+	<resultMap id="BaseResultMap" type="com.zee.ent.extend.gp.GprRoleInterface">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="role_id" property="roleId" jdbcType="VARCHAR" />
+		<result column="interface_id" property="interfaceId" jdbcType="VARCHAR" />
+		<result column="is_enable_code" property="isEnableCode" jdbcType="TINYINT" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id,role_id,interface_id,is_enable_code
+	</sql>
+
+	<insert id="add" parameterType="com.zee.ent.extend.gp.GprRoleInterface">
+		insert into gpr_role_interface
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null and id != '' ">
+				id,
+			</if>
+
+			<if test="roleId != null and roleId != '' ">
+				role_id,
+			</if>
+
+			<if test="interfaceId != null and interfaceId != '' ">
+				interface_id,
+			</if>
+
+			<if test="isEnableCode != null ">
+				is_enable_code,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null and id != '' ">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="roleId != null and roleId != '' ">
+				#{roleId,jdbcType=VARCHAR},
+			</if>
+			<if test="interfaceId != null and interfaceId != '' ">
+				#{interfaceId,jdbcType=VARCHAR},
+			</if>
+			<if test="isEnableCode != null ">
+				#{isEnableCode,jdbcType=TINYINT},
+			</if>
+		</trim>
+	</insert>
+
+
+	<insert id="addList" parameterType="list">
+		insert into gpr_role_interface
+		<trim prefix="(" suffix=")">
+			<include refid="Base_Column_List" />
+		</trim>
+		values
+		<foreach collection="list" item="gprRoleInterface" index="index" separator=",">
+			<trim prefix="(" suffix=")" suffixOverrides=",">
+				#{gprRoleInterface.id,jdbcType=VARCHAR},
+				#{gprRoleInterface.roleId,jdbcType=VARCHAR},
+				#{gprRoleInterface.interfaceId,jdbcType=VARCHAR},
+				#{gprRoleInterface.isEnableCode,jdbcType=TINYINT},
+			</trim>
+		</foreach>
+	</insert>
+
+
+
+	<delete id="delete" parameterType="java.lang.String">
+		delete from gpr_role_interface
+		where id = #{id,jdbcType=VARCHAR}
+	</delete>
+
+	<delete id="deleteByRoleId" parameterType="java.lang.String">
+		delete from gpr_role_interface
+		where role_id = #{roleId,jdbcType=VARCHAR}
+	</delete>
+
+	<delete id="deleteByInterfaceId" parameterType="java.lang.String">
+		delete from gpr_role_interface
+		where interface_id = #{interfaceId,jdbcType=VARCHAR}
+	</delete>
+
+	<delete id="deleteByIdList" parameterType="list">
+		delete from gpr_role_interface
+		where id in
+		<foreach collection="list" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+	</delete>
+
+	<delete id="deleteByRoleIdList" parameterType="list">
+		delete from gpr_role_interface
+		where roleId in
+		<foreach collection="list" item="id " index="index" open="(" close=")" separator=",">
+			#{roleId}
+		</foreach>
+	</delete>
+
+	<delete id="deleteByInterfaceIdList" parameterType="list">
+		delete from gpr_role_interface
+		where interface_id in
+		<foreach collection="list" item="interfaceId" index="index" open="(" close=")" separator=",">
+			#{interfaceId}
+		</foreach>
+	</delete>
+
+
+	<delete id="deleteByCompositeIdList" parameterType="list">
+		delete from gpr_role_interface
+		where interface_id in
+
+		<foreach collection="list" item="gprRoleInterface" index="index" open="(" close=")" separator=",">
+				#{gprRoleInterface.interfaceId,jdbcType=VARCHAR}
+		</foreach>
+		and role_id in
+		<foreach collection="list" item="gprRoleInterface" index="index" open="(" close=")" separator=",">
+				#{gprRoleInterface.roleId,jdbcType=VARCHAR}
+		</foreach>
+	</delete>
+
+
+	<update id="update" parameterType="com.zee.ent.extend.gp.GprRoleInterface">
+		update gpr_role_interface
+		<set>
+			<if test="roleId != null  and roleId != '' ">
+				role_id = #{roleId,jdbcType=VARCHAR},
+			</if>
+			<if test="interfaceId != null  and interfaceId != '' ">
+				interface_id = #{interfaceId,jdbcType=VARCHAR},
+			</if>
+			<if test="isEnableCode != null ">
+				is_enable_code = #{isEnableCode,jdbcType=TINYINT},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<update id="updateList">
+		update gpr_role_interface
+		<set>
+			<if test="t.roleId != null  and t.roleId != '' ">
+				role_id = #{t.roleId,jdbcType=VARCHAR},
+			</if>
+			<if test="t.interfaceId != null  and t.interfaceId != '' ">
+				interface_id = #{t.interfaceId,jdbcType=VARCHAR},
+			</if>
+			<if test="t.isEnableCode != null ">
+				is_enable_code = #{t.isEnableCode,jdbcType=TINYINT},
+			</if>
+		</set>
+
+		where id in
+		<foreach collection="idList" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+	</update>
+
+	<select id="getModel" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from gpr_role_interface
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<select id="getList" resultMap="BaseResultMap" parameterType="map">
+		select
+		<include refid="Base_Column_List" />
+		from gpr_role_interface where 1 = 1
+		<if test="EntityRelated.id != null and EntityRelated.id != '' ">
+			and id LIKE CONCAT('%',#{EntityRelated.id,jdbcType=VARCHAR},'%')
+		</if>
+
+		<if test="EntityRelated.id != null and EntityRelated.id != '' ">
+			and id = #{EntityRelated.id,jdbcType=VARCHAR}
+		</if>
+		<if test="EntityRelated.interfaceId != null and EntityRelated.interfaceId != '' ">
+			and interface_id = #{EntityRelated.interfaceId,jdbcType=VARCHAR}
+		</if>
+		<if test="EntityRelated.isEnableCode != null">
+			and is_enable_code = #{EntityRelated.isEnableCode,jdbcType=TINYINT}
+		</if>
+		<if test="EntityRelated.roleId != null and EntityRelated.roleId != '' ">
+			and role_id = #{EntityRelated.roleId,jdbcType=VARCHAR}
+		</if>
+
+
+		<if test="OrderList != null and OrderList!=null">
+			order by
+			<foreach collection="OrderList" item="Order" index="index" separator=",">
+				${Order.columnName}
+				<if test="Order.isASC">
+					ASC
+				</if>
+				<if test="!Order.isASC">
+					DESC
+				</if>
+			</foreach>
+		</if>
+	</select>
+
+	<select id="getListBySQL" resultType="java.util.HashMap" parameterType="String">
+		<if test="value!=null and value!=''">
+			${value}
+		</if>
+	</select>
+
+	<cache />
+</mapper>

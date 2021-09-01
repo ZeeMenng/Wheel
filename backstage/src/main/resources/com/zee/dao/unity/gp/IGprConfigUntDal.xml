@@ -1,0 +1,293 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zee.dao.unity.gp.IGprConfigUntDal" >
+
+  <resultMap id="BaseResultMap" type="com.zee.ent.extend.gp.GprConfig" >
+              <id column="id" property="id" jdbcType="VARCHAR" />
+              <result column="config_id" property="configId" jdbcType="VARCHAR" />
+              <result column="config_value" property="configValue" jdbcType="VARCHAR" />
+              <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+              <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+        id,config_id,config_value,add_time,update_time
+  </sql>
+  
+  <insert id="add" parameterType="com.zee.ent.extend.gp.GprConfig" >
+    insert into gpr_config
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+          <if test="id != null and id != '' " >
+              id,
+          </if>
+      
+          <if test="configId != null and configId != '' " >
+              config_id,
+          </if>
+      
+          <if test="configValue != null and configValue != '' " >
+              config_value,
+          </if>
+      
+          <if test="addTime != null " >
+              add_time,
+          </if>
+          <if test="updateTime != null " >
+              update_time,
+          </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+          <if test="id != null and id != '' " >
+              #{id,jdbcType=VARCHAR},
+          </if>
+          <if test="configId != null and configId != '' " >
+              #{configId,jdbcType=VARCHAR},
+          </if>
+          <if test="configValue != null and configValue != '' " >
+              #{configValue,jdbcType=VARCHAR},
+          </if>
+          <if test="addTime != null " >
+              #{addTime,jdbcType=TIMESTAMP},
+          </if>
+          <if test="updateTime != null " >
+              #{updateTime,jdbcType=TIMESTAMP},
+          </if>
+    </trim>
+  </insert>
+  
+  <insert id="addList" parameterType="list">
+    	insert into gpr_config
+    	<trim prefix="(" suffix=")">
+    		<include refid="Base_Column_List" />
+    	</trim>
+    	values
+    	<foreach collection="list" item="gprConfig" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides="," >
+
+          #{gprConfig.id,jdbcType=VARCHAR},
+          #{gprConfig.configId,jdbcType=VARCHAR},
+          #{gprConfig.configValue,jdbcType=VARCHAR},
+          #{gprConfig.addTime,jdbcType=TIMESTAMP},
+          #{gprConfig.updateTime,jdbcType=TIMESTAMP},
+
+        </trim>
+    	</foreach>
+    </insert>
+
+    <delete id="delete" parameterType="java.lang.String" >
+        delete from gpr_config
+        where  id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+	<delete id="deleteByConfigId" parameterType="java.lang.String">
+    	delete from gpr_config
+    	where config_id = #{configId,jdbcType=VARCHAR}
+    </delete>
+    
+   <delete id="deleteByConfigIdList" parameterType="list">
+		delete from gpr_config
+		where config_id  in
+		<foreach collection="list" item="ConfigId " index="index" open="(" close=")" separator=",">
+			#{ConfigId }
+		</foreach>
+	</delete>
+    
+    
+    <select id="getListByConfigId" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from gpr_config where config_id = #{configId,jdbcType=VARCHAR}
+	</select>
+        
+
+	<delete id="deleteByIdList" parameterType="list">
+		delete from gpr_config
+		where id  in
+		<foreach collection="list" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+	</delete>
+  
+  
+  
+  <update id="update" parameterType="com.zee.ent.extend.gp.GprConfig" >
+    update gpr_config
+    <set >
+                  <if test="configId != null  and configId != '' " >
+                     config_id = #{configId,jdbcType=VARCHAR},
+                  </if>
+                  <if test="configValue != null  and configValue != '' " >
+                     config_value = #{configValue,jdbcType=VARCHAR},
+                  </if>
+                  <if test="addTime != null ">
+                     add_time = #{addTime,jdbcType=TIMESTAMP},
+                  </if>
+                  <if test="updateTime != null ">
+                     update_time = #{updateTime,jdbcType=TIMESTAMP},
+                  </if>
+   </set>
+                 where  id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+<update id="updateList">
+    update gpr_config
+    <set >
+                  <if test="t.configId != null  and t.configId != '' " >
+                     config_id = #{t.configId,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.configValue != null  and t.configValue != '' " >
+                     config_value = #{t.configValue,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.addTime != null ">
+                     add_time = #{t.addTime,jdbcType=TIMESTAMP},
+                  </if>
+                  <if test="t.updateTime != null ">
+                     update_time = #{t.updateTime,jdbcType=TIMESTAMP},
+                  </if>
+   </set>
+	
+		where id  in
+		<foreach collection="idList" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+   
+  </update>
+  
+<update id="updateListWithDff"  parameterType="list">
+    update gpr_config
+		<trim prefix="set" suffixOverrides=",">
+         <trim prefix="config_id =case" suffix="end,">
+              <foreach collection="list" item="gprConfig" index="index">
+                  <if test="gprConfig.configId != null and gprConfig.configId  != ''  and gprConfig.configId  != '-1' ">
+                     when id=#{gprConfig.id} then #{gprConfig.configId,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gprConfig.configId != null  and gprConfig.configId  == '-1' ">
+                     when id=#{gprConfig.id} then null
+                  </if>
+                  
+              </foreach>
+         </trim>
+         <trim prefix="config_value =case" suffix="end,">
+              <foreach collection="list" item="gprConfig" index="index">
+                  <if test="gprConfig.configValue != null and gprConfig.configValue  != ''  and gprConfig.configValue  != '-1' ">
+                     when id=#{gprConfig.id} then #{gprConfig.configValue,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gprConfig.configValue != null  and gprConfig.configValue  == '-1' ">
+                     when id=#{gprConfig.id} then null
+                  </if>
+                  
+              </foreach>
+         </trim>
+         <trim prefix="add_time =case" suffix="end,">
+              <foreach collection="list" item="gprConfig" index="index">
+                  <if test="gprConfig.addTime != null " >
+                     when id=#{gprConfig.id} then #{gprConfig.addTime,jdbcType=TIMESTAMP}
+                  </if>
+              </foreach>
+         </trim>
+         <trim prefix="update_time =case" suffix="end,">
+              <foreach collection="list" item="gprConfig" index="index">
+                  <if test="gprConfig.updateTime != null " >
+                     when id=#{gprConfig.id} then #{gprConfig.updateTime,jdbcType=TIMESTAMP}
+                  </if>
+              </foreach>
+         </trim>
+    </trim>
+    where id in
+		<foreach collection="list" item="gprConfig" index="index" open="(" close=")" separator=",">
+			#{gprConfig.id,jdbcType=VARCHAR}
+		</foreach>
+  </update>
+
+  
+  
+  <insert id="updateListWithDffOrAdd" useGeneratedKeys="true" keyProperty="id" parameterType="list">
+    replace into gpr_config
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+id,
+config_id,
+config_value,
+add_time,
+update_time,
+    </trim>
+    VALUES
+    <foreach collection="list" item="gprConfig" index="index" separator=",">
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+              #{gprConfig.id ,jdbcType=VARCHAR},
+                  
+                     #{gprConfig.configId ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gprConfig.configValue ,jdbcType=VARCHAR},
+                  
+                  
+                    #{gprConfig.addTime,jdbcType=TIMESTAMP},
+            
+                  
+                    #{gprConfig.updateTime,jdbcType=TIMESTAMP},
+            
+      </trim>
+    </foreach>
+  </insert>
+
+
+  <select id="getModel" resultMap="BaseResultMap" parameterType="java.lang.String" >
+          select 
+                 <include refid="Base_Column_List" />
+          from gpr_config
+           where  id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="getList" resultMap="BaseResultMap" parameterType="map" >
+          select
+                <include refid="Base_Column_List" />
+          from gpr_config where 1 = 1
+        <if test="EntityRelated.id != null and EntityRelated.id != '' ">
+			and id LIKE CONCAT('%',#{EntityRelated.id,jdbcType=VARCHAR},'%')
+		</if>
+
+		<if test="EntityRelated.beginAddTime != null ">
+				<![CDATA[ AND  unix_timestamp(add_time)>=unix_timestamp(#{EntityRelated.beginAddTime})]]> 
+		</if>
+		<if test="EntityRelated.endAddTime != null ">
+				<![CDATA[ AND  unix_timestamp(add_time)<unix_timestamp(#{EntityRelated.endAddTime})]]> 
+		</if>
+		<if test="EntityRelated.configId != null and EntityRelated.configId != '' ">
+				and config_id = #{EntityRelated.configId,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.configValue != null and EntityRelated.configValue != '' ">
+ 				and  config_value LIKE CONCAT('%',#{EntityRelated.configValue,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.id != null and EntityRelated.id != '' ">
+				and id = #{EntityRelated.id,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.beginUpdateTime != null ">
+				<![CDATA[ AND  unix_timestamp(update_time)>=unix_timestamp(#{EntityRelated.beginUpdateTime})]]> 
+		</if>
+		<if test="EntityRelated.endUpdateTime != null ">
+				<![CDATA[ AND  unix_timestamp(update_time)<unix_timestamp(#{EntityRelated.endUpdateTime})]]> 
+		</if>
+
+
+		<if test="OrderList != null and OrderList!=null">
+			order by
+			<foreach collection="OrderList" item="Order" index="index" separator=",">
+				${Order.columnName}
+				<if test="Order.isASC">
+					ASC
+				</if>
+				<if test="!Order.isASC">
+					DESC
+				</if>
+			</foreach>
+		</if>
+  </select>
+  
+	<select id="getListBySQL" resultType="java.util.HashMap" parameterType="String">
+		<if test="value!=null and value!=''">
+			${value}
+		</if>
+	</select>
+
+  <cache />
+</mapper>

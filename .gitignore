@@ -1,2 +1,7 @@
 frontpage/node_modules
 frontpage/dist
+frontpage/build
+backstage/.apt_generated
+backstage/.idea
+backstage/.settings
+backstage/target

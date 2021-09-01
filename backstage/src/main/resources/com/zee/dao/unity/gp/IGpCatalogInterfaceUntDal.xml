@@ -1,0 +1,477 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zee.dao.unity.gp.IGpCatalogInterfaceUntDal" >
+
+  <resultMap id="BaseResultMap" type="com.zee.ent.extend.gp.GpCatalogInterface" >
+              <id column="id" property="id" jdbcType="VARCHAR" />
+              <result column="name" property="name" jdbcType="VARCHAR" />
+              <result column="serial_no" property="serialNo" jdbcType="VARCHAR" />
+              <result column="level" property="level" jdbcType="TINYINT" />
+              <result column="farther_id" property="fartherId" jdbcType="VARCHAR" />
+              <result column="priority" property="priority" jdbcType="INTEGER" />
+              <result column="category_code" property="categoryCode" jdbcType="TINYINT" />
+              <result column="category_text" property="categoryText" jdbcType="VARCHAR" />
+              <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+        id,name,serial_no,level,farther_id,priority,category_code,category_text,remark
+  </sql>
+  
+  <insert id="add" parameterType="com.zee.ent.extend.gp.GpCatalogInterface" >
+    insert into gp_catalog_interface
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+          <if test="id != null and id != '' " >
+              id,
+          </if>
+      
+          <if test="name != null and name != '' " >
+              name,
+          </if>
+      
+          <if test="serialNo != null and serialNo != '' " >
+              serial_no,
+          </if>
+      
+          <if test="level != null " >
+              level,
+          </if>
+          <if test="fartherId != null and fartherId != '' " >
+              farther_id,
+          </if>
+      
+          <if test="priority != null " >
+              priority,
+          </if>
+          <if test="categoryCode != null " >
+              category_code,
+          </if>
+          <if test="categoryText != null and categoryText != '' " >
+              category_text,
+          </if>
+      
+          <if test="remark != null and remark != '' " >
+              remark,
+          </if>
+      
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+          <if test="id != null and id != '' " >
+              #{id,jdbcType=VARCHAR},
+          </if>
+          <if test="name != null and name != '' " >
+              #{name,jdbcType=VARCHAR},
+          </if>
+          <if test="serialNo != null and serialNo != '' " >
+              #{serialNo,jdbcType=VARCHAR},
+          </if>
+          <if test="level != null " >
+              #{level,jdbcType=TINYINT},
+          </if>
+          <if test="fartherId != null and fartherId != '' " >
+              #{fartherId,jdbcType=VARCHAR},
+          </if>
+          <if test="priority != null " >
+              #{priority,jdbcType=INTEGER},
+          </if>
+          <if test="categoryCode != null " >
+              #{categoryCode,jdbcType=TINYINT},
+          </if>
+          <if test="categoryText != null and categoryText != '' " >
+              #{categoryText,jdbcType=VARCHAR},
+          </if>
+          <if test="remark != null and remark != '' " >
+              #{remark,jdbcType=VARCHAR},
+          </if>
+    </trim>
+  </insert>
+  
+  <insert id="addList" parameterType="list">
+    	insert into gp_catalog_interface
+    	<trim prefix="(" suffix=")">
+    		<include refid="Base_Column_List" />
+    	</trim>
+    	values
+    	<foreach collection="list" item="gpCatalogInterface" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides="," >
+
+          #{gpCatalogInterface.id,jdbcType=VARCHAR},
+          #{gpCatalogInterface.name,jdbcType=VARCHAR},
+          #{gpCatalogInterface.serialNo,jdbcType=VARCHAR},
+          #{gpCatalogInterface.level,jdbcType=TINYINT},
+          #{gpCatalogInterface.fartherId,jdbcType=VARCHAR},
+          #{gpCatalogInterface.priority,jdbcType=INTEGER},
+          #{gpCatalogInterface.categoryCode,jdbcType=TINYINT},
+          #{gpCatalogInterface.categoryText,jdbcType=VARCHAR},
+          #{gpCatalogInterface.remark,jdbcType=VARCHAR},
+
+        </trim>
+    	</foreach>
+    </insert>
+
+
+  <insert id="addListWithDffOrAdd" parameterType="list">
+    	insert into gp_catalog_interface
+    	<trim prefix="(" suffix=")">
+    		<include refid="Base_Column_List" />
+    	</trim>
+    	values
+    	<foreach collection="list" item="gpCatalogInterface" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides="," >
+
+          #{gpCatalogInterface.id,jdbcType=VARCHAR},
+          #{gpCatalogInterface.name,jdbcType=VARCHAR},
+          #{gpCatalogInterface.serialNo,jdbcType=VARCHAR},
+          #{gpCatalogInterface.level,jdbcType=TINYINT},
+          #{gpCatalogInterface.fartherId,jdbcType=VARCHAR},
+          #{gpCatalogInterface.priority,jdbcType=INTEGER},
+          #{gpCatalogInterface.categoryCode,jdbcType=TINYINT},
+          #{gpCatalogInterface.categoryText,jdbcType=VARCHAR},
+          #{gpCatalogInterface.remark,jdbcType=VARCHAR},
+
+        </trim>
+    	</foreach>
+        ON DUPLICATE KEY UPDATE
+id=values(id),
+name=values(name),
+serial_no=values(serial_no),
+level=values(level),
+farther_id=values(farther_id),
+priority=values(priority),
+category_code=values(category_code),
+category_text=values(category_text),
+remark=values(remark)
+        
+    </insert>
+
+
+    <delete id="delete" parameterType="java.lang.String" >
+        delete from gp_catalog_interface
+        where  id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+        
+
+	<delete id="deleteByIdList" parameterType="list">
+		delete from gp_catalog_interface
+		where id  in
+		<foreach collection="list" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+	</delete>
+  
+  
+  
+  <update id="update" parameterType="com.zee.ent.extend.gp.GpCatalogInterface" >
+    update gp_catalog_interface
+    <set >
+                    <choose>
+                   <when test="name != null and name=='-1'">
+                     name = null,
+                  </when>
+                  <when test="name != null and name=='-2'">
+                     name = '',
+                  </when>
+                  <when test="name != null  and name != '' " >
+                     name = #{name,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="serialNo != null and serialNo=='-1'">
+                     serial_no = null,
+                  </when>
+                  <when test="serialNo != null and serialNo=='-2'">
+                     serial_no = '',
+                  </when>
+                  <when test="serialNo != null  and serialNo != '' " >
+                     serial_no = #{serialNo,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                  <if test="level != null ">
+                     level = #{level,jdbcType=TINYINT},
+                  </if>
+                    <choose>
+                   <when test="fartherId != null and fartherId=='-1'">
+                     farther_id = null,
+                  </when>
+                  <when test="fartherId != null and fartherId=='-2'">
+                     farther_id = '',
+                  </when>
+                  <when test="fartherId != null  and fartherId != '' " >
+                     farther_id = #{fartherId,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                  <if test="priority != null ">
+                     priority = #{priority,jdbcType=INTEGER},
+                  </if>
+                  <if test="categoryCode != null ">
+                     category_code = #{categoryCode,jdbcType=TINYINT},
+                  </if>
+                    <choose>
+                   <when test="categoryText != null and categoryText=='-1'">
+                     category_text = null,
+                  </when>
+                  <when test="categoryText != null and categoryText=='-2'">
+                     category_text = '',
+                  </when>
+                  <when test="categoryText != null  and categoryText != '' " >
+                     category_text = #{categoryText,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="remark != null and remark=='-1'">
+                     remark = null,
+                  </when>
+                  <when test="remark != null and remark=='-2'">
+                     remark = '',
+                  </when>
+                  <when test="remark != null  and remark != '' " >
+                     remark = #{remark,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+   </set>
+                 where  id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+<update id="updateList">
+    update gp_catalog_interface
+    <set >
+                  <if test="t.name != null  and t.name != '' " >
+                     name = #{t.name,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.serialNo != null  and t.serialNo != '' " >
+                     serial_no = #{t.serialNo,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.level != null ">
+                     level = #{t.level,jdbcType=TINYINT},
+                  </if>
+                  <if test="t.fartherId != null  and t.fartherId != '' " >
+                     farther_id = #{t.fartherId,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.priority != null ">
+                     priority = #{t.priority,jdbcType=INTEGER},
+                  </if>
+                  <if test="t.categoryCode != null ">
+                     category_code = #{t.categoryCode,jdbcType=TINYINT},
+                  </if>
+                  <if test="t.categoryText != null  and t.categoryText != '' " >
+                     category_text = #{t.categoryText,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.remark != null  and t.remark != '' " >
+                     remark = #{t.remark,jdbcType=VARCHAR},
+                  </if>
+   </set>
+	
+		where id  in
+		<foreach collection="idList" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+   
+  </update>
+  
+<update id="updateListWithDff"  parameterType="list">
+    update gp_catalog_interface
+		<trim prefix="set" suffixOverrides=",">
+         <trim prefix="name =case" suffix="end,">
+              <foreach collection="list" item="gpCatalogInterface" index="index">
+                  <if test="gpCatalogInterface.name != null and gpCatalogInterface.name  != ''  and gpCatalogInterface.name  != '-1' ">
+                     when id=#{gpCatalogInterface.id} then #{gpCatalogInterface.name,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpCatalogInterface.name != null  and gpCatalogInterface.name  == '-1' ">
+                     when id=#{gpCatalogInterface.id} then null
+                  </if>  
+                   <if test="gpCatalogInterface.name != null  and gpCatalogInterface.name  == '-2' ">
+                     when id=#{gpCatalogInterface.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="serial_no =case" suffix="end,">
+              <foreach collection="list" item="gpCatalogInterface" index="index">
+                  <if test="gpCatalogInterface.serialNo != null and gpCatalogInterface.serialNo  != ''  and gpCatalogInterface.serialNo  != '-1' ">
+                     when id=#{gpCatalogInterface.id} then #{gpCatalogInterface.serialNo,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpCatalogInterface.serialNo != null  and gpCatalogInterface.serialNo  == '-1' ">
+                     when id=#{gpCatalogInterface.id} then null
+                  </if>  
+                   <if test="gpCatalogInterface.serialNo != null  and gpCatalogInterface.serialNo  == '-2' ">
+                     when id=#{gpCatalogInterface.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="level =case" suffix="end,">
+              <foreach collection="list" item="gpCatalogInterface" index="index">
+                  <if test="gpCatalogInterface.level != null " >
+                     when id=#{gpCatalogInterface.id} then #{gpCatalogInterface.level,jdbcType=TINYINT}
+                  </if>
+              </foreach>
+         </trim>
+         <trim prefix="farther_id =case" suffix="end,">
+              <foreach collection="list" item="gpCatalogInterface" index="index">
+                  <if test="gpCatalogInterface.fartherId != null and gpCatalogInterface.fartherId  != ''  and gpCatalogInterface.fartherId  != '-1' ">
+                     when id=#{gpCatalogInterface.id} then #{gpCatalogInterface.fartherId,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpCatalogInterface.fartherId != null  and gpCatalogInterface.fartherId  == '-1' ">
+                     when id=#{gpCatalogInterface.id} then null
+                  </if>  
+                   <if test="gpCatalogInterface.fartherId != null  and gpCatalogInterface.fartherId  == '-2' ">
+                     when id=#{gpCatalogInterface.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="priority =case" suffix="end,">
+              <foreach collection="list" item="gpCatalogInterface" index="index">
+                  <if test="gpCatalogInterface.priority != null " >
+                     when id=#{gpCatalogInterface.id} then #{gpCatalogInterface.priority,jdbcType=INTEGER}
+                  </if>
+              </foreach>
+         </trim>
+         <trim prefix="category_code =case" suffix="end,">
+              <foreach collection="list" item="gpCatalogInterface" index="index">
+                  <if test="gpCatalogInterface.categoryCode != null " >
+                     when id=#{gpCatalogInterface.id} then #{gpCatalogInterface.categoryCode,jdbcType=TINYINT}
+                  </if>
+              </foreach>
+         </trim>
+         <trim prefix="category_text =case" suffix="end,">
+              <foreach collection="list" item="gpCatalogInterface" index="index">
+                  <if test="gpCatalogInterface.categoryText != null and gpCatalogInterface.categoryText  != ''  and gpCatalogInterface.categoryText  != '-1' ">
+                     when id=#{gpCatalogInterface.id} then #{gpCatalogInterface.categoryText,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpCatalogInterface.categoryText != null  and gpCatalogInterface.categoryText  == '-1' ">
+                     when id=#{gpCatalogInterface.id} then null
+                  </if>  
+                   <if test="gpCatalogInterface.categoryText != null  and gpCatalogInterface.categoryText  == '-2' ">
+                     when id=#{gpCatalogInterface.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="remark =case" suffix="end,">
+              <foreach collection="list" item="gpCatalogInterface" index="index">
+                  <if test="gpCatalogInterface.remark != null and gpCatalogInterface.remark  != ''  and gpCatalogInterface.remark  != '-1' ">
+                     when id=#{gpCatalogInterface.id} then #{gpCatalogInterface.remark,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpCatalogInterface.remark != null  and gpCatalogInterface.remark  == '-1' ">
+                     when id=#{gpCatalogInterface.id} then null
+                  </if>  
+                   <if test="gpCatalogInterface.remark != null  and gpCatalogInterface.remark  == '-2' ">
+                     when id=#{gpCatalogInterface.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+    </trim>
+    where id in
+		<foreach collection="list" item="gpCatalogInterface" index="index" open="(" close=")" separator=",">
+			#{gpCatalogInterface.id,jdbcType=VARCHAR}
+		</foreach>
+  </update>
+
+  
+  
+  <insert id="updateListWithDffOrAdd" useGeneratedKeys="true" keyProperty="id" parameterType="list">
+    replace into gp_catalog_interface
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+id,
+name,
+serial_no,
+level,
+farther_id,
+priority,
+category_code,
+category_text,
+remark,
+    </trim>
+    VALUES
+    <foreach collection="list" item="gpCatalogInterface" index="index" separator=",">
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+              #{gpCatalogInterface.id ,jdbcType=VARCHAR},
+                  
+                     #{gpCatalogInterface.name ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpCatalogInterface.serialNo ,jdbcType=VARCHAR},
+                  
+                  
+                    #{gpCatalogInterface.level,jdbcType=TINYINT},
+            
+                  
+                     #{gpCatalogInterface.fartherId ,jdbcType=VARCHAR},
+                  
+                  
+                    #{gpCatalogInterface.priority,jdbcType=INTEGER},
+            
+                  
+                    #{gpCatalogInterface.categoryCode,jdbcType=TINYINT},
+            
+                  
+                     #{gpCatalogInterface.categoryText ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpCatalogInterface.remark ,jdbcType=VARCHAR},
+                  
+      </trim>
+    </foreach>
+  </insert>
+
+
+  <select id="getModel" resultMap="BaseResultMap" parameterType="java.lang.String" >
+          select 
+                 <include refid="Base_Column_List" />
+          from gp_catalog_interface
+           where  id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+   
+  
+  <select id="getList" resultMap="BaseResultMap" parameterType="map" >
+          select
+                <include refid="Base_Column_List" />
+          from gp_catalog_interface where 1 = 1
+        <if test="EntityRelated.id != null and EntityRelated.id != '' ">
+			and id LIKE CONCAT('%',#{EntityRelated.id,jdbcType=VARCHAR},'%')
+		</if>
+
+		<if test="EntityRelated.categoryCode != null">
+				and category_code = #{EntityRelated.categoryCode,jdbcType=TINYINT} 
+		</if>
+		<if test="EntityRelated.categoryText != null and EntityRelated.categoryText != '' ">
+ 				and  category_text LIKE CONCAT('%',#{EntityRelated.categoryText,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.fartherId != null and EntityRelated.fartherId != '' ">
+				and farther_id = #{EntityRelated.fartherId,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.id != null and EntityRelated.id != '' ">
+				and id = #{EntityRelated.id,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.name != null and EntityRelated.name != '' ">
+ 				and  name LIKE CONCAT('%',#{EntityRelated.name,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.remark != null and EntityRelated.remark != '' ">
+ 				and  remark LIKE CONCAT('%',#{EntityRelated.remark,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.serialNo != null and EntityRelated.serialNo != '' ">
+ 				and  serial_no LIKE CONCAT('%',#{EntityRelated.serialNo,jdbcType=VARCHAR},'%') 
+		</if>
+
+
+		<if test="OrderList != null and OrderList!=null">
+			order by
+			<foreach collection="OrderList" item="Order" index="index" separator=",">
+				${Order.columnName}
+				<if test="Order.isASC">
+					ASC
+				</if>
+				<if test="!Order.isASC">
+					DESC
+				</if>
+			</foreach>
+		</if>
+  </select>
+  
+	<select id="getListBySQL" resultType="java.util.HashMap" parameterType="String">
+		<if test="value!=null and value!=''">
+			${value}
+		</if>
+	</select>
+
+  <cache />
+</mapper>

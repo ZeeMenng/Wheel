@@ -1,0 +1,467 @@
+﻿<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.zee</groupId>
+	<artifactId>wheel</artifactId>
+	<version>1.0</version>
+	<packaging>jar</packaging>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.4.2</version>
+	</parent>
+	<properties>
+		<start-class>com.zee.app.start.Starter</start-class>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<excludeFolder></excludeFolder>
+		<org.poi-version>5.0.0</org.poi-version>
+	</properties>
+	<dependencies>
+		<!-- Excel -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>${org.poi-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>${org.poi-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-examples</artifactId>
+			<version>${org.poi-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-excelant</artifactId>
+			<version>${org.poi-version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.75</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/commons-httpclient/commons-httpclient -->
+		<dependency>
+			<groupId>javax.activation</groupId>
+			<artifactId>activation</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.sun.mail/javax.mail -->
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>1.6.2</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId>
+			<version>3.1</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.json/json -->
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20201115</version>
+		</dependency>
+		<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-data-redis</artifactId> <version>2.4.2</version> </dependency> -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+
+
+		<!-- 分页插件 -->
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper</artifactId>
+			<version>5.2.0</version>
+		</dependency>
+
+		<!-- 排除Spring Boot自带的tomcat -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+				<!-- <exclusion> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-tomcat</artifactId> </exclusion> -->
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>tomcat-servlet-api</artifactId>
+			<version>7.0.42</version>
+			<scope>provided</scope>
+		</dependency>
+		<!-- 排除Spring Boot自带的tomcat -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.5.6</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>2.0.6</version>
+			<scope>compile</scope>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.11</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.4</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.miemiedev</groupId>
+			<artifactId>mybatis-paginator</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib</artifactId>
+			<version>2.4</version>
+			<classifier>jdk15</classifier>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-rest-webmvc</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-commons</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.hateoas</groupId>
+			<artifactId>spring-hateoas</artifactId>
+		</dependency>
+		<!-- Swagger -->
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-boot-starter</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+<!-- Swagger -->
+		<!-- <dependency> <groupId>io.springfox</groupId> <artifactId>springfox-swagger2</artifactId> <version>3.0.0</version> </dependency> -->
+
+		<!-- https://mvnrepository.com/artifact/com.alibaba/druid -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>1.2.4</version>
+		</dependency>
+
+
+		<!-- UserAgent获取客户端相关信息 -->
+		<dependency>
+			<groupId>nl.bitwalker</groupId>
+			<artifactId>UserAgentUtils</artifactId>
+			<version>1.2.4</version>
+		</dependency>
+
+		<!-- 用于支持MultipartResolver处理文件上传 -->
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.3.3</version>
+		</dependency>
+
+		<!-- JSON Web Token Support For The JVM -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>0.9.0</version>
+		</dependency>
+
+		<!-- 爬虫 -->
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-chrome-driver</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-remote-driver</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.codeborne</groupId>
+			<artifactId>phantomjsdriver</artifactId>
+			<version>1.2.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-exec</artifactId>
+			<version>1.3</version>
+		</dependency>
+		<dependency>
+			<groupId>us.codecraft</groupId>
+			<artifactId>webmagic-core</artifactId>
+			<version>0.7.3</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-log4j12</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>us.codecraft</groupId>
+			<artifactId>webmagic-extension</artifactId>
+			<version>0.7.3</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-log4j12</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- https://mongodb.github.io/mongo-java-driver/3.6/driver/getting-started/installation/ -->
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongodb-driver</artifactId>
+			<version>3.6.3</version>
+		</dependency>
+
+
+
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.xml.bind</groupId>
+			<artifactId>jaxb-core</artifactId>
+			<version>2.2.11</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.xml.bind</groupId>
+			<artifactId>jaxb-impl</artifactId>
+			<version>2.2.11</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.maven.surefire</groupId>
+			<artifactId>surefire-booter</artifactId>
+			<version>2.22.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.thoughtworks.qdox</groupId>
+			<artifactId>qdox</artifactId>
+			<version>2.0-M8</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-loader-tools</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-pool2</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jaxb</groupId>
+			<artifactId>jaxb-bom</artifactId>
+			<version>2.2.11</version>
+			<type>pom</type>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.curator</groupId>
+			<artifactId>curator-framework</artifactId>
+			<version>2.11.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven.surefire</groupId>
+			<artifactId>surefire-junit4</artifactId>
+			<version>2.18.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.zookeeper</groupId>
+			<artifactId>zookeeper</artifactId>
+			<version>3.4.8</version>
+			<type>pom</type>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.maven.surefire</groupId>
+			<artifactId>surefire-providers</artifactId>
+			<version>2.18.1</version>
+			<type>pom</type>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-parent</artifactId>
+			<version>20</version>
+			<type>pom</type>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-text -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-text</artifactId>
+			<version>1.9</version>
+		</dependency>
+
+		<!--开源SQL解析器 -->
+		<dependency>
+			<groupId>com.github.jsqlparser</groupId>
+			<artifactId>jsqlparser</artifactId>
+			<version>4.0</version>
+		</dependency>
+		<!--开源SQL解析器 -->
+
+		<!-- 处理字典解析时用到了hutool的一些工具类方法、lombok简化对象封装 -->
+		<dependency>
+			<groupId>cn.hutool</groupId>
+			<artifactId>hutool-all</artifactId>
+			<version>5.5.8</version>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<!-- 处理字典解析时用到了hutool的一些工具类方法、lombok简化对象封装 -->
+
+		<!-- Map和Bean的相互转换 -->
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+			<version>1.9.4</version>
+		</dependency>
+		<!-- Map和Bean的相互转换 -->
+	</dependencies>
+
+
+
+	<build>
+		<finalName>wheel</finalName>
+
+		<plugins>
+			<!-- 热部署到tomcat中 -->
+			<plugin>
+				<groupId> org.apache.tomcat.maven</groupId>
+				<artifactId> tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<charset>UTF-8</charset>
+					<url> http://192.168.1.1:8080/manager/text</url>
+					<server>tomcat7</server>
+					<username>zee</username>
+					<password>wheel</password>
+					<update>true</update>
+					<path>/wheel</path>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId> org.apache.maven.plugins</groupId>
+				<artifactId> maven-compiler-plugin</artifactId>
+				<configuration>
+					<source> 1.8</source>
+					<target> 1.8</target>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId> org.apache.maven.plugins</groupId>
+				<artifactId> maven-project-info-reports-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+			</plugin>
+
+
+		</plugins>
+
+		<!-- 打包时只包含前端编译后的文件 -->
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<includes>
+					<!-- <include>**/**</include> <include>static/**</include> -->
+					<include>**/*.yml</include>
+					<include>**/*.xml</include>
+					<include>**/*.txt</include>
+					<include>static/**</include>
+				</includes>
+				<excludes>
+					<!-- 设置filter，font文件不需要filter，经过maven的filter，会破坏font文件的二进制文件格式，到时前台解析出错。 -->
+					<exclude>static/pc/ss/gp/theme/assets/global/plugins/**</exclude>
+					<exclude>static/app/**</exclude>
+					<exclude>static/pp/**</exclude>
+					<!-- 打包时剔除配置文件使用服务器上的 <exclude>application.yml</exclude> -->
+				</excludes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+				<includes>
+					<include>static/pc/ss/gp/theme/assets/global/plugins/**</include>
+				</includes>
+			</resource>
+		</resources>
+	</build>
+
+</project>

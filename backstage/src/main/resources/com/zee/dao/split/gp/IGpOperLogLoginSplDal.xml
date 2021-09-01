@@ -1,0 +1,220 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zee.dao.split.gp.IGpOperLogLoginSplDal" >
+
+  <resultMap id="BaseResultMap" type="com.zee.ent.extend.gp.GpOperLogLogin" >
+              <id column="id" property="id" jdbcType="VARCHAR" />
+              <result column="oper_log_id" property="operLogId" jdbcType="VARCHAR" />
+              <result column="login_log_id" property="loginLogId" jdbcType="VARCHAR" />
+              <result column="user_id" property="userId" jdbcType="VARCHAR" />
+              <result column="user_name" property="userName" jdbcType="VARCHAR" />
+              <result column="token_id" property="tokenId" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+        id,oper_log_id,login_log_id,user_id,user_name,token_id
+  </sql>
+  
+  <insert id="add" parameterType="com.zee.ent.extend.gp.GpOperLogLogin" >
+    insert into gp_oper_log_login
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+          <if test="id != null and id != '' " >
+              id,
+          </if>
+      
+          <if test="operLogId != null and operLogId != '' " >
+              oper_log_id,
+          </if>
+      
+          <if test="loginLogId != null and loginLogId != '' " >
+              login_log_id,
+          </if>
+      
+          <if test="userId != null and userId != '' " >
+              user_id,
+          </if>
+      
+          <if test="userName != null and userName != '' " >
+              user_name,
+          </if>
+      
+          <if test="tokenId != null and tokenId != '' " >
+              token_id,
+          </if>
+      
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+          <if test="id != null and id != '' " >
+              #{id,jdbcType=VARCHAR},
+          </if>
+          <if test="operLogId != null and operLogId != '' " >
+              #{operLogId,jdbcType=VARCHAR},
+          </if>
+          <if test="loginLogId != null and loginLogId != '' " >
+              #{loginLogId,jdbcType=VARCHAR},
+          </if>
+          <if test="userId != null and userId != '' " >
+              #{userId,jdbcType=VARCHAR},
+          </if>
+          <if test="userName != null and userName != '' " >
+              #{userName,jdbcType=VARCHAR},
+          </if>
+          <if test="tokenId != null and tokenId != '' " >
+              #{tokenId,jdbcType=VARCHAR},
+          </if>
+    </trim>
+  </insert>
+  
+ 
+    <insert id="addList" parameterType="list">
+    	insert into gp_oper_log_login
+    	<trim prefix="(" suffix=")">
+    		<include refid="Base_Column_List" />
+    	</trim>
+    	values
+    	<foreach collection="list" item="gpOperLogLogin" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides="," >
+
+      
+          #{gpOperLogLogin.id,jdbcType=VARCHAR},
+
+      
+          #{gpOperLogLogin.operLogId,jdbcType=VARCHAR},
+
+      
+          #{gpOperLogLogin.loginLogId,jdbcType=VARCHAR},
+
+      
+          #{gpOperLogLogin.userId,jdbcType=VARCHAR},
+
+      
+          #{gpOperLogLogin.userName,jdbcType=VARCHAR},
+
+      
+          #{gpOperLogLogin.tokenId,jdbcType=VARCHAR},
+
+
+        </trim>
+    	</foreach>
+    </insert>
+
+  
+  
+  <delete id="delete" parameterType="java.lang.String" >
+                 delete from gp_oper_log_login
+                 where  id = #{id,jdbcType=VARCHAR}
+  </delete>
+  
+	<delete id="deleteByIdList" parameterType="list">
+		delete from gp_oper_log_login
+		where id  in
+		<foreach collection="list" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+	</delete>
+  
+  <update id="update" parameterType="com.zee.ent.extend.gp.GpOperLogLogin" >
+    update gp_oper_log_login
+    <set >
+                  <if test="operLogId != null  and operLogId != '' " >
+                     oper_log_id = #{operLogId,jdbcType=VARCHAR},
+                  </if>
+                  <if test="loginLogId != null  and loginLogId != '' " >
+                     login_log_id = #{loginLogId,jdbcType=VARCHAR},
+                  </if>
+                  <if test="userId != null  and userId != '' " >
+                     user_id = #{userId,jdbcType=VARCHAR},
+                  </if>
+                  <if test="userName != null  and userName != '' " >
+                     user_name = #{userName,jdbcType=VARCHAR},
+                  </if>
+                  <if test="tokenId != null  and tokenId != '' " >
+                     token_id = #{tokenId,jdbcType=VARCHAR},
+                  </if>
+   </set>
+                 where  id = #{id,jdbcType=VARCHAR}
+</update>
+  
+<update id="updateList">
+    update gp_oper_log_login
+    <set >
+                  <if test="t.operLogId != null  and t.operLogId != '' " >
+                     oper_log_id = #{t.operLogId,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.loginLogId != null  and t.loginLogId != '' " >
+                     login_log_id = #{t.loginLogId,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.userId != null  and t.userId != '' " >
+                     user_id = #{t.userId,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.userName != null  and t.userName != '' " >
+                     user_name = #{t.userName,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.tokenId != null  and t.tokenId != '' " >
+                     token_id = #{t.tokenId,jdbcType=VARCHAR},
+                  </if>
+   </set>
+	
+		where id  in
+		<foreach collection="idList" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+</update>
+  
+  <select id="getModel" resultMap="BaseResultMap" parameterType="java.lang.String" >
+          select 
+                 <include refid="Base_Column_List" />
+          from gp_oper_log_login
+           where  id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="getList" resultMap="BaseResultMap" parameterType="map" >
+          select
+                <include refid="Base_Column_List" />
+          from gp_oper_log_login where 1 = 1
+        <if test="EntityRelated.id != null and EntityRelated.id != '' ">
+			and id LIKE CONCAT('%',#{EntityRelated.id,jdbcType=VARCHAR},'%')
+		</if>
+
+		<if test="EntityRelated.id != null and EntityRelated.id != '' ">
+				and id = #{EntityRelated.id,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.loginLogId != null and EntityRelated.loginLogId != '' ">
+				and login_log_id = #{EntityRelated.loginLogId,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.operLogId != null and EntityRelated.operLogId != '' ">
+				and oper_log_id = #{EntityRelated.operLogId,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.tokenId != null and EntityRelated.tokenId != '' ">
+				and token_id = #{EntityRelated.tokenId,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.userId != null and EntityRelated.userId != '' ">
+				and user_id = #{EntityRelated.userId,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.userName != null and EntityRelated.userName != '' ">
+ 				and  user_name LIKE CONCAT('%',#{EntityRelated.userName,jdbcType=VARCHAR},'%') 
+		</if>
+
+
+		<if test="OrderList != null and OrderList!=null">
+			order by
+			<foreach collection="OrderList" item="Order" index="index" separator=",">
+				${Order.columnName}
+				<if test="Order.isASC">
+					ASC
+				</if>
+				<if test="!Order.isASC">
+					DESC
+				</if>
+			</foreach>
+		</if>
+  </select>
+  
+	<select id="getListBySQL" resultType="java.util.HashMap" parameterType="String">
+		<if test="value!=null and value!=''">
+			${value}
+		</if>
+	</select>
+
+  <cache />
+</mapper>

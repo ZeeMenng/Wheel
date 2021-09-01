@@ -1,0 +1,358 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zee.dao.split.gp.IGpResourceSplDal">
+
+	<resultMap id="BaseResultMap" type="com.zee.ent.extend.gp.GpResource">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="domain_id" property="domainId" jdbcType="VARCHAR" />
+		<result column="module_id" property="moduleId" jdbcType="VARCHAR" />
+		<result column="page_id" property="pageId" jdbcType="VARCHAR" />
+		<result column="user_id" property="userId" jdbcType="VARCHAR" />
+		<result column="original_name" property="originalName" jdbcType="VARCHAR" />
+		<result column="new_name" property="newName" jdbcType="VARCHAR" />
+		<result column="extension" property="extension" jdbcType="VARCHAR" />
+		<result column="path" property="path" jdbcType="VARCHAR" />
+		<result column="priority" property="priority" jdbcType="INTEGER" />
+		<result column="size" property="size" jdbcType="BIGINT" />
+		<result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id,domain_id,module_id,page_id,user_id,original_name,new_name,extension,path,priority,size,add_time
+	</sql>
+
+	<insert id="add" parameterType="com.zee.ent.extend.gp.GpResource">
+		insert into gp_resource
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null and id != '' ">
+				id,
+			</if>
+
+			<if test="domainId != null and domainId != '' ">
+				domain_id,
+			</if>
+
+			<if test="moduleId != null and moduleId != '' ">
+				module_id,
+			</if>
+
+			<if test="pageId != null and pageId != '' ">
+				page_id,
+			</if>
+
+			<if test="userId != null and userId != '' ">
+				user_id,
+			</if>
+
+			<if test="originalName != null and originalName != '' ">
+				original_name,
+			</if>
+
+			<if test="newName != null and newName != '' ">
+				new_name,
+			</if>
+
+			<if test="extension != null and extension != '' ">
+				extension,
+			</if>
+
+			<if test="path != null and path != '' ">
+				path,
+			</if>
+
+			<if test="priority != null ">
+				priority,
+			</if>
+			<if test="size != null ">
+				size,
+			</if>
+			<if test="addTime != null ">
+				add_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null and id != '' ">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="domainId != null and domainId != '' ">
+				#{domainId,jdbcType=VARCHAR},
+			</if>
+			<if test="moduleId != null and moduleId != '' ">
+				#{moduleId,jdbcType=VARCHAR},
+			</if>
+			<if test="pageId != null and pageId != '' ">
+				#{pageId,jdbcType=VARCHAR},
+			</if>
+			<if test="userId != null and userId != '' ">
+				#{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="originalName != null and originalName != '' ">
+				#{originalName,jdbcType=VARCHAR},
+			</if>
+			<if test="newName != null and newName != '' ">
+				#{newName,jdbcType=VARCHAR},
+			</if>
+			<if test="extension != null and extension != '' ">
+				#{extension,jdbcType=VARCHAR},
+			</if>
+			<if test="path != null and path != '' ">
+				#{path,jdbcType=VARCHAR},
+			</if>
+			<if test="priority != null ">
+				#{priority,jdbcType=INTEGER},
+			</if>
+			<if test="size != null ">
+				#{size,jdbcType=BIGINT},
+			</if>
+			<if test="addTime != null ">
+				#{addTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+
+
+	<insert id="addList" parameterType="list">
+		insert into gp_resource
+		<trim prefix="(" suffix=")">
+			<include refid="Base_Column_List" />
+		</trim>
+		values
+		<foreach collection="list" item="gpResource" index="index" separator=",">
+			<trim prefix="(" suffix=")" suffixOverrides=",">
+
+
+				#{gpResource.id,jdbcType=VARCHAR},
+
+
+				#{gpResource.domainId,jdbcType=VARCHAR},
+
+
+				#{gpResource.moduleId,jdbcType=VARCHAR},
+
+
+				#{gpResource.pageId,jdbcType=VARCHAR},
+
+
+				#{gpResource.userId,jdbcType=VARCHAR},
+
+
+				#{gpResource.originalName,jdbcType=VARCHAR},
+
+
+				#{gpResource.newName,jdbcType=VARCHAR},
+
+
+				#{gpResource.extension,jdbcType=VARCHAR},
+
+
+				#{gpResource.path,jdbcType=VARCHAR},
+
+
+				#{gpResource.priority,jdbcType=INTEGER},
+
+
+				#{gpResource.size,jdbcType=BIGINT},
+
+
+				#{gpResource.addTime,jdbcType=TIMESTAMP},
+
+
+			</trim>
+		</foreach>
+	</insert>
+
+
+
+	<delete id="delete" parameterType="java.lang.String">
+		delete a,b from gp_resource a left join gpr_resource b on a.id=b.resource_id
+		where a.id = #{id,jdbcType=VARCHAR}
+	</delete>
+
+	<delete id="deleteByIdList" parameterType="list">
+		delete a,b from gp_resource a left join gpr_resource b on a.id=b.resource_id
+		where a.id in
+		<foreach collection="list" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+	</delete>
+
+
+
+	<delete id="deleteByDomainId" parameterType="java.lang.String">
+		delete a,b from gp_resource a left join gpr_resource b on a.id=b.resource_id
+		where a.domain_id = #{domainId,jdbcType=VARCHAR}
+	</delete>
+
+
+	<delete id="deleteByDomainIdList" parameterType="list">
+		delete a,b from gp_resource a left join gpr_resource b on a.id=b.resource_id 
+		where a.domain_id in
+		<foreach collection="list" item="domainId" index="index" open="(" close=")" separator=",">
+			#{domainId}
+		</foreach>
+	</delete>
+
+
+
+	<update id="update" parameterType="com.zee.ent.extend.gp.GpResource">
+		update gp_resource
+		<set>
+			<if test="domainId != null  and domainId != '' ">
+				domain_id = #{domainId,jdbcType=VARCHAR},
+			</if>
+			<if test="moduleId != null  and moduleId != '' ">
+				module_id = #{moduleId,jdbcType=VARCHAR},
+			</if>
+			<if test="pageId != null  and pageId != '' ">
+				page_id = #{pageId,jdbcType=VARCHAR},
+			</if>
+			<if test="userId != null  and userId != '' ">
+				user_id = #{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="originalName != null  and originalName != '' ">
+				original_name = #{originalName,jdbcType=VARCHAR},
+			</if>
+			<if test="newName != null  and newName != '' ">
+				new_name = #{newName,jdbcType=VARCHAR},
+			</if>
+			<if test="extension != null  and extension != '' ">
+				extension = #{extension,jdbcType=VARCHAR},
+			</if>
+			<if test="path != null  and path != '' ">
+				path = #{path,jdbcType=VARCHAR},
+			</if>
+			<if test="priority != null ">
+				priority = #{priority,jdbcType=INTEGER},
+			</if>
+			<if test="size != null ">
+				size = #{size,jdbcType=BIGINT},
+			</if>
+			<if test="addTime != null ">
+				add_time = #{addTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<update id="updateList">
+		update gp_resource
+		<set>
+			<if test="t.domainId != null  and t.domainId != '' ">
+				domain_id = #{t.domainId,jdbcType=VARCHAR},
+			</if>
+			<if test="t.moduleId != null  and t.moduleId != '' ">
+				module_id = #{t.moduleId,jdbcType=VARCHAR},
+			</if>
+			<if test="t.pageId != null  and t.pageId != '' ">
+				page_id = #{t.pageId,jdbcType=VARCHAR},
+			</if>
+			<if test="t.userId != null  and t.userId != '' ">
+				user_id = #{t.userId,jdbcType=VARCHAR},
+			</if>
+			<if test="t.originalName != null  and t.originalName != '' ">
+				original_name = #{t.originalName,jdbcType=VARCHAR},
+			</if>
+			<if test="t.newName != null  and t.newName != '' ">
+				new_name = #{t.newName,jdbcType=VARCHAR},
+			</if>
+			<if test="t.extension != null  and t.extension != '' ">
+				extension = #{t.extension,jdbcType=VARCHAR},
+			</if>
+			<if test="t.path != null  and t.path != '' ">
+				path = #{t.path,jdbcType=VARCHAR},
+			</if>
+			<if test="t.priority != null ">
+				priority = #{t.priority,jdbcType=INTEGER},
+			</if>
+			<if test="t.size != null ">
+				size = #{t.size,jdbcType=BIGINT},
+			</if>
+			<if test="t.addTime != null ">
+				add_time = #{t.addTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+
+		where id in
+		<foreach collection="idList" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+	</update>
+
+	<select id="getModel" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from gp_resource
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<select id="getList" resultMap="BaseResultMap" parameterType="map">
+		select
+		<include refid="Base_Column_List" />
+		from gp_resource where 1 = 1
+		<if test="EntityRelated.id != null and EntityRelated.id != '' ">
+			and id LIKE CONCAT('%',#{EntityRelated.id,jdbcType=VARCHAR},'%')
+		</if>
+
+		<if test="EntityRelated.beginAddTime != null ">
+				<![CDATA[ AND  unix_timestamp(add_time)>=unix_timestamp(#{EntityRelated.beginAddTime})]]>
+		</if>
+		<if test="EntityRelated.endAddTime != null ">
+				<![CDATA[ AND  unix_timestamp(add_time)<unix_timestamp(#{EntityRelated.endAddTime})]]>
+		</if>
+		<if test="EntityRelated.domainId != null and EntityRelated.domainId != '' ">
+			and domain_id = #{EntityRelated.domainId,jdbcType=VARCHAR}
+		</if>
+		<if test="EntityRelated.extension != null and EntityRelated.extension != '' ">
+			and extension LIKE CONCAT('%',#{EntityRelated.extension,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="EntityRelated.id != null and EntityRelated.id != '' ">
+			and id = #{EntityRelated.id,jdbcType=VARCHAR}
+		</if>
+		<if test="EntityRelated.moduleId != null and EntityRelated.moduleId != '' ">
+			and module_id = #{EntityRelated.moduleId,jdbcType=VARCHAR}
+		</if>
+		<if test="EntityRelated.newName != null and EntityRelated.newName != '' ">
+			and new_name LIKE CONCAT('%',#{EntityRelated.newName,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="EntityRelated.originalName != null and EntityRelated.originalName != '' ">
+			and original_name LIKE CONCAT('%',#{EntityRelated.originalName,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="EntityRelated.pageId != null and EntityRelated.pageId != '' ">
+			and page_id = #{EntityRelated.pageId,jdbcType=VARCHAR}
+		</if>
+		<if test="EntityRelated.path != null and EntityRelated.path != '' ">
+			and path LIKE CONCAT('%',#{EntityRelated.path,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="EntityRelated.userId != null and EntityRelated.userId != '' ">
+			and user_id = #{EntityRelated.userId,jdbcType=VARCHAR}
+		</if>
+
+
+		<if test="OrderList != null and OrderList!=null">
+			order by
+			<foreach collection="OrderList" item="Order" index="index" separator=",">
+				${Order.columnName}
+				<if test="Order.isASC">
+					ASC
+				</if>
+				<if test="!Order.isASC">
+					DESC
+				</if>
+			</foreach>
+		</if>
+	</select>
+
+	<select id="getListByBusinessId" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		A.id id,A.domain_id domainId,A.module_id moduleId,A.page_id pageId,A.user_id userId,A.original_name originalName,A.new_name newName,A.extension extension,A.path path,A.priority priority,A.size size,A.add_time addTime  
+		from gp_resource A left join gpr_resource B on B.resource_id=A.id where B.business_id = #{businessId,jdbcType=VARCHAR}
+	</select>
+
+	<select id="getListBySQL" resultType="java.util.HashMap" parameterType="String">
+		<if test="value!=null and value!=''">
+			${value}
+		</if>
+	</select>
+
+	<cache />
+</mapper>

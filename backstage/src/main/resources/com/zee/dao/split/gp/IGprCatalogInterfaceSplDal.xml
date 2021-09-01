@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zee.dao.split.gp.IGprCatalogInterfaceSplDal">
+
+	<resultMap id="BaseResultMap" type="com.zee.ent.extend.gp.GprCatalogInterface">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="catalog_id" property="catalogId" jdbcType="VARCHAR" />
+		<result column="interface_id" property="interfaceId" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id,catalog_id,interface_id
+	</sql>
+
+	<insert id="add" parameterType="com.zee.ent.extend.gp.GprCatalogInterface">
+		insert into gpr_catalog_interface
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null and id != '' ">
+				id,
+			</if>
+
+			<if test="catalogId != null and catalogId != '' ">
+				catalog_id,
+			</if>
+
+			<if test="interfaceId != null and interfaceId != '' ">
+				interface_id,
+			</if>
+
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null and id != '' ">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="catalogId != null and catalogId != '' ">
+				#{catalogId,jdbcType=VARCHAR},
+			</if>
+			<if test="interfaceId != null and interfaceId != '' ">
+				#{interfaceId,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+
+	<insert id="addList" parameterType="list">
+		insert into gpr_catalog_interface
+		<trim prefix="(" suffix=")">
+			<include refid="Base_Column_List" />
+		</trim>
+		values
+		<foreach collection="list" item="gprCatalogInterface" index="index" separator=",">
+			<trim prefix="(" suffix=")" suffixOverrides=",">
+
+
+				#{gprCatalogInterface.id,jdbcType=VARCHAR},
+
+
+				#{gprCatalogInterface.catalogId,jdbcType=VARCHAR},
+
+
+				#{gprCatalogInterface.interfaceId,jdbcType=VARCHAR},
+
+
+			</trim>
+		</foreach>
+	</insert>
+
+
+
+	<delete id="delete" parameterType="java.lang.String">
+		delete from gpr_catalog_interface
+		where id = #{id,jdbcType=VARCHAR}
+	</delete>
+
+	<delete id="deleteByIdList" parameterType="list">
+		delete from gpr_catalog_interface
+		where id in
+		<foreach collection="list" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+	</delete>
+
+
+	<delete id="deleteInvalidRecord">
+		delete A.* from gpr_catalog_interface A INNER JOIN gp_catalog_interface B on A.catalog_id=B.id where 
+		<foreach collection="list" item="gprCatalogInterface" index="index" open=" (" close=")" separator=") or (">
+			B.category_code=#{gprCatalogInterface.categoryCode } and
+			A.interface_id=#{gprCatalogInterface.interfaceId}
+		</foreach>
+	</delete>
+
+	<update id="update" parameterType="com.zee.ent.extend.gp.GprCatalogInterface">
+		update gpr_catalog_interface
+		<set>
+			<if test="catalogId != null  and catalogId != '' ">
+				catalog_id = #{catalogId,jdbcType=VARCHAR},
+			</if>
+			<if test="interfaceId != null  and interfaceId != '' ">
+				interface_id = #{interfaceId,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<update id="updateList">
+		update gpr_catalog_interface
+		<set>
+			<if test="t.catalogId != null  and t.catalogId != '' ">
+				catalog_id = #{t.catalogId,jdbcType=VARCHAR},
+			</if>
+			<if test="t.interfaceId != null  and t.interfaceId != '' ">
+				interface_id = #{t.interfaceId,jdbcType=VARCHAR},
+			</if>
+		</set>
+
+		where id in
+		<foreach collection="idList" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+	</update>
+
+	<select id="getModel" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from gpr_catalog_interface
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<select id="getList" resultMap="BaseResultMap" parameterType="map">
+		select
+		<include refid="Base_Column_List" />
+		from gpr_catalog_interface where 1 = 1
+		<if test="EntityRelated.id != null and EntityRelated.id != '' ">
+			and id LIKE CONCAT('%',#{EntityRelated.id,jdbcType=VARCHAR},'%')
+		</if>
+
+		<if test="EntityRelated.catalogId != null and EntityRelated.catalogId != '' ">
+			and catalog_id = #{EntityRelated.catalogId,jdbcType=VARCHAR}
+		</if>
+		<if test="EntityRelated.id != null and EntityRelated.id != '' ">
+			and id = #{EntityRelated.id,jdbcType=VARCHAR}
+		</if>
+		<if test="EntityRelated.interfaceId != null and EntityRelated.interfaceId != '' ">
+			and interface_id = #{EntityRelated.interfaceId,jdbcType=VARCHAR}
+		</if>
+
+
+		<if test="OrderList != null and OrderList!=null">
+			order by
+			<foreach collection="OrderList" item="Order" index="index" separator=",">
+				${Order.columnName}
+				<if test="Order.isASC">
+					ASC
+				</if>
+				<if test="!Order.isASC">
+					DESC
+				</if>
+			</foreach>
+		</if>
+	</select>
+
+	<select id="getListBySQL" resultType="java.util.HashMap" parameterType="String">
+		<if test="value!=null and value!=''">
+			${value}
+		</if>
+	</select>
+
+	<cache />
+</mapper>

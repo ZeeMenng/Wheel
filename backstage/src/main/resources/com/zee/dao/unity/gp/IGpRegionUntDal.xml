@@ -1,0 +1,549 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zee.dao.unity.gp.IGpRegionUntDal" >
+
+  <resultMap id="BaseResultMap" type="com.zee.ent.extend.gp.GpRegion" >
+              <id column="id" property="id" jdbcType="VARCHAR" />
+              <result column="code" property="code" jdbcType="VARCHAR" />
+              <result column="name" property="name" jdbcType="VARCHAR" />
+              <result column="category" property="category" jdbcType="TINYINT" />
+              <result column="farther_code" property="fartherCode" jdbcType="VARCHAR" />
+              <result column="is_display_code" property="isDisplayCode" jdbcType="TINYINT" />
+              <result column="region_level" property="regionLevel" jdbcType="TINYINT" />
+              <result column="longitude" property="longitude" jdbcType="VARCHAR" />
+              <result column="latitude" property="latitude" jdbcType="VARCHAR" />
+              <result column="area" property="area" jdbcType="INTEGER" />
+              <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+        id,code,name,category,farther_code,is_display_code,region_level,longitude,latitude,area,remark
+  </sql>
+  
+  <insert id="add" parameterType="com.zee.ent.extend.gp.GpRegion" >
+    insert into gp_region
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+          <if test="id != null and id != '' " >
+              id,
+          </if>
+      
+          <if test="code != null and code != '' " >
+              code,
+          </if>
+      
+          <if test="name != null and name != '' " >
+              name,
+          </if>
+      
+          <if test="category != null " >
+              category,
+          </if>
+          <if test="fartherCode != null and fartherCode != '' " >
+              farther_code,
+          </if>
+      
+          <if test="isDisplayCode != null " >
+              is_display_code,
+          </if>
+          <if test="regionLevel != null " >
+              region_level,
+          </if>
+          <if test="longitude != null and longitude != '' " >
+              longitude,
+          </if>
+      
+          <if test="latitude != null and latitude != '' " >
+              latitude,
+          </if>
+      
+          <if test="area != null " >
+              area,
+          </if>
+          <if test="remark != null and remark != '' " >
+              remark,
+          </if>
+      
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+          <if test="id != null and id != '' " >
+              #{id,jdbcType=VARCHAR},
+          </if>
+          <if test="code != null and code != '' " >
+              #{code,jdbcType=VARCHAR},
+          </if>
+          <if test="name != null and name != '' " >
+              #{name,jdbcType=VARCHAR},
+          </if>
+          <if test="category != null " >
+              #{category,jdbcType=TINYINT},
+          </if>
+          <if test="fartherCode != null and fartherCode != '' " >
+              #{fartherCode,jdbcType=VARCHAR},
+          </if>
+          <if test="isDisplayCode != null " >
+              #{isDisplayCode,jdbcType=TINYINT},
+          </if>
+          <if test="regionLevel != null " >
+              #{regionLevel,jdbcType=TINYINT},
+          </if>
+          <if test="longitude != null and longitude != '' " >
+              #{longitude,jdbcType=VARCHAR},
+          </if>
+          <if test="latitude != null and latitude != '' " >
+              #{latitude,jdbcType=VARCHAR},
+          </if>
+          <if test="area != null " >
+              #{area,jdbcType=INTEGER},
+          </if>
+          <if test="remark != null and remark != '' " >
+              #{remark,jdbcType=VARCHAR},
+          </if>
+    </trim>
+  </insert>
+  
+  <insert id="addList" parameterType="list">
+    	insert into gp_region
+    	<trim prefix="(" suffix=")">
+    		<include refid="Base_Column_List" />
+    	</trim>
+    	values
+    	<foreach collection="list" item="gpRegion" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides="," >
+
+          #{gpRegion.id,jdbcType=VARCHAR},
+          #{gpRegion.code,jdbcType=VARCHAR},
+          #{gpRegion.name,jdbcType=VARCHAR},
+          #{gpRegion.category,jdbcType=TINYINT},
+          #{gpRegion.fartherCode,jdbcType=VARCHAR},
+          #{gpRegion.isDisplayCode,jdbcType=TINYINT},
+          #{gpRegion.regionLevel,jdbcType=TINYINT},
+          #{gpRegion.longitude,jdbcType=VARCHAR},
+          #{gpRegion.latitude,jdbcType=VARCHAR},
+          #{gpRegion.area,jdbcType=INTEGER},
+          #{gpRegion.remark,jdbcType=VARCHAR},
+
+        </trim>
+    	</foreach>
+    </insert>
+
+
+  <insert id="addListWithDffOrAdd" parameterType="list">
+    	insert into gp_region
+    	<trim prefix="(" suffix=")">
+    		<include refid="Base_Column_List" />
+    	</trim>
+    	values
+    	<foreach collection="list" item="gpRegion" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides="," >
+
+          #{gpRegion.id,jdbcType=VARCHAR},
+          #{gpRegion.code,jdbcType=VARCHAR},
+          #{gpRegion.name,jdbcType=VARCHAR},
+          #{gpRegion.category,jdbcType=TINYINT},
+          #{gpRegion.fartherCode,jdbcType=VARCHAR},
+          #{gpRegion.isDisplayCode,jdbcType=TINYINT},
+          #{gpRegion.regionLevel,jdbcType=TINYINT},
+          #{gpRegion.longitude,jdbcType=VARCHAR},
+          #{gpRegion.latitude,jdbcType=VARCHAR},
+          #{gpRegion.area,jdbcType=INTEGER},
+          #{gpRegion.remark,jdbcType=VARCHAR},
+
+        </trim>
+    	</foreach>
+        ON DUPLICATE KEY UPDATE
+id=values(id),
+code=values(code),
+name=values(name),
+category=values(category),
+farther_code=values(farther_code),
+is_display_code=values(is_display_code),
+region_level=values(region_level),
+longitude=values(longitude),
+latitude=values(latitude),
+area=values(area),
+remark=values(remark)
+        
+    </insert>
+
+
+    <delete id="delete" parameterType="java.lang.String" >
+        delete from gp_region
+        where  id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+        
+
+	<delete id="deleteByIdList" parameterType="list">
+		delete from gp_region
+		where id  in
+		<foreach collection="list" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+	</delete>
+  
+  
+  
+  <update id="update" parameterType="com.zee.ent.extend.gp.GpRegion" >
+    update gp_region
+    <set >
+                    <choose>
+                   <when test="code != null and code=='-1'">
+                     code = null,
+                  </when>
+                  <when test="code != null and code=='-2'">
+                     code = '',
+                  </when>
+                  <when test="code != null  and code != '' " >
+                     code = #{code,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="name != null and name=='-1'">
+                     name = null,
+                  </when>
+                  <when test="name != null and name=='-2'">
+                     name = '',
+                  </when>
+                  <when test="name != null  and name != '' " >
+                     name = #{name,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                  <if test="category != null ">
+                     category = #{category,jdbcType=TINYINT},
+                  </if>
+                    <choose>
+                   <when test="fartherCode != null and fartherCode=='-1'">
+                     farther_code = null,
+                  </when>
+                  <when test="fartherCode != null and fartherCode=='-2'">
+                     farther_code = '',
+                  </when>
+                  <when test="fartherCode != null  and fartherCode != '' " >
+                     farther_code = #{fartherCode,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                  <if test="isDisplayCode != null ">
+                     is_display_code = #{isDisplayCode,jdbcType=TINYINT},
+                  </if>
+                  <if test="regionLevel != null ">
+                     region_level = #{regionLevel,jdbcType=TINYINT},
+                  </if>
+                    <choose>
+                   <when test="longitude != null and longitude=='-1'">
+                     longitude = null,
+                  </when>
+                  <when test="longitude != null and longitude=='-2'">
+                     longitude = '',
+                  </when>
+                  <when test="longitude != null  and longitude != '' " >
+                     longitude = #{longitude,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="latitude != null and latitude=='-1'">
+                     latitude = null,
+                  </when>
+                  <when test="latitude != null and latitude=='-2'">
+                     latitude = '',
+                  </when>
+                  <when test="latitude != null  and latitude != '' " >
+                     latitude = #{latitude,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                  <if test="area != null ">
+                     area = #{area,jdbcType=INTEGER},
+                  </if>
+                    <choose>
+                   <when test="remark != null and remark=='-1'">
+                     remark = null,
+                  </when>
+                  <when test="remark != null and remark=='-2'">
+                     remark = '',
+                  </when>
+                  <when test="remark != null  and remark != '' " >
+                     remark = #{remark,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+   </set>
+                 where  id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+<update id="updateList">
+    update gp_region
+    <set >
+                  <if test="t.code != null  and t.code != '' " >
+                     code = #{t.code,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.name != null  and t.name != '' " >
+                     name = #{t.name,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.category != null ">
+                     category = #{t.category,jdbcType=TINYINT},
+                  </if>
+                  <if test="t.fartherCode != null  and t.fartherCode != '' " >
+                     farther_code = #{t.fartherCode,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.isDisplayCode != null ">
+                     is_display_code = #{t.isDisplayCode,jdbcType=TINYINT},
+                  </if>
+                  <if test="t.regionLevel != null ">
+                     region_level = #{t.regionLevel,jdbcType=TINYINT},
+                  </if>
+                  <if test="t.longitude != null  and t.longitude != '' " >
+                     longitude = #{t.longitude,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.latitude != null  and t.latitude != '' " >
+                     latitude = #{t.latitude,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.area != null ">
+                     area = #{t.area,jdbcType=INTEGER},
+                  </if>
+                  <if test="t.remark != null  and t.remark != '' " >
+                     remark = #{t.remark,jdbcType=VARCHAR},
+                  </if>
+   </set>
+	
+		where id  in
+		<foreach collection="idList" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+   
+  </update>
+  
+<update id="updateListWithDff"  parameterType="list">
+    update gp_region
+		<trim prefix="set" suffixOverrides=",">
+         <trim prefix="code =case" suffix="end,">
+              <foreach collection="list" item="gpRegion" index="index">
+                  <if test="gpRegion.code != null and gpRegion.code  != ''  and gpRegion.code  != '-1' ">
+                     when id=#{gpRegion.id} then #{gpRegion.code,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpRegion.code != null  and gpRegion.code  == '-1' ">
+                     when id=#{gpRegion.id} then null
+                  </if>  
+                   <if test="gpRegion.code != null  and gpRegion.code  == '-2' ">
+                     when id=#{gpRegion.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="name =case" suffix="end,">
+              <foreach collection="list" item="gpRegion" index="index">
+                  <if test="gpRegion.name != null and gpRegion.name  != ''  and gpRegion.name  != '-1' ">
+                     when id=#{gpRegion.id} then #{gpRegion.name,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpRegion.name != null  and gpRegion.name  == '-1' ">
+                     when id=#{gpRegion.id} then null
+                  </if>  
+                   <if test="gpRegion.name != null  and gpRegion.name  == '-2' ">
+                     when id=#{gpRegion.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="category =case" suffix="end,">
+              <foreach collection="list" item="gpRegion" index="index">
+                  <if test="gpRegion.category != null " >
+                     when id=#{gpRegion.id} then #{gpRegion.category,jdbcType=TINYINT}
+                  </if>
+              </foreach>
+         </trim>
+         <trim prefix="farther_code =case" suffix="end,">
+              <foreach collection="list" item="gpRegion" index="index">
+                  <if test="gpRegion.fartherCode != null and gpRegion.fartherCode  != ''  and gpRegion.fartherCode  != '-1' ">
+                     when id=#{gpRegion.id} then #{gpRegion.fartherCode,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpRegion.fartherCode != null  and gpRegion.fartherCode  == '-1' ">
+                     when id=#{gpRegion.id} then null
+                  </if>  
+                   <if test="gpRegion.fartherCode != null  and gpRegion.fartherCode  == '-2' ">
+                     when id=#{gpRegion.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="is_display_code =case" suffix="end,">
+              <foreach collection="list" item="gpRegion" index="index">
+                  <if test="gpRegion.isDisplayCode != null " >
+                     when id=#{gpRegion.id} then #{gpRegion.isDisplayCode,jdbcType=TINYINT}
+                  </if>
+              </foreach>
+         </trim>
+         <trim prefix="region_level =case" suffix="end,">
+              <foreach collection="list" item="gpRegion" index="index">
+                  <if test="gpRegion.regionLevel != null " >
+                     when id=#{gpRegion.id} then #{gpRegion.regionLevel,jdbcType=TINYINT}
+                  </if>
+              </foreach>
+         </trim>
+         <trim prefix="longitude =case" suffix="end,">
+              <foreach collection="list" item="gpRegion" index="index">
+                  <if test="gpRegion.longitude != null and gpRegion.longitude  != ''  and gpRegion.longitude  != '-1' ">
+                     when id=#{gpRegion.id} then #{gpRegion.longitude,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpRegion.longitude != null  and gpRegion.longitude  == '-1' ">
+                     when id=#{gpRegion.id} then null
+                  </if>  
+                   <if test="gpRegion.longitude != null  and gpRegion.longitude  == '-2' ">
+                     when id=#{gpRegion.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="latitude =case" suffix="end,">
+              <foreach collection="list" item="gpRegion" index="index">
+                  <if test="gpRegion.latitude != null and gpRegion.latitude  != ''  and gpRegion.latitude  != '-1' ">
+                     when id=#{gpRegion.id} then #{gpRegion.latitude,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpRegion.latitude != null  and gpRegion.latitude  == '-1' ">
+                     when id=#{gpRegion.id} then null
+                  </if>  
+                   <if test="gpRegion.latitude != null  and gpRegion.latitude  == '-2' ">
+                     when id=#{gpRegion.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="area =case" suffix="end,">
+              <foreach collection="list" item="gpRegion" index="index">
+                  <if test="gpRegion.area != null " >
+                     when id=#{gpRegion.id} then #{gpRegion.area,jdbcType=INTEGER}
+                  </if>
+              </foreach>
+         </trim>
+         <trim prefix="remark =case" suffix="end,">
+              <foreach collection="list" item="gpRegion" index="index">
+                  <if test="gpRegion.remark != null and gpRegion.remark  != ''  and gpRegion.remark  != '-1' ">
+                     when id=#{gpRegion.id} then #{gpRegion.remark,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpRegion.remark != null  and gpRegion.remark  == '-1' ">
+                     when id=#{gpRegion.id} then null
+                  </if>  
+                   <if test="gpRegion.remark != null  and gpRegion.remark  == '-2' ">
+                     when id=#{gpRegion.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+    </trim>
+    where id in
+		<foreach collection="list" item="gpRegion" index="index" open="(" close=")" separator=",">
+			#{gpRegion.id,jdbcType=VARCHAR}
+		</foreach>
+  </update>
+
+  
+  
+  <insert id="updateListWithDffOrAdd" useGeneratedKeys="true" keyProperty="id" parameterType="list">
+    replace into gp_region
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+id,
+code,
+name,
+category,
+farther_code,
+is_display_code,
+region_level,
+longitude,
+latitude,
+area,
+remark,
+    </trim>
+    VALUES
+    <foreach collection="list" item="gpRegion" index="index" separator=",">
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+              #{gpRegion.id ,jdbcType=VARCHAR},
+                  
+                     #{gpRegion.code ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpRegion.name ,jdbcType=VARCHAR},
+                  
+                  
+                    #{gpRegion.category,jdbcType=TINYINT},
+            
+                  
+                     #{gpRegion.fartherCode ,jdbcType=VARCHAR},
+                  
+                  
+                    #{gpRegion.isDisplayCode,jdbcType=TINYINT},
+            
+                  
+                    #{gpRegion.regionLevel,jdbcType=TINYINT},
+            
+                  
+                     #{gpRegion.longitude ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpRegion.latitude ,jdbcType=VARCHAR},
+                  
+                  
+                    #{gpRegion.area,jdbcType=INTEGER},
+            
+                  
+                     #{gpRegion.remark ,jdbcType=VARCHAR},
+                  
+      </trim>
+    </foreach>
+  </insert>
+
+
+  <select id="getModel" resultMap="BaseResultMap" parameterType="java.lang.String" >
+          select 
+                 <include refid="Base_Column_List" />
+          from gp_region
+           where  id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+   
+  
+  <select id="getList" resultMap="BaseResultMap" parameterType="map" >
+          select
+                <include refid="Base_Column_List" />
+          from gp_region where 1 = 1
+        <if test="EntityRelated.id != null and EntityRelated.id != '' ">
+			and id LIKE CONCAT('%',#{EntityRelated.id,jdbcType=VARCHAR},'%')
+		</if>
+
+		<if test="EntityRelated.code != null and EntityRelated.code != '' ">
+ 				and  code LIKE CONCAT('%',#{EntityRelated.code,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.fartherCode != null">
+				and farther_code = #{EntityRelated.fartherCode,jdbcType=TINYINT} 
+		</if>
+		<if test="EntityRelated.id != null and EntityRelated.id != '' ">
+				and id = #{EntityRelated.id,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.isDisplayCode != null">
+				and is_display_code = #{EntityRelated.isDisplayCode,jdbcType=TINYINT} 
+		</if>
+		<if test="EntityRelated.latitude != null and EntityRelated.latitude != '' ">
+ 				and  latitude LIKE CONCAT('%',#{EntityRelated.latitude,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.longitude != null and EntityRelated.longitude != '' ">
+ 				and  longitude LIKE CONCAT('%',#{EntityRelated.longitude,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.name != null and EntityRelated.name != '' ">
+ 				and  name LIKE CONCAT('%',#{EntityRelated.name,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.remark != null and EntityRelated.remark != '' ">
+ 				and  remark LIKE CONCAT('%',#{EntityRelated.remark,jdbcType=VARCHAR},'%') 
+		</if>
+
+
+		<if test="OrderList != null and OrderList!=null">
+			order by
+			<foreach collection="OrderList" item="Order" index="index" separator=",">
+				${Order.columnName}
+				<if test="Order.isASC">
+					ASC
+				</if>
+				<if test="!Order.isASC">
+					DESC
+				</if>
+			</foreach>
+		</if>
+  </select>
+  
+	<select id="getListBySQL" resultType="java.util.HashMap" parameterType="String">
+		<if test="value!=null and value!=''">
+			${value}
+		</if>
+	</select>
+
+  <cache />
+</mapper>

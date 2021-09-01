@@ -1,0 +1,410 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zee.dao.split.gp.IGpLoginLogSplDal" >
+
+  <resultMap id="BaseResultMap" type="com.zee.ent.extend.gp.GpLoginLog" >
+              <id column="id" property="id" jdbcType="VARCHAR" />
+              <result column="domain_id" property="domainId" jdbcType="VARCHAR" />
+              <result column="user_id" property="userId" jdbcType="VARCHAR" />
+              <result column="user_name" property="userName" jdbcType="VARCHAR" />
+              <result column="login_time" property="loginTime" jdbcType="TIMESTAMP" />
+              <result column="logout_time" property="logoutTime" jdbcType="TIMESTAMP" />
+              <result column="logout_type_code" property="logoutTypeCode" jdbcType="TINYINT" />
+              <result column="duration" property="duration" jdbcType="INTEGER" />
+              <result column="ip" property="ip" jdbcType="VARCHAR" />
+              <result column="ip_address" property="ipAddress" jdbcType="VARCHAR" />
+              <result column="browser" property="browser" jdbcType="VARCHAR" />
+              <result column="resolution" property="resolution" jdbcType="VARCHAR" />
+              <result column="os" property="os" jdbcType="VARCHAR" />
+              <result column="is_success_code" property="isSuccessCode" jdbcType="TINYINT" />
+              <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+        id,domain_id,user_id,user_name,login_time,logout_time,logout_type_code,duration,ip,ip_address,browser,resolution,os,is_success_code,remark
+  </sql>
+  
+  <insert id="add" parameterType="com.zee.ent.extend.gp.GpLoginLog" >
+    insert into gp_login_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+          <if test="id != null and id != '' " >
+              id,
+          </if>
+          <if test="domainId != null and domainId != '' " >
+              domain_id,
+          </if>
+      
+          <if test="userId != null and userId != '' " >
+              user_id,
+          </if>
+      
+          <if test="userName != null and userName != '' " >
+              user_name,
+          </if>
+      
+          <if test="loginTime != null " >
+              login_time,
+          </if>
+          <if test="logoutTime != null " >
+              logout_time,
+          </if>
+          <if test="logoutTypeCode != null " >
+              logout_type_code,
+          </if>
+          <if test="duration != null " >
+              duration,
+          </if>
+          <if test="ip != null and ip != '' " >
+              ip,
+          </if>
+      
+          <if test="ipAddress != null and ipAddress != '' " >
+              ip_address,
+          </if>
+      
+          <if test="browser != null and browser != '' " >
+              browser,
+          </if>
+      
+          <if test="resolution != null and resolution != '' " >
+              resolution,
+          </if>
+      
+          <if test="os != null and os != '' " >
+              os,
+          </if>
+      
+          <if test="isSuccessCode != null " >
+              is_success_code,
+          </if>
+          <if test="remark != null and remark != '' " >
+              remark,
+          </if>
+      
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+          <if test="id != null and id != '' " >
+              #{id,jdbcType=VARCHAR},
+          </if>
+          <if test="domainId != null and domainId != '' " >
+              #{domainId,jdbcType=VARCHAR},
+          </if>
+          <if test="userId != null and userId != '' " >
+              #{userId,jdbcType=VARCHAR},
+          </if>
+          <if test="userName != null and userName != '' " >
+              #{userName,jdbcType=VARCHAR},
+          </if>
+          <if test="loginTime != null " >
+              #{loginTime,jdbcType=TIMESTAMP},
+          </if>
+          <if test="logoutTime != null " >
+              #{logoutTime,jdbcType=TIMESTAMP},
+          </if>
+          <if test="logoutTypeCode != null " >
+              #{logoutTypeCode,jdbcType=TINYINT},
+          </if>
+          <if test="duration != null " >
+              #{duration,jdbcType=INTEGER},
+          </if>
+          <if test="ip != null and ip != '' " >
+              #{ip,jdbcType=VARCHAR},
+          </if>
+          <if test="ipAddress != null and ipAddress != '' " >
+              #{ipAddress,jdbcType=VARCHAR},
+          </if>
+          <if test="browser != null and browser != '' " >
+              #{browser,jdbcType=VARCHAR},
+          </if>
+          <if test="resolution != null and resolution != '' " >
+              #{resolution,jdbcType=VARCHAR},
+          </if>
+          <if test="os != null and os != '' " >
+              #{os,jdbcType=VARCHAR},
+          </if>
+          <if test="isSuccessCode != null " >
+              #{isSuccessCode,jdbcType=TINYINT},
+          </if>
+          <if test="remark != null and remark != '' " >
+              #{remark,jdbcType=VARCHAR},
+          </if>
+    </trim>
+  </insert>
+  
+ 
+    <insert id="addList" parameterType="list">
+    	insert into gp_login_log
+    	<trim prefix="(" suffix=")">
+    		<include refid="Base_Column_List" />
+    	</trim>
+    	values
+    	<foreach collection="list" item="gpLoginLog" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides="," >
+
+      
+          #{gpLoginLog.id,jdbcType=VARCHAR},
+
+      
+          #{gpLoginLog.tokenId,jdbcType=VARCHAR},
+
+      
+          #{gpLoginLog.domainId,jdbcType=VARCHAR},
+
+      
+          #{gpLoginLog.userId,jdbcType=VARCHAR},
+
+      
+          #{gpLoginLog.userName,jdbcType=VARCHAR},
+
+      
+          #{gpLoginLog.loginTime,jdbcType=TIMESTAMP},
+
+      
+          #{gpLoginLog.logoutTime,jdbcType=TIMESTAMP},
+
+      
+          #{gpLoginLog.logoutTypeCode,jdbcType=TINYINT},
+
+      
+          #{gpLoginLog.duration,jdbcType=INTEGER},
+
+      
+          #{gpLoginLog.ip,jdbcType=VARCHAR},
+
+      
+          #{gpLoginLog.ipAddress,jdbcType=VARCHAR},
+
+      
+          #{gpLoginLog.browser,jdbcType=VARCHAR},
+
+      
+          #{gpLoginLog.resolution,jdbcType=VARCHAR},
+
+      
+          #{gpLoginLog.os,jdbcType=VARCHAR},
+
+      
+          #{gpLoginLog.isSuccessCode,jdbcType=TINYINT},
+
+      
+          #{gpLoginLog.remark,jdbcType=VARCHAR},
+
+
+        </trim>
+    	</foreach>
+    </insert>
+
+  
+  
+  <delete id="delete" parameterType="java.lang.String" >
+                 delete from gp_login_log
+                 where  id = #{id,jdbcType=VARCHAR}
+  </delete>
+  
+	<delete id="deleteByIdList" parameterType="list">
+		delete from gp_login_log
+		where id  in
+		<foreach collection="list" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+	</delete>
+  
+  <update id="update" parameterType="com.zee.ent.extend.gp.GpLoginLog" >
+    update gp_login_log
+    <set >
+
+                  <if test="domainId != null  and domainId != '' " >
+                     domain_id = #{domainId,jdbcType=VARCHAR},
+                  </if>
+                  <if test="userId != null  and userId != '' " >
+                     user_id = #{userId,jdbcType=VARCHAR},
+                  </if>
+                  <if test="userName != null  and userName != '' " >
+                     user_name = #{userName,jdbcType=VARCHAR},
+                  </if>
+                  <if test="loginTime != null ">
+                     login_time = #{loginTime,jdbcType=TIMESTAMP},
+                  </if>
+                  <if test="logoutTime != null ">
+                     logout_time = #{logoutTime,jdbcType=TIMESTAMP},
+                  </if>
+                  <if test="logoutTypeCode != null ">
+                     logout_type_code = #{logoutTypeCode,jdbcType=TINYINT},
+                  </if>
+                  <if test="duration != null ">
+                     duration = #{duration,jdbcType=INTEGER},
+                  </if>
+                  <if test="ip != null  and ip != '' " >
+                     ip = #{ip,jdbcType=VARCHAR},
+                  </if>
+                  <if test="ipAddress != null  and ipAddress != '' " >
+                     ip_address = #{ipAddress,jdbcType=VARCHAR},
+                  </if>
+                  <if test="browser != null  and browser != '' " >
+                     browser = #{browser,jdbcType=VARCHAR},
+                  </if>
+                  <if test="resolution != null  and resolution != '' " >
+                     resolution = #{resolution,jdbcType=VARCHAR},
+                  </if>
+                  <if test="os != null  and os != '' " >
+                     os = #{os,jdbcType=VARCHAR},
+                  </if>
+                  <if test="isSuccessCode != null ">
+                     is_success_code = #{isSuccessCode,jdbcType=TINYINT},
+                  </if>
+                  <if test="remark != null  and remark != '' " >
+                     remark = #{remark,jdbcType=VARCHAR},
+                  </if>
+   </set>
+                 where  id = #{id,jdbcType=VARCHAR}
+</update>
+  
+<update id="updateList">
+    update gp_login_log
+    <set >
+                  <if test="t.domainId != null  and t.domainId != '' " >
+                     domain_id = #{t.domainId,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.userId != null  and t.userId != '' " >
+                     user_id = #{t.userId,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.userName != null  and t.userName != '' " >
+                     user_name = #{t.userName,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.loginTime != null ">
+                     login_time = #{t.loginTime,jdbcType=TIMESTAMP},
+                  </if>
+                  <if test="t.logoutTime != null ">
+                     logout_time = #{t.logoutTime,jdbcType=TIMESTAMP},
+                  </if>
+                  <if test="t.logoutTypeCode != null ">
+                     logout_type_code = #{t.logoutTypeCode,jdbcType=TINYINT},
+                  </if>
+                  <if test="t.duration != null ">
+                     duration = #{t.duration,jdbcType=INTEGER},
+                  </if>
+                  <if test="t.ip != null  and t.ip != '' " >
+                     ip = #{t.ip,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.ipAddress != null  and t.ipAddress != '' " >
+                     ip_address = #{t.ipAddress,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.browser != null  and t.browser != '' " >
+                     browser = #{t.browser,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.resolution != null  and t.resolution != '' " >
+                     resolution = #{t.resolution,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.os != null  and t.os != '' " >
+                     os = #{t.os,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.isSuccessCode != null ">
+                     is_success_code = #{t.isSuccessCode,jdbcType=TINYINT},
+                  </if>
+                  <if test="t.remark != null  and t.remark != '' " >
+                     remark = #{t.remark,jdbcType=VARCHAR},
+                  </if>
+   </set>
+	
+		where id  in
+		<foreach collection="idList" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+</update>
+  
+  <select id="getModel" resultMap="BaseResultMap" parameterType="java.lang.String" >
+          select 
+                 <include refid="Base_Column_List" />
+          from gp_login_log
+           where  id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+    <select id="getListOnLine" resultMap="BaseResultMap" parameterType="map" >
+          select 
+                 <include refid="Base_Column_List" />
+          from gp_login_log
+           where  user_name = #{userName,jdbcType=VARCHAR} and domain_id = #{domainId,jdbcType=VARCHAR}
+            <![CDATA[ AND  unix_timestamp(logout_time)>unix_timestamp()]]> 
+  </select>
+  
+  
+  <select id="getList" resultMap="BaseResultMap" parameterType="map" >
+          select
+                <include refid="Base_Column_List" />
+          from gp_login_log where 1 = 1
+        <if test="EntityRelated.id != null and EntityRelated.id != '' ">
+			and id LIKE CONCAT('%',#{EntityRelated.id,jdbcType=VARCHAR},'%')
+		</if>
+
+		<if test="EntityRelated.browser != null and EntityRelated.browser != '' ">
+ 				and  browser LIKE CONCAT('%',#{EntityRelated.browser,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.domainId != null and EntityRelated.domainId != '' ">
+				and domain_id = #{EntityRelated.domainId,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.id != null and EntityRelated.id != '' ">
+				and id = #{EntityRelated.id,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.ip != null and EntityRelated.ip != '' ">
+ 				and  ip LIKE CONCAT('%',#{EntityRelated.ip,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.ipAddress != null and EntityRelated.ipAddress != '' ">
+ 				and  ip_address LIKE CONCAT('%',#{EntityRelated.ipAddress,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.isSuccessCode != null">
+				and is_success_code = #{EntityRelated.isSuccessCode,jdbcType=TINYINT} 
+		</if>
+		<if test="EntityRelated.beginLoginTime != null ">
+				<![CDATA[ AND  unix_timestamp(login_time)>=unix_timestamp(#{EntityRelated.beginLoginTime})]]> 
+		</if>
+		<if test="EntityRelated.endLoginTime != null ">
+				<![CDATA[ AND  unix_timestamp(login_time)<unix_timestamp(#{EntityRelated.endLoginTime})]]> 
+		</if>
+		<if test="EntityRelated.beginLogoutTime != null ">
+				<![CDATA[ AND  unix_timestamp(logout_time)>=unix_timestamp(#{EntityRelated.beginLogoutTime})]]> 
+		</if>
+		<if test="EntityRelated.endLogoutTime != null ">
+				<![CDATA[ AND  unix_timestamp(logout_time)<unix_timestamp(#{EntityRelated.endLogoutTime})]]> 
+		</if>
+		<if test="EntityRelated.logoutTypeCode != null">
+				and logout_type_code = #{EntityRelated.logoutTypeCode,jdbcType=TINYINT} 
+		</if>
+		<if test="EntityRelated.os != null and EntityRelated.os != '' ">
+ 				and  os LIKE CONCAT('%',#{EntityRelated.os,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.remark != null and EntityRelated.remark != '' ">
+ 				and  remark LIKE CONCAT('%',#{EntityRelated.remark,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.resolution != null and EntityRelated.resolution != '' ">
+ 				and  resolution LIKE CONCAT('%',#{EntityRelated.resolution,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.userId != null and EntityRelated.userId != '' ">
+				and user_id = #{EntityRelated.userId,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.userName != null and EntityRelated.userName != '' ">
+ 				and  user_name LIKE CONCAT('%',#{EntityRelated.userName,jdbcType=VARCHAR},'%') 
+		</if>
+
+
+		<if test="OrderList != null and OrderList!=null">
+			order by
+			<foreach collection="OrderList" item="Order" index="index" separator=",">
+				${Order.columnName}
+				<if test="Order.isASC">
+					ASC
+				</if>
+				<if test="!Order.isASC">
+					DESC
+				</if>
+			</foreach>
+		</if>
+  </select>
+  
+	<select id="getListBySQL" resultType="java.util.HashMap" parameterType="String">
+		<if test="value!=null and value!=''">
+			${value}
+		</if>
+	</select>
+
+  <cache />
+</mapper>

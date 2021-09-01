@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zee.dao.split.gp.IGprModulePageSplDal">
+
+	<resultMap id="BaseResultMap" type="com.zee.ent.extend.gp.GprModulePage">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="module_id" property="moduleId" jdbcType="VARCHAR" />
+		<result column="page_id" property="pageId" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id,module_id,page_id
+	</sql>
+
+	<insert id="add" parameterType="com.zee.ent.extend.gp.GprModulePage">
+		insert into gpr_module_page
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null and id != '' ">
+				id,
+			</if>
+
+			<if test="moduleId != null and moduleId != '' ">
+				module_id,
+			</if>
+
+			<if test="pageId != null and pageId != '' ">
+				page_id,
+			</if>
+
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null and id != '' ">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="moduleId != null and moduleId != '' ">
+				#{moduleId,jdbcType=VARCHAR},
+			</if>
+			<if test="pageId != null and pageId != '' ">
+				#{pageId,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+
+	<insert id="addList" parameterType="list">
+		insert into gpr_module_page
+		<trim prefix="(" suffix=")">
+			<include refid="Base_Column_List" />
+		</trim>
+		values
+		<foreach collection="list" item="gprModulePage" index="index" separator=",">
+			<trim prefix="(" suffix=")" suffixOverrides=",">
+				#{gprModulePage.id,jdbcType=VARCHAR},
+				#{gprModulePage.moduleId,jdbcType=VARCHAR},
+				#{gprModulePage.pageId,jdbcType=VARCHAR},
+			</trim>
+		</foreach>
+	</insert>
+
+
+
+	<delete id="delete" parameterType="java.lang.String">
+		delete from gpr_module_page
+		where id = #{id,jdbcType=VARCHAR}
+	</delete>
+
+	<delete id="deleteByModuleId" parameterType="java.lang.String">
+		delete from gpr_module_page
+		where module_id = #{moduleId,jdbcType=VARCHAR}
+	</delete>
+
+	<delete id="deleteByPageId" parameterType="java.lang.String">
+		delete from gpr_module_page
+		where module_id = #{moduleId,jdbcType=VARCHAR}
+	</delete>
+
+	<delete id="deleteByIdList" parameterType="list">
+		delete from gpr_module_page
+		where id in
+		<foreach collection="list" item="" index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+	</delete>
+	
+	<delete id="deleteByModuleIdList" parameterType="list">
+		delete from gpr_module_page
+		where module_id in
+		<foreach collection="list" item="moduleId" index="index" open="(" close=")" separator=",">
+			#{moduleId}
+		</foreach>
+	</delete>
+
+	<delete id="deleteByPageIdList" parameterType="list">
+		delete from gpr_module_page
+		where module_id in
+		<foreach collection="list" item="pageId" index="index" open="(" close=")" separator=",">
+			#{moduleId}
+		</foreach>
+	</delete>
+
+	<update id="update" parameterType="com.zee.ent.extend.gp.GprModulePage">
+		update gpr_module_page
+		<set>
+			<if test="moduleId != null  and moduleId != '' ">
+				module_id = #{moduleId,jdbcType=VARCHAR},
+			</if>
+			<if test="pageId != null  and pageId != '' ">
+				page_id = #{pageId,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<update id="updateList">
+		update gpr_module_page
+		<set>
+			<if test="t.moduleId != null  and t.moduleId != '' ">
+				module_id = #{t.moduleId,jdbcType=VARCHAR},
+			</if>
+			<if test="t.pageId != null  and t.pageId != '' ">
+				page_id = #{t.pageId,jdbcType=VARCHAR},
+			</if>
+		</set>
+
+		where id in
+		<foreach collection="idList" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+	</update>
+
+	<select id="getModel" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from gpr_module_page
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<select id="getList" resultMap="BaseResultMap" parameterType="map">
+		select
+		<include refid="Base_Column_List" />
+		from gpr_module_page where 1 = 1
+		<if test="EntityRelated.id != null and EntityRelated.id != '' ">
+			and id LIKE CONCAT('%',#{EntityRelated.id,jdbcType=VARCHAR},'%')
+		</if>
+
+		<if test="EntityRelated.id != null and EntityRelated.id != '' ">
+			and id = #{EntityRelated.id,jdbcType=VARCHAR}
+		</if>
+		<if test="EntityRelated.moduleId != null and EntityRelated.moduleId != '' ">
+			and module_id = #{EntityRelated.moduleId,jdbcType=VARCHAR}
+		</if>
+		<if test="EntityRelated.pageId != null and EntityRelated.pageId != '' ">
+			and page_id = #{EntityRelated.pageId,jdbcType=VARCHAR}
+		</if>
+
+
+		<if test="OrderList != null and OrderList!=null">
+			order by
+			<foreach collection="OrderList" item="Order" index="index" separator=",">
+				${Order.columnName}
+				<if test="Order.isASC">
+					ASC
+				</if>
+				<if test="!Order.isASC">
+					DESC
+				</if>
+			</foreach>
+		</if>
+	</select>
+
+	<select id="getListBySQL" resultType="java.util.HashMap" parameterType="String">
+		<if test="value!=null and value!=''">
+			${value}
+		</if>
+	</select>
+
+	<cache />
+</mapper>

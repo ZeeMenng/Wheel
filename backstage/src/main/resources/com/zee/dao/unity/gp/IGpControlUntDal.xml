@@ -1,0 +1,605 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zee.dao.unity.gp.IGpControlUntDal" >
+
+  <resultMap id="BaseResultMap" type="com.zee.ent.extend.gp.GpControl" >
+              <id column="id" property="id" jdbcType="VARCHAR" />
+              <result column="serial_no" property="serialNo" jdbcType="VARCHAR" />
+              <result column="domain_id" property="domainId" jdbcType="VARCHAR" />
+              <result column="page_id" property="pageId" jdbcType="VARCHAR" />
+              <result column="page_url" property="pageUrl" jdbcType="VARCHAR" />
+              <result column="code" property="code" jdbcType="VARCHAR" />
+              <result column="name" property="name" jdbcType="VARCHAR" />
+              <result column="remark" property="remark" jdbcType="VARCHAR" />
+              <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+              <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+        id,serial_no,domain_id,page_id,page_url,code,name,remark,add_time,update_time
+  </sql>
+  
+  <insert id="add" parameterType="com.zee.ent.extend.gp.GpControl" >
+    insert into gp_control
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+          <if test="id != null and id != '' " >
+              id,
+          </if>
+      
+          <if test="serialNo != null and serialNo != '' " >
+              serial_no,
+          </if>
+      
+          <if test="domainId != null and domainId != '' " >
+              domain_id,
+          </if>
+      
+          <if test="pageId != null and pageId != '' " >
+              page_id,
+          </if>
+      
+          <if test="pageUrl != null and pageUrl != '' " >
+              page_url,
+          </if>
+      
+          <if test="code != null and code != '' " >
+              code,
+          </if>
+      
+          <if test="name != null and name != '' " >
+              name,
+          </if>
+      
+          <if test="remark != null and remark != '' " >
+              remark,
+          </if>
+      
+          <if test="addTime != null " >
+              add_time,
+          </if>
+          <if test="updateTime != null " >
+              update_time,
+          </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+          <if test="id != null and id != '' " >
+              #{id,jdbcType=VARCHAR},
+          </if>
+          <if test="serialNo != null and serialNo != '' " >
+              #{serialNo,jdbcType=VARCHAR},
+          </if>
+          <if test="domainId != null and domainId != '' " >
+              #{domainId,jdbcType=VARCHAR},
+          </if>
+          <if test="pageId != null and pageId != '' " >
+              #{pageId,jdbcType=VARCHAR},
+          </if>
+          <if test="pageUrl != null and pageUrl != '' " >
+              #{pageUrl,jdbcType=VARCHAR},
+          </if>
+          <if test="code != null and code != '' " >
+              #{code,jdbcType=VARCHAR},
+          </if>
+          <if test="name != null and name != '' " >
+              #{name,jdbcType=VARCHAR},
+          </if>
+          <if test="remark != null and remark != '' " >
+              #{remark,jdbcType=VARCHAR},
+          </if>
+          <if test="addTime != null " >
+              #{addTime,jdbcType=TIMESTAMP},
+          </if>
+          <if test="updateTime != null " >
+              #{updateTime,jdbcType=TIMESTAMP},
+          </if>
+    </trim>
+  </insert>
+  
+  <insert id="addList" parameterType="list">
+    	insert into gp_control
+    	<trim prefix="(" suffix=")">
+    		<include refid="Base_Column_List" />
+    	</trim>
+    	values
+    	<foreach collection="list" item="gpControl" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides="," >
+
+          #{gpControl.id,jdbcType=VARCHAR},
+          #{gpControl.serialNo,jdbcType=VARCHAR},
+          #{gpControl.domainId,jdbcType=VARCHAR},
+          #{gpControl.pageId,jdbcType=VARCHAR},
+          #{gpControl.pageUrl,jdbcType=VARCHAR},
+          #{gpControl.code,jdbcType=VARCHAR},
+          #{gpControl.name,jdbcType=VARCHAR},
+          #{gpControl.remark,jdbcType=VARCHAR},
+          #{gpControl.addTime,jdbcType=TIMESTAMP},
+          #{gpControl.updateTime,jdbcType=TIMESTAMP},
+
+        </trim>
+    	</foreach>
+    </insert>
+
+
+  <insert id="addListWithDffOrAdd" parameterType="list">
+    	insert into gp_control
+    	<trim prefix="(" suffix=")">
+    		<include refid="Base_Column_List" />
+    	</trim>
+    	values
+    	<foreach collection="list" item="gpControl" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides="," >
+
+          #{gpControl.id,jdbcType=VARCHAR},
+          #{gpControl.serialNo,jdbcType=VARCHAR},
+          #{gpControl.domainId,jdbcType=VARCHAR},
+          #{gpControl.pageId,jdbcType=VARCHAR},
+          #{gpControl.pageUrl,jdbcType=VARCHAR},
+          #{gpControl.code,jdbcType=VARCHAR},
+          #{gpControl.name,jdbcType=VARCHAR},
+          #{gpControl.remark,jdbcType=VARCHAR},
+          #{gpControl.addTime,jdbcType=TIMESTAMP},
+          #{gpControl.updateTime,jdbcType=TIMESTAMP},
+
+        </trim>
+    	</foreach>
+        ON DUPLICATE KEY UPDATE
+id=values(id),
+serial_no=values(serial_no),
+domain_id=values(domain_id),
+page_id=values(page_id),
+page_url=values(page_url),
+code=values(code),
+name=values(name),
+remark=values(remark),
+add_time=values(add_time),
+update_time=values(update_time)
+        
+    </insert>
+
+
+    <delete id="delete" parameterType="java.lang.String" >
+        delete from gp_control
+        where  id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+	<delete id="deleteByDomainId" parameterType="java.lang.String">
+    	delete from gp_control
+    	where domain_id = #{domainId,jdbcType=VARCHAR}
+    </delete>
+    
+   <delete id="deleteByDomainIdList" parameterType="list">
+		delete from gp_control
+		where domain_id  in
+		<foreach collection="list" item="DomainId " index="index" open="(" close=")" separator=",">
+			#{DomainId }
+		</foreach>
+	</delete>
+    
+    
+    <select id="getListByDomainId" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from gp_control where domain_id = #{domainId,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPageId" parameterType="java.lang.String">
+    	delete from gp_control
+    	where page_id = #{pageId,jdbcType=VARCHAR}
+    </delete>
+    
+   <delete id="deleteByPageIdList" parameterType="list">
+		delete from gp_control
+		where page_id  in
+		<foreach collection="list" item="PageId " index="index" open="(" close=")" separator=",">
+			#{PageId }
+		</foreach>
+	</delete>
+    
+    
+    <select id="getListByPageId" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from gp_control where page_id = #{pageId,jdbcType=VARCHAR}
+	</select>
+        
+ 	<delete id="deleteByCompositeIdList" parameterType="list">
+		delete from gp_control
+		where 1=1
+
+   and domain_id in
+		<foreach collection="list" item="gpControl" index="index" open="(" close=")" separator=",">
+				#{gpControl.domainId,jdbcType=VARCHAR}
+		</foreach>
+   and page_id in
+		<foreach collection="list" item="gpControl" index="index" open="(" close=")" separator=",">
+				#{gpControl.pageId,jdbcType=VARCHAR}
+		</foreach>
+   and control_id in
+		<foreach collection="list" item="gpControl" index="index" open="(" close=")" separator=",">
+				#{gpControl.controlId,jdbcType=VARCHAR}
+		</foreach>
+	</delete>
+        
+
+	<delete id="deleteByIdList" parameterType="list">
+		delete from gp_control
+		where id  in
+		<foreach collection="list" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+	</delete>
+  
+  
+  
+  <update id="update" parameterType="com.zee.ent.extend.gp.GpControl" >
+    update gp_control
+    <set >
+                    <choose>
+                   <when test="serialNo != null and serialNo=='-1'">
+                     serial_no = null,
+                  </when>
+                  <when test="serialNo != null and serialNo=='-2'">
+                     serial_no = '',
+                  </when>
+                  <when test="serialNo != null  and serialNo != '' " >
+                     serial_no = #{serialNo,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="domainId != null and domainId=='-1'">
+                     domain_id = null,
+                  </when>
+                  <when test="domainId != null and domainId=='-2'">
+                     domain_id = '',
+                  </when>
+                  <when test="domainId != null  and domainId != '' " >
+                     domain_id = #{domainId,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="pageId != null and pageId=='-1'">
+                     page_id = null,
+                  </when>
+                  <when test="pageId != null and pageId=='-2'">
+                     page_id = '',
+                  </when>
+                  <when test="pageId != null  and pageId != '' " >
+                     page_id = #{pageId,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="pageUrl != null and pageUrl=='-1'">
+                     page_url = null,
+                  </when>
+                  <when test="pageUrl != null and pageUrl=='-2'">
+                     page_url = '',
+                  </when>
+                  <when test="pageUrl != null  and pageUrl != '' " >
+                     page_url = #{pageUrl,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="code != null and code=='-1'">
+                     code = null,
+                  </when>
+                  <when test="code != null and code=='-2'">
+                     code = '',
+                  </when>
+                  <when test="code != null  and code != '' " >
+                     code = #{code,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="name != null and name=='-1'">
+                     name = null,
+                  </when>
+                  <when test="name != null and name=='-2'">
+                     name = '',
+                  </when>
+                  <when test="name != null  and name != '' " >
+                     name = #{name,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="remark != null and remark=='-1'">
+                     remark = null,
+                  </when>
+                  <when test="remark != null and remark=='-2'">
+                     remark = '',
+                  </when>
+                  <when test="remark != null  and remark != '' " >
+                     remark = #{remark,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                  <if test="addTime != null ">
+                     add_time = #{addTime,jdbcType=TIMESTAMP},
+                  </if>
+                  <if test="updateTime != null ">
+                     update_time = #{updateTime,jdbcType=TIMESTAMP},
+                  </if>
+   </set>
+                 where  id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+<update id="updateList">
+    update gp_control
+    <set >
+                  <if test="t.serialNo != null  and t.serialNo != '' " >
+                     serial_no = #{t.serialNo,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.domainId != null  and t.domainId != '' " >
+                     domain_id = #{t.domainId,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.pageId != null  and t.pageId != '' " >
+                     page_id = #{t.pageId,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.pageUrl != null  and t.pageUrl != '' " >
+                     page_url = #{t.pageUrl,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.code != null  and t.code != '' " >
+                     code = #{t.code,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.name != null  and t.name != '' " >
+                     name = #{t.name,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.remark != null  and t.remark != '' " >
+                     remark = #{t.remark,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.addTime != null ">
+                     add_time = #{t.addTime,jdbcType=TIMESTAMP},
+                  </if>
+                  <if test="t.updateTime != null ">
+                     update_time = #{t.updateTime,jdbcType=TIMESTAMP},
+                  </if>
+   </set>
+	
+		where id  in
+		<foreach collection="idList" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+   
+  </update>
+  
+<update id="updateListWithDff"  parameterType="list">
+    update gp_control
+		<trim prefix="set" suffixOverrides=",">
+         <trim prefix="serial_no =case" suffix="end,">
+              <foreach collection="list" item="gpControl" index="index">
+                  <if test="gpControl.serialNo != null and gpControl.serialNo  != ''  and gpControl.serialNo  != '-1' ">
+                     when id=#{gpControl.id} then #{gpControl.serialNo,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpControl.serialNo != null  and gpControl.serialNo  == '-1' ">
+                     when id=#{gpControl.id} then null
+                  </if>  
+                   <if test="gpControl.serialNo != null  and gpControl.serialNo  == '-2' ">
+                     when id=#{gpControl.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="domain_id =case" suffix="end,">
+              <foreach collection="list" item="gpControl" index="index">
+                  <if test="gpControl.domainId != null and gpControl.domainId  != ''  and gpControl.domainId  != '-1' ">
+                     when id=#{gpControl.id} then #{gpControl.domainId,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpControl.domainId != null  and gpControl.domainId  == '-1' ">
+                     when id=#{gpControl.id} then null
+                  </if>  
+                   <if test="gpControl.domainId != null  and gpControl.domainId  == '-2' ">
+                     when id=#{gpControl.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="page_id =case" suffix="end,">
+              <foreach collection="list" item="gpControl" index="index">
+                  <if test="gpControl.pageId != null and gpControl.pageId  != ''  and gpControl.pageId  != '-1' ">
+                     when id=#{gpControl.id} then #{gpControl.pageId,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpControl.pageId != null  and gpControl.pageId  == '-1' ">
+                     when id=#{gpControl.id} then null
+                  </if>  
+                   <if test="gpControl.pageId != null  and gpControl.pageId  == '-2' ">
+                     when id=#{gpControl.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="page_url =case" suffix="end,">
+              <foreach collection="list" item="gpControl" index="index">
+                  <if test="gpControl.pageUrl != null and gpControl.pageUrl  != ''  and gpControl.pageUrl  != '-1' ">
+                     when id=#{gpControl.id} then #{gpControl.pageUrl,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpControl.pageUrl != null  and gpControl.pageUrl  == '-1' ">
+                     when id=#{gpControl.id} then null
+                  </if>  
+                   <if test="gpControl.pageUrl != null  and gpControl.pageUrl  == '-2' ">
+                     when id=#{gpControl.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="code =case" suffix="end,">
+              <foreach collection="list" item="gpControl" index="index">
+                  <if test="gpControl.code != null and gpControl.code  != ''  and gpControl.code  != '-1' ">
+                     when id=#{gpControl.id} then #{gpControl.code,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpControl.code != null  and gpControl.code  == '-1' ">
+                     when id=#{gpControl.id} then null
+                  </if>  
+                   <if test="gpControl.code != null  and gpControl.code  == '-2' ">
+                     when id=#{gpControl.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="name =case" suffix="end,">
+              <foreach collection="list" item="gpControl" index="index">
+                  <if test="gpControl.name != null and gpControl.name  != ''  and gpControl.name  != '-1' ">
+                     when id=#{gpControl.id} then #{gpControl.name,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpControl.name != null  and gpControl.name  == '-1' ">
+                     when id=#{gpControl.id} then null
+                  </if>  
+                   <if test="gpControl.name != null  and gpControl.name  == '-2' ">
+                     when id=#{gpControl.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="remark =case" suffix="end,">
+              <foreach collection="list" item="gpControl" index="index">
+                  <if test="gpControl.remark != null and gpControl.remark  != ''  and gpControl.remark  != '-1' ">
+                     when id=#{gpControl.id} then #{gpControl.remark,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpControl.remark != null  and gpControl.remark  == '-1' ">
+                     when id=#{gpControl.id} then null
+                  </if>  
+                   <if test="gpControl.remark != null  and gpControl.remark  == '-2' ">
+                     when id=#{gpControl.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="add_time =case" suffix="end,">
+              <foreach collection="list" item="gpControl" index="index">
+                  <if test="gpControl.addTime != null " >
+                     when id=#{gpControl.id} then #{gpControl.addTime,jdbcType=TIMESTAMP}
+                  </if>
+              </foreach>
+         </trim>
+         <trim prefix="update_time =case" suffix="end,">
+              <foreach collection="list" item="gpControl" index="index">
+                  <if test="gpControl.updateTime != null " >
+                     when id=#{gpControl.id} then #{gpControl.updateTime,jdbcType=TIMESTAMP}
+                  </if>
+              </foreach>
+         </trim>
+    </trim>
+    where id in
+		<foreach collection="list" item="gpControl" index="index" open="(" close=")" separator=",">
+			#{gpControl.id,jdbcType=VARCHAR}
+		</foreach>
+  </update>
+
+  
+  
+  <insert id="updateListWithDffOrAdd" useGeneratedKeys="true" keyProperty="id" parameterType="list">
+    replace into gp_control
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+id,
+serial_no,
+domain_id,
+page_id,
+page_url,
+code,
+name,
+remark,
+add_time,
+update_time,
+    </trim>
+    VALUES
+    <foreach collection="list" item="gpControl" index="index" separator=",">
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+              #{gpControl.id ,jdbcType=VARCHAR},
+                  
+                     #{gpControl.serialNo ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpControl.domainId ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpControl.pageId ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpControl.pageUrl ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpControl.code ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpControl.name ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpControl.remark ,jdbcType=VARCHAR},
+                  
+                  
+                    #{gpControl.addTime,jdbcType=TIMESTAMP},
+            
+                  
+                    #{gpControl.updateTime,jdbcType=TIMESTAMP},
+            
+      </trim>
+    </foreach>
+  </insert>
+
+
+  <select id="getModel" resultMap="BaseResultMap" parameterType="java.lang.String" >
+          select 
+                 <include refid="Base_Column_List" />
+          from gp_control
+           where  id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+   
+  
+  <select id="getList" resultMap="BaseResultMap" parameterType="map" >
+          select
+                <include refid="Base_Column_List" />
+          from gp_control where 1 = 1
+        <if test="EntityRelated.id != null and EntityRelated.id != '' ">
+			and id LIKE CONCAT('%',#{EntityRelated.id,jdbcType=VARCHAR},'%')
+		</if>
+
+		<if test="EntityRelated.beginAddTime != null ">
+				<![CDATA[ AND  unix_timestamp(add_time)>=unix_timestamp(#{EntityRelated.beginAddTime})]]> 
+		</if>
+		<if test="EntityRelated.endAddTime != null ">
+				<![CDATA[ AND  unix_timestamp(add_time)<unix_timestamp(#{EntityRelated.endAddTime})]]> 
+		</if>
+		<if test="EntityRelated.code != null and EntityRelated.code != '' ">
+ 				and  code LIKE CONCAT('%',#{EntityRelated.code,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.domainId != null and EntityRelated.domainId != '' ">
+				and domain_id = #{EntityRelated.domainId,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.id != null and EntityRelated.id != '' ">
+				and id = #{EntityRelated.id,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.name != null and EntityRelated.name != '' ">
+ 				and  name LIKE CONCAT('%',#{EntityRelated.name,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.pageId != null and EntityRelated.pageId != '' ">
+				and page_id = #{EntityRelated.pageId,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.pageUrl != null and EntityRelated.pageUrl != '' ">
+ 				and  page_url LIKE CONCAT('%',#{EntityRelated.pageUrl,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.remark != null and EntityRelated.remark != '' ">
+ 				and  remark LIKE CONCAT('%',#{EntityRelated.remark,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.serialNo != null and EntityRelated.serialNo != '' ">
+ 				and  serial_no LIKE CONCAT('%',#{EntityRelated.serialNo,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.beginUpdateTime != null ">
+				<![CDATA[ AND  unix_timestamp(update_time)>=unix_timestamp(#{EntityRelated.beginUpdateTime})]]> 
+		</if>
+		<if test="EntityRelated.endUpdateTime != null ">
+				<![CDATA[ AND  unix_timestamp(update_time)<unix_timestamp(#{EntityRelated.endUpdateTime})]]> 
+		</if>
+
+
+		<if test="OrderList != null and OrderList!=null">
+			order by
+			<foreach collection="OrderList" item="Order" index="index" separator=",">
+				${Order.columnName}
+				<if test="Order.isASC">
+					ASC
+				</if>
+				<if test="!Order.isASC">
+					DESC
+				</if>
+			</foreach>
+		</if>
+  </select>
+  
+	<select id="getListBySQL" resultType="java.util.HashMap" parameterType="String">
+		<if test="value!=null and value!=''">
+			${value}
+		</if>
+	</select>
+
+  <cache />
+</mapper>

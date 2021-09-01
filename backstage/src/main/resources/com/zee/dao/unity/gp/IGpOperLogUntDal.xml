@@ -1,0 +1,724 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zee.dao.unity.gp.IGpOperLogUntDal" >
+
+  <resultMap id="BaseResultMap" type="com.zee.ent.extend.gp.GpOperLog" >
+              <id column="id" property="id" jdbcType="VARCHAR" />
+              <result column="domain_id" property="domainId" jdbcType="VARCHAR" />
+              <result column="object_id" property="objectId" jdbcType="VARCHAR" />
+              <result column="oper_type_code" property="operTypeCode" jdbcType="TINYINT" />
+              <result column="oper_type_text" property="operTypeText" jdbcType="VARCHAR" />
+              <result column="table_name" property="tableName" jdbcType="VARCHAR" />
+              <result column="total_count" property="totalCount" jdbcType="BIGINT" />
+              <result column="income_value" property="incomeValue" jdbcType="VARCHAR" />
+              <result column="income_count" property="incomeCount" jdbcType="INTEGER" />
+              <result column="return_value" property="returnValue" jdbcType="VARCHAR" />
+              <result column="is_success_code" property="isSuccessCode" jdbcType="TINYINT" />
+              <result column="result_code" property="resultCode" jdbcType="INTEGER" />
+              <result column="result_message" property="resultMessage" jdbcType="VARCHAR" />
+              <result column="remark" property="remark" jdbcType="VARCHAR" />
+              <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+        id,domain_id,object_id,oper_type_code,oper_type_text,table_name,total_count,income_value,income_count,return_value,is_success_code,result_code,result_message,remark,add_time
+  </sql>
+  
+  <insert id="add" parameterType="com.zee.ent.extend.gp.GpOperLog" >
+    insert into gp_oper_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+          <if test="id != null and id != '' " >
+              id,
+          </if>
+      
+          <if test="domainId != null and domainId != '' " >
+              domain_id,
+          </if>
+      
+          <if test="objectId != null and objectId != '' " >
+              object_id,
+          </if>
+      
+          <if test="operTypeCode != null " >
+              oper_type_code,
+          </if>
+          <if test="operTypeText != null and operTypeText != '' " >
+              oper_type_text,
+          </if>
+      
+          <if test="tableName != null and tableName != '' " >
+              table_name,
+          </if>
+      
+          <if test="totalCount != null " >
+              total_count,
+          </if>
+          <if test="incomeValue != null and incomeValue != '' " >
+              income_value,
+          </if>
+      
+          <if test="incomeCount != null " >
+              income_count,
+          </if>
+          <if test="returnValue != null and returnValue != '' " >
+              return_value,
+          </if>
+      
+          <if test="isSuccessCode != null " >
+              is_success_code,
+          </if>
+          <if test="resultCode != null " >
+              result_code,
+          </if>
+          <if test="resultMessage != null and resultMessage != '' " >
+              result_message,
+          </if>
+      
+          <if test="remark != null and remark != '' " >
+              remark,
+          </if>
+      
+          <if test="addTime != null " >
+              add_time,
+          </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+          <if test="id != null and id != '' " >
+              #{id,jdbcType=VARCHAR},
+          </if>
+          <if test="domainId != null and domainId != '' " >
+              #{domainId,jdbcType=VARCHAR},
+          </if>
+          <if test="objectId != null and objectId != '' " >
+              #{objectId,jdbcType=VARCHAR},
+          </if>
+          <if test="operTypeCode != null " >
+              #{operTypeCode,jdbcType=TINYINT},
+          </if>
+          <if test="operTypeText != null and operTypeText != '' " >
+              #{operTypeText,jdbcType=VARCHAR},
+          </if>
+          <if test="tableName != null and tableName != '' " >
+              #{tableName,jdbcType=VARCHAR},
+          </if>
+          <if test="totalCount != null " >
+              #{totalCount,jdbcType=BIGINT},
+          </if>
+          <if test="incomeValue != null and incomeValue != '' " >
+              #{incomeValue,jdbcType=VARCHAR},
+          </if>
+          <if test="incomeCount != null " >
+              #{incomeCount,jdbcType=INTEGER},
+          </if>
+          <if test="returnValue != null and returnValue != '' " >
+              #{returnValue,jdbcType=VARCHAR},
+          </if>
+          <if test="isSuccessCode != null " >
+              #{isSuccessCode,jdbcType=TINYINT},
+          </if>
+          <if test="resultCode != null " >
+              #{resultCode,jdbcType=INTEGER},
+          </if>
+          <if test="resultMessage != null and resultMessage != '' " >
+              #{resultMessage,jdbcType=VARCHAR},
+          </if>
+          <if test="remark != null and remark != '' " >
+              #{remark,jdbcType=VARCHAR},
+          </if>
+          <if test="addTime != null " >
+              #{addTime,jdbcType=TIMESTAMP},
+          </if>
+    </trim>
+  </insert>
+  
+  <insert id="addList" parameterType="list">
+    	insert into gp_oper_log
+    	<trim prefix="(" suffix=")">
+    		<include refid="Base_Column_List" />
+    	</trim>
+    	values
+    	<foreach collection="list" item="gpOperLog" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides="," >
+
+          #{gpOperLog.id,jdbcType=VARCHAR},
+          #{gpOperLog.domainId,jdbcType=VARCHAR},
+          #{gpOperLog.objectId,jdbcType=VARCHAR},
+          #{gpOperLog.operTypeCode,jdbcType=TINYINT},
+          #{gpOperLog.operTypeText,jdbcType=VARCHAR},
+          #{gpOperLog.tableName,jdbcType=VARCHAR},
+          #{gpOperLog.totalCount,jdbcType=BIGINT},
+          #{gpOperLog.incomeValue,jdbcType=VARCHAR},
+          #{gpOperLog.incomeCount,jdbcType=INTEGER},
+          #{gpOperLog.returnValue,jdbcType=VARCHAR},
+          #{gpOperLog.isSuccessCode,jdbcType=TINYINT},
+          #{gpOperLog.resultCode,jdbcType=INTEGER},
+          #{gpOperLog.resultMessage,jdbcType=VARCHAR},
+          #{gpOperLog.remark,jdbcType=VARCHAR},
+          #{gpOperLog.addTime,jdbcType=TIMESTAMP},
+
+        </trim>
+    	</foreach>
+    </insert>
+
+
+  <insert id="addListWithDffOrAdd" parameterType="list">
+    	insert into gp_oper_log
+    	<trim prefix="(" suffix=")">
+    		<include refid="Base_Column_List" />
+    	</trim>
+    	values
+    	<foreach collection="list" item="gpOperLog" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides="," >
+
+          #{gpOperLog.id,jdbcType=VARCHAR},
+          #{gpOperLog.domainId,jdbcType=VARCHAR},
+          #{gpOperLog.objectId,jdbcType=VARCHAR},
+          #{gpOperLog.operTypeCode,jdbcType=TINYINT},
+          #{gpOperLog.operTypeText,jdbcType=VARCHAR},
+          #{gpOperLog.tableName,jdbcType=VARCHAR},
+          #{gpOperLog.totalCount,jdbcType=BIGINT},
+          #{gpOperLog.incomeValue,jdbcType=VARCHAR},
+          #{gpOperLog.incomeCount,jdbcType=INTEGER},
+          #{gpOperLog.returnValue,jdbcType=VARCHAR},
+          #{gpOperLog.isSuccessCode,jdbcType=TINYINT},
+          #{gpOperLog.resultCode,jdbcType=INTEGER},
+          #{gpOperLog.resultMessage,jdbcType=VARCHAR},
+          #{gpOperLog.remark,jdbcType=VARCHAR},
+          #{gpOperLog.addTime,jdbcType=TIMESTAMP},
+
+        </trim>
+    	</foreach>
+        ON DUPLICATE KEY UPDATE
+id=values(id),
+domain_id=values(domain_id),
+object_id=values(object_id),
+oper_type_code=values(oper_type_code),
+oper_type_text=values(oper_type_text),
+table_name=values(table_name),
+total_count=values(total_count),
+income_value=values(income_value),
+income_count=values(income_count),
+return_value=values(return_value),
+is_success_code=values(is_success_code),
+result_code=values(result_code),
+result_message=values(result_message),
+remark=values(remark),
+add_time=values(add_time)
+        
+    </insert>
+
+
+    <delete id="delete" parameterType="java.lang.String" >
+        delete from gp_oper_log
+        where  id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+	<delete id="deleteByDomainId" parameterType="java.lang.String">
+    	delete from gp_oper_log
+    	where domain_id = #{domainId,jdbcType=VARCHAR}
+    </delete>
+    
+   <delete id="deleteByDomainIdList" parameterType="list">
+		delete from gp_oper_log
+		where domain_id  in
+		<foreach collection="list" item="DomainId " index="index" open="(" close=")" separator=",">
+			#{DomainId }
+		</foreach>
+	</delete>
+    
+    
+    <select id="getListByDomainId" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from gp_oper_log where domain_id = #{domainId,jdbcType=VARCHAR}
+	</select>
+        
+
+	<delete id="deleteByIdList" parameterType="list">
+		delete from gp_oper_log
+		where id  in
+		<foreach collection="list" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+	</delete>
+  
+  
+  
+  <update id="update" parameterType="com.zee.ent.extend.gp.GpOperLog" >
+    update gp_oper_log
+    <set >
+                    <choose>
+                   <when test="domainId != null and domainId=='-1'">
+                     domain_id = null,
+                  </when>
+                  <when test="domainId != null and domainId=='-2'">
+                     domain_id = '',
+                  </when>
+                  <when test="domainId != null  and domainId != '' " >
+                     domain_id = #{domainId,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="objectId != null and objectId=='-1'">
+                     object_id = null,
+                  </when>
+                  <when test="objectId != null and objectId=='-2'">
+                     object_id = '',
+                  </when>
+                  <when test="objectId != null  and objectId != '' " >
+                     object_id = #{objectId,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                  <if test="operTypeCode != null ">
+                     oper_type_code = #{operTypeCode,jdbcType=TINYINT},
+                  </if>
+                    <choose>
+                   <when test="operTypeText != null and operTypeText=='-1'">
+                     oper_type_text = null,
+                  </when>
+                  <when test="operTypeText != null and operTypeText=='-2'">
+                     oper_type_text = '',
+                  </when>
+                  <when test="operTypeText != null  and operTypeText != '' " >
+                     oper_type_text = #{operTypeText,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="tableName != null and tableName=='-1'">
+                     table_name = null,
+                  </when>
+                  <when test="tableName != null and tableName=='-2'">
+                     table_name = '',
+                  </when>
+                  <when test="tableName != null  and tableName != '' " >
+                     table_name = #{tableName,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                  <if test="totalCount != null ">
+                     total_count = #{totalCount,jdbcType=BIGINT},
+                  </if>
+                    <choose>
+                   <when test="incomeValue != null and incomeValue=='-1'">
+                     income_value = null,
+                  </when>
+                  <when test="incomeValue != null and incomeValue=='-2'">
+                     income_value = '',
+                  </when>
+                  <when test="incomeValue != null  and incomeValue != '' " >
+                     income_value = #{incomeValue,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                  <if test="incomeCount != null ">
+                     income_count = #{incomeCount,jdbcType=INTEGER},
+                  </if>
+                    <choose>
+                   <when test="returnValue != null and returnValue=='-1'">
+                     return_value = null,
+                  </when>
+                  <when test="returnValue != null and returnValue=='-2'">
+                     return_value = '',
+                  </when>
+                  <when test="returnValue != null  and returnValue != '' " >
+                     return_value = #{returnValue,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                  <if test="isSuccessCode != null ">
+                     is_success_code = #{isSuccessCode,jdbcType=TINYINT},
+                  </if>
+                  <if test="resultCode != null ">
+                     result_code = #{resultCode,jdbcType=INTEGER},
+                  </if>
+                    <choose>
+                   <when test="resultMessage != null and resultMessage=='-1'">
+                     result_message = null,
+                  </when>
+                  <when test="resultMessage != null and resultMessage=='-2'">
+                     result_message = '',
+                  </when>
+                  <when test="resultMessage != null  and resultMessage != '' " >
+                     result_message = #{resultMessage,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="remark != null and remark=='-1'">
+                     remark = null,
+                  </when>
+                  <when test="remark != null and remark=='-2'">
+                     remark = '',
+                  </when>
+                  <when test="remark != null  and remark != '' " >
+                     remark = #{remark,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                  <if test="addTime != null ">
+                     add_time = #{addTime,jdbcType=TIMESTAMP},
+                  </if>
+   </set>
+                 where  id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+<update id="updateList">
+    update gp_oper_log
+    <set >
+                  <if test="t.domainId != null  and t.domainId != '' " >
+                     domain_id = #{t.domainId,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.objectId != null  and t.objectId != '' " >
+                     object_id = #{t.objectId,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.operTypeCode != null ">
+                     oper_type_code = #{t.operTypeCode,jdbcType=TINYINT},
+                  </if>
+                  <if test="t.operTypeText != null  and t.operTypeText != '' " >
+                     oper_type_text = #{t.operTypeText,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.tableName != null  and t.tableName != '' " >
+                     table_name = #{t.tableName,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.totalCount != null ">
+                     total_count = #{t.totalCount,jdbcType=BIGINT},
+                  </if>
+                  <if test="t.incomeValue != null  and t.incomeValue != '' " >
+                     income_value = #{t.incomeValue,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.incomeCount != null ">
+                     income_count = #{t.incomeCount,jdbcType=INTEGER},
+                  </if>
+                  <if test="t.returnValue != null  and t.returnValue != '' " >
+                     return_value = #{t.returnValue,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.isSuccessCode != null ">
+                     is_success_code = #{t.isSuccessCode,jdbcType=TINYINT},
+                  </if>
+                  <if test="t.resultCode != null ">
+                     result_code = #{t.resultCode,jdbcType=INTEGER},
+                  </if>
+                  <if test="t.resultMessage != null  and t.resultMessage != '' " >
+                     result_message = #{t.resultMessage,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.remark != null  and t.remark != '' " >
+                     remark = #{t.remark,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.addTime != null ">
+                     add_time = #{t.addTime,jdbcType=TIMESTAMP},
+                  </if>
+   </set>
+	
+		where id  in
+		<foreach collection="idList" item="id " index="index" open="(" close=")" separator=",">
+			#{id }
+		</foreach>
+   
+  </update>
+  
+<update id="updateListWithDff"  parameterType="list">
+    update gp_oper_log
+		<trim prefix="set" suffixOverrides=",">
+         <trim prefix="domain_id =case" suffix="end,">
+              <foreach collection="list" item="gpOperLog" index="index">
+                  <if test="gpOperLog.domainId != null and gpOperLog.domainId  != ''  and gpOperLog.domainId  != '-1' ">
+                     when id=#{gpOperLog.id} then #{gpOperLog.domainId,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpOperLog.domainId != null  and gpOperLog.domainId  == '-1' ">
+                     when id=#{gpOperLog.id} then null
+                  </if>  
+                   <if test="gpOperLog.domainId != null  and gpOperLog.domainId  == '-2' ">
+                     when id=#{gpOperLog.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="object_id =case" suffix="end,">
+              <foreach collection="list" item="gpOperLog" index="index">
+                  <if test="gpOperLog.objectId != null and gpOperLog.objectId  != ''  and gpOperLog.objectId  != '-1' ">
+                     when id=#{gpOperLog.id} then #{gpOperLog.objectId,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpOperLog.objectId != null  and gpOperLog.objectId  == '-1' ">
+                     when id=#{gpOperLog.id} then null
+                  </if>  
+                   <if test="gpOperLog.objectId != null  and gpOperLog.objectId  == '-2' ">
+                     when id=#{gpOperLog.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="oper_type_code =case" suffix="end,">
+              <foreach collection="list" item="gpOperLog" index="index">
+                  <if test="gpOperLog.operTypeCode != null " >
+                     when id=#{gpOperLog.id} then #{gpOperLog.operTypeCode,jdbcType=TINYINT}
+                  </if>
+              </foreach>
+         </trim>
+         <trim prefix="oper_type_text =case" suffix="end,">
+              <foreach collection="list" item="gpOperLog" index="index">
+                  <if test="gpOperLog.operTypeText != null and gpOperLog.operTypeText  != ''  and gpOperLog.operTypeText  != '-1' ">
+                     when id=#{gpOperLog.id} then #{gpOperLog.operTypeText,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpOperLog.operTypeText != null  and gpOperLog.operTypeText  == '-1' ">
+                     when id=#{gpOperLog.id} then null
+                  </if>  
+                   <if test="gpOperLog.operTypeText != null  and gpOperLog.operTypeText  == '-2' ">
+                     when id=#{gpOperLog.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="table_name =case" suffix="end,">
+              <foreach collection="list" item="gpOperLog" index="index">
+                  <if test="gpOperLog.tableName != null and gpOperLog.tableName  != ''  and gpOperLog.tableName  != '-1' ">
+                     when id=#{gpOperLog.id} then #{gpOperLog.tableName,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpOperLog.tableName != null  and gpOperLog.tableName  == '-1' ">
+                     when id=#{gpOperLog.id} then null
+                  </if>  
+                   <if test="gpOperLog.tableName != null  and gpOperLog.tableName  == '-2' ">
+                     when id=#{gpOperLog.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="total_count =case" suffix="end,">
+              <foreach collection="list" item="gpOperLog" index="index">
+                  <if test="gpOperLog.totalCount != null " >
+                     when id=#{gpOperLog.id} then #{gpOperLog.totalCount,jdbcType=BIGINT}
+                  </if>
+              </foreach>
+         </trim>
+         <trim prefix="income_value =case" suffix="end,">
+              <foreach collection="list" item="gpOperLog" index="index">
+                  <if test="gpOperLog.incomeValue != null and gpOperLog.incomeValue  != ''  and gpOperLog.incomeValue  != '-1' ">
+                     when id=#{gpOperLog.id} then #{gpOperLog.incomeValue,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpOperLog.incomeValue != null  and gpOperLog.incomeValue  == '-1' ">
+                     when id=#{gpOperLog.id} then null
+                  </if>  
+                   <if test="gpOperLog.incomeValue != null  and gpOperLog.incomeValue  == '-2' ">
+                     when id=#{gpOperLog.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="income_count =case" suffix="end,">
+              <foreach collection="list" item="gpOperLog" index="index">
+                  <if test="gpOperLog.incomeCount != null " >
+                     when id=#{gpOperLog.id} then #{gpOperLog.incomeCount,jdbcType=INTEGER}
+                  </if>
+              </foreach>
+         </trim>
+         <trim prefix="return_value =case" suffix="end,">
+              <foreach collection="list" item="gpOperLog" index="index">
+                  <if test="gpOperLog.returnValue != null and gpOperLog.returnValue  != ''  and gpOperLog.returnValue  != '-1' ">
+                     when id=#{gpOperLog.id} then #{gpOperLog.returnValue,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpOperLog.returnValue != null  and gpOperLog.returnValue  == '-1' ">
+                     when id=#{gpOperLog.id} then null
+                  </if>  
+                   <if test="gpOperLog.returnValue != null  and gpOperLog.returnValue  == '-2' ">
+                     when id=#{gpOperLog.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="is_success_code =case" suffix="end,">
+              <foreach collection="list" item="gpOperLog" index="index">
+                  <if test="gpOperLog.isSuccessCode != null " >
+                     when id=#{gpOperLog.id} then #{gpOperLog.isSuccessCode,jdbcType=TINYINT}
+                  </if>
+              </foreach>
+         </trim>
+         <trim prefix="result_code =case" suffix="end,">
+              <foreach collection="list" item="gpOperLog" index="index">
+                  <if test="gpOperLog.resultCode != null " >
+                     when id=#{gpOperLog.id} then #{gpOperLog.resultCode,jdbcType=INTEGER}
+                  </if>
+              </foreach>
+         </trim>
+         <trim prefix="result_message =case" suffix="end,">
+              <foreach collection="list" item="gpOperLog" index="index">
+                  <if test="gpOperLog.resultMessage != null and gpOperLog.resultMessage  != ''  and gpOperLog.resultMessage  != '-1' ">
+                     when id=#{gpOperLog.id} then #{gpOperLog.resultMessage,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpOperLog.resultMessage != null  and gpOperLog.resultMessage  == '-1' ">
+                     when id=#{gpOperLog.id} then null
+                  </if>  
+                   <if test="gpOperLog.resultMessage != null  and gpOperLog.resultMessage  == '-2' ">
+                     when id=#{gpOperLog.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="remark =case" suffix="end,">
+              <foreach collection="list" item="gpOperLog" index="index">
+                  <if test="gpOperLog.remark != null and gpOperLog.remark  != ''  and gpOperLog.remark  != '-1' ">
+                     when id=#{gpOperLog.id} then #{gpOperLog.remark,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpOperLog.remark != null  and gpOperLog.remark  == '-1' ">
+                     when id=#{gpOperLog.id} then null
+                  </if>  
+                   <if test="gpOperLog.remark != null  and gpOperLog.remark  == '-2' ">
+                     when id=#{gpOperLog.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="add_time =case" suffix="end,">
+              <foreach collection="list" item="gpOperLog" index="index">
+                  <if test="gpOperLog.addTime != null " >
+                     when id=#{gpOperLog.id} then #{gpOperLog.addTime,jdbcType=TIMESTAMP}
+                  </if>
+              </foreach>
+         </trim>
+    </trim>
+    where id in
+		<foreach collection="list" item="gpOperLog" index="index" open="(" close=")" separator=",">
+			#{gpOperLog.id,jdbcType=VARCHAR}
+		</foreach>
+  </update>
+
+  
+  
+  <insert id="updateListWithDffOrAdd" useGeneratedKeys="true" keyProperty="id" parameterType="list">
+    replace into gp_oper_log
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+id,
+domain_id,
+object_id,
+oper_type_code,
+oper_type_text,
+table_name,
+total_count,
+income_value,
+income_count,
+return_value,
+is_success_code,
+result_code,
+result_message,
+remark,
+add_time,
+    </trim>
+    VALUES
+    <foreach collection="list" item="gpOperLog" index="index" separator=",">
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+              #{gpOperLog.id ,jdbcType=VARCHAR},
+                  
+                     #{gpOperLog.domainId ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpOperLog.objectId ,jdbcType=VARCHAR},
+                  
+                  
+                    #{gpOperLog.operTypeCode,jdbcType=TINYINT},
+            
+                  
+                     #{gpOperLog.operTypeText ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpOperLog.tableName ,jdbcType=VARCHAR},
+                  
+                  
+                    #{gpOperLog.totalCount,jdbcType=BIGINT},
+            
+                  
+                     #{gpOperLog.incomeValue ,jdbcType=VARCHAR},
+                  
+                  
+                    #{gpOperLog.incomeCount,jdbcType=INTEGER},
+            
+                  
+                     #{gpOperLog.returnValue ,jdbcType=VARCHAR},
+                  
+                  
+                    #{gpOperLog.isSuccessCode,jdbcType=TINYINT},
+            
+                  
+                    #{gpOperLog.resultCode,jdbcType=INTEGER},
+            
+                  
+                     #{gpOperLog.resultMessage ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpOperLog.remark ,jdbcType=VARCHAR},
+                  
+                  
+                    #{gpOperLog.addTime,jdbcType=TIMESTAMP},
+            
+      </trim>
+    </foreach>
+  </insert>
+
+
+  <select id="getModel" resultMap="BaseResultMap" parameterType="java.lang.String" >
+          select 
+                 <include refid="Base_Column_List" />
+          from gp_oper_log
+           where  id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+   
+  
+  <select id="getList" resultMap="BaseResultMap" parameterType="map" >
+          select
+                <include refid="Base_Column_List" />
+          from gp_oper_log where 1 = 1
+        <if test="EntityRelated.id != null and EntityRelated.id != '' ">
+			and id LIKE CONCAT('%',#{EntityRelated.id,jdbcType=VARCHAR},'%')
+		</if>
+
+		<if test="EntityRelated.beginAddTime != null ">
+				<![CDATA[ AND  unix_timestamp(add_time)>=unix_timestamp(#{EntityRelated.beginAddTime})]]> 
+		</if>
+		<if test="EntityRelated.endAddTime != null ">
+				<![CDATA[ AND  unix_timestamp(add_time)<unix_timestamp(#{EntityRelated.endAddTime})]]> 
+		</if>
+		<if test="EntityRelated.domainId != null and EntityRelated.domainId != '' ">
+				and domain_id = #{EntityRelated.domainId,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.id != null and EntityRelated.id != '' ">
+				and id = #{EntityRelated.id,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.incomeValue != null and EntityRelated.incomeValue != '' ">
+ 				and  income_value LIKE CONCAT('%',#{EntityRelated.incomeValue,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.isSuccessCode != null">
+				and is_success_code = #{EntityRelated.isSuccessCode,jdbcType=TINYINT} 
+		</if>
+		<if test="EntityRelated.objectId != null and EntityRelated.objectId != '' ">
+				and object_id = #{EntityRelated.objectId,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.operTypeCode != null">
+				and oper_type_code = #{EntityRelated.operTypeCode,jdbcType=TINYINT} 
+		</if>
+		<if test="EntityRelated.operTypeText != null and EntityRelated.operTypeText != '' ">
+ 				and  oper_type_text LIKE CONCAT('%',#{EntityRelated.operTypeText,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.remark != null and EntityRelated.remark != '' ">
+ 				and  remark LIKE CONCAT('%',#{EntityRelated.remark,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.resultCode != null">
+				and result_code = #{EntityRelated.resultCode,jdbcType=TINYINT} 
+		</if>
+		<if test="EntityRelated.resultMessage != null and EntityRelated.resultMessage != '' ">
+ 				and  result_message LIKE CONCAT('%',#{EntityRelated.resultMessage,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.returnValue != null and EntityRelated.returnValue != '' ">
+ 				and  return_value LIKE CONCAT('%',#{EntityRelated.returnValue,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.tableName != null and EntityRelated.tableName != '' ">
+ 				and  table_name LIKE CONCAT('%',#{EntityRelated.tableName,jdbcType=VARCHAR},'%') 
+		</if>
+
+
+		<if test="OrderList != null and OrderList!=null">
+			order by
+			<foreach collection="OrderList" item="Order" index="index" separator=",">
+				${Order.columnName}
+				<if test="Order.isASC">
+					ASC
+				</if>
+				<if test="!Order.isASC">
+					DESC
+				</if>
+			</foreach>
+		</if>
+  </select>
+  
+	<select id="getListBySQL" resultType="java.util.HashMap" parameterType="String">
+		<if test="value!=null and value!=''">
+			${value}
+		</if>
+	</select>
+
+  <cache />
+</mapper>
