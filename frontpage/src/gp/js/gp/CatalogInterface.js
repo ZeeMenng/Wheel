@@ -106,7 +106,7 @@ function initUlCatalogCategoryTree(catalogCategoryCode) {
 				}
 			});
 
-			fuzzySearch("ulCatalogCategoryTree", '#textInterfaceCatalogTreeSearch', null, true); // 初始化模糊搜索方法
+			fuzzySearch("ulCatalogCategoryTree", '#textCatalogCategoryTreeSearch', null, true); // 初始化模糊搜索方法
 		}
 	};
 	universalAjax(ajaxParamter);

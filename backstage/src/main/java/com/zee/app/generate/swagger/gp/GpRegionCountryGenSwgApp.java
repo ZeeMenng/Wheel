@@ -34,11 +34,11 @@ import net.sf.json.JSONObject;
 /**
  * @author Zee
  * @createDate 2017/05/22 15:00:55
- * @updateDate 2021/2/2 19:55:54
- * @description åœ°åŒºä¿¡æ¯ã€‚ å¯¹å¤–æ¥å£ï¼Œæ‰©å±•è‡ªBaseSwgAppï¼Œè‡ªåŠ¨ç”Ÿæˆã€‚
+ * @updateDate 2021/9/6 15:48:41
+ * @description µØÇøĞÅÏ¢¡£ ¶ÔÍâ½Ó¿Ú£¬À©Õ¹×ÔBaseSwgApp£¬×Ô¶¯Éú³É¡£
  */
 
-@Api(value = "GpRegionCountry",tags="åœ°åŒºä¿¡æ¯ã€‚")
+@Api(value = "GpRegionCountry",tags="µØÇøĞÅÏ¢¡£")
 @RequestMapping(value = "/generate/swagger/gp/gpRegionCountry")
 public class GpRegionCountryGenSwgApp extends BaseSwgApp {
 
@@ -50,8 +50,8 @@ public class GpRegionCountryGenSwgApp extends BaseSwgApp {
 	@Qualifier("gpRegionCountrySplBll")
 	protected GpRegionCountrySplBll gpRegionCountrySplBll;
 
-	@ApiOperation(value = "æ–°å¢è®°å½•", notes = "æ–°å¢å•æ¡è®°å½•")
-	@ApiImplicitParams({ @ApiImplicitParam(paramType = "body", name = "jsonData", value = "jsonå­—ç¬¦ä¸²", required = true, dataType = "GpRegionCountry") })
+	@ApiOperation(value = "ĞÂÔö¼ÇÂ¼", notes = "ĞÂÔöµ¥Ìõ¼ÇÂ¼")
+	@ApiImplicitParams({ @ApiImplicitParam(paramType = "body", name = "jsonData", value = "json×Ö·û´®", required = true, dataType = "GpRegionCountry") })
 	@RequestMapping(value = "/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResultModel add(@RequestBody GpRegionCountry jsonData) {
 		ResultModel result = gpRegionCountryUntBll.add(jsonData);
@@ -59,8 +59,8 @@ public class GpRegionCountryGenSwgApp extends BaseSwgApp {
 		return result;
 	}
 
-	@ApiOperation(value = "æ‰¹é‡æ–°å¢", notes = "æ–°å¢å¤šæ¡è®°å½•")
-	@ApiImplicitParams({ @ApiImplicitParam(paramType = "body", name = "jsonData", value = "jsonå­—ç¬¦ä¸²ï¼Œå¯¹è±¡åˆ—è¡¨", required = true, dataType = "GpRegionCountryAddList") })
+	@ApiOperation(value = "ÅúÁ¿ĞÂÔö", notes = "ĞÂÔö¶àÌõ¼ÇÂ¼")
+	@ApiImplicitParams({ @ApiImplicitParam(paramType = "body", name = "jsonData", value = "json×Ö·û´®£¬¶ÔÏóÁĞ±í", required = true, dataType = "GpRegionCountryAddList") })
 	@RequestMapping(value = "/addList", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResultModel addList(@RequestBody GpRegionCountryParameter.AddList jsonData) {
 		ResultModel result = gpRegionCountryUntBll.add(jsonData.getEntityList());
@@ -68,8 +68,8 @@ public class GpRegionCountryGenSwgApp extends BaseSwgApp {
 		return result;
 	}
 
-	@ApiOperation(value = "åˆ é™¤è®°å½•", notes = "æ ¹æ®ä¸»é”®åˆ é™¤ç›¸åº”è®°å½•")
-	@ApiImplicitParam(paramType = "query", name = "id", value = "ç”¨æˆ·ID", required = true, dataType = "String")
+	@ApiOperation(value = "É¾³ı¼ÇÂ¼", notes = "¸ù¾İÖ÷¼üÉ¾³ıÏàÓ¦¼ÇÂ¼")
+	@ApiImplicitParam(paramType = "query", name = "id", value = "ÓÃ»§ID", required = true, dataType = "String")
 	@RequestMapping(value = "/delete", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResultModel delete(@RequestParam String id) {
 		ResultModel result = gpRegionCountryUntBll.delete(id);
@@ -77,8 +77,8 @@ public class GpRegionCountryGenSwgApp extends BaseSwgApp {
 		return result;
 	}
 
-	@ApiOperation(value = "åˆ é™¤è®°å½•", notes = "æ ¹æ®ä¸»é”®åˆ é™¤ç›¸åº”è®°å½•ï¼Œè·¯å¾„æ‹¼æ¥æ¨¡å¼")
-	@ApiImplicitParam(paramType = "path", name = "id", value = "ç”¨æˆ·ID", required = true, dataType = "String")
+	@ApiOperation(value = "É¾³ı¼ÇÂ¼", notes = "¸ù¾İÖ÷¼üÉ¾³ıÏàÓ¦¼ÇÂ¼£¬Â·¾¶Æ´½ÓÄ£Ê½")
+	@ApiImplicitParam(paramType = "path", name = "id", value = "ÓÃ»§ID", required = true, dataType = "String")
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResultModel deleteByPath(@PathVariable("id") String id) {
 		ResultModel result = gpRegionCountryUntBll.delete(id);
@@ -86,8 +86,8 @@ public class GpRegionCountryGenSwgApp extends BaseSwgApp {
 		return result;
 	}
 
-	@ApiOperation(value = "æ‰¹é‡åˆ é™¤", notes = "æ ¹æ®ä¸»é”®åˆ—è¡¨æ‰¹é‡åˆ é™¤ç›¸åº”è®°å½•")
-	@ApiImplicitParam(paramType = "body", name = "jsonData", value = "jsonå­—ç¬¦ä¸²ï¼Œä¸»é”®åˆ—è¡¨", required = true, dataType = "GpRegionCountryDeleteByIdList")
+	@ApiOperation(value = "ÅúÁ¿É¾³ı", notes = "¸ù¾İÖ÷¼üÁĞ±íÅúÁ¿É¾³ıÏàÓ¦¼ÇÂ¼")
+	@ApiImplicitParam(paramType = "body", name = "jsonData", value = "json×Ö·û´®£¬Ö÷¼üÁĞ±í", required = true, dataType = "GpRegionCountryDeleteByIdList")
 	@RequestMapping(value = "/deleteList", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResultModel deleteList(@RequestBody GpRegionCountryParameter.DeleteByIdList jsonData) {
 		ResultModel result = gpRegionCountryUntBll.deleteByIdList(jsonData.getIdList());
@@ -95,8 +95,8 @@ public class GpRegionCountryGenSwgApp extends BaseSwgApp {
 		return result;
 	}
 
-	@ApiOperation(value = "ä¿®æ”¹è®°å½•", notes = "ä¿®æ”¹æŒ‡å®šè®°å½•")
-	@ApiImplicitParams({ @ApiImplicitParam(paramType = "body", name = "jsonData", value = "jsonå­—ç¬¦ä¸²ï¼Œå®ä½“å±æ€§", required = true, dataType = "GpRegionCountry") })
+	@ApiOperation(value = "ĞŞ¸Ä¼ÇÂ¼", notes = "ĞŞ¸ÄÖ¸¶¨¼ÇÂ¼")
+	@ApiImplicitParams({ @ApiImplicitParam(paramType = "body", name = "jsonData", value = "json×Ö·û´®£¬ÊµÌåÊôĞÔ", required = true, dataType = "GpRegionCountry") })
 	@RequestMapping(value = "/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResultModel update(@RequestBody GpRegionCountry jsonData) {
 		ResultModel result = gpRegionCountryUntBll.update(jsonData);
@@ -104,8 +104,8 @@ public class GpRegionCountryGenSwgApp extends BaseSwgApp {
 		return result;
 	}
 
-	@ApiOperation(value = "æ‰¹é‡ä¿®æ”¹", notes = "åŒæ—¶ä¿®æ”¹å¤šæ¡è®°å½•")
-	@ApiImplicitParams({ @ApiImplicitParam(paramType = "body", name = "jsonData", value = "jsonå­—ç¬¦ä¸²ï¼Œä¸»é”®åˆ—è¡¨å’Œè¦ä¿®æ”¹ä¸ºçš„ä¿¡æ¯æ‰¿è½½å®ä½“", required = true, dataType = "GpRegionCountryUpdateList") })
+	@ApiOperation(value = "ÅúÁ¿ĞŞ¸Ä", notes = "Í¬Ê±ĞŞ¸Ä¶àÌõ¼ÇÂ¼")
+	@ApiImplicitParams({ @ApiImplicitParam(paramType = "body", name = "jsonData", value = "json×Ö·û´®£¬Ö÷¼üÁĞ±íºÍÒªĞŞ¸ÄÎªµÄĞÅÏ¢³ĞÔØÊµÌå", required = true, dataType = "GpRegionCountryUpdateList") })
 	@RequestMapping(value = "/updateList", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResultModel updateList(@RequestBody GpRegionCountryParameter.UpdateList jsonData) {
 		ResultModel result = gpRegionCountryUntBll.updateList(jsonData);
@@ -114,8 +114,8 @@ public class GpRegionCountryGenSwgApp extends BaseSwgApp {
 	}
     
     
-    @ApiOperation(value = "æ‰¹é‡ä¿®æ”¹", notes = "åŒæ—¶ä¿®æ”¹å¤šæ¡è®°å½•ã€å¤šä¸ªå±æ€§ä¸ºä¸åŒå€¼")
-	@ApiImplicitParams({ @ApiImplicitParam(paramType = "body", name = "jsonData", value = "jsonå­—ç¬¦ä¸²ï¼Œå¯¹è±¡åˆ—è¡¨", required = true, dataType = "GpRegionCountryAddList") })
+    @ApiOperation(value = "ÅúÁ¿ĞŞ¸Ä", notes = "Í¬Ê±ĞŞ¸Ä¶àÌõ¼ÇÂ¼¡¢¶à¸öÊôĞÔÎª²»Í¬Öµ")
+	@ApiImplicitParams({ @ApiImplicitParam(paramType = "body", name = "jsonData", value = "json×Ö·û´®£¬¶ÔÏóÁĞ±í", required = true, dataType = "GpRegionCountryAddList") })
 	@RequestMapping(value = "/updateListWithDff", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResultModel updateListWithDff(@RequestBody GpRegionCountryParameter.AddList jsonData) {
 		ResultModel result = gpRegionCountryUntBll.updateListWithDff(jsonData.getEntityList());
@@ -124,8 +124,8 @@ public class GpRegionCountryGenSwgApp extends BaseSwgApp {
 	}
     
     
-    @ApiOperation(value = "æ‰¹é‡ä¿®æ”¹", notes = "åŒæ—¶ä¿®æ”¹å¤šæ¡è®°å½•ã€å¤šä¸ªå±æ€§ä¸ºä¸åŒå€¼,å¦‚æœæ²¡æœ‰æ­¤æ¡è®°å½•åˆ™æ‰§è¡Œæ–°å¢")
-	@ApiImplicitParams({ @ApiImplicitParam(paramType = "body", name = "jsonData", value = "jsonå­—ç¬¦ä¸²ï¼Œå¯¹è±¡åˆ—è¡¨", required = true, dataType = "GpRegionCountryAddList") })
+    @ApiOperation(value = "ÅúÁ¿ĞŞ¸Ä", notes = "Í¬Ê±ĞŞ¸Ä¶àÌõ¼ÇÂ¼¡¢¶à¸öÊôĞÔÎª²»Í¬Öµ,Èç¹ûÃ»ÓĞ´ËÌõ¼ÇÂ¼ÔòÖ´ĞĞĞÂÔö")
+	@ApiImplicitParams({ @ApiImplicitParam(paramType = "body", name = "jsonData", value = "json×Ö·û´®£¬¶ÔÏóÁĞ±í", required = true, dataType = "GpRegionCountryAddList") })
 	@RequestMapping(value = "/updateListWithDffOrAdd", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResultModel updateListWithDffOrAdd(@RequestBody GpRegionCountryParameter.AddList jsonData) {
 		ResultModel result = gpRegionCountryUntBll.updateListWithDffOrAdd(jsonData.getEntityList());
@@ -134,8 +134,8 @@ public class GpRegionCountryGenSwgApp extends BaseSwgApp {
 	}
      
 
-	@ApiOperation(value = "å•æ¡æŸ¥è¯¢", notes = "æ ¹æ®ä¸»é”®æŸ¥è¯¢è®°å½•è¯¦ç»†ä¿¡æ¯")
-	@ApiImplicitParam(paramType = "query", name = "id", value = "ç”¨æˆ·ID", required = true, dataType = "String")
+	@ApiOperation(value = "µ¥Ìõ²éÑ¯", notes = "¸ù¾İÖ÷¼ü²éÑ¯¼ÇÂ¼ÏêÏ¸ĞÅÏ¢")
+	@ApiImplicitParam(paramType = "query", name = "id", value = "ÓÃ»§ID", required = true, dataType = "String")
 	@RequestMapping(value = "/getModel", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResultModel getModel(@RequestParam String id) {
 		ResultModel result = gpRegionCountryUntBll.getModel(id);
@@ -143,8 +143,8 @@ public class GpRegionCountryGenSwgApp extends BaseSwgApp {
 		return result;
 	}
 
-	@ApiOperation(value = "å•æ¡æŸ¥è¯¢", notes = "æ ¹æ®ä¸»é”®æŸ¥è¯¢è®°å½•è¯¦ç»†ä¿¡æ¯,è·¯å¾„æ‹¼æ¥æ¨¡å¼")
-	@ApiImplicitParam(paramType = "path", name = "id", value = "ç”¨æˆ·ID", required = true, dataType = "String")
+	@ApiOperation(value = "µ¥Ìõ²éÑ¯", notes = "¸ù¾İÖ÷¼ü²éÑ¯¼ÇÂ¼ÏêÏ¸ĞÅÏ¢,Â·¾¶Æ´½ÓÄ£Ê½")
+	@ApiImplicitParam(paramType = "path", name = "id", value = "ÓÃ»§ID", required = true, dataType = "String")
 	@RequestMapping(value = "/getModel/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResultModel getModelByPath(@PathVariable("id") String id) {
 		ResultModel result = gpRegionCountryUntBll.getModel(id);
@@ -152,17 +152,17 @@ public class GpRegionCountryGenSwgApp extends BaseSwgApp {
 		return result;
 	}
 
-	@ApiOperation(value = "æ¨¡ç³ŠæŸ¥è¯¢", notes = "æ ¹æ®æŸ¥è¯¢æ¡ä»¶æ¨¡ç³ŠæŸ¥è¯¢")
-	@ApiImplicitParams({ @ApiImplicitParam(paramType = "body", name = "jsonData", value = "jsonå­—ç¬¦ä¸²ï¼ŒæŸ¥è¯¢å‚æ•°", required = true, dataType = "GpRegionCountryGetList") })
+	@ApiOperation(value = "Ä£ºı²éÑ¯", notes = "¸ù¾İ²éÑ¯Ìõ¼şÄ£ºı²éÑ¯")
+	@ApiImplicitParams({ @ApiImplicitParam(paramType = "body", name = "jsonData", value = "json×Ö·û´®£¬²éÑ¯²ÎÊı", required = true, dataType = "GpRegionCountryGetList") })
 	@RequestMapping(value = "/getList", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResultModel getList(@RequestBody GpRegionCountryParameter.GetList jsonData) {
-		// å¤„ç†ä¸šåŠ¡ä¸è¿”å›æ•°æ®
+		// ´¦ÀíÒµÎñÓë·µ»ØÊı¾İ
 		ResultModel result = gpRegionCountryUntBll.getList(jsonData);
 
 		return result;
 	}
     
-	@ApiOperation(value = "æ¨¡ç³ŠæŸ¥è¯¢", notes = "æ ¹æ®æŸ¥è¯¢æ¡ä»¶æ¨¡ç³ŠæŸ¥è¯¢")
+	@ApiOperation(value = "Ä£ºı²éÑ¯", notes = "¸ù¾İ²éÑ¯Ìõ¼şÄ£ºı²éÑ¯")
 	@RequestMapping(value = "/getListByJsonData", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResultModel getListByJsonData() {
 		ResultModel resultModel = new ResultModel();
@@ -173,7 +173,7 @@ public class GpRegionCountryGenSwgApp extends BaseSwgApp {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		StringBuffer selectBuffer = new StringBuffer();
-		selectBuffer.append("select A.id id,A.iso_code isoCode,A.chinese_name chineseName,A.english_name englishName,A.abbreviation abbreviation,A.is_display_code isDisplayCode,A.longitude longitude,A.latitude latitude,A.area area,A.remark remark  from gp_region_country A inner join gp_region_country B on A.id=B.id where 1=1 ");
+		selectBuffer.append("select A.id id,A.chinese_name chineseName,A.english_name englishName,A.alpha2 alpha2,A.alpha3 alpha3,A.numeric_key numericKey,A.iso iso,A.is_independent_code isIndependentCode,A.longitude longitude,A.latitude latitude,A.area area,A.is_display_code isDisplayCode,A.remark remark  from gp_region_country A inner join gp_region_country B on A.id=B.id where 1=1 ");
         
         if (!StringUtils.isBlank(jsonData)) {
 			JSONObject jsonObject = JSONObject.fromObject(jsonData);
@@ -192,12 +192,12 @@ public class GpRegionCountryGenSwgApp extends BaseSwgApp {
 			if (jsonObject.containsKey("entityRelated")) {
 				JSONObject entityRelatedObject = jsonObject.getJSONObject("entityRelated");
                 
-				if (entityRelatedObject.containsKey("isoCode") && StringUtils.isNotBlank(entityRelatedObject.getString("isoCode")))
-					selectBuffer.append(" and A.iso_code like '%").append(entityRelatedObject.getString("isoCode")).append("%'");
 				if (entityRelatedObject.containsKey("chineseName") && StringUtils.isNotBlank(entityRelatedObject.getString("chineseName")))
 					selectBuffer.append(" and A.chinese_name like '%").append(entityRelatedObject.getString("chineseName")).append("%'");
 				if (entityRelatedObject.containsKey("englishName") && StringUtils.isNotBlank(entityRelatedObject.getString("englishName")))
 					selectBuffer.append(" and A.english_name like '%").append(entityRelatedObject.getString("englishName")).append("%'");
+				if (entityRelatedObject.containsKey("alpha2") && StringUtils.isNotBlank(entityRelatedObject.getString("alpha2")))
+					selectBuffer.append(" and A.alpha2 like '%").append(entityRelatedObject.getString("alpha2")).append("%'");
 			}
 
 			if (jsonObject.containsKey("page")) {
@@ -228,7 +228,7 @@ public class GpRegionCountryGenSwgApp extends BaseSwgApp {
 	@RequestMapping(value = "/exportExcel", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public void exportExcel() {
 		ResultModel resultModel = getListByJsonData();
-		String fileName = "åœ°åŒºä¿¡æ¯åˆ—è¡¨æ•°æ®" + DateUtils.getCurrentDateStr() + ".xls";
+		String fileName = "µØÇøĞÅÏ¢ÁĞ±íÊı¾İ" + DateUtils.getCurrentDateStr() + ".xls";
 		String jsonData = request.getParameter(CustomSymbolic.CONTROLLER_PARAM_JSON);
 		JSONArray columnInfoList = new JSONArray();
 		if (!StringUtils.isBlank(jsonData)) {

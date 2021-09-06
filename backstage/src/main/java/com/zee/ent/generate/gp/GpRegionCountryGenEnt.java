@@ -13,15 +13,17 @@ import com.zee.ent.base.BaseEnt;
 /**
  * @author Zee
  * @createDate 2017/05/18 14:54:22
- * @updateDate 2021/2/2 18:48:51
+ * @updateDate 2021/9/6 15:48:48
  * @description 实体类GpRegionCountryGenEnt，自动生成。地区信息。
  */
 
 public class GpRegionCountryGenEnt extends BaseEnt implements Serializable {
     
     private static final long serialVersionUID = 1L;
-    @ApiModelProperty(value="简称",hidden=false,required=false)
-    private String abbreviation;
+    @ApiModelProperty(value="二位代码",hidden=false,required=false)
+    private String alpha2;
+    @ApiModelProperty(value="三位代码",hidden=false,required=false)
+    private String alpha3;
     @ApiModelProperty(value="国家面积。单位平方公里（ SquareKilometer sq . km ）。",hidden=false,required=false)
     private Integer area;
     @ApiModelProperty(value="中文名称。",hidden=false,required=false)
@@ -32,12 +34,16 @@ public class GpRegionCountryGenEnt extends BaseEnt implements Serializable {
     private String id;
     @ApiModelProperty(value="是否显示。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，两种类型：0是，1否。默认值0。",allowableValues="0,1",hidden=false,required=false)
     private Byte isDisplayCode;
-    @ApiModelProperty(value="国家编码。使用ISO-3166-1标准中的Alpha3编码。",allowableValues="0,1",hidden=false,required=false)
-    private String isoCode;
+    @ApiModelProperty(value="是否独立主权。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，两种类型：0是，1否。默认值0。",allowableValues="0,1",hidden=false,required=false)
+    private Byte isIndependentCode;
+    @ApiModelProperty(value="ISO 3166-2国际标准代码。",hidden=false,required=false)
+    private String iso;
     @ApiModelProperty(value="地区纬度。",hidden=false,required=false)
     private String latitude;
     @ApiModelProperty(value="地区经度。",hidden=false,required=false)
     private String longitude;
+    @ApiModelProperty(value="ISO 3166-1三位数字代码。",hidden=false,required=true)
+    private String numericKey;
     @ApiModelProperty(value="备注字段。",hidden=false,required=false)
     private String remark;
 
@@ -49,17 +55,31 @@ public class GpRegionCountryGenEnt extends BaseEnt implements Serializable {
 
 
 	/**
-	 * get方法。简称
+	 * get方法。二位代码
 	 */
-	public String getAbbreviation() {
-		return this.abbreviation;
+	public String getAlpha2() {
+		return this.alpha2;
 	}
 
 	/**
-	 * set方法。简称
+	 * set方法。二位代码
 	 */
-	public void setAbbreviation(String abbreviation) {
-		this.abbreviation = abbreviation;
+	public void setAlpha2(String alpha2) {
+		this.alpha2 = alpha2;
+	}
+    
+	/**
+	 * get方法。三位代码
+	 */
+	public String getAlpha3() {
+		return this.alpha3;
+	}
+
+	/**
+	 * set方法。三位代码
+	 */
+	public void setAlpha3(String alpha3) {
+		this.alpha3 = alpha3;
 	}
     
 	/**
@@ -133,17 +153,31 @@ public class GpRegionCountryGenEnt extends BaseEnt implements Serializable {
 	}
     
 	/**
-	 * get方法。国家编码。使用ISO-3166-1标准中的Alpha3编码。
+	 * get方法。是否独立主权。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，两种类型：0是，1否。默认值0。
 	 */
-	public String getIsoCode() {
-		return this.isoCode;
+	public Byte getIsIndependentCode() {
+		return this.isIndependentCode;
 	}
 
 	/**
-	 * set方法。国家编码。使用ISO-3166-1标准中的Alpha3编码。
+	 * set方法。是否独立主权。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，两种类型：0是，1否。默认值0。
 	 */
-	public void setIsoCode(String isoCode) {
-		this.isoCode = isoCode;
+	public void setIsIndependentCode(Byte isIndependentCode) {
+		this.isIndependentCode = isIndependentCode;
+	}
+    
+	/**
+	 * get方法。ISO 3166-2国际标准代码。
+	 */
+	public String getIso() {
+		return this.iso;
+	}
+
+	/**
+	 * set方法。ISO 3166-2国际标准代码。
+	 */
+	public void setIso(String iso) {
+		this.iso = iso;
 	}
     
 	/**
@@ -172,6 +206,20 @@ public class GpRegionCountryGenEnt extends BaseEnt implements Serializable {
 	 */
 	public void setLongitude(String longitude) {
 		this.longitude = longitude;
+	}
+    
+	/**
+	 * get方法。ISO 3166-1三位数字代码。
+	 */
+	public String getNumericKey() {
+		return this.numericKey;
+	}
+
+	/**
+	 * set方法。ISO 3166-1三位数字代码。
+	 */
+	public void setNumericKey(String numericKey) {
+		this.numericKey = numericKey;
 	}
     
 	/**

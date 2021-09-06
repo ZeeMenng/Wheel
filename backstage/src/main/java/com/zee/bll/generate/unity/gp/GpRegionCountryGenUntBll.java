@@ -28,7 +28,7 @@ import net.sf.json.JSONObject;
 /**
  * @author Zee
  * @createDate 2017/05/22 14:01:41
- * @updateDate 2021/2/2 18:48:17
+ * @updateDate 2021/9/6 15:48:46
  * @description 地区信息。 业务逻辑处理类，扩展自BaseUntBll<GpRegionCountry>，自动生成。
  */
 public class GpRegionCountryGenUntBll extends BaseUntBll<GpRegionCountry> {
@@ -148,17 +148,17 @@ public class GpRegionCountryGenUntBll extends BaseUntBll<GpRegionCountry> {
 	}
 
 
-	public ResultModel deleteByIsoCode(String isoCode){
-		return deleteByIsoCode( isoCode, isLogRead);
+	public ResultModel deleteByIso(String iso){
+		return deleteByIso( iso, isLogRead);
 	}
 
-	public ResultModel deleteByIsoCode(String isoCode, boolean isLog) {
+	public ResultModel deleteByIso(String iso, boolean isLog) {
 		ResultModel result = new ResultModel();
 
 		try {
 			result.setAddTime(DateUtils.getCurrentTime());
 			result.setId(Tools.getUUID());
-			result.setIncomeValue(isoCode);
+			result.setIncomeValue(iso);
 			result.setIncomeCount(1);
 			
 			result.setTableName(this.getClass().getSimpleName());
@@ -166,7 +166,7 @@ public class GpRegionCountryGenUntBll extends BaseUntBll<GpRegionCountry> {
 			result.setOperTypeText(OperType.DELETEBYUNIQUE.getText());
 			result.setRemark("");
 
-			int i = gpRegionCountryUntDal.deleteByIsoCode(isoCode);
+			int i = gpRegionCountryUntDal.deleteByIso(iso);
 
             result.setReturnValue(String.valueOf(i));
 			result.setData(i);
@@ -192,17 +192,17 @@ public class GpRegionCountryGenUntBll extends BaseUntBll<GpRegionCountry> {
 	}
     
 
-	public ResultModel getModelByIsoCode(String isoCode){
-		return getModelByIsoCode( isoCode, isLogRead);
+	public ResultModel getModelByIso(String iso){
+		return getModelByIso( iso, isLogRead);
 	}
 
-	public ResultModel getModelByIsoCode(String isoCode, boolean isLog) {
+	public ResultModel getModelByIso(String iso, boolean isLog) {
 		ResultModel result = new ResultModel();
 
 		try {
 			result.setAddTime(DateUtils.getCurrentTime());
 			result.setId(Tools.getUUID());
-			result.setIncomeValue(isoCode);
+			result.setIncomeValue(iso);
 			result.setIncomeCount(0);
 			
 			result.setTableName(this.getClass().getSimpleName());
@@ -210,7 +210,7 @@ public class GpRegionCountryGenUntBll extends BaseUntBll<GpRegionCountry> {
 			result.setOperTypeText(OperType.GETMODELBYUNIQUE.getText());
 			result.setRemark("");
 
-			GpRegionCountry t = gpRegionCountryUntDal.getModelByIsoCode(isoCode);
+			GpRegionCountry t = gpRegionCountryUntDal.getModelByIso(iso);
 
 			result.setData(t);
 			result.setTotalCount(new Long(1));
@@ -241,17 +241,17 @@ public class GpRegionCountryGenUntBll extends BaseUntBll<GpRegionCountry> {
 		return result;
 	}
     
-   public ResultModel isUniqueIsoCode(String isoCode){
-		return isUniqueIsoCode(isoCode, isLogRead);
+   public ResultModel isUniqueIso(String iso){
+		return isUniqueIso(iso, isLogRead);
 	}
 
-	public ResultModel isUniqueIsoCode(String isoCode, boolean isLog) {
+	public ResultModel isUniqueIso(String iso, boolean isLog) {
 		ResultModel result = new ResultModel();
 
 		try {
 			result.setAddTime(DateUtils.getCurrentTime());
 			result.setId(Tools.getUUID());
-			result.setIncomeValue(isoCode);
+			result.setIncomeValue(iso);
 			result.setIncomeCount(0);
 			result.setObjectId(null);
 			result.setTableName(this.getClass().getSimpleName());
@@ -259,7 +259,7 @@ public class GpRegionCountryGenUntBll extends BaseUntBll<GpRegionCountry> {
 			result.setOperTypeText(OperType.ISUNIQUE.getText());
 			result.setRemark("");
 
-			int i = gpRegionCountryUntDal.isUniqueIsoCode(isoCode);
+			int i = gpRegionCountryUntDal.isUniqueIso(iso);
 
 			result.setTotalCount(i);
             result.setReturnValue(String.valueOf(i));
