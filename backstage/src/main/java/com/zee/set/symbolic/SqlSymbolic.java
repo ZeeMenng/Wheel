@@ -40,6 +40,8 @@ public class SqlSymbolic {
 
 	//查询系统组件
 	public static final String SQL_SELECT_CONTROL_UNIQUE="select A.id id,A.domain_id domainId,A.code code,B.name domainName,A.page_id pageId,A.page_url pageUrl,A.name name,A.serial_no serialNo,A.remark remark,A.add_time addTime,A.update_time updateTime  from gp_control A left join gp_domain B on A.domain_id=B.id where A.id = '%s' ";
-	
-	
+
+
+	// 查询地区列表
+	public static final String SQL_SELECT_REGION_LIST = "select A.id id,A.code code,A.name name,A.english_name englishName,A.farther_code fartherCode,A.region_level regionLevel,A.category_code categoryCode,A.category_fine_grit categoryFineGrit,A.latitude latitude,A.longitude longitude,A.area area,A.iso iso,A.country_iso countryIso,A.is_display_code isDisplayCode,A.remark remark  from gp_region A inner join gp_region B on A.id=B.id where 1=1";
 }

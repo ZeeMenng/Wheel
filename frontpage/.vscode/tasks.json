@@ -3,12 +3,12 @@
 	"command": "npm",
 	"tasks": [
 		{
-			"label": "debugMango",
+			"label": "debugWheel",
 			"isBackground": true,
 			"type": "npm",
 			"script": "build",
 			"group": "build",
-			"path": "/dist",
+			"path": "/src",
 			"detail": "编译至开发环境",
 			"problemMatcher": {
                 "owner": "typescript",

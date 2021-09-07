@@ -5,145 +5,150 @@
  * @description 地区信息。 相关页面的js方法。
  */
 
-$(document).ready(function() {
 
-	// 初始化下拉框--是否显示
-	var selectParam = {
-		selectId : "selectIsDisplayCode",
-		textField : "text",
-		valueField : "code"
+
+
+
+
+function initUlRegionTree(regionCountryISO) {
+
+	var jsonData = {
+		"entityRelated": {
+			countryIso : regionCountryISO
+		},
+		"orderList": [{
+			"columnName": "code",
+			"isASC": true
+		}]
 	};
-	var ajaxParam = {
-		url : RU_GPDICTIONARY_GETLISTBYTYPEID + DI_BOOLEAN
-	}
-	initDropDownList(selectParam, ajaxParam);
-
-	// 初始化下拉框--地区类别字典
-	var selectParam = {
-		selectId : "textCategorySelect",
-		textField : "text",
-		valueField : "code"
-	};
-	var ajaxParam = {
-		url : RU_GPDICTIONARY_GETLISTBYTYPEID + DI_CATEGORY
-	}
-	initDropDownList(selectParam, ajaxParam);
-
-	// 初始化下拉框--区域等级
-	var selectParam = {
-		selectId : "selectRegionLevel",
-		textField : "text",
-		valueField : "code"
-	};
-	var ajaxParam = {
-		url : RU_GPDICTIONARY_GETLISTBYTYPEID + DI_REGION_LEVEL
-	}
-	initDropDownList(selectParam, ajaxParam);
-
-	// 初始化列表页主体部分，包括查询条件表单及数据表格等。
-	var pageParam = {
-		formId : "queryBuilderForm",
-		tableId : "contentTable",
-		editPage : {
-			title : "批量修改表单",
-			url : RP_GPREGION_EDIT
+	// 树形结构begin
+	var setting = {
+		check: {
+			enable: false
 		},
-		detailPage : {
-			url : RP_GPREGION_DETAIL
+		view: {
+			addHoverDom: addHoverDom,
+			removeHoverDom: removeHoverDom,
+			selectedMulti: true,
+			dblClickExpand: false
 		},
-		addPage : {
-			url : RP_GPREGION_ADD
+		edit: {
+			enable: true,
+			editNameSelectAll: true
 		},
-		deleteInterface : {
-			url : RU_GPREGION_DELETE
+		url: {
+			addUrl: RU_GPREGION_ADD,
+			deleteListUrl: RU_GPREGION_DELETELIST,
+			updateListUrl: RU_GPREGION_UPDATELISTWITHDFF,
+			updateUrl: RU_GPREGION_UPDATE,
+			getModelUrl: RU_GPREGION_GETMODELBYPATH
 		},
-		deleteListInterface : {
-			url : RU_GPREGION_DELETELIST
-		},
-		exportExcelInterface : {
-			url : RU_GPREGION_EXPORTEXCEL
-		}
 
-	};
-	var ajaxParam = {
-		url : RU_GPREGION_GETLISTBYJSONDATA,
-		type : "GET",
-		submitData : {
-			"entityRelated" : {
-
-			},
-			"orderList" : [ {
-				"columnName" : "id",
-				"isASC" : true
-			} ],
-			"page" : {
-				"pageIndex" : DEFAULT_PAGE_INDEX,
-				"pageSize" : DEFAULT_PAGE_SIZE
+		data: {
+			simpleData: {
+				enable: true,
+				idKey: "code",
+				pIdKey: "fartherCode"
 			}
 		},
-		columnInfo : [
+		callback: {
+			beforeRemove: beforeRemove,
+			beforeRename: beforeRename,
+			onDrop: onDrop,
+			onDrag: onDrag,
+			onRemove: onRemove,
+			onRename: onRename,
+			onClick: onClick
 
-		{
-			"columnName" : "name",
-			"columnText" : "地区名称",
-			"style" : "text-align:left",
-			"linkFunction" : function(event) {
-				var href = RP_GPREGION_DETAIL + "?" + RECORD_ID + "=" + event.id;
-				return href;
-			},
-		}, {
-			"columnName" : "code",
-			"columnText" : "地区编码",
-			"style" : "text-align:center"
-		}, {
-			"columnName" : "longitude",
-			"columnText" : "地区经度",
-			"style" : "text-align:center",
-		}, {
-			"columnName" : "latitude",
-			"columnText" : "地区纬度",
-			"style" : "text-align:center",
-		}, {
-			"columnName" : "isDisplayCode",
-			"columnText" : "是否显示",
-			"style" : "text-align:center",
 		}
-
-		]
 	};
 
-	var operationParam = [ {
-		"operationText" : "修改",
-		"buttonClass" : "yellow",
-		"iconClass" : "fa fa-pencil-square-o",
-		"clickFunction" : function(event) {
-			window.location.href = pageParam.editPage.url + "?" + RECORD_ID + "=" + event.data.id;
-		}
-	}, {
-		"operationText" : "删除",
-		"buttonClass" : "red",
-		"iconClass" : "fa fa-trash-o",
-		"clickFunction" : function(event) {
-			layer.confirm('您确定要删除当前记录？', {
-				btn : [ '确定', '取消' ]
-			}, function() {
-				layer.closeAll('dialog');
-				ajaxParam.submitData.page.pageSize = $("#pageSizeText").val();
-				ajaxParam.submitData.page.pageIndex = $("#pageIndexHidden").val();
-				pageParam.deleteInterface.url = RU_GPREGION_DELETE;
-				pageParam.deleteInterface.type = "GET";
-				pageParam.deleteInterface.submitData = {
-					"id" : event.data.id,
-				};
-				deleteRecord(pageParam, ajaxParam, operationParam);
-			});
-		},
-		"visibleFunction" : function(recordData) {
-			if (recordData.status == "1")
-				return false;
-			return false;
-		}
-	} ];
-	initQueryForm(pageParam, ajaxParam, operationParam);
+	var zNodes = [{
+		id: null,
+		pId: 0,
+		name: "根节点",
+		open: true,
+		categoryCode: $("input[name='catalogTypeCodeRadio']:checked").val(),
+		categoryText: $("input[name='catalogTypeCodeRadio']:checked").text()
+	}];
 
-});
+	$.fn.zTree.init($("#ulRegionTree"), setting, zNodes);
+
+	var ajaxParamter = {
+		"url": RU_GPREGION_GETLISTBYJSONDATA + "?jsonData=" + JSON.stringify(jsonData),
+		"async": true,
+		"type": "GET",
+		"success": function (resultData) {
+			if (resultData.totalCount == 0)
+				return false
+			var moduleTree = $.fn.zTree.getZTreeObj("ulRegionTree");
+			zNodes = resultData.data;
+
+			$.fn.zTree.init($("#ulRegionTree"), setting, zNodes);
+
+			$(".ztree .level0 a").attr("style", "cursor:default")
+
+			// 树形菜单加上 F2快捷键
+			$("#ulRegionTree").on("keydown", "li", function (event) {
+				if (event.keyCode == 113) {
+					var node = moduleTree.getNodeByTId($(this).attr("id"));
+					moduleTree.editName(node);
+				}
+			});
+			// 展开节点
+			$.each(zNodes, function (index, value) {
+				if (value.regionLevel < 2) {
+					var node = moduleTree.getNodeByParam("id", value.id);
+					moduleTree.expandNode(node, true);// 展开指定节点
+				}
+			});
+
+			fuzzySearch("ulRegionTree", '#textRegionTreeSearch', null, true); // 初始化模糊搜索方法
+		}
+	};
+	universalAjax(ajaxParamter);
+}
+
+
+
+function onClick(e, treeId, treeNode) {
+	var zTree = $.fn.zTree.getZTreeObj(treeId);
+	var pageParam = {
+		treeId: treeId,
+		formId: "formEdit",
+		validateRules: {
+			textCode: {
+				required: true
+			},
+			textName: {
+				required: true
+			}, textLongitude: {
+				number: true
+			},
+			textLatitude: {
+				number: true
+			},
+			textArea: {
+				number: true
+			}
+		}
+	};
+	var ajaxParam = {
+		recordId: treeNode.id,
+		getModelAsync: false,
+		url: zTree.setting.url.updateUrl,
+		getModelUrl: zTree.setting.url.getModelUrl,
+		submitData: {}
+	};
+
+	var initResult = initZTreeEditForm(pageParam, ajaxParam);
+	if (!initResult.isSuccess) {
+		layer.alert("查询信息错误" + initResult.resultMessage, {
+			icon: 6
+		});
+		return;
+	}
+	if (initResult.data.iconIds != null) {
+		initEditFileInput(initResult.data.iconIds.split(","), initResult.data.iconPaths.split(","));
+	}
+}

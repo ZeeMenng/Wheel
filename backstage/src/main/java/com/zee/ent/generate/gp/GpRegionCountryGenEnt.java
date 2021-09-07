@@ -13,7 +13,7 @@ import com.zee.ent.base.BaseEnt;
 /**
  * @author Zee
  * @createDate 2017/05/18 14:54:22
- * @updateDate 2021/9/6 15:48:48
+ * @updateDate 2021/9/7 17:56:44
  * @description 实体类GpRegionCountryGenEnt，自动生成。地区信息。
  */
 

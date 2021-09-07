@@ -78,4 +78,7 @@ var DI_MANGO_GROWTH_TYPE = "28bfd9b417764edda2ea3902c29f5e2b";// 芒果生育期
 var DI_CASCADE = "999e9afeaeb143289f73c5fd3a592c19";
 
 // 服务编目方式
-var DI_CATALOG_INTERFACE = "1a02f72364be4bd2b9089dd211eb9bca"
+var DI_CATALOG_INTERFACE = "1a02f72364be4bd2b9089dd211eb9bca";
+
+//国家信息 中国
+var REGION_COUNTRY_ISO_CHINA="CN";

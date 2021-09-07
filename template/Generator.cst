@@ -190,13 +190,13 @@ private string classDirectory = String.Empty;
 
             ArrayList tableList = new ArrayList();
 
-           tableList.Add("gp_region_country");
+            tableList.Add("gp_region");
+            tableList.Add("gp_region_country");
 
-        if (tableList.Contains(table.Name))
+            if (tableList.Contains(table.Name))
             //   if (!table.Name.StartsWith("ds_"))  
-            if (table.Name.StartsWith("gp")) 
-           {
-               
+            if (table.Name.StartsWith("gp")) {
+
                 String fileUrl = "";
                 if (outputDirectory.EndsWith(".html") || outputDirectory.EndsWith(".js")) {
                     if (table.Name.Substring(2, 1) == "r")
@@ -211,9 +211,9 @@ private string classDirectory = String.Empty;
                 template.SetProperty("ModulePackageName", table.Name.Substring(0, 2));
 
                 //文件输出
-                template.RenderToFile(fileUrl,true);
+                template.RenderToFile(fileUrl, true);
             }
         }
 
-        }
+    }
 </script>

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.zee.dao.unity.gp.IGpRegionUntDal" >
 
@@ -6,18 +6,22 @@
               <id column="id" property="id" jdbcType="VARCHAR" />
               <result column="code" property="code" jdbcType="VARCHAR" />
               <result column="name" property="name" jdbcType="VARCHAR" />
-              <result column="category" property="category" jdbcType="TINYINT" />
+              <result column="english_name" property="englishName" jdbcType="VARCHAR" />
               <result column="farther_code" property="fartherCode" jdbcType="VARCHAR" />
-              <result column="is_display_code" property="isDisplayCode" jdbcType="TINYINT" />
               <result column="region_level" property="regionLevel" jdbcType="TINYINT" />
-              <result column="longitude" property="longitude" jdbcType="VARCHAR" />
+              <result column="category_code" property="categoryCode" jdbcType="TINYINT" />
+              <result column="category_fine_grit" property="categoryFineGrit" jdbcType="VARCHAR" />
               <result column="latitude" property="latitude" jdbcType="VARCHAR" />
+              <result column="longitude" property="longitude" jdbcType="VARCHAR" />
               <result column="area" property="area" jdbcType="INTEGER" />
+              <result column="iso" property="iso" jdbcType="VARCHAR" />
+              <result column="country_iso" property="countryIso" jdbcType="VARCHAR" />
+              <result column="is_display_code" property="isDisplayCode" jdbcType="TINYINT" />
               <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   
   <sql id="Base_Column_List" >
-        id,code,name,category,farther_code,is_display_code,region_level,longitude,latitude,area,remark
+        id,code,name,english_name,farther_code,region_level,category_code,category_fine_grit,latitude,longitude,area,iso,country_iso,is_display_code,remark
   </sql>
   
   <insert id="add" parameterType="com.zee.ent.extend.gp.GpRegion" >
@@ -35,29 +39,45 @@
               name,
           </if>
       
-          <if test="category != null " >
-              category,
+          <if test="englishName != null and englishName != '' " >
+              english_name,
           </if>
+      
           <if test="fartherCode != null and fartherCode != '' " >
               farther_code,
           </if>
       
-          <if test="isDisplayCode != null " >
-              is_display_code,
-          </if>
           <if test="regionLevel != null " >
               region_level,
           </if>
-          <if test="longitude != null and longitude != '' " >
-              longitude,
+          <if test="categoryCode != null " >
+              category_code,
+          </if>
+          <if test="categoryFineGrit != null and categoryFineGrit != '' " >
+              category_fine_grit,
           </if>
       
           <if test="latitude != null and latitude != '' " >
               latitude,
           </if>
       
+          <if test="longitude != null and longitude != '' " >
+              longitude,
+          </if>
+      
           <if test="area != null " >
               area,
+          </if>
+          <if test="iso != null and iso != '' " >
+              iso,
+          </if>
+      
+          <if test="countryIso != null and countryIso != '' " >
+              country_iso,
+          </if>
+      
+          <if test="isDisplayCode != null " >
+              is_display_code,
           </if>
           <if test="remark != null and remark != '' " >
               remark,
@@ -74,26 +94,38 @@
           <if test="name != null and name != '' " >
               #{name,jdbcType=VARCHAR},
           </if>
-          <if test="category != null " >
-              #{category,jdbcType=TINYINT},
+          <if test="englishName != null and englishName != '' " >
+              #{englishName,jdbcType=VARCHAR},
           </if>
           <if test="fartherCode != null and fartherCode != '' " >
               #{fartherCode,jdbcType=VARCHAR},
           </if>
-          <if test="isDisplayCode != null " >
-              #{isDisplayCode,jdbcType=TINYINT},
-          </if>
           <if test="regionLevel != null " >
               #{regionLevel,jdbcType=TINYINT},
           </if>
-          <if test="longitude != null and longitude != '' " >
-              #{longitude,jdbcType=VARCHAR},
+          <if test="categoryCode != null " >
+              #{categoryCode,jdbcType=TINYINT},
+          </if>
+          <if test="categoryFineGrit != null and categoryFineGrit != '' " >
+              #{categoryFineGrit,jdbcType=VARCHAR},
           </if>
           <if test="latitude != null and latitude != '' " >
               #{latitude,jdbcType=VARCHAR},
           </if>
+          <if test="longitude != null and longitude != '' " >
+              #{longitude,jdbcType=VARCHAR},
+          </if>
           <if test="area != null " >
               #{area,jdbcType=INTEGER},
+          </if>
+          <if test="iso != null and iso != '' " >
+              #{iso,jdbcType=VARCHAR},
+          </if>
+          <if test="countryIso != null and countryIso != '' " >
+              #{countryIso,jdbcType=VARCHAR},
+          </if>
+          <if test="isDisplayCode != null " >
+              #{isDisplayCode,jdbcType=TINYINT},
           </if>
           <if test="remark != null and remark != '' " >
               #{remark,jdbcType=VARCHAR},
@@ -113,13 +145,17 @@
           #{gpRegion.id,jdbcType=VARCHAR},
           #{gpRegion.code,jdbcType=VARCHAR},
           #{gpRegion.name,jdbcType=VARCHAR},
-          #{gpRegion.category,jdbcType=TINYINT},
+          #{gpRegion.englishName,jdbcType=VARCHAR},
           #{gpRegion.fartherCode,jdbcType=VARCHAR},
-          #{gpRegion.isDisplayCode,jdbcType=TINYINT},
           #{gpRegion.regionLevel,jdbcType=TINYINT},
-          #{gpRegion.longitude,jdbcType=VARCHAR},
+          #{gpRegion.categoryCode,jdbcType=TINYINT},
+          #{gpRegion.categoryFineGrit,jdbcType=VARCHAR},
           #{gpRegion.latitude,jdbcType=VARCHAR},
+          #{gpRegion.longitude,jdbcType=VARCHAR},
           #{gpRegion.area,jdbcType=INTEGER},
+          #{gpRegion.iso,jdbcType=VARCHAR},
+          #{gpRegion.countryIso,jdbcType=VARCHAR},
+          #{gpRegion.isDisplayCode,jdbcType=TINYINT},
           #{gpRegion.remark,jdbcType=VARCHAR},
 
         </trim>
@@ -139,13 +175,17 @@
           #{gpRegion.id,jdbcType=VARCHAR},
           #{gpRegion.code,jdbcType=VARCHAR},
           #{gpRegion.name,jdbcType=VARCHAR},
-          #{gpRegion.category,jdbcType=TINYINT},
+          #{gpRegion.englishName,jdbcType=VARCHAR},
           #{gpRegion.fartherCode,jdbcType=VARCHAR},
-          #{gpRegion.isDisplayCode,jdbcType=TINYINT},
           #{gpRegion.regionLevel,jdbcType=TINYINT},
-          #{gpRegion.longitude,jdbcType=VARCHAR},
+          #{gpRegion.categoryCode,jdbcType=TINYINT},
+          #{gpRegion.categoryFineGrit,jdbcType=VARCHAR},
           #{gpRegion.latitude,jdbcType=VARCHAR},
+          #{gpRegion.longitude,jdbcType=VARCHAR},
           #{gpRegion.area,jdbcType=INTEGER},
+          #{gpRegion.iso,jdbcType=VARCHAR},
+          #{gpRegion.countryIso,jdbcType=VARCHAR},
+          #{gpRegion.isDisplayCode,jdbcType=TINYINT},
           #{gpRegion.remark,jdbcType=VARCHAR},
 
         </trim>
@@ -154,13 +194,17 @@
 id=values(id),
 code=values(code),
 name=values(name),
-category=values(category),
+english_name=values(english_name),
 farther_code=values(farther_code),
-is_display_code=values(is_display_code),
 region_level=values(region_level),
-longitude=values(longitude),
+category_code=values(category_code),
+category_fine_grit=values(category_fine_grit),
 latitude=values(latitude),
+longitude=values(longitude),
 area=values(area),
+iso=values(iso),
+country_iso=values(country_iso),
+is_display_code=values(is_display_code),
 remark=values(remark)
         
     </insert>
@@ -208,9 +252,17 @@ remark=values(remark)
                      name = #{name,jdbcType=VARCHAR},
                   </when>
                   </choose>
-                  <if test="category != null ">
-                     category = #{category,jdbcType=TINYINT},
-                  </if>
+                    <choose>
+                   <when test="englishName != null and englishName=='-1'">
+                     english_name = null,
+                  </when>
+                  <when test="englishName != null and englishName=='-2'">
+                     english_name = '',
+                  </when>
+                  <when test="englishName != null  and englishName != '' " >
+                     english_name = #{englishName,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
                     <choose>
                    <when test="fartherCode != null and fartherCode=='-1'">
                      farther_code = null,
@@ -222,21 +274,21 @@ remark=values(remark)
                      farther_code = #{fartherCode,jdbcType=VARCHAR},
                   </when>
                   </choose>
-                  <if test="isDisplayCode != null ">
-                     is_display_code = #{isDisplayCode,jdbcType=TINYINT},
-                  </if>
                   <if test="regionLevel != null ">
                      region_level = #{regionLevel,jdbcType=TINYINT},
                   </if>
+                  <if test="categoryCode != null ">
+                     category_code = #{categoryCode,jdbcType=TINYINT},
+                  </if>
                     <choose>
-                   <when test="longitude != null and longitude=='-1'">
-                     longitude = null,
+                   <when test="categoryFineGrit != null and categoryFineGrit=='-1'">
+                     category_fine_grit = null,
                   </when>
-                  <when test="longitude != null and longitude=='-2'">
-                     longitude = '',
+                  <when test="categoryFineGrit != null and categoryFineGrit=='-2'">
+                     category_fine_grit = '',
                   </when>
-                  <when test="longitude != null  and longitude != '' " >
-                     longitude = #{longitude,jdbcType=VARCHAR},
+                  <when test="categoryFineGrit != null  and categoryFineGrit != '' " >
+                     category_fine_grit = #{categoryFineGrit,jdbcType=VARCHAR},
                   </when>
                   </choose>
                     <choose>
@@ -250,8 +302,44 @@ remark=values(remark)
                      latitude = #{latitude,jdbcType=VARCHAR},
                   </when>
                   </choose>
+                    <choose>
+                   <when test="longitude != null and longitude=='-1'">
+                     longitude = null,
+                  </when>
+                  <when test="longitude != null and longitude=='-2'">
+                     longitude = '',
+                  </when>
+                  <when test="longitude != null  and longitude != '' " >
+                     longitude = #{longitude,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
                   <if test="area != null ">
                      area = #{area,jdbcType=INTEGER},
+                  </if>
+                    <choose>
+                   <when test="iso != null and iso=='-1'">
+                     iso = null,
+                  </when>
+                  <when test="iso != null and iso=='-2'">
+                     iso = '',
+                  </when>
+                  <when test="iso != null  and iso != '' " >
+                     iso = #{iso,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="countryIso != null and countryIso=='-1'">
+                     country_iso = null,
+                  </when>
+                  <when test="countryIso != null and countryIso=='-2'">
+                     country_iso = '',
+                  </when>
+                  <when test="countryIso != null  and countryIso != '' " >
+                     country_iso = #{countryIso,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                  <if test="isDisplayCode != null ">
+                     is_display_code = #{isDisplayCode,jdbcType=TINYINT},
                   </if>
                     <choose>
                    <when test="remark != null and remark=='-1'">
@@ -277,26 +365,38 @@ remark=values(remark)
                   <if test="t.name != null  and t.name != '' " >
                      name = #{t.name,jdbcType=VARCHAR},
                   </if>
-                  <if test="t.category != null ">
-                     category = #{t.category,jdbcType=TINYINT},
+                  <if test="t.englishName != null  and t.englishName != '' " >
+                     english_name = #{t.englishName,jdbcType=VARCHAR},
                   </if>
                   <if test="t.fartherCode != null  and t.fartherCode != '' " >
                      farther_code = #{t.fartherCode,jdbcType=VARCHAR},
                   </if>
-                  <if test="t.isDisplayCode != null ">
-                     is_display_code = #{t.isDisplayCode,jdbcType=TINYINT},
-                  </if>
                   <if test="t.regionLevel != null ">
                      region_level = #{t.regionLevel,jdbcType=TINYINT},
                   </if>
-                  <if test="t.longitude != null  and t.longitude != '' " >
-                     longitude = #{t.longitude,jdbcType=VARCHAR},
+                  <if test="t.categoryCode != null ">
+                     category_code = #{t.categoryCode,jdbcType=TINYINT},
+                  </if>
+                  <if test="t.categoryFineGrit != null  and t.categoryFineGrit != '' " >
+                     category_fine_grit = #{t.categoryFineGrit,jdbcType=VARCHAR},
                   </if>
                   <if test="t.latitude != null  and t.latitude != '' " >
                      latitude = #{t.latitude,jdbcType=VARCHAR},
                   </if>
+                  <if test="t.longitude != null  and t.longitude != '' " >
+                     longitude = #{t.longitude,jdbcType=VARCHAR},
+                  </if>
                   <if test="t.area != null ">
                      area = #{t.area,jdbcType=INTEGER},
+                  </if>
+                  <if test="t.iso != null  and t.iso != '' " >
+                     iso = #{t.iso,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.countryIso != null  and t.countryIso != '' " >
+                     country_iso = #{t.countryIso,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.isDisplayCode != null ">
+                     is_display_code = #{t.isDisplayCode,jdbcType=TINYINT},
                   </if>
                   <if test="t.remark != null  and t.remark != '' " >
                      remark = #{t.remark,jdbcType=VARCHAR},
@@ -339,11 +439,17 @@ remark=values(remark)
                   </if> 
               </foreach>
          </trim>
-         <trim prefix="category =case" suffix="end,">
+         <trim prefix="english_name =case" suffix="end,">
               <foreach collection="list" item="gpRegion" index="index">
-                  <if test="gpRegion.category != null " >
-                     when id=#{gpRegion.id} then #{gpRegion.category,jdbcType=TINYINT}
+                  <if test="gpRegion.englishName != null and gpRegion.englishName  != ''  and gpRegion.englishName  != '-1' ">
+                     when id=#{gpRegion.id} then #{gpRegion.englishName,jdbcType=VARCHAR}
                   </if>
+                  <if test="gpRegion.englishName != null  and gpRegion.englishName  == '-1' ">
+                     when id=#{gpRegion.id} then null
+                  </if>  
+                   <if test="gpRegion.englishName != null  and gpRegion.englishName  == '-2' ">
+                     when id=#{gpRegion.id} then ''
+                  </if> 
               </foreach>
          </trim>
          <trim prefix="farther_code =case" suffix="end,">
@@ -359,13 +465,6 @@ remark=values(remark)
                   </if> 
               </foreach>
          </trim>
-         <trim prefix="is_display_code =case" suffix="end,">
-              <foreach collection="list" item="gpRegion" index="index">
-                  <if test="gpRegion.isDisplayCode != null " >
-                     when id=#{gpRegion.id} then #{gpRegion.isDisplayCode,jdbcType=TINYINT}
-                  </if>
-              </foreach>
-         </trim>
          <trim prefix="region_level =case" suffix="end,">
               <foreach collection="list" item="gpRegion" index="index">
                   <if test="gpRegion.regionLevel != null " >
@@ -373,15 +472,22 @@ remark=values(remark)
                   </if>
               </foreach>
          </trim>
-         <trim prefix="longitude =case" suffix="end,">
+         <trim prefix="category_code =case" suffix="end,">
               <foreach collection="list" item="gpRegion" index="index">
-                  <if test="gpRegion.longitude != null and gpRegion.longitude  != ''  and gpRegion.longitude  != '-1' ">
-                     when id=#{gpRegion.id} then #{gpRegion.longitude,jdbcType=VARCHAR}
+                  <if test="gpRegion.categoryCode != null " >
+                     when id=#{gpRegion.id} then #{gpRegion.categoryCode,jdbcType=TINYINT}
                   </if>
-                  <if test="gpRegion.longitude != null  and gpRegion.longitude  == '-1' ">
+              </foreach>
+         </trim>
+         <trim prefix="category_fine_grit =case" suffix="end,">
+              <foreach collection="list" item="gpRegion" index="index">
+                  <if test="gpRegion.categoryFineGrit != null and gpRegion.categoryFineGrit  != ''  and gpRegion.categoryFineGrit  != '-1' ">
+                     when id=#{gpRegion.id} then #{gpRegion.categoryFineGrit,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpRegion.categoryFineGrit != null  and gpRegion.categoryFineGrit  == '-1' ">
                      when id=#{gpRegion.id} then null
                   </if>  
-                   <if test="gpRegion.longitude != null  and gpRegion.longitude  == '-2' ">
+                   <if test="gpRegion.categoryFineGrit != null  and gpRegion.categoryFineGrit  == '-2' ">
                      when id=#{gpRegion.id} then ''
                   </if> 
               </foreach>
@@ -399,10 +505,56 @@ remark=values(remark)
                   </if> 
               </foreach>
          </trim>
+         <trim prefix="longitude =case" suffix="end,">
+              <foreach collection="list" item="gpRegion" index="index">
+                  <if test="gpRegion.longitude != null and gpRegion.longitude  != ''  and gpRegion.longitude  != '-1' ">
+                     when id=#{gpRegion.id} then #{gpRegion.longitude,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpRegion.longitude != null  and gpRegion.longitude  == '-1' ">
+                     when id=#{gpRegion.id} then null
+                  </if>  
+                   <if test="gpRegion.longitude != null  and gpRegion.longitude  == '-2' ">
+                     when id=#{gpRegion.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
          <trim prefix="area =case" suffix="end,">
               <foreach collection="list" item="gpRegion" index="index">
                   <if test="gpRegion.area != null " >
                      when id=#{gpRegion.id} then #{gpRegion.area,jdbcType=INTEGER}
+                  </if>
+              </foreach>
+         </trim>
+         <trim prefix="iso =case" suffix="end,">
+              <foreach collection="list" item="gpRegion" index="index">
+                  <if test="gpRegion.iso != null and gpRegion.iso  != ''  and gpRegion.iso  != '-1' ">
+                     when id=#{gpRegion.id} then #{gpRegion.iso,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpRegion.iso != null  and gpRegion.iso  == '-1' ">
+                     when id=#{gpRegion.id} then null
+                  </if>  
+                   <if test="gpRegion.iso != null  and gpRegion.iso  == '-2' ">
+                     when id=#{gpRegion.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="country_iso =case" suffix="end,">
+              <foreach collection="list" item="gpRegion" index="index">
+                  <if test="gpRegion.countryIso != null and gpRegion.countryIso  != ''  and gpRegion.countryIso  != '-1' ">
+                     when id=#{gpRegion.id} then #{gpRegion.countryIso,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpRegion.countryIso != null  and gpRegion.countryIso  == '-1' ">
+                     when id=#{gpRegion.id} then null
+                  </if>  
+                   <if test="gpRegion.countryIso != null  and gpRegion.countryIso  == '-2' ">
+                     when id=#{gpRegion.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="is_display_code =case" suffix="end,">
+              <foreach collection="list" item="gpRegion" index="index">
+                  <if test="gpRegion.isDisplayCode != null " >
+                     when id=#{gpRegion.id} then #{gpRegion.isDisplayCode,jdbcType=TINYINT}
                   </if>
               </foreach>
          </trim>
@@ -434,13 +586,17 @@ remark=values(remark)
 id,
 code,
 name,
-category,
+english_name,
 farther_code,
-is_display_code,
 region_level,
-longitude,
+category_code,
+category_fine_grit,
 latitude,
+longitude,
 area,
+iso,
+country_iso,
+is_display_code,
 remark,
     </trim>
     VALUES
@@ -454,25 +610,37 @@ remark,
                      #{gpRegion.name ,jdbcType=VARCHAR},
                   
                   
-                    #{gpRegion.category,jdbcType=TINYINT},
-            
+                     #{gpRegion.englishName ,jdbcType=VARCHAR},
+                  
                   
                      #{gpRegion.fartherCode ,jdbcType=VARCHAR},
                   
                   
-                    #{gpRegion.isDisplayCode,jdbcType=TINYINT},
-            
-                  
                     #{gpRegion.regionLevel,jdbcType=TINYINT},
             
                   
-                     #{gpRegion.longitude ,jdbcType=VARCHAR},
+                    #{gpRegion.categoryCode,jdbcType=TINYINT},
+            
+                  
+                     #{gpRegion.categoryFineGrit ,jdbcType=VARCHAR},
                   
                   
                      #{gpRegion.latitude ,jdbcType=VARCHAR},
                   
                   
+                     #{gpRegion.longitude ,jdbcType=VARCHAR},
+                  
+                  
                     #{gpRegion.area,jdbcType=INTEGER},
+            
+                  
+                     #{gpRegion.iso ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpRegion.countryIso ,jdbcType=VARCHAR},
+                  
+                  
+                    #{gpRegion.isDisplayCode,jdbcType=TINYINT},
             
                   
                      #{gpRegion.remark ,jdbcType=VARCHAR},
@@ -499,8 +667,20 @@ remark,
 			and id LIKE CONCAT('%',#{EntityRelated.id,jdbcType=VARCHAR},'%')
 		</if>
 
+		<if test="EntityRelated.categoryCode != null">
+				and category_code = #{EntityRelated.categoryCode,jdbcType=TINYINT} 
+		</if>
+		<if test="EntityRelated.categoryFineGrit != null and EntityRelated.categoryFineGrit != '' ">
+ 				and  category_fine_grit LIKE CONCAT('%',#{EntityRelated.categoryFineGrit,jdbcType=VARCHAR},'%') 
+		</if>
 		<if test="EntityRelated.code != null and EntityRelated.code != '' ">
  				and  code LIKE CONCAT('%',#{EntityRelated.code,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.countryIso != null and EntityRelated.countryIso != '' ">
+ 				and  country_iso LIKE CONCAT('%',#{EntityRelated.countryIso,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.englishName != null and EntityRelated.englishName != '' ">
+ 				and  english_name LIKE CONCAT('%',#{EntityRelated.englishName,jdbcType=VARCHAR},'%') 
 		</if>
 		<if test="EntityRelated.fartherCode != null">
 				and farther_code = #{EntityRelated.fartherCode,jdbcType=TINYINT} 
@@ -510,6 +690,9 @@ remark,
 		</if>
 		<if test="EntityRelated.isDisplayCode != null">
 				and is_display_code = #{EntityRelated.isDisplayCode,jdbcType=TINYINT} 
+		</if>
+		<if test="EntityRelated.iso != null and EntityRelated.iso != '' ">
+ 				and  iso LIKE CONCAT('%',#{EntityRelated.iso,jdbcType=VARCHAR},'%') 
 		</if>
 		<if test="EntityRelated.latitude != null and EntityRelated.latitude != '' ">
  				and  latitude LIKE CONCAT('%',#{EntityRelated.latitude,jdbcType=VARCHAR},'%') 

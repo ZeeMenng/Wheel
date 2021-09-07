@@ -87,8 +87,8 @@ public class GpRegionCountrySwgApp extends GpRegionCountryGenSwgApp {
                     selectBuffer.append(String.format(" and( A.chinese_name like %1$s or A.english_name like %1$s  or A.numeric_key like %1$s or A.iso like %1$s )", "'%" + entityRelatedObject.getString("keywords") + "%'"));
                 }
 
-                if (entityRelatedObject.containsKey("chineseName") && StringUtils.isNotBlank(entityRelatedObject.getString("chineseName")))
-                    selectBuffer.append(" and A.chinese_name like '%").append(entityRelatedObject.getString("chineseName")).append("%'");
+                if (entityRelatedObject.containsKey("is_independent_code") && StringUtils.isNotBlank(entityRelatedObject.getString("is_independent_code")))
+                    selectBuffer.append(" and A.is_independent_code like '%").append(entityRelatedObject.getString("is_independent_code")).append("%'");
                 if (entityRelatedObject.containsKey("englishName") && StringUtils.isNotBlank(entityRelatedObject.getString("englishName")))
                     selectBuffer.append(" and A.english_name like '%").append(entityRelatedObject.getString("englishName")).append("%'");
                 if (entityRelatedObject.containsKey("alpha2") && StringUtils.isNotBlank(entityRelatedObject.getString("alpha2")))

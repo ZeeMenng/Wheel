@@ -34,7 +34,7 @@ import net.sf.json.JSONObject;
 /**
  * @author Zee
  * @createDate 2017/05/22 15:00:55
- * @updateDate 2021/2/2 19:55:54
+ * @updateDate 2021/9/7 17:56:39
  * @description 地区信息。 对外接口，扩展自BaseSwgApp，自动生成。
  */
 
@@ -173,7 +173,7 @@ public class GpRegionGenSwgApp extends BaseSwgApp {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		StringBuffer selectBuffer = new StringBuffer();
-		selectBuffer.append("select A.id id,A.code code,A.name name,A.category category,A.farther_code fartherCode,A.is_display_code isDisplayCode,A.region_level regionLevel,A.longitude longitude,A.latitude latitude,A.area area,A.remark remark  from gp_region A inner join gp_region B on A.id=B.id where 1=1 ");
+		selectBuffer.append("select A.id id,A.code code,A.name name,A.english_name englishName,A.farther_code fartherCode,A.region_level regionLevel,A.category_code categoryCode,A.category_fine_grit categoryFineGrit,A.latitude latitude,A.longitude longitude,A.area area,A.iso iso,A.country_iso countryIso,A.is_display_code isDisplayCode,A.remark remark  from gp_region A inner join gp_region B on A.id=B.id where 1=1 ");
         
         if (!StringUtils.isBlank(jsonData)) {
 			JSONObject jsonObject = JSONObject.fromObject(jsonData);
@@ -196,8 +196,8 @@ public class GpRegionGenSwgApp extends BaseSwgApp {
 					selectBuffer.append(" and A.code like '%").append(entityRelatedObject.getString("code")).append("%'");
 				if (entityRelatedObject.containsKey("name") && StringUtils.isNotBlank(entityRelatedObject.getString("name")))
 					selectBuffer.append(" and A.name like '%").append(entityRelatedObject.getString("name")).append("%'");
-				if (entityRelatedObject.containsKey("category") && StringUtils.isNotBlank(entityRelatedObject.getString("category")))
-					selectBuffer.append(" and A.category like '%").append(entityRelatedObject.getString("category")).append("%'");
+				if (entityRelatedObject.containsKey("englishName") && StringUtils.isNotBlank(entityRelatedObject.getString("englishName")))
+					selectBuffer.append(" and A.english_name like '%").append(entityRelatedObject.getString("englishName")).append("%'");
 			}
 
 			if (jsonObject.containsKey("page")) {

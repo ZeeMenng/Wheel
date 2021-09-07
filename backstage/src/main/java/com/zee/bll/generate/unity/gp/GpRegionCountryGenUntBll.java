@@ -28,7 +28,7 @@ import net.sf.json.JSONObject;
 /**
  * @author Zee
  * @createDate 2017/05/22 14:01:41
- * @updateDate 2021/9/6 15:48:46
+ * @updateDate 2021/9/7 17:56:41
  * @description 地区信息。 业务逻辑处理类，扩展自BaseUntBll<GpRegionCountry>，自动生成。
  */
 public class GpRegionCountryGenUntBll extends BaseUntBll<GpRegionCountry> {

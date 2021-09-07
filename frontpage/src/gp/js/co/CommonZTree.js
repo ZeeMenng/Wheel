@@ -9,20 +9,20 @@ function initDetailTree(treeParam) {
 
 	// 组织机构树形结构begin
 	var setting = {
-		check : {
-			enable : false
+		check: {
+			enable: false
 		},
-		view : {
-			showIcon : false,
-			showLine : true,
-			selectedMulti : false
+		view: {
+			showIcon: false,
+			showLine: true,
+			selectedMulti: false
 		},
 
-		data : {
-			simpleData : {
-				enable : true,
-				idKey : "id",
-				pIdKey : "fartherId"
+		data: {
+			simpleData: {
+				enable: true,
+				idKey: "id",
+				pIdKey: "fartherId"
 			}
 		}
 	};
@@ -31,14 +31,14 @@ function initDetailTree(treeParam) {
 	if (treeParam.initNodes)
 		treeNodes = treeParam.initNodes;
 	var ajaxParamter = {
-		"url" : treeParam.url,
-		"type" : "GET",
-		"async" : true,
-		"success" : function(resultData) {
+		"url": treeParam.url,
+		"type": "GET",
+		"async": true,
+		"success": function (resultData) {
 			treeNodes = treeNodes.concat(resultData.data);
 
 			// 将一级功能模块的fartherId都变为应用领域的ID，级别变为0，否则功能模块无法依附应用领域
-			$.each(treeNodes, function(index, value) {
+			$.each(treeNodes, function (index, value) {
 				if (value.fartherId == null) {
 					value.level = 0;
 					value.fartherId = value.domainId;
@@ -47,7 +47,7 @@ function initDetailTree(treeParam) {
 			});
 			var orgnaizationTree = $.fn.zTree.init($("#" + treeParam.container), setting, treeNodes);
 
-			$.each(treeNodes, function(index, value) {
+			$.each(treeNodes, function (index, value) {
 
 				if (treeParam.expandNodeLevel == null || value.level < treeParam.expandNodeLevel) {
 					var node = orgnaizationTree.getNodeByParam("id", value.id);
@@ -71,19 +71,19 @@ function addHoverDom(treeId, treeNode) {
 	sObj.after(addStr);
 	var btn = $("#addBtn_" + treeNode.tId);
 	if (btn)
-		btn.bind("click", function() {
+		btn.bind("click", function () {
 
 			if (treeNode.level > 4) {
 				layer.msg('树形菜单不能超过5级……', {
-					time : 1500
+					time: 1500
 				});
 				return false;
 			}
 
 			var newNode = {
-				id : (100 + newCount),
-				fartherId : treeNode.id,
-				name : "new node" + (newCount++)
+				id: (100 + newCount),
+				fartherId: treeNode.id,
+				name: "new node" + (newCount++)
 			};
 			zTree.addNodes(treeNode, newNode);
 			var treeNodes = new Array();
@@ -109,7 +109,7 @@ function beforeDrag(treeId, treeNodes) {
 		var level = treeNodes[i].level;
 		if ((pid == "root" || pid == null || pid == "null") & level == 0) {
 			layer.msg('根节点不能移动……', {
-				time : 1000
+				time: 1000
 			});
 			return false;
 		}
@@ -120,7 +120,7 @@ function beforeDrop(treeId, treeNodes, targetNode, moveType) {
 
 	if (targetNode.level == 0) {
 		layer.msg('根节点为应用领域，不能移动到根节点……', {
-			time : 1000
+			time: 1000
 		});
 		return false;
 	}
@@ -154,8 +154,8 @@ function beforeRemove(treeId, treeNode) {
 	var zTree = $.fn.zTree.getZTreeObj(treeId);
 	zTree.selectNode(treeNode);
 	layer.confirm('您确定要删除节点  ' + treeNode.name + ' 吗？', {
-		btn : [ '确定', '取消' ]
-	}, function(index) {
+		btn: ['确定', '取消']
+	}, function (index) {
 		// 手动处理删除逻辑
 		layer.close(index);
 		zTree.removeNode(treeNode);
@@ -172,11 +172,11 @@ function onRemove(e, treeId, treeNode) {
 function beforeRename(treeId, treeNode, newName, isCancel) {
 	className = (className === "dark" ? "" : "dark");
 	if (newName.length == 0) {
-		setTimeout(function() {
+		setTimeout(function () {
 			var zTree = $.fn.zTree.getZTreeObj("ulModuleTree");
 			zTree.cancelEditName();
 			layer.alert("节点名称不能为空。", {
-				icon : 6
+				icon: 6
 			});
 		}, 0);
 		return false;
@@ -193,7 +193,7 @@ function beforeRename(treeId, treeNode, newName, isCancel) {
 
 	if (blen > 100) {
 		layer.msg('节点名称不能超过50个汉字……', {
-			time : 1500
+			time: 1500
 		});
 		return false;
 	}
@@ -209,51 +209,13 @@ function beforeClick(treeId, treeNode, clickFlag) {
 
 	if (treeNode.level == 0) {
 		layer.msg('根节点为应用领域，不能修改……', {
-			time : 1000
+			time: 1000
 		});
 		return false;
 	}
 	return true;
 }
-function onClick(e, treeId, treeNode) {
-	var zTree = $.fn.zTree.getZTreeObj(treeId);
-	var pageParam = {
-		treeId : treeId,
-		formId : "formEdit",
-		validateRules : {
-			textDomainId : {
-				required : true
-			},
-			textName : {
-				required : true
-			},
-			selectLevelCode : {
-				required : true
-			},
-			textPriority : {
-				digits : true
-			}
-		}
-	};
-	var ajaxParam = {
-		recordId : treeNode.id,
-		getModelAsync : false,
-		url : zTree.setting.url.updateUrl,
-		getModelUrl : zTree.setting.url.getModelUrl,
-		submitData : {}
-	};
 
-	var initResult = initZTreeEditForm(pageParam, ajaxParam);
-	if (!initResult.isSuccess) {
-		layer.alert("查询信息错误" + initResult.resultMessage, {
-			icon : 6
-		});
-		return;
-	}
-	if (initResult.data.iconIds != null) {
-		initEditFileInput(initResult.data.iconIds.split(","), initResult.data.iconPaths.split(","));
-	}
-}
 
 /**
  * @author Zee
@@ -262,7 +224,7 @@ function onClick(e, treeId, treeNode) {
  * @description  为了防止看不到悬到节点浮的增删改按钮，折叠时宽度减少
  */
 function onCollapse(event, treeId, treeNode) {
-	$("#" + treeNode.tId).width(function(n, c) {
+	$("#" + treeNode.tId).width(function (n, c) {
 		return c - 21;
 	});
 };
@@ -274,7 +236,7 @@ function onCollapse(event, treeId, treeNode) {
  * @description 为了防止看不到悬到节点浮的增删改按钮，展开时宽度增加
  */
 function onExpand(event, treeId, treeNode) {
-	$("#" + treeNode.tId).width(function(n, c) {
+	$("#" + treeNode.tId).width(function (n, c) {
 		return c + 21;
 	});
 };
@@ -285,53 +247,56 @@ function initZTreeEditForm(pageParam, ajaxParam) {
 	var errorMessage = $('.alert-danger', formEdit);
 	var successMessage = $('.alert-success', formEdit);
 	var selectRowsCookie = getCookies({
-		item : "selectRows"
+		item: "selectRows"
 	});
 	var recordId = ajaxParam.recordId;
 
 	// 添加重置按钮事件，重置的动作类似于重新加载
 	$("#buttonReset").unbind('click');
-	$("#buttonReset").click(function() {
+	$("#buttonReset").click(function () {
 		var zTree = $.fn.zTree.getZTreeObj(pageParam.treeId);
 		var selectNodes = zTree.getSelectedNodes();
-		if (selectNodes != null && selectNodes.length != 0)
+		if (selectNodes != null && selectNodes.length != 0) {
 			$('#' + selectNodes[0].tId + '_a').trigger('click');
+			layer.msg('表单已重置……', {
+				time: 1000
+			});
+		}
+		else
+			formEdit[0].reset();
 
-		layer.msg('表单已重置……', {
-			time : 1000
-		});
 	});
 
-	formEdit.on("submit", function() {
-		for ( var e in CKEDITOR.instances)
+	formEdit.on("submit", function () {
+		for (var e in CKEDITOR.instances)
 			CKEDITOR.instances[e].updateElement();
 	});
 
 	formEdit.validate({
-		errorClass : 'help-block',
-		rules : pageParam.validateRules,
-		messages : pageParam.validateMessages,
-		ignore : '',
-		errorPlacement : function(e, r) {
+		errorClass: 'help-block',
+		rules: pageParam.validateRules,
+		messages: pageParam.validateMessages,
+		ignore: '',
+		errorPlacement: function (e, r) {
 			r.attr("data-error-container") ? e.appendTo(r.attr("data-error-container")) : e.insertAfter(r)
 		},
-		highlight : function(element) {
+		highlight: function (element) {
 			$(element).closest('.element-group').addClass('has-error');
 		},
 
-		unhighlight : function(element) {
+		unhighlight: function (element) {
 			$(element).closest('.element-group').removeClass('has-error');
 		},
-		success : function(label) {
+		success: function (label) {
 			label.closest('.element-group').removeClass('has-error');
 		},
 
-		submitHandler : function(form) {
+		submitHandler: function (form) {
 
 			var formData = formEdit.serializeArray();
 			// 将查询条件和其它请求参数组装
 			if (ajaxParam.submitData != null)
-				$.each(formData, function(i, n) {
+				$.each(formData, function (i, n) {
 					var propertyName = getPropertyName(formData[i].name);
 					ajaxParam.submitData[propertyName] = formData[i].value;
 				});
@@ -350,7 +315,7 @@ function initZTreeEditForm(pageParam, ajaxParam) {
 			if (ajaxParam.async == null)
 				ajaxParam.async = true;
 			if (ajaxParam.success == null)
-				ajaxParam.success = function(resultData) {
+				ajaxParam.success = function (resultData) {
 					if (!resultData["isSuccess"]) {
 						alert(resultData["resultMessage"]);
 						return false;
@@ -363,7 +328,7 @@ function initZTreeEditForm(pageParam, ajaxParam) {
 					zTree.updateNode(node);
 
 					layer.msg('记录修改成功……', {
-						time : 1000
+						time: 1000
 					});
 
 					// 修改成功后要清空submitData函数，否则再次修改会出错
@@ -373,30 +338,30 @@ function initZTreeEditForm(pageParam, ajaxParam) {
 				ajaxParam.error = ajaxErrorFunction;
 
 			var ajaxParamter = {
-				"url" : ajaxParam.url,
-				"data" : ajaxParam.submitData,
-				"dataType" : ajaxParam.dataType,
-				"contentType" : ajaxParam.contentType,
-				"type" : ajaxParam.type,
-				"async" : ajaxParam.async,
-				"success" : ajaxParam.success,
-				"error" : ajaxParam.error
+				"url": ajaxParam.url,
+				"data": ajaxParam.submitData,
+				"dataType": ajaxParam.dataType,
+				"contentType": ajaxParam.contentType,
+				"type": ajaxParam.type,
+				"async": ajaxParam.async,
+				"success": ajaxParam.success,
+				"error": ajaxParam.error
 			};
 			universalAjax(ajaxParamter);
 		}
 	});
 
-	$("#buttonBack").click(function() {
+	$("#buttonBack").click(function () {
 		history.back();
 		return false;
 	});
 
 	// 初始化页面标签
 	var ajaxParamter = {
-		"url" : ajaxParam.getModelUrl + recordId,
-		"type" : "GET",
-		"async" : true,
-		"success" : function(resultData) {
+		"url": ajaxParam.getModelUrl + recordId,
+		"type": "GET",
+		"async": true,
+		"success": function (resultData) {
 			resultAjaxData = resultData;
 			if (!resultData["isSuccess"]) {
 				alert(resultData["resultMessage"]);
@@ -431,27 +396,27 @@ function initZTreeEditForm(pageParam, ajaxParam) {
 				var value = ajaxData[prop];
 
 				switch (prefix) {
-				case "hidden":
-					$("[name='" + fieldName + "']").val(value);
-					break;
-				case "text":
-					$("[name='" + fieldName + "']").val(value);
-					break;
-				case "select":
-					$("select[name='" + fieldName + "']").val(value);
-					break;
-				case "radio":
-					if (value != null)
+					case "hidden":
+						$("[name='" + fieldName + "']").val(value);
+						break;
+					case "text":
+						$("[name='" + fieldName + "']").val(value);
+						break;
+					case "select":
+						$("select[name='" + fieldName + "']").val(value);
+						break;
+					case "radio":
+						if (value != null)
+							$("[name='" + fieldName + "'][value='" + value + "']").get(0).checked = true;
+						break;
+					case "textarea":
+						$("textarea[name='" + fieldName + "']").val(value);
+						break;
+					case "checkbox":
 						$("[name='" + fieldName + "'][value='" + value + "']").get(0).checked = true;
-					break;
-				case "textarea":
-					$("textarea[name='" + fieldName + "']").val(value);
-					break;
-				case "checkbox":
-					$("[name='" + fieldName + "'][value='" + value + "']").get(0).checked = true;
-					break;
-				default:
-					break;
+						break;
+					default:
+						break;
 				}
 			}
 		}
@@ -486,9 +451,9 @@ function immediateUpdate(treeId, treeNodes, action, targetNode, moveType) {
 	var treeNodesArray = zTree.transformToArray(treeNodes);
 
 	var ajaxParamter = {
-		"async" : true,
-		"type" : "POST",
-		"success" : function(resultData) {
+		"async": true,
+		"type": "POST",
+		"success": function (resultData) {
 			// 添加成功更新当前系统ID
 			if (action == "ADD") {
 				treeNodes[0].id = resultData.objectId;
@@ -501,7 +466,7 @@ function immediateUpdate(treeId, treeNodes, action, targetNode, moveType) {
 			}
 
 			layer.msg('数据已实时更新……', {
-				time : 1500
+				time: 1500
 			});
 		}
 	};
@@ -510,14 +475,14 @@ function immediateUpdate(treeId, treeNodes, action, targetNode, moveType) {
 	if (action == "ADD") {
 
 		var zTreeNodeJson = {
-			id : null,
-			cascadeTypeCode : cascade,
-			name : treeNodesArray[0].name,
-			fartherId : treeNodesArray[0].fartherId,
-			level : (rootNode.isDomain ? treeNodesArray[0].level : treeNodesArray[0].level + 1),
-			priority : treeNodesArray[0].getIndex(),
-			categoryCode : rootNode.categoryCode,
-			categoryText : rootNode.categoryText
+			id: null,
+			cascadeTypeCode: cascade,
+			name: treeNodesArray[0].name,
+			fartherId: treeNodesArray[0].fartherId,
+			level: (rootNode.isDomain ? treeNodesArray[0].level : treeNodesArray[0].level + 1),
+			priority: treeNodesArray[0].getIndex(),
+			categoryCode: rootNode.categoryCode,
+			categoryText: rootNode.categoryText
 		}
 
 		// 如果根节点是应用领域
@@ -537,11 +502,11 @@ function immediateUpdate(treeId, treeNodes, action, targetNode, moveType) {
 
 		var idArray = new Array();
 
-		$.each(treeNodesArray, function(i, v) {
+		$.each(treeNodesArray, function (i, v) {
 			idArray.push(v.id)
 		});
 		var submitData = {
-			idList : idArray
+			idList: idArray
 		};
 		ajaxParamter.type = 'POST';
 		ajaxParamter.data = JSON.stringify(submitData);
@@ -550,11 +515,11 @@ function immediateUpdate(treeId, treeNodes, action, targetNode, moveType) {
 		var zTreeNodeJsonArray = new Array();
 
 		var zTreeNodeJson = {
-			id : treeNodesArray[0].id,
-			name : treeNodesArray[0].name,
-			fartherId : treeNodesArray[0].fartherId,
-			level : (rootNode.isDomain ? treeNodesArray[0].level : treeNodesArray[0].level + 1),
-			priority : treeNodesArray[0].getIndex()
+			id: treeNodesArray[0].id,
+			name: treeNodesArray[0].name,
+			fartherId: treeNodesArray[0].fartherId,
+			level: (rootNode.isDomain ? treeNodesArray[0].level : treeNodesArray[0].level + 1),
+			priority: treeNodesArray[0].getIndex()
 		}
 		ajaxParamter.data = JSON.stringify(zTreeNodeJson);
 		ajaxParamter.url = zTree.setting.url.updateUrl;
@@ -566,15 +531,15 @@ function immediateUpdate(treeId, treeNodes, action, targetNode, moveType) {
 			return (node.fartherId == treeNodesArray[0].fartherId && (node.getIndex() > treeNodesArray[0].getIndex()));
 		}
 		var treeNodesBrotherArray = zTree.getNodesByFilter(zTreeFilterPrev);
-		$.each(treeNodesBrotherArray, function(i, v) {
+		$.each(treeNodesBrotherArray, function (i, v) {
 			var zTreeNodeJson = {
-				id : v.id,
-				name : v.name,
-				fartherId : v.fartherId,
-				level : v.level + 1,
-				priority : v.getIndex() - 1,
-				categoryCode : v.categoryCode,
-				categoryText : v.categoryText
+				id: v.id,
+				name: v.name,
+				fartherId: v.fartherId,
+				level: v.level + 1,
+				priority: v.getIndex() - 1,
+				categoryCode: v.categoryCode,
+				categoryText: v.categoryText
 			}
 
 			// 如果为功能模块的拖拽，要特别处理
@@ -610,15 +575,15 @@ function immediateUpdate(treeId, treeNodes, action, targetNode, moveType) {
 			}
 		}
 
-		$.each(treeNodesBrotherArray, function(i, v) {
+		$.each(treeNodesBrotherArray, function (i, v) {
 			var zTreeNodeJson = {
-				id : v.id,
-				name : v.name,
-				fartherId : v.fartherId,
-				level : v.level + 1,
-				priority : v.getIndex(),
-				categoryCode : v.categoryCode,
-				categoryText : v.categoryText
+				id: v.id,
+				name: v.name,
+				fartherId: v.fartherId,
+				level: v.level + 1,
+				priority: v.getIndex(),
+				categoryCode: v.categoryCode,
+				categoryText: v.categoryText
 			}
 
 			// 如果为功能模块的拖拽，要特别处理
@@ -633,15 +598,15 @@ function immediateUpdate(treeId, treeNodes, action, targetNode, moveType) {
 		});
 		// 拖拽节点的子点级别可能发生变化
 		var treeNodesChildArray = zTree.transformToArray(treeNodes[0].children);
-		$.each(treeNodesChildArray, function(i, v) {
+		$.each(treeNodesChildArray, function (i, v) {
 			var zTreeNodeJson = {
-				id : v.id,
-				name : v.name,
-				fartherId : v.fartherId,
-				level : v.level + 1,
-				priority : v.getIndex(),
-				categoryCode : v.categoryCode,
-				categoryText : v.categoryText
+				id: v.id,
+				name: v.name,
+				fartherId: v.fartherId,
+				level: v.level + 1,
+				priority: v.getIndex(),
+				categoryCode: v.categoryCode,
+				categoryText: v.categoryText
 			}
 			// 如果为功能模块的拖拽，要特别处理
 			if (rootNode.isDomain) {
@@ -657,7 +622,7 @@ function immediateUpdate(treeId, treeNodes, action, targetNode, moveType) {
 		if (treeNodesDragBrotherArray.length > 0 && targetNode.fartherId != treeNodesDragBrotherArray[0].fartherId)
 			zTreeNodeJsonArray = zTreeNodeJsonArray.concat(treeNodesDragBrotherArray);
 		var submitData = {
-			entityList : zTreeNodeJsonArray
+			entityList: zTreeNodeJsonArray
 		}
 		ajaxParamter.data = JSON.stringify(submitData);
 		ajaxParamter.url = zTree.setting.url.updateListUrl;

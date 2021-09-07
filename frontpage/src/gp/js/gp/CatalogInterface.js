@@ -82,11 +82,7 @@ function initUlCatalogCategoryTree(catalogCategoryCode) {
 				return false
 			var moduleTree = $.fn.zTree.getZTreeObj("ulCatalogCategoryTree");
 			zNodes = resultData.data;
-			/* 
-			for (i = 0; i < zNodes.length; i++) {
-				zNodes[i].icon = "/pc/global/plugins/zTree_v3/css/zTreeStyle/img/diy/3.png";
-				zNodes[i].iconSkin = "diy02";
-			}*/
+	
 			$.fn.zTree.init($("#ulCatalogCategoryTree"), setting, zNodes);
 
 			$(".ztree .level0 a").attr("style", "cursor:default")
@@ -110,4 +106,44 @@ function initUlCatalogCategoryTree(catalogCategoryCode) {
 		}
 	};
 	universalAjax(ajaxParamter);
+}
+
+function onClick(e, treeId, treeNode) {
+	var zTree = $.fn.zTree.getZTreeObj(treeId);
+	var pageParam = {
+		treeId : treeId,
+		formId : "formEdit",
+		validateRules : {
+			textDomainId : {
+				required : true
+			},
+			textName : {
+				required : true
+			},
+			selectLevelCode : {
+				required : true
+			},
+			textPriority : {
+				digits : true
+			}
+		}
+	};
+	var ajaxParam = {
+		recordId : treeNode.id,
+		getModelAsync : false,
+		url : zTree.setting.url.updateUrl,
+		getModelUrl : zTree.setting.url.getModelUrl,
+		submitData : {}
+	};
+
+	var initResult = initZTreeEditForm(pageParam, ajaxParam);
+	if (!initResult.isSuccess) {
+		layer.alert("查询信息错误" + initResult.resultMessage, {
+			icon : 6
+		});
+		return;
+	}
+	if (initResult.data.iconIds != null) {
+		initEditFileInput(initResult.data.iconIds.split(","), initResult.data.iconPaths.split(","));
+	}
 }
