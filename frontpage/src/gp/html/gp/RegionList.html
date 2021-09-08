@@ -50,10 +50,6 @@
 			$("#selectRegionCountryId").select2("val", [REGION_COUNTRY_ISO_CHINA]);
 
 
-
-
-
-
 			// 初始化是否显示下拉框
 			var selectParam = {
 				selectId: "selectIsDisplayCode",
@@ -72,7 +68,7 @@
 				valueField: "code"
 			};
 			var ajaxParam = {
-				url: RU_GPDICTIONARY_GETLISTBYTYPEID + DI_CATEGORY
+				url: RU_GPDICTIONARY_GETLISTBYTYPEID + DI_REGION_CATEGORY
 			}
 			initDropDownList(selectParam, ajaxParam);
 
@@ -231,11 +227,11 @@
 
 												<div class="element-group right">
 													<label for="textCategoryFineGrit"
-														class="control-label col-md-2">精细类别
+														class="control-label col-md-2">区域面积
 													</label>
 													<div class="col-md-3">
-														<input id="textCategoryFineGrit" name="textCategoryFineGrit"
-															type="text" data-required="1" class="form-control" />
+														<input id="textArea" name="textArea" type="text"
+														data-required="1" class="form-control" />
 													</div>
 												</div>
 											</div>
@@ -253,16 +249,6 @@
 													</label>
 													<div class="col-md-3">
 														<input id="textLatitude" name="textLatitude" type="text"
-															data-required="1" class="form-control" />
-													</div>
-												</div>
-											</div>
-											<div class="form-group">
-												<div class="element-group right">
-													<label for="textArea" class="control-label col-md-2">区域面积
-													</label>
-													<div class="col-md-8">
-														<input id="textArea" name="textArea" type="text"
 															data-required="1" class="form-control" />
 													</div>
 												</div>

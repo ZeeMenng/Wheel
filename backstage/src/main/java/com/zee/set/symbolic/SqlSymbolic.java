@@ -43,5 +43,5 @@ public class SqlSymbolic {
 
 
 	// 查询地区列表
-	public static final String SQL_SELECT_REGION_LIST = "select A.id id,A.code code,A.name name,A.english_name englishName,A.farther_code fartherCode,A.region_level regionLevel,A.category_code categoryCode,A.category_fine_grit categoryFineGrit,A.latitude latitude,A.longitude longitude,A.area area,A.iso iso,A.country_iso countryIso,A.is_display_code isDisplayCode,A.remark remark  from gp_region A inner join gp_region B on A.id=B.id where 1=1";
+	public static final String SQL_SELECT_REGION_LIST = "select A.id id,A.code code,A.name name,A.english_name englishName,A.farther_code fartherCode,A.level level,A.category_code categoryCode,A.category_text categoryText,A.latitude latitude,A.longitude longitude,A.area area,A.iso iso,A.country_iso countryIso,A.is_display_code isDisplayCode,A.remark remark  from gp_region A inner join gp_region B on A.id=B.id where 1=1 ";
 }

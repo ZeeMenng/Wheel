@@ -10,7 +10,7 @@ import com.zee.ent.extend.gp.GpRegion;
 /**
  * @author Zee
  * @createDate 2017/05/22 14:01:29
- * @updateDate 2021/9/7 17:56:42
+ * @updateDate 2021/9/8 9:50:21
  * @description 扩展自实体类IBaseUntDal<GpRegion>，可手动更改。地区信息。
  */
 

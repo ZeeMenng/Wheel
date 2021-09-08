@@ -34,7 +34,7 @@ import net.sf.json.JSONObject;
 /**
  * @author Zee
  * @createDate 2017/05/22 15:00:55
- * @updateDate 2021/9/7 17:56:39
+ * @updateDate 2021/9/8 9:50:19
  * @description 地区信息。 对外接口，扩展自BaseSwgApp，自动生成。
  */
 

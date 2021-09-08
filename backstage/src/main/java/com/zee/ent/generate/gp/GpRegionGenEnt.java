@@ -13,7 +13,7 @@ import com.zee.ent.base.BaseEnt;
 /**
  * @author Zee
  * @createDate 2017/05/18 14:54:22
- * @updateDate 2021/9/7 17:56:43
+ * @updateDate 2021/9/8 9:50:23
  * @description 实体类GpRegionGenEnt，自动生成。地区信息。
  */
 
@@ -22,10 +22,10 @@ public class GpRegionGenEnt extends BaseEnt implements Serializable {
     private static final long serialVersionUID = 1L;
     @ApiModelProperty(value="区域面积大小，单位平方公里（ SquareKilometer sq . km ）。",hidden=false,required=false)
     private Integer area;
-    @ApiModelProperty(value="地区类别字典，用于区分Region表中记录的类型。0是国家，1是直辖市，2是省，3是自治区，4是特别行政区，5是地级市，6是直辖市下的区，7是县级市（县级市不好区分，可以都暂时默认为7），8是县。",allowableValues="0,1",hidden=false,required=false)
+    @ApiModelProperty(value="地区类别。对应数据字典表（dictionary）中的编码字段（code）。用于区分Region表中记录的类型。0是国家，1是直辖市，2是省，3是自治区，4是特别行政区，5是地级市，6是直辖市下的区，7是县级市（县级市不好区分，可以都暂时默认为7），8是县。",allowableValues="0,1",hidden=false,required=false)
     private Byte categoryCode;
-    @ApiModelProperty(value="地区类别，细粒度，文本。",hidden=false,required=false)
-    private String categoryFineGrit;
+    @ApiModelProperty(value="地区类别。对应数据字典表（dictionary）中的编码文本（text）。用于区分Region表中记录的类型。0是国家，1是直辖市，2是省，3是自治区，4是特别行政区，5是地级市，6是直辖市下的区，7是县级市（县级市不好区分，可以都暂时默认为7），8是县。",hidden=false,required=false)
+    private String categoryText;
     @ApiModelProperty(value="地区编码。",hidden=false,required=false)
     private String code;
     @ApiModelProperty(value="所属国家，ISO 3166-2国际标准代码。",hidden=false,required=false)
@@ -42,12 +42,12 @@ public class GpRegionGenEnt extends BaseEnt implements Serializable {
     private String iso;
     @ApiModelProperty(value="地区纬度。",hidden=false,required=false)
     private String latitude;
+    @ApiModelProperty(value="区域等级。国家为第一级，直辖市、省、自治区、特别行政区为第二级，地级市、直辖市下的区为第三级，县级市、县为第四级、乡镇为第五级",hidden=false,required=false)
+    private Byte level;
     @ApiModelProperty(value="地区经度。",hidden=false,required=false)
     private String longitude;
     @ApiModelProperty(value="地区名称。",hidden=false,required=false)
     private String name;
-    @ApiModelProperty(value="区域等级。国家为第一级，直辖市、省、自治区、特别行政区为第二级，地级市、直辖市下的区为第三级，县级市、县为第四级、乡镇为第五级",hidden=false,required=false)
-    private Byte regionLevel;
     @ApiModelProperty(value="备注字段。",hidden=false,required=false)
     private String remark;
 
@@ -73,31 +73,31 @@ public class GpRegionGenEnt extends BaseEnt implements Serializable {
 	}
     
 	/**
-	 * get方法。地区类别字典，用于区分Region表中记录的类型。0是国家，1是直辖市，2是省，3是自治区，4是特别行政区，5是地级市，6是直辖市下的区，7是县级市（县级市不好区分，可以都暂时默认为7），8是县。
+	 * get方法。地区类别。对应数据字典表（dictionary）中的编码字段（code）。用于区分Region表中记录的类型。0是国家，1是直辖市，2是省，3是自治区，4是特别行政区，5是地级市，6是直辖市下的区，7是县级市（县级市不好区分，可以都暂时默认为7），8是县。
 	 */
 	public Byte getCategoryCode() {
 		return this.categoryCode;
 	}
 
 	/**
-	 * set方法。地区类别字典，用于区分Region表中记录的类型。0是国家，1是直辖市，2是省，3是自治区，4是特别行政区，5是地级市，6是直辖市下的区，7是县级市（县级市不好区分，可以都暂时默认为7），8是县。
+	 * set方法。地区类别。对应数据字典表（dictionary）中的编码字段（code）。用于区分Region表中记录的类型。0是国家，1是直辖市，2是省，3是自治区，4是特别行政区，5是地级市，6是直辖市下的区，7是县级市（县级市不好区分，可以都暂时默认为7），8是县。
 	 */
 	public void setCategoryCode(Byte categoryCode) {
 		this.categoryCode = categoryCode;
 	}
     
 	/**
-	 * get方法。地区类别，细粒度，文本。
+	 * get方法。地区类别。对应数据字典表（dictionary）中的编码文本（text）。用于区分Region表中记录的类型。0是国家，1是直辖市，2是省，3是自治区，4是特别行政区，5是地级市，6是直辖市下的区，7是县级市（县级市不好区分，可以都暂时默认为7），8是县。
 	 */
-	public String getCategoryFineGrit() {
-		return this.categoryFineGrit;
+	public String getCategoryText() {
+		return this.categoryText;
 	}
 
 	/**
-	 * set方法。地区类别，细粒度，文本。
+	 * set方法。地区类别。对应数据字典表（dictionary）中的编码文本（text）。用于区分Region表中记录的类型。0是国家，1是直辖市，2是省，3是自治区，4是特别行政区，5是地级市，6是直辖市下的区，7是县级市（县级市不好区分，可以都暂时默认为7），8是县。
 	 */
-	public void setCategoryFineGrit(String categoryFineGrit) {
-		this.categoryFineGrit = categoryFineGrit;
+	public void setCategoryText(String categoryText) {
+		this.categoryText = categoryText;
 	}
     
 	/**
@@ -213,6 +213,20 @@ public class GpRegionGenEnt extends BaseEnt implements Serializable {
 	}
     
 	/**
+	 * get方法。区域等级。国家为第一级，直辖市、省、自治区、特别行政区为第二级，地级市、直辖市下的区为第三级，县级市、县为第四级、乡镇为第五级
+	 */
+	public Byte getLevel() {
+		return this.level;
+	}
+
+	/**
+	 * set方法。区域等级。国家为第一级，直辖市、省、自治区、特别行政区为第二级，地级市、直辖市下的区为第三级，县级市、县为第四级、乡镇为第五级
+	 */
+	public void setLevel(Byte level) {
+		this.level = level;
+	}
+    
+	/**
 	 * get方法。地区经度。
 	 */
 	public String getLongitude() {
@@ -238,20 +252,6 @@ public class GpRegionGenEnt extends BaseEnt implements Serializable {
 	 */
 	public void setName(String name) {
 		this.name = name;
-	}
-    
-	/**
-	 * get方法。区域等级。国家为第一级，直辖市、省、自治区、特别行政区为第二级，地级市、直辖市下的区为第三级，县级市、县为第四级、乡镇为第五级
-	 */
-	public Byte getRegionLevel() {
-		return this.regionLevel;
-	}
-
-	/**
-	 * set方法。区域等级。国家为第一级，直辖市、省、自治区、特别行政区为第二级，地级市、直辖市下的区为第三级，县级市、县为第四级、乡镇为第五级
-	 */
-	public void setRegionLevel(Byte regionLevel) {
-		this.regionLevel = regionLevel;
 	}
     
 	/**

@@ -97,7 +97,7 @@ function initUlRegionTree(regionCountryISO) {
 			});
 			// 展开节点
 			$.each(zNodes, function (index, value) {
-				if (value.regionLevel < 2) {
+				if (value.level < 2) {
 					var node = moduleTree.getNodeByParam("id", value.id);
 					moduleTree.expandNode(node, true);// 展开指定节点
 				}
