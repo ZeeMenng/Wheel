@@ -6,15 +6,11 @@
  */
 
 
-
-
-
-
 function initUlRegionTree(regionCountryISO) {
 
 	var jsonData = {
 		"entityRelated": {
-			countryIso : regionCountryISO
+			countryIso: regionCountryISO
 		},
 		"orderList": [{
 			"columnName": "code",
@@ -23,6 +19,10 @@ function initUlRegionTree(regionCountryISO) {
 	};
 	// 树形结构begin
 	var setting = {
+		//实时添加或修改节点时需要带入的参数
+		ajaxData: {
+			countryIso: regionCountryISO
+		},
 		check: {
 			enable: false
 		},
@@ -51,6 +51,8 @@ function initUlRegionTree(regionCountryISO) {
 				pIdKey: "fartherCode"
 			}
 		},
+
+
 		callback: {
 			beforeRemove: beforeRemove,
 			beforeRename: beforeRename,
@@ -138,7 +140,9 @@ function onClick(e, treeId, treeNode) {
 		getModelAsync: false,
 		url: zTree.setting.url.updateUrl,
 		getModelUrl: zTree.setting.url.getModelUrl,
-		submitData: {}
+		submitData: {
+
+		}
 	};
 
 	var initResult = initZTreeEditForm(pageParam, ajaxParam);

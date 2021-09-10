@@ -3,6 +3,8 @@
 var IS_IMMEDIATE = true;
 // 拖拽数形菜单时拖拽节点的兄弟节点
 var treeNodesDragBrotherArray = new Array();
+var className = "dark";
+var newCount = 1;
 
 // 初始化详情页中的zTree插件
 function initDetailTree(treeParam) {
@@ -60,8 +62,6 @@ function initDetailTree(treeParam) {
 	universalAjax(ajaxParamter);
 }
 
-var className = "dark";
-var newCount = 1;
 function addHoverDom(treeId, treeNode) {
 	var zTree = $.fn.zTree.getZTreeObj(treeId);
 	var sObj = $("#" + treeNode.tId + "_span");
@@ -93,16 +93,20 @@ function addHoverDom(treeId, treeNode) {
 		});
 
 };
+
 function removeHoverDom(treeId, treeNode) {
 	var sObj = $("#" + treeNode.tId + "_span");
 	$("#addBtn_" + treeNode.tId).unbind().remove();
 };
+
 function showRemoveBtn(treeId, treeNode) {
 	return treeNode.level != 0;
 }
+
 function showRenameBtn(treeId, treeNode) {
 	return treeNode.level != 0;
 }
+
 function beforeDrag(treeId, treeNodes) {
 	for (var i = 0, l = treeNodes.length; i < l; i++) {
 		var pid = treeNodes[i].fartherId;
@@ -116,6 +120,7 @@ function beforeDrag(treeId, treeNodes) {
 	}
 	return true;
 }
+
 function beforeDrop(treeId, treeNodes, targetNode, moveType) {
 
 	if (targetNode.level == 0) {
@@ -149,6 +154,7 @@ function beforeEditName(treeId, treeNode) {
 	zTree.editName(treeNode);
 	return false;
 }
+
 function beforeRemove(treeId, treeNode) {
 	className = (className === "dark" ? "" : "dark");
 	var zTree = $.fn.zTree.getZTreeObj(treeId);
@@ -164,11 +170,13 @@ function beforeRemove(treeId, treeNode) {
 	// 不再自动去发onRemove事件
 	return false;
 }
+
 function onRemove(e, treeId, treeNode) {
 	var treeNodes = new Array();
 	treeNodes.push(treeNode);
 	updateModulesData(treeId, treeNodes, 'DELETE');
 }
+
 function beforeRename(treeId, treeNode, newName, isCancel) {
 	className = (className === "dark" ? "" : "dark");
 	if (newName.length == 0) {
@@ -200,11 +208,13 @@ function beforeRename(treeId, treeNode, newName, isCancel) {
 
 	return true;
 }
+
 function onRename(e, treeId, treeNode, isCancel) {
 	var treeNodes = new Array();
 	treeNodes.push(treeNode);
 	updateModulesData(treeId, treeNodes, 'UPDATE');
 }
+
 function beforeClick(treeId, treeNode, clickFlag) {
 
 	if (treeNode.level == 0) {
@@ -215,7 +225,6 @@ function beforeClick(treeId, treeNode, clickFlag) {
 	}
 	return true;
 }
-
 
 /**
  * @author Zee
@@ -485,16 +494,28 @@ function immediateUpdate(treeId, treeNodes, action, targetNode, moveType) {
 			categoryText: rootNode.categoryText
 		}
 
+		//组装添加或修改节点时需要带入的外部参数
+		var newZTreeNodeJson = {};
+		if (zTree.setting.ajaxData != null)
+			Object.assign(newZTreeNodeJson, zTreeNodeJson, zTree.setting.ajaxData);
+		else
+			newZTreeNodeJson = zTreeNodeJson;
+		var idKey = zTree.setting.data.simpleData.idKey;
+		var pIdKey = zTree.setting.data.simpleData.pIdKey;
+	
+		newZTreeNodeJson[idKey] = treeNodesArray[0][idKey]
+		newZTreeNodeJson[pIdKey] = treeNodesArray[0][pIdKey]
+
 		// 如果根节点是应用领域
 		if (rootNode.isDomain != null && rootNode.isDomain) {
-			zTreeNodeJson.domainId = rootNode.id;
-			zTreeNodeJson.domainName = rootNode.name;
+			newZTreeNodeJson.domainId = rootNode.id;
+			newZTreeNodeJson.domainName = rootNode.name;
 
 			if (treeNodesArray[0].level == 1)
-				zTreeNodeJson.fartherId = null;
+			newZTreeNodeJson.fartherId = null;
 		}
 
-		ajaxParamter.data = JSON.stringify(zTreeNodeJson);
+		ajaxParamter.data = JSON.stringify(newZTreeNodeJson);
 		ajaxParamter.url = zTree.setting.url.addUrl;
 	}
 
@@ -631,7 +652,6 @@ function immediateUpdate(treeId, treeNodes, action, targetNode, moveType) {
 	universalAjax(ajaxParamter);
 
 }
-
 
 function selectAll() {
 	var zTree = $.fn.zTree.getZTreeObj("ulModuleTree");
