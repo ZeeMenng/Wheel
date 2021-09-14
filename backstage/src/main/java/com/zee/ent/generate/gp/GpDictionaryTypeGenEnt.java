@@ -14,13 +14,15 @@ import com.zee.ent.extend.gp.GpDictionary;
 /**
  * @author Zee
  * @createDate 2017/05/18 14:54:22
- * @updateDate 2021/2/2 18:48:47
+ * @updateDate 2021/9/13 15:02:03
  * @description 实体类GpDictionaryTypeGenEnt，自动生成。字典类型。
  */
 
 public class GpDictionaryTypeGenEnt extends BaseEnt implements Serializable {
     
     private static final long serialVersionUID = 1L;
+    @ApiModelProperty(value="记录创建时间。",hidden=false,required=false)
+    private Date addTime;
     @ApiModelProperty(value="常量名称",hidden=false,required=false)
     private String constantName;
     @ApiModelProperty(value="主键",hidden=false,required=true)
@@ -29,6 +31,8 @@ public class GpDictionaryTypeGenEnt extends BaseEnt implements Serializable {
     private String name;
     @ApiModelProperty(value="备注",hidden=false,required=false)
     private String remark;
+    @ApiModelProperty(value="记录最后一次修改时间。",hidden=false,required=false)
+    private Date updateTime;
 
    //本表做为子表时，父表实体对象
 
@@ -38,6 +42,20 @@ public class GpDictionaryTypeGenEnt extends BaseEnt implements Serializable {
     //父子表均为自身时
 
 
+	/**
+	 * get方法。记录创建时间。
+	 */
+	public Date getAddTime() {
+		return this.addTime;
+	}
+
+	/**
+	 * set方法。记录创建时间。
+	 */
+	public void setAddTime(Date addTime) {
+		this.addTime = addTime;
+	}
+    
 	/**
 	 * get方法。常量名称
 	 */
@@ -92,6 +110,20 @@ public class GpDictionaryTypeGenEnt extends BaseEnt implements Serializable {
 	 */
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+    
+	/**
+	 * get方法。记录最后一次修改时间。
+	 */
+	public Date getUpdateTime() {
+		return this.updateTime;
+	}
+
+	/**
+	 * set方法。记录最后一次修改时间。
+	 */
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
 	}
     
 

@@ -34,7 +34,7 @@ import net.sf.json.JSONObject;
 /**
  * @author Zee
  * @createDate 2017/05/22 15:00:55
- * @updateDate 2021/2/2 19:55:54
+ * @updateDate 2021/9/13 15:01:58
  * @description 字典信息。 对外接口，扩展自BaseSwgApp，自动生成。
  */
 
@@ -173,7 +173,7 @@ public class GpDictionaryGenSwgApp extends BaseSwgApp {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		StringBuffer selectBuffer = new StringBuffer();
-		selectBuffer.append("select A.id id,A.type_id typeId,A.code code,A.text text,A.priority priority,A.remark remark  from gp_dictionary A inner join gp_dictionary B on A.id=B.id where 1=1 ");
+		selectBuffer.append("select A.id id,A.type_id typeId,A.code code,A.text text,A.priority priority,A.remark remark,A.add_time addTime,A.update_time updateTime  from gp_dictionary A inner join gp_dictionary B on A.id=B.id where 1=1 ");
         
         if (!StringUtils.isBlank(jsonData)) {
 			JSONObject jsonObject = JSONObject.fromObject(jsonData);

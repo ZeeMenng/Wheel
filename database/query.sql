@@ -1,3 +1,15 @@
+/*修改时间*/
+
+update gp_dictionary set add_time=now(),update_time=now();
+update gp_dictionary_type set add_time=now(),update_time=now();
+
+/*修改地区信息表父键*/
+UPDATE wheel.gp_region A,
+wheel.gp_region B 
+SET B.farther_id =A.id
+WHERE
+	  B.farther_code=A.code;
+
 ﻿/*导出数据库*/
 mysqldump -uroot -p850934828 wheel > D:\JAVA\JavaProject\wheel\database\wheel.sql
 
@@ -17,5 +29,5 @@ SET A.iso = B.iso,
 A.english_name = B.en_name,
 A.category_fine_grit = B.category 
 WHERE
-	A.`name` = B.`name`
+	A.`name` = B.`name`;
 	

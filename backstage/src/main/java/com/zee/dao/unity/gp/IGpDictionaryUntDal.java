@@ -11,7 +11,7 @@ import com.zee.ent.extend.gp.GpDictionaryType;
 /**
  * @author Zee
  * @createDate 2017/05/22 14:01:29
- * @updateDate 2021/2/2 18:48:24
+ * @updateDate 2021/9/13 15:02:01
  * @description 扩展自实体类IBaseUntDal<GpDictionary>，可手动更改。字典信息。
  */
 

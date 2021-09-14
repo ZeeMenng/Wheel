@@ -1,5 +1,6 @@
 package com.zee.app.extend.swagger.gp;
 
+import com.zee.set.symbolic.SqlSymbolic;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -63,16 +64,8 @@ public class GpDictionaryTypeSwgApp extends GpDictionaryTypeGenSwgApp {
 			return resultModel;
 
 		Map<String, Object> map = new HashMap<String, Object>();
-		StringBuffer selectBuffer = new StringBuffer();                                  
-		selectBuffer.append("	SELECT                                                   ");
-		selectBuffer.append("		A.id id,                                             ");
-		selectBuffer.append("		A.name typeName,                                   ");
-		selectBuffer.append("		A.remark remark,                                     ");
-		selectBuffer.append("		A.constant_name constantName                          ");
-		selectBuffer.append("	FROM                                                     ");
-		selectBuffer.append("		gp_dictionary_type A                                 ");
-		selectBuffer.append("	WHERE                                                    ");
-		selectBuffer.append("		1 = 1                           					 ");
+		StringBuffer selectBuffer = new StringBuffer();
+		selectBuffer.append(SqlSymbolic.SQL_SELECT_DICTIONARYTYPE_LIST);
         if (!StringUtils.isBlank(jsonData)) {
 			JSONObject jsonObject = JSONObject.fromObject(jsonData);
 
@@ -89,7 +82,9 @@ public class GpDictionaryTypeSwgApp extends GpDictionaryTypeGenSwgApp {
 
 			if (jsonObject.containsKey("entityRelated")) {
 				JSONObject entityRelatedObject = jsonObject.getJSONObject("entityRelated");
-                
+				if (entityRelatedObject.containsKey("keywords") && StringUtils.isNotBlank(entityRelatedObject.getString("keywords"))) {
+					selectBuffer.append(String.format(" and( A.name like %1$s or A.constant_name like %1$s)", "'%" + entityRelatedObject.getString("keywords") + "%'"));
+				}
 				if (entityRelatedObject.containsKey("name") && StringUtils.isNotBlank(entityRelatedObject.getString("name")))
 					selectBuffer.append(" and A.name like '%").append(entityRelatedObject.getString("name")).append("%'");
 				if (entityRelatedObject.containsKey("constantName") && StringUtils.isNotBlank(entityRelatedObject.getString("constantName")))

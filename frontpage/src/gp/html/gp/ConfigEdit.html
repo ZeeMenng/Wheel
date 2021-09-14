@@ -1,98 +1,99 @@
 ﻿<!DOCTYPE html>
 
 <html lang="zh-cn">
+
 <head>
-<!--#include file="../cl/Header.html"-->
-<script src="../../js/gp/Config.js" type="text/javascript"></script>
-<script src="../../js/co/CommonEdit.js" type="text/javascript"></script>
-<script type="text/javascript">
-	$(document).ready(function() {
+	<!--#include file="../cl/Header.html"-->
+	<script src="../../js/gp/Config.js" type="text/javascript"></script>
+	<script src="../../js/co/CommonEdit.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		$(document).ready(function () {
 
-		// 初始化选择应用下拉框
-		var selectParam = {
-			selectId : "selectDomainId",
-			textField : "name",
-			valueField : "id"
-		};
+			// 初始化选择应用下拉框
+			var selectParam = {
+				selectId: "selectDomainId",
+				textField: "name",
+				valueField: "id"
+			};
 
-		var domainJsonData = {
-			"entityRelated" : {
+			var domainJsonData = {
+				"entityRelated": {
 
-			},
-			"orderList" : [ {
-				"columnName" : "name",
-				"isASC" : true
-			} ]
-		};
-		var ajaxParam = {
-			async : false,
-			url : RU_GPDOMAIN_GETLISTBYJSONDATA + "?jsonData=" + JSON.stringify(domainJsonData)
-		};
-		initDropDownList(selectParam, ajaxParam);
-		$("#selectDomainId").select2({
-			placeholder : '请选择，可搜索……',
-			width : '100%'
-		});
-
-		var pageParam = {
-			formId : "formEdit",
-			validateRules : {
-				textConfigValue : {
-					required : true
 				},
-				selectDomainId : {
-					required : true
-				},
-				textCode : {
-					required : true,
-					remote : {
-						type : "POST",
-						url : INTERFACE_SERVER + RU_GPRCONFIGDOMAIN_ISUNIQUECODE,
-						data : {
-							code : function() {
-								return $("#textCode").val();
+				"orderList": [{
+					"columnName": "name",
+					"isASC": true
+				}]
+			};
+			var ajaxParam = {
+				async: false,
+				url: RU_GPDOMAIN_GETLISTBYJSONDATA + "?jsonData=" + JSON.stringify(domainJsonData)
+			};
+			initDropDownList(selectParam, ajaxParam);
+			$("#selectDomainId").select2({
+				placeholder: '请选择，可搜索……',
+				width: '100%'
+			});
+
+			var pageParam = {
+				formId: "formEdit",
+				validateRules: {
+					textConfigValue: {
+						required: true
+					},
+					selectDomainId: {
+						required: true
+					},
+					textCode: {
+						required: true,
+						remote: {
+							type: "POST",
+							url: INTERFACE_SERVER + RU_GPRCONFIGDOMAIN_ISUNIQUECODE,
+							data: {
+								code: function () {
+									return $("#textCode").val();
+								},
+								oldCode: function () {
+									return $("#hiddenOldCode").val();
+								}
 							},
-							oldCode : function() {
-								return $("#hiddenOldCode").val();
+							dataFilter: function (data) {
+								var json = JSON.parse(data);
+								if (json.isSuccess) {
+									return true;
+								}
+								return false;
 							}
-						},
-						dataFilter : function(data) {
-							var json = JSON.parse(data);
-							if (json.isSuccess) {
-								return true;
-							}
-							return false;
 						}
 					}
+				},
+				validateMessages: {
+					textCode: {
+						remote: "键已存在！"
+					}
 				}
-			},
-			validateMessages : {
-				textCode : {
-					remote : "键已存在！"
+			};
+
+			var pageParam = {
+				formId: "formEdit",
+				validateRules: {
+
 				}
-			}
-		};
+			};
+			var ajaxParam = {
+				getModelAsync: false,
+				url: RU_GPRCONFIGDOMAIN_UPDATE,
+				updateListUrl: RU_GPCONFIG_UPDATELIST,
+				getModelUrl: RU_GPRCONFIGDOMAIN_GETDOMAINCONFIGBYPATH,
+				submitData: {}
+			};
+			var initResult = initEditPage(pageParam, ajaxParam);
 
-		var pageParam = {
-			formId : "formEdit",
-			validateRules : {
-
-			}
-		};
-		var ajaxParam = {
-			getModelAsync : false,
-			url : RU_GPRCONFIGDOMAIN_UPDATE,
-			updateListUrl : RU_GPCONFIG_UPDATELIST,
-			getModelUrl : RU_GPRCONFIGDOMAIN_GETDOMAINCONFIGBYPATH,
-			submitData : {}
-		};
-		var initResult = initEditPage(pageParam, ajaxParam);
-
-		//触发选中事件
-		$("#selectDomainId").trigger("change");
-		$("#hiddenOldCode").val(initResult.data.code);
-	});
-</script>
+			//触发选中事件
+			$("#selectDomainId").trigger("change");
+			$("#hiddenOldCode").val(initResult.data.code);
+		});
+	</script>
 </head>
 
 <body class="page-header-fixed page-sidebar-closed-hide-logo page-wrapper">
@@ -137,8 +138,10 @@
 														<span class="required" aria-required="true"> * </span>
 													</label>
 													<div class="col-md-3">
-														<input id="textCode" name="textCode" type="text" data-required="1" class="form-control" />
-														<input id="hiddenOldCode" name="hiddenOldCode" type="hidden" class="form-control" />
+														<input id="textCode" name="textCode" type="text"
+															data-required="1" class="form-control" />
+														<input id="hiddenOldCode" name="hiddenOldCode" type="hidden"
+															class="form-control" />
 													</div>
 												</div>
 												<div class="element-group right">
@@ -147,7 +150,8 @@
 														<span class="required" aria-required="true"> * </span>
 													</label>
 													<div class="col-md-3">
-														<input id="textConfigValue" name="textConfigValue" type="text" data-required="1" class="form-control" />
+														<input id="textConfigValue" name="textConfigValue" type="text"
+															data-required="1" class="form-control" />
 													</div>
 												</div>
 											</div>
@@ -160,7 +164,8 @@
 													</label>
 													<div class="col-md-3">
 														<div class="input-group select2-bootstrap-append">
-															<select id="selectDomainId" name="selectDomainId" class="form-control select2">
+															<select id="selectDomainId" name="selectDomainId"
+																class="form-control select2">
 																<option></option>
 															</select>
 
@@ -171,7 +176,8 @@
 												<div class="element-group left">
 													<label for="textName" class="control-label col-md-2">名称 </label>
 													<div class="col-md-3">
-														<input id="textName" name="textName" type="text" data-required="1" class="form-control" />
+														<input id="textName" name="textName" type="text"
+															data-required="1" class="form-control" />
 													</div>
 												</div>
 
@@ -181,7 +187,8 @@
 												<div class="element-group left">
 													<label class="control-label col-md-2" for="textRemark">备注字段 </label>
 													<div class="col-md-8">
-														<textarea id="textareaRemark" name="textareaRemark" class="form-control" rows="3"></textarea>
+														<textarea id="textareaRemark" name="textareaRemark"
+															class="form-control" rows="3"></textarea>
 													</div>
 												</div>
 											</div>
@@ -202,4 +209,5 @@
 	</div>
 	<!--#include file="../cl/Footer.html"-->
 </body>
+
 </html>

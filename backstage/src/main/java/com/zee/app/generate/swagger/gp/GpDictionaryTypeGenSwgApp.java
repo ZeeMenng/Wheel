@@ -34,7 +34,7 @@ import net.sf.json.JSONObject;
 /**
  * @author Zee
  * @createDate 2017/05/22 15:00:55
- * @updateDate 2021/2/2 19:55:54
+ * @updateDate 2021/9/13 15:01:58
  * @description 字典类型。 对外接口，扩展自BaseSwgApp，自动生成。
  */
 
@@ -173,7 +173,7 @@ public class GpDictionaryTypeGenSwgApp extends BaseSwgApp {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		StringBuffer selectBuffer = new StringBuffer();
-		selectBuffer.append("select A.id id,A.name name,A.remark remark,A.constant_name constantName  from gp_dictionary_type A inner join gp_dictionary_type B on A.id=B.id where 1=1 ");
+		selectBuffer.append("select A.id id,A.name name,A.constant_name constantName,A.remark remark,A.add_time addTime,A.update_time updateTime  from gp_dictionary_type A inner join gp_dictionary_type B on A.id=B.id where 1=1 ");
         
         if (!StringUtils.isBlank(jsonData)) {
 			JSONObject jsonObject = JSONObject.fromObject(jsonData);
@@ -194,10 +194,10 @@ public class GpDictionaryTypeGenSwgApp extends BaseSwgApp {
                 
 				if (entityRelatedObject.containsKey("name") && StringUtils.isNotBlank(entityRelatedObject.getString("name")))
 					selectBuffer.append(" and A.name like '%").append(entityRelatedObject.getString("name")).append("%'");
-				if (entityRelatedObject.containsKey("remark") && StringUtils.isNotBlank(entityRelatedObject.getString("remark")))
-					selectBuffer.append(" and A.remark like '%").append(entityRelatedObject.getString("remark")).append("%'");
 				if (entityRelatedObject.containsKey("constantName") && StringUtils.isNotBlank(entityRelatedObject.getString("constantName")))
 					selectBuffer.append(" and A.constant_name like '%").append(entityRelatedObject.getString("constantName")).append("%'");
+				if (entityRelatedObject.containsKey("remark") && StringUtils.isNotBlank(entityRelatedObject.getString("remark")))
+					selectBuffer.append(" and A.remark like '%").append(entityRelatedObject.getString("remark")).append("%'");
 			}
 
 			if (jsonObject.containsKey("page")) {

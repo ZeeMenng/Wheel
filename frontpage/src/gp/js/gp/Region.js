@@ -47,8 +47,8 @@ function initUlRegionTree(regionCountryISO) {
 		data: {
 			simpleData: {
 				enable: true,
-				idKey: "code",
-				pIdKey: "fartherCode"
+				idKey: "id",
+				pIdKey: "fartherId"
 			}
 		},
 

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.zee.dao.unity.gp.IGpDictionaryUntDal" >
 
@@ -9,10 +9,12 @@
               <result column="text" property="text" jdbcType="VARCHAR" />
               <result column="priority" property="priority" jdbcType="INTEGER" />
               <result column="remark" property="remark" jdbcType="VARCHAR" />
+              <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+              <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
   
   <sql id="Base_Column_List" >
-        id,type_id,code,text,priority,remark
+        id,type_id,code,text,priority,remark,add_time,update_time
   </sql>
   
   <insert id="add" parameterType="com.zee.ent.extend.gp.GpDictionary" >
@@ -40,6 +42,12 @@
               remark,
           </if>
       
+          <if test="addTime != null " >
+              add_time,
+          </if>
+          <if test="updateTime != null " >
+              update_time,
+          </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
           <if test="id != null and id != '' " >
@@ -60,6 +68,12 @@
           <if test="remark != null and remark != '' " >
               #{remark,jdbcType=VARCHAR},
           </if>
+          <if test="addTime != null " >
+              #{addTime,jdbcType=TIMESTAMP},
+          </if>
+          <if test="updateTime != null " >
+              #{updateTime,jdbcType=TIMESTAMP},
+          </if>
     </trim>
   </insert>
   
@@ -78,6 +92,8 @@
           #{gpDictionary.text,jdbcType=VARCHAR},
           #{gpDictionary.priority,jdbcType=INTEGER},
           #{gpDictionary.remark,jdbcType=VARCHAR},
+          #{gpDictionary.addTime,jdbcType=TIMESTAMP},
+          #{gpDictionary.updateTime,jdbcType=TIMESTAMP},
 
         </trim>
     	</foreach>
@@ -99,6 +115,8 @@
           #{gpDictionary.text,jdbcType=VARCHAR},
           #{gpDictionary.priority,jdbcType=INTEGER},
           #{gpDictionary.remark,jdbcType=VARCHAR},
+          #{gpDictionary.addTime,jdbcType=TIMESTAMP},
+          #{gpDictionary.updateTime,jdbcType=TIMESTAMP},
 
         </trim>
     	</foreach>
@@ -108,7 +126,9 @@ type_id=values(type_id),
 code=values(code),
 text=values(text),
 priority=values(priority),
-remark=values(remark)
+remark=values(remark),
+add_time=values(add_time),
+update_time=values(update_time)
         
     </insert>
 
@@ -191,6 +211,12 @@ remark=values(remark)
                      remark = #{remark,jdbcType=VARCHAR},
                   </when>
                   </choose>
+                  <if test="addTime != null ">
+                     add_time = #{addTime,jdbcType=TIMESTAMP},
+                  </if>
+                  <if test="updateTime != null ">
+                     update_time = #{updateTime,jdbcType=TIMESTAMP},
+                  </if>
    </set>
                  where  id = #{id,jdbcType=VARCHAR}
   </update>
@@ -212,6 +238,12 @@ remark=values(remark)
                   </if>
                   <if test="t.remark != null  and t.remark != '' " >
                      remark = #{t.remark,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.addTime != null ">
+                     add_time = #{t.addTime,jdbcType=TIMESTAMP},
+                  </if>
+                  <if test="t.updateTime != null ">
+                     update_time = #{t.updateTime,jdbcType=TIMESTAMP},
                   </if>
    </set>
 	
@@ -278,6 +310,20 @@ remark=values(remark)
                   </if> 
               </foreach>
          </trim>
+         <trim prefix="add_time =case" suffix="end,">
+              <foreach collection="list" item="gpDictionary" index="index">
+                  <if test="gpDictionary.addTime != null " >
+                     when id=#{gpDictionary.id} then #{gpDictionary.addTime,jdbcType=TIMESTAMP}
+                  </if>
+              </foreach>
+         </trim>
+         <trim prefix="update_time =case" suffix="end,">
+              <foreach collection="list" item="gpDictionary" index="index">
+                  <if test="gpDictionary.updateTime != null " >
+                     when id=#{gpDictionary.id} then #{gpDictionary.updateTime,jdbcType=TIMESTAMP}
+                  </if>
+              </foreach>
+         </trim>
     </trim>
     where id in
 		<foreach collection="list" item="gpDictionary" index="index" open="(" close=")" separator=",">
@@ -296,6 +342,8 @@ code,
 text,
 priority,
 remark,
+add_time,
+update_time,
     </trim>
     VALUES
     <foreach collection="list" item="gpDictionary" index="index" separator=",">
@@ -316,6 +364,12 @@ remark,
                   
                      #{gpDictionary.remark ,jdbcType=VARCHAR},
                   
+                  
+                    #{gpDictionary.addTime,jdbcType=TIMESTAMP},
+            
+                  
+                    #{gpDictionary.updateTime,jdbcType=TIMESTAMP},
+            
       </trim>
     </foreach>
   </insert>
@@ -338,6 +392,12 @@ remark,
 			and id LIKE CONCAT('%',#{EntityRelated.id,jdbcType=VARCHAR},'%')
 		</if>
 
+		<if test="EntityRelated.beginAddTime != null ">
+				<![CDATA[ AND  unix_timestamp(add_time)>=unix_timestamp(#{EntityRelated.beginAddTime})]]> 
+		</if>
+		<if test="EntityRelated.endAddTime != null ">
+				<![CDATA[ AND  unix_timestamp(add_time)<unix_timestamp(#{EntityRelated.endAddTime})]]> 
+		</if>
 		<if test="EntityRelated.id != null and EntityRelated.id != '' ">
 				and id = #{EntityRelated.id,jdbcType=VARCHAR} 
 		</if>
@@ -349,6 +409,12 @@ remark,
 		</if>
 		<if test="EntityRelated.typeId != null and EntityRelated.typeId != '' ">
 				and type_id = #{EntityRelated.typeId,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.beginUpdateTime != null ">
+				<![CDATA[ AND  unix_timestamp(update_time)>=unix_timestamp(#{EntityRelated.beginUpdateTime})]]> 
+		</if>
+		<if test="EntityRelated.endUpdateTime != null ">
+				<![CDATA[ AND  unix_timestamp(update_time)<unix_timestamp(#{EntityRelated.endUpdateTime})]]> 
 		</if>
 
 

@@ -4,6 +4,7 @@
 
   <resultMap id="BaseResultMap" type="com.zee.ent.extend.gp.GpRegion" >
               <id column="id" property="id" jdbcType="VARCHAR" />
+              <result column="farther_id" property="fartherId" jdbcType="VARCHAR" />
               <result column="code" property="code" jdbcType="VARCHAR" />
               <result column="name" property="name" jdbcType="VARCHAR" />
               <result column="english_name" property="englishName" jdbcType="VARCHAR" />
@@ -21,7 +22,7 @@
   </resultMap>
   
   <sql id="Base_Column_List" >
-        id,code,name,english_name,farther_code,level,category_code,category_text,latitude,longitude,area,iso,country_iso,is_display_code,remark
+        id,farther_id,code,name,english_name,farther_code,level,category_code,category_text,latitude,longitude,area,iso,country_iso,is_display_code,remark
   </sql>
   
   <insert id="add" parameterType="com.zee.ent.extend.gp.GpRegion" >
@@ -29,6 +30,10 @@
     <trim prefix="(" suffix=")" suffixOverrides="," >
           <if test="id != null and id != '' " >
               id,
+          </if>
+      
+          <if test="fartherId != null and fartherId != '' " >
+              farther_id,
           </if>
       
           <if test="code != null and code != '' " >
@@ -88,6 +93,9 @@
           <if test="id != null and id != '' " >
               #{id,jdbcType=VARCHAR},
           </if>
+          <if test="fartherId != null and fartherId != '' " >
+              #{fartherId,jdbcType=VARCHAR},
+          </if>
           <if test="code != null and code != '' " >
               #{code,jdbcType=VARCHAR},
           </if>
@@ -143,6 +151,7 @@
             <trim prefix="(" suffix=")" suffixOverrides="," >
 
           #{gpRegion.id,jdbcType=VARCHAR},
+          #{gpRegion.fartherId,jdbcType=VARCHAR},
           #{gpRegion.code,jdbcType=VARCHAR},
           #{gpRegion.name,jdbcType=VARCHAR},
           #{gpRegion.englishName,jdbcType=VARCHAR},
@@ -173,6 +182,7 @@
             <trim prefix="(" suffix=")" suffixOverrides="," >
 
           #{gpRegion.id,jdbcType=VARCHAR},
+          #{gpRegion.fartherId,jdbcType=VARCHAR},
           #{gpRegion.code,jdbcType=VARCHAR},
           #{gpRegion.name,jdbcType=VARCHAR},
           #{gpRegion.englishName,jdbcType=VARCHAR},
@@ -192,6 +202,7 @@
     	</foreach>
         ON DUPLICATE KEY UPDATE
 id=values(id),
+farther_id=values(farther_id),
 code=values(code),
 name=values(name),
 english_name=values(english_name),
@@ -230,6 +241,17 @@ remark=values(remark)
   <update id="update" parameterType="com.zee.ent.extend.gp.GpRegion" >
     update gp_region
     <set >
+                    <choose>
+                   <when test="fartherId != null and fartherId=='-1'">
+                     farther_id = null,
+                  </when>
+                  <when test="fartherId != null and fartherId=='-2'">
+                     farther_id = '',
+                  </when>
+                  <when test="fartherId != null  and fartherId != '' " >
+                     farther_id = #{fartherId,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
                     <choose>
                    <when test="code != null and code=='-1'">
                      code = null,
@@ -359,6 +381,9 @@ remark=values(remark)
 <update id="updateList">
     update gp_region
     <set >
+                  <if test="t.fartherId != null  and t.fartherId != '' " >
+                     farther_id = #{t.fartherId,jdbcType=VARCHAR},
+                  </if>
                   <if test="t.code != null  and t.code != '' " >
                      code = #{t.code,jdbcType=VARCHAR},
                   </if>
@@ -413,6 +438,19 @@ remark=values(remark)
 <update id="updateListWithDff"  parameterType="list">
     update gp_region
 		<trim prefix="set" suffixOverrides=",">
+         <trim prefix="farther_id =case" suffix="end,">
+              <foreach collection="list" item="gpRegion" index="index">
+                  <if test="gpRegion.fartherId != null and gpRegion.fartherId  != ''  and gpRegion.fartherId  != '-1' ">
+                     when id=#{gpRegion.id} then #{gpRegion.fartherId,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpRegion.fartherId != null  and gpRegion.fartherId  == '-1' ">
+                     when id=#{gpRegion.id} then null
+                  </if>  
+                   <if test="gpRegion.fartherId != null  and gpRegion.fartherId  == '-2' ">
+                     when id=#{gpRegion.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
          <trim prefix="code =case" suffix="end,">
               <foreach collection="list" item="gpRegion" index="index">
                   <if test="gpRegion.code != null and gpRegion.code  != ''  and gpRegion.code  != '-1' ">
@@ -584,6 +622,7 @@ remark=values(remark)
     replace into gp_region
         <trim prefix="(" suffix=")" suffixOverrides="," >
 id,
+farther_id,
 code,
 name,
 english_name,
@@ -603,6 +642,9 @@ remark,
     <foreach collection="list" item="gpRegion" index="index" separator=",">
       <trim prefix="(" suffix=")" suffixOverrides=",">
               #{gpRegion.id ,jdbcType=VARCHAR},
+                  
+                     #{gpRegion.fartherId ,jdbcType=VARCHAR},
+                  
                   
                      #{gpRegion.code ,jdbcType=VARCHAR},
                   
@@ -684,6 +726,9 @@ remark,
 		</if>
 		<if test="EntityRelated.fartherCode != null">
 				and farther_code = #{EntityRelated.fartherCode,jdbcType=TINYINT} 
+		</if>
+		<if test="EntityRelated.fartherId != null and EntityRelated.fartherId != '' ">
+				and farther_id = #{EntityRelated.fartherId,jdbcType=VARCHAR} 
 		</if>
 		<if test="EntityRelated.id != null and EntityRelated.id != '' ">
 				and id = #{EntityRelated.id,jdbcType=VARCHAR} 

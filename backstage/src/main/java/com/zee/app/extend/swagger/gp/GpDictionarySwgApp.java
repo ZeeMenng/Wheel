@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.zee.set.symbolic.SqlSymbolic;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -148,20 +149,7 @@ public class GpDictionarySwgApp extends GpDictionaryGenSwgApp {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		StringBuffer selectBuffer = new StringBuffer();
-		selectBuffer.append("	SELECT                                                            ");
-		selectBuffer.append("		A.id id,                                                      ");
-		selectBuffer.append("		A.type_id typeId,                                             ");
-		selectBuffer.append("		A.code code,                                                ");
-		selectBuffer.append("		A.text text,                                                  ");
-		selectBuffer.append("		A.priority priority,                                          ");
-		selectBuffer.append("		A.remark remark,                                              ");
-		selectBuffer.append("		B.name typeName                                             ");
-		selectBuffer.append("	FROM                                                              ");
-		selectBuffer.append("		gp_dictionary A                                               ");
-		selectBuffer.append("	INNER JOIN gp_dictionary_type B ON A.type_id = B.id               ");
-		selectBuffer.append("	WHERE                                                             ");
-		selectBuffer.append("		1 = 1                                                         ");
-
+		selectBuffer.append(SqlSymbolic.SQL_SELECT_DICTIONARY_LIST);
 		if (!StringUtils.isBlank(jsonData)) {
 			JSONObject jsonObject = JSONObject.fromObject(jsonData);
 
@@ -178,7 +166,9 @@ public class GpDictionarySwgApp extends GpDictionaryGenSwgApp {
 
 			if (jsonObject.containsKey("entityRelated")) {
 				JSONObject entityRelatedObject = jsonObject.getJSONObject("entityRelated");
-
+				if (entityRelatedObject.containsKey("keywords") && StringUtils.isNotBlank(entityRelatedObject.getString("keywords"))) {
+					selectBuffer.append(String.format(" and( B.name like %1$s or B.constant_name like %1$s  or A.text like %1$s or A.code like %1$s )", "'%" + entityRelatedObject.getString("keywords") + "%'"));
+				}
 				if (entityRelatedObject.containsKey("code") && StringUtils.isNotBlank(entityRelatedObject.getString("code")))
 					selectBuffer.append(" and A.code like '%").append(entityRelatedObject.getString("code")).append("%'");
 				if (entityRelatedObject.containsKey("text") && StringUtils.isNotBlank(entityRelatedObject.getString("text")))

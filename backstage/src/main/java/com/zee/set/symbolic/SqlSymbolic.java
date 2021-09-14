@@ -43,5 +43,13 @@ public class SqlSymbolic {
 
 
 	// 查询地区列表
-	public static final String SQL_SELECT_REGION_LIST = "select A.id id,A.code code,A.name name,A.english_name englishName,A.farther_code fartherCode,A.level level,A.category_code categoryCode,A.category_text categoryText,A.latitude latitude,A.longitude longitude,A.area area,A.iso iso,A.country_iso countryIso,A.is_display_code isDisplayCode,A.remark remark  from gp_region A inner join gp_region B on A.id=B.id where 1=1 ";
+	public static final String SQL_SELECT_REGION_LIST = "select A.id id,A.farther_id fartherId,A.code code,A.name name,A.english_name englishName,A.farther_code fartherCode,A.level level,A.category_code categoryCode,A.category_text categoryText,A.latitude latitude,A.longitude longitude,A.area area,A.iso iso,A.country_iso countryIso,A.is_display_code isDisplayCode,A.remark remark  from gp_region A inner join gp_region B on A.id=B.id where 1=1 ";
+
+	// 查询字典列表
+	public static final String SQL_SELECT_DICTIONARY_LIST = "select A.id id,A.type_id typeId,A.code code,A.text text,A.priority priority,A.remark remark,A.add_time addTime,A.update_time updateTime,B.name typeName,B.constant_name typeConstantName from gp_dictionary A inner join gp_dictionary_type B on A.type_id=B.id where 1=1 ";
+
+	// 查询字典项列表
+	public static final String SQL_SELECT_DICTIONARYTYPE_LIST = "select A.id id,A.name name,A.constant_name constantName,A.remark remark,A.add_time addTime,A.update_time updateTime  from gp_dictionary_type A inner join gp_dictionary_type B on A.id=B.id where 1=1 ";
+
+
 }

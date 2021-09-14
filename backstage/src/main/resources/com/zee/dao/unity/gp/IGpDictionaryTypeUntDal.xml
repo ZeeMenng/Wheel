@@ -1,16 +1,18 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.zee.dao.unity.gp.IGpDictionaryTypeUntDal" >
 
   <resultMap id="BaseResultMap" type="com.zee.ent.extend.gp.GpDictionaryType" >
               <id column="id" property="id" jdbcType="VARCHAR" />
               <result column="name" property="name" jdbcType="VARCHAR" />
-              <result column="remark" property="remark" jdbcType="VARCHAR" />
               <result column="constant_name" property="constantName" jdbcType="VARCHAR" />
+              <result column="remark" property="remark" jdbcType="VARCHAR" />
+              <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+              <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
   
   <sql id="Base_Column_List" >
-        id,name,remark,constant_name
+        id,name,constant_name,remark,add_time,update_time
   </sql>
   
   <insert id="add" parameterType="com.zee.ent.extend.gp.GpDictionaryType" >
@@ -24,14 +26,20 @@
               name,
           </if>
       
-          <if test="remark != null and remark != '' " >
-              remark,
-          </if>
-      
           <if test="constantName != null and constantName != '' " >
               constant_name,
           </if>
       
+          <if test="remark != null and remark != '' " >
+              remark,
+          </if>
+      
+          <if test="addTime != null " >
+              add_time,
+          </if>
+          <if test="updateTime != null " >
+              update_time,
+          </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
           <if test="id != null and id != '' " >
@@ -40,11 +48,17 @@
           <if test="name != null and name != '' " >
               #{name,jdbcType=VARCHAR},
           </if>
+          <if test="constantName != null and constantName != '' " >
+              #{constantName,jdbcType=VARCHAR},
+          </if>
           <if test="remark != null and remark != '' " >
               #{remark,jdbcType=VARCHAR},
           </if>
-          <if test="constantName != null and constantName != '' " >
-              #{constantName,jdbcType=VARCHAR},
+          <if test="addTime != null " >
+              #{addTime,jdbcType=TIMESTAMP},
+          </if>
+          <if test="updateTime != null " >
+              #{updateTime,jdbcType=TIMESTAMP},
           </if>
     </trim>
   </insert>
@@ -60,8 +74,10 @@
 
           #{gpDictionaryType.id,jdbcType=VARCHAR},
           #{gpDictionaryType.name,jdbcType=VARCHAR},
-          #{gpDictionaryType.remark,jdbcType=VARCHAR},
           #{gpDictionaryType.constantName,jdbcType=VARCHAR},
+          #{gpDictionaryType.remark,jdbcType=VARCHAR},
+          #{gpDictionaryType.addTime,jdbcType=TIMESTAMP},
+          #{gpDictionaryType.updateTime,jdbcType=TIMESTAMP},
 
         </trim>
     	</foreach>
@@ -79,16 +95,20 @@
 
           #{gpDictionaryType.id,jdbcType=VARCHAR},
           #{gpDictionaryType.name,jdbcType=VARCHAR},
-          #{gpDictionaryType.remark,jdbcType=VARCHAR},
           #{gpDictionaryType.constantName,jdbcType=VARCHAR},
+          #{gpDictionaryType.remark,jdbcType=VARCHAR},
+          #{gpDictionaryType.addTime,jdbcType=TIMESTAMP},
+          #{gpDictionaryType.updateTime,jdbcType=TIMESTAMP},
 
         </trim>
     	</foreach>
         ON DUPLICATE KEY UPDATE
 id=values(id),
 name=values(name),
+constant_name=values(constant_name),
 remark=values(remark),
-constant_name=values(constant_name)
+add_time=values(add_time),
+update_time=values(update_time)
         
     </insert>
 
@@ -125,17 +145,6 @@ constant_name=values(constant_name)
                   </when>
                   </choose>
                     <choose>
-                   <when test="remark != null and remark=='-1'">
-                     remark = null,
-                  </when>
-                  <when test="remark != null and remark=='-2'">
-                     remark = '',
-                  </when>
-                  <when test="remark != null  and remark != '' " >
-                     remark = #{remark,jdbcType=VARCHAR},
-                  </when>
-                  </choose>
-                    <choose>
                    <when test="constantName != null and constantName=='-1'">
                      constant_name = null,
                   </when>
@@ -146,6 +155,23 @@ constant_name=values(constant_name)
                      constant_name = #{constantName,jdbcType=VARCHAR},
                   </when>
                   </choose>
+                    <choose>
+                   <when test="remark != null and remark=='-1'">
+                     remark = null,
+                  </when>
+                  <when test="remark != null and remark=='-2'">
+                     remark = '',
+                  </when>
+                  <when test="remark != null  and remark != '' " >
+                     remark = #{remark,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                  <if test="addTime != null ">
+                     add_time = #{addTime,jdbcType=TIMESTAMP},
+                  </if>
+                  <if test="updateTime != null ">
+                     update_time = #{updateTime,jdbcType=TIMESTAMP},
+                  </if>
    </set>
                  where  id = #{id,jdbcType=VARCHAR}
   </update>
@@ -156,11 +182,17 @@ constant_name=values(constant_name)
                   <if test="t.name != null  and t.name != '' " >
                      name = #{t.name,jdbcType=VARCHAR},
                   </if>
+                  <if test="t.constantName != null  and t.constantName != '' " >
+                     constant_name = #{t.constantName,jdbcType=VARCHAR},
+                  </if>
                   <if test="t.remark != null  and t.remark != '' " >
                      remark = #{t.remark,jdbcType=VARCHAR},
                   </if>
-                  <if test="t.constantName != null  and t.constantName != '' " >
-                     constant_name = #{t.constantName,jdbcType=VARCHAR},
+                  <if test="t.addTime != null ">
+                     add_time = #{t.addTime,jdbcType=TIMESTAMP},
+                  </if>
+                  <if test="t.updateTime != null ">
+                     update_time = #{t.updateTime,jdbcType=TIMESTAMP},
                   </if>
    </set>
 	
@@ -187,6 +219,19 @@ constant_name=values(constant_name)
                   </if> 
               </foreach>
          </trim>
+         <trim prefix="constant_name =case" suffix="end,">
+              <foreach collection="list" item="gpDictionaryType" index="index">
+                  <if test="gpDictionaryType.constantName != null and gpDictionaryType.constantName  != ''  and gpDictionaryType.constantName  != '-1' ">
+                     when id=#{gpDictionaryType.id} then #{gpDictionaryType.constantName,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpDictionaryType.constantName != null  and gpDictionaryType.constantName  == '-1' ">
+                     when id=#{gpDictionaryType.id} then null
+                  </if>  
+                   <if test="gpDictionaryType.constantName != null  and gpDictionaryType.constantName  == '-2' ">
+                     when id=#{gpDictionaryType.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
          <trim prefix="remark =case" suffix="end,">
               <foreach collection="list" item="gpDictionaryType" index="index">
                   <if test="gpDictionaryType.remark != null and gpDictionaryType.remark  != ''  and gpDictionaryType.remark  != '-1' ">
@@ -200,17 +245,18 @@ constant_name=values(constant_name)
                   </if> 
               </foreach>
          </trim>
-         <trim prefix="constant_name =case" suffix="end,">
+         <trim prefix="add_time =case" suffix="end,">
               <foreach collection="list" item="gpDictionaryType" index="index">
-                  <if test="gpDictionaryType.constantName != null and gpDictionaryType.constantName  != ''  and gpDictionaryType.constantName  != '-1' ">
-                     when id=#{gpDictionaryType.id} then #{gpDictionaryType.constantName,jdbcType=VARCHAR}
+                  <if test="gpDictionaryType.addTime != null " >
+                     when id=#{gpDictionaryType.id} then #{gpDictionaryType.addTime,jdbcType=TIMESTAMP}
                   </if>
-                  <if test="gpDictionaryType.constantName != null  and gpDictionaryType.constantName  == '-1' ">
-                     when id=#{gpDictionaryType.id} then null
-                  </if>  
-                   <if test="gpDictionaryType.constantName != null  and gpDictionaryType.constantName  == '-2' ">
-                     when id=#{gpDictionaryType.id} then ''
-                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="update_time =case" suffix="end,">
+              <foreach collection="list" item="gpDictionaryType" index="index">
+                  <if test="gpDictionaryType.updateTime != null " >
+                     when id=#{gpDictionaryType.id} then #{gpDictionaryType.updateTime,jdbcType=TIMESTAMP}
+                  </if>
               </foreach>
          </trim>
     </trim>
@@ -227,8 +273,10 @@ constant_name=values(constant_name)
         <trim prefix="(" suffix=")" suffixOverrides="," >
 id,
 name,
-remark,
 constant_name,
+remark,
+add_time,
+update_time,
     </trim>
     VALUES
     <foreach collection="list" item="gpDictionaryType" index="index" separator=",">
@@ -238,11 +286,17 @@ constant_name,
                      #{gpDictionaryType.name ,jdbcType=VARCHAR},
                   
                   
+                     #{gpDictionaryType.constantName ,jdbcType=VARCHAR},
+                  
+                  
                      #{gpDictionaryType.remark ,jdbcType=VARCHAR},
                   
                   
-                     #{gpDictionaryType.constantName ,jdbcType=VARCHAR},
+                    #{gpDictionaryType.addTime,jdbcType=TIMESTAMP},
+            
                   
+                    #{gpDictionaryType.updateTime,jdbcType=TIMESTAMP},
+            
       </trim>
     </foreach>
   </insert>
@@ -265,6 +319,12 @@ constant_name,
 			and id LIKE CONCAT('%',#{EntityRelated.id,jdbcType=VARCHAR},'%')
 		</if>
 
+		<if test="EntityRelated.beginAddTime != null ">
+				<![CDATA[ AND  unix_timestamp(add_time)>=unix_timestamp(#{EntityRelated.beginAddTime})]]> 
+		</if>
+		<if test="EntityRelated.endAddTime != null ">
+				<![CDATA[ AND  unix_timestamp(add_time)<unix_timestamp(#{EntityRelated.endAddTime})]]> 
+		</if>
 		<if test="EntityRelated.constantName != null and EntityRelated.constantName != '' ">
  				and  constant_name LIKE CONCAT('%',#{EntityRelated.constantName,jdbcType=VARCHAR},'%') 
 		</if>
@@ -276,6 +336,12 @@ constant_name,
 		</if>
 		<if test="EntityRelated.remark != null and EntityRelated.remark != '' ">
  				and  remark LIKE CONCAT('%',#{EntityRelated.remark,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.beginUpdateTime != null ">
+				<![CDATA[ AND  unix_timestamp(update_time)>=unix_timestamp(#{EntityRelated.beginUpdateTime})]]> 
+		</if>
+		<if test="EntityRelated.endUpdateTime != null ">
+				<![CDATA[ AND  unix_timestamp(update_time)<unix_timestamp(#{EntityRelated.endUpdateTime})]]> 
 		</if>
 
 

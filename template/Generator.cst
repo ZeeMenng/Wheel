@@ -190,8 +190,8 @@ private string classDirectory = String.Empty;
 
             ArrayList tableList = new ArrayList();
 
-            tableList.Add("gp_region");
-            tableList.Add("gp_region_country");
+            tableList.Add("gp_dictionary");
+            tableList.Add("gp_dictionary_type");
 
             if (tableList.Contains(table.Name))
             //   if (!table.Name.StartsWith("ds_"))  

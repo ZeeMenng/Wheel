@@ -381,7 +381,7 @@ function initMessage() {
  * @updateDate 2021年1月22日 下午4:22:16
  * @description 获取并设置Cookie当前用户在当前应用领域下的配置
  */
-function setDomainConfig() {
+function setUserConfigCookie() {
 
 	var ajaxParameter = {
 		"url": RU_GPRCONFIGUSER_GETCURRENTUSERCONFIG,
@@ -440,7 +440,7 @@ function updateUserConfig(userConfig) {
 		}),
 		"success": function (resultData) {
 			// 后台更新成功后，重新初始化本地Cookie
-			setDomainConfig();
+			setUserConfigCookie();
 		}
 	};
 

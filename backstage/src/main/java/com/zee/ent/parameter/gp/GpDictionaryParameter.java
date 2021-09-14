@@ -73,7 +73,34 @@ public class GpDictionaryParameter extends BaseParameter {
 
 		@ApiModel(value = "GpDictionaryGetListEntityRelated", description = "模糊查询GpDictionary所需的参数，实体类相关。")
 		public static class EntityRelated extends GpDictionaryGenEnt{
-        
+
+			@ApiModelProperty(value = "记录创建时间。查询起止时间。", required = false)
+			private Date beginAddTime;
+
+			@ApiModelProperty(value = "记录创建时间。查询结束时间。", required = false)
+			private Date endAddTime;
+
+			@ApiModelProperty(value = "记录最后一次修改时间。查询起止时间。", required = false)
+			private Date beginUpdateTime;
+
+			@ApiModelProperty(value = "记录最后一次修改时间。查询结束时间。", required = false)
+			private Date endUpdateTime;
+
+			public Date getBeginAddTime() {
+				return beginAddTime;
+			}
+
+			public void setBeginAddTime(Date beginAddTime) {
+				this.beginAddTime = beginAddTime;
+			}
+
+			public Date getBeginUpdateTime() {
+				return beginUpdateTime;
+			}
+
+			public void setBeginUpdateTime(Date beginUpdateTime) {
+				this.beginUpdateTime = beginUpdateTime;
+			}
 		}
 	}
 

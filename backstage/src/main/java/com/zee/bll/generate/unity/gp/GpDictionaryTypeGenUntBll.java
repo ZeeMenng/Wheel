@@ -28,7 +28,7 @@ import net.sf.json.JSONObject;
 /**
  * @author Zee
  * @createDate 2017/05/22 14:01:41
- * @updateDate 2021/2/2 18:48:13
+ * @updateDate 2021/9/13 15:02:01
  * @description 字典类型。 业务逻辑处理类，扩展自BaseUntBll<GpDictionaryType>，自动生成。
  */
 public class GpDictionaryTypeGenUntBll extends BaseUntBll<GpDictionaryType> {

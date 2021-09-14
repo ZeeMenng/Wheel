@@ -249,7 +249,7 @@ function getData(ajaxParam) {
 					path : '/'
 				};
 				setCookies(cookieData);
-				setDomainConfig();
+				setUserConfigCookie();
 				window.location.href = '../in/Index.html';
 				window.event.returnValue = false;
 			} else {

@@ -13,7 +13,7 @@ import com.zee.ent.base.BaseEnt;
 /**
  * @author Zee
  * @createDate 2017/05/18 14:54:22
- * @updateDate 2021/9/8 9:50:23
+ * @updateDate 2021/9/13 13:56:18
  * @description 实体类GpRegionGenEnt，自动生成。地区信息。
  */
 
@@ -26,7 +26,7 @@ public class GpRegionGenEnt extends BaseEnt implements Serializable {
     private Byte categoryCode;
     @ApiModelProperty(value="地区类别。对应数据字典表（dictionary）中的编码文本（text）。用于区分Region表中记录的类型。0是国家，1是直辖市，2是省，3是自治区，4是特别行政区，5是地级市，6是直辖市下的区，7是县级市（县级市不好区分，可以都暂时默认为7），8是县。",hidden=false,required=false)
     private String categoryText;
-    @ApiModelProperty(value="地区编码。",hidden=false,required=false)
+    @ApiModelProperty(value="地区编码。",hidden=false,required=true)
     private String code;
     @ApiModelProperty(value="所属国家，ISO 3166-2国际标准代码。",hidden=false,required=false)
     private String countryIso;
@@ -34,6 +34,8 @@ public class GpRegionGenEnt extends BaseEnt implements Serializable {
     private String englishName;
     @ApiModelProperty(value="父级地区，引用父级行政机构的主键。",allowableValues="0,1",hidden=false,required=false)
     private String fartherCode;
+    @ApiModelProperty(value="父级地区。外键，引用自身地区信息表（gp_region）的主键。",hidden=false,required=false)
+    private String fartherId;
     @ApiModelProperty(value="主键",hidden=false,required=true)
     private String id;
     @ApiModelProperty(value="是否显示。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，两种类型：0是，1否。默认值0。",allowableValues="0,1",hidden=false,required=false)
@@ -154,6 +156,20 @@ public class GpRegionGenEnt extends BaseEnt implements Serializable {
 	 */
 	public void setFartherCode(String fartherCode) {
 		this.fartherCode = fartherCode;
+	}
+    
+	/**
+	 * get方法。父级地区。外键，引用自身地区信息表（gp_region）的主键。
+	 */
+	public String getFartherId() {
+		return this.fartherId;
+	}
+
+	/**
+	 * set方法。父级地区。外键，引用自身地区信息表（gp_region）的主键。
+	 */
+	public void setFartherId(String fartherId) {
+		this.fartherId = fartherId;
 	}
     
 	/**
