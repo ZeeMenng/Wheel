@@ -58,25 +58,32 @@ function initAddPage(pageParam, ajaxParam) {
             successMessage.show();
             errorMessage.hide();
             var formData = formAdd.serializeArray();
+
             // 将查询条件和其它请求参数组装
             if (ajaxParam.submitData != null)
-            	if(typeof ajaxParam.submitData=="string")// 处理重复提交时反复转换的问题
-            		ajaxParam.submitData=JSON.parse(ajaxParam.submitData);
-                $.each(formData, function (i, n) {
-                    var propertyName = getPropertyName(formData[i].name)
-                    ajaxParam.submitData[propertyName] = formData[i].value;
-                });
+                if (typeof ajaxParam.submitData == "string")// 处理重复提交时反复转换的问题
+                    ajaxParam.submitData = JSON.parse(ajaxParam.submitData);
+
+            $.each(formData, function (i, n) {
+                var propertyName = getPropertyName(formData[i].name)
+                ajaxParam.submitData[propertyName] = formData[i].value;
+            });
+
+            //处理Repeater数据
+            if ($('.mt-repeater').repeaterVal() != null) {
+                ajaxParam.submitData = Object.assign(ajaxParam.submitData, getRepeaterVal());
+            }
 
             if (ajaxParam.type == null)
                 ajaxParam.type = "POST";
             if (ajaxParam.contentType == null)
                 ajaxParam.contentType = "application/json;charset=utf-8";
             if (ajaxParam.contentType === "application/json;charset=utf-8")
-            	if(typeof ajaxParam.submitData=="object")// 处理重复提交时反复转换的问题
-                ajaxParam.submitData = JSON.stringify(ajaxParam.submitData);
+                if (typeof ajaxParam.submitData == "object")// 处理重复提交时反复转换的问题
+                    ajaxParam.submitData = JSON.stringify(ajaxParam.submitData);
             if (ajaxParam.contentType === "application/x-www-form-urlencoded")
-            	if(typeof ajaxParam.submitData=="object")// 处理重复提交时反复转换的问题
-                ajaxParam.submitData = "jsonData=" + encodeURIComponent(JSON.stringify(ajaxParam.submitData));
+                if (typeof ajaxParam.submitData == "object")// 处理重复提交时反复转换的问题
+                    ajaxParam.submitData = "jsonData=" + encodeURIComponent(JSON.stringify(ajaxParam.submitData));
             if (ajaxParam.dataType == null)
                 ajaxParam.dataType = "JSON";
             if (ajaxParam.async == null)

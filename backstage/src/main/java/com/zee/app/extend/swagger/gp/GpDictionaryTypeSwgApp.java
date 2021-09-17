@@ -1,18 +1,27 @@
 package com.zee.app.extend.swagger.gp;
 
+import com.zee.bll.extend.unity.gp.GpDictionaryUntBll;
+import com.zee.ent.extend.gp.GpDictionary;
+import com.zee.ent.extend.gp.GpDictionaryType;
 import com.zee.set.symbolic.SqlSymbolic;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 import java.io.IOException;
-import java.util.HashMap;import com.zee.utl.CastObjectUtil;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import com.zee.utl.CastObjectUtil;
+
 import java.util.Map;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,111 +44,135 @@ import com.zee.utl.DateUtils;
 @RestController
 @RequestMapping(value = "/extend/swagger/gp/gpDictionaryType")
 public class GpDictionaryTypeSwgApp extends GpDictionaryTypeGenSwgApp {
-	
-	@ApiOperation(value = "批量修改", notes = "同时修改多条记录")
-	@ApiImplicitParams({ @ApiImplicitParam(paramType = "body", name = "jsonData", value = "json字符串，主键列表和要修改为的信息承载实体", required = true, dataType = "GpDictionaryTypeUpdateList") })
-	@RequestMapping(value = "/updateList", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResultModel updateList(@RequestBody GpDictionaryTypeParameter.UpdateList jsonData) {
 
-		ResultModel result = new ResultModel();
-		if((jsonData.getEntity().getName().equals("")||jsonData.getEntity().getName()==null)
-				&&(jsonData.getEntity().getConstantName().equals("")||jsonData.getEntity().getConstantName()==null)
-				&&(jsonData.getEntity().getRemark().equals("")||jsonData.getEntity().getRemark()==null)
-				){
-			result.setIsSuccessCode(CustomSymbolic.DCODE_BOOLEAN_T);	
-			return result;
-		}else{
-			result = gpDictionaryTypeUntBll.updateList(jsonData);
-					return result;
-				}
-	}
+    @Autowired
+    @Qualifier("gpDictionaryUntBll")
+    protected GpDictionaryUntBll gpDictionaryUntBll;
 
-	@ApiOperation(value = "模糊查询", notes = "根据查询条件模糊查询")
-	@RequestMapping(value = "/getListByJsonData", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResultModel getListByJsonData() {
-		ResultModel resultModel = new ResultModel();
+    @ApiOperation(value = "新增记录", notes = "新增单条记录")
+    @ApiImplicitParams({@ApiImplicitParam(paramType = "body", name = "jsonData", value = "json字符串", required = true, dataType = "GpDictionaryType")})
+    @RequestMapping(value = "/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResultModel add(@RequestBody GpDictionaryType jsonData) {
 
-		String jsonData = request.getParameter(CustomSymbolic.CONTROLLER_PARAM_JSON);
-		if (StringUtils.isBlank(jsonData))
-			return resultModel;
+        ResultModel result = gpDictionaryTypeUntBll.add(jsonData);
+        if (!result.getIsSuccess())
+            return result;
+        if (jsonData.getDictionaryList() != null) {
+            ArrayList<GpDictionary> dictionaryArrayList = new ArrayList<GpDictionary>();
+            for (GpDictionary dictionary : jsonData.getDictionaryList()) {
+                dictionary.setTypeId(result.getObjectId());
+                dictionaryArrayList.add(dictionary);
+            }
+            gpDictionaryUntBll.add(dictionaryArrayList);
+        }
 
-		Map<String, Object> map = new HashMap<String, Object>();
-		StringBuffer selectBuffer = new StringBuffer();
-		selectBuffer.append(SqlSymbolic.SQL_SELECT_DICTIONARYTYPE_LIST);
+        return result;
+    }
+
+    @ApiOperation(value = "批量修改", notes = "同时修改多条记录")
+    @ApiImplicitParams({@ApiImplicitParam(paramType = "body", name = "jsonData", value = "json字符串，主键列表和要修改为的信息承载实体", required = true, dataType = "GpDictionaryTypeUpdateList")})
+    @RequestMapping(value = "/updateList", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResultModel updateList(@RequestBody GpDictionaryTypeParameter.UpdateList jsonData) {
+
+        ResultModel result = new ResultModel();
+        if ((jsonData.getEntity().getName().equals("") || jsonData.getEntity().getName() == null)
+                && (jsonData.getEntity().getConstantName().equals("") || jsonData.getEntity().getConstantName() == null)
+                && (jsonData.getEntity().getRemark().equals("") || jsonData.getEntity().getRemark() == null)
+        ) {
+            result.setIsSuccessCode(CustomSymbolic.DCODE_BOOLEAN_T);
+            return result;
+        } else {
+            result = gpDictionaryTypeUntBll.updateList(jsonData);
+            return result;
+        }
+    }
+
+    @ApiOperation(value = "模糊查询", notes = "根据查询条件模糊查询")
+    @RequestMapping(value = "/getListByJsonData", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResultModel getListByJsonData() {
+        ResultModel resultModel = new ResultModel();
+
+        String jsonData = request.getParameter(CustomSymbolic.CONTROLLER_PARAM_JSON);
+        if (StringUtils.isBlank(jsonData))
+            return resultModel;
+
+        Map<String, Object> map = new HashMap<String, Object>();
+        StringBuffer selectBuffer = new StringBuffer();
+        selectBuffer.append(SqlSymbolic.SQL_SELECT_DICTIONARYTYPE_LIST);
         if (!StringUtils.isBlank(jsonData)) {
-			JSONObject jsonObject = JSONObject.fromObject(jsonData);
+            JSONObject jsonObject = JSONObject.fromObject(jsonData);
 
-			if (jsonObject.containsKey("selectRows")) {
-				JSONArray selectRowsArray = jsonObject.getJSONArray("selectRows");
-				if (selectRowsArray.size() > 0) {
-					selectBuffer.append(" and A.id in('");
-					for (int i = 0; i < selectRowsArray.size(); i++) {
-						selectBuffer.append(i == selectRowsArray.size() - 1 ? selectRowsArray.getString(i) + "'" : selectRowsArray.getString(i) + "','");
-					}
-					selectBuffer.append(")");
-				}
-			}
+            if (jsonObject.containsKey("selectRows")) {
+                JSONArray selectRowsArray = jsonObject.getJSONArray("selectRows");
+                if (selectRowsArray.size() > 0) {
+                    selectBuffer.append(" and A.id in('");
+                    for (int i = 0; i < selectRowsArray.size(); i++) {
+                        selectBuffer.append(i == selectRowsArray.size() - 1 ? selectRowsArray.getString(i) + "'" : selectRowsArray.getString(i) + "','");
+                    }
+                    selectBuffer.append(")");
+                }
+            }
 
-			if (jsonObject.containsKey("entityRelated")) {
-				JSONObject entityRelatedObject = jsonObject.getJSONObject("entityRelated");
-				if (entityRelatedObject.containsKey("keywords") && StringUtils.isNotBlank(entityRelatedObject.getString("keywords"))) {
-					selectBuffer.append(String.format(" and( A.name like %1$s or A.constant_name like %1$s)", "'%" + entityRelatedObject.getString("keywords") + "%'"));
-				}
-				if (entityRelatedObject.containsKey("name") && StringUtils.isNotBlank(entityRelatedObject.getString("name")))
-					selectBuffer.append(" and A.name like '%").append(entityRelatedObject.getString("name")).append("%'");
-				if (entityRelatedObject.containsKey("constantName") && StringUtils.isNotBlank(entityRelatedObject.getString("constantName")))
-					selectBuffer.append(" and A.constant_name like '%").append(entityRelatedObject.getString("constantName")).append("%'");
-			}
+            if (jsonObject.containsKey("entityRelated")) {
+                JSONObject entityRelatedObject = jsonObject.getJSONObject("entityRelated");
+                if (entityRelatedObject.containsKey("keywords") && StringUtils.isNotBlank(entityRelatedObject.getString("keywords"))) {
+                    selectBuffer.append(String.format(" and( A.name like %1$s or A.constant_name like %1$s)", "'%" + entityRelatedObject.getString("keywords") + "%'"));
+                }
+                if (entityRelatedObject.containsKey("name") && StringUtils.isNotBlank(entityRelatedObject.getString("name")))
+                    selectBuffer.append(" and A.name like '%").append(entityRelatedObject.getString("name")).append("%'");
+                if (entityRelatedObject.containsKey("constantName") && StringUtils.isNotBlank(entityRelatedObject.getString("constantName")))
+                    selectBuffer.append(" and A.constant_name like '%").append(entityRelatedObject.getString("constantName")).append("%'");
+            }
 
-			if (jsonObject.containsKey("page")) {
-				JSONObject pageObject = jsonObject.getJSONObject("page");
-				map.put("Page", pageObject);
-			}
+            if (jsonObject.containsKey("page")) {
+                JSONObject pageObject = jsonObject.getJSONObject("page");
+                map.put("Page", pageObject);
+            }
 
-			if (jsonObject.containsKey("orderList")) {
-				JSONArray orderListArray = jsonObject.getJSONArray("orderList");
-				if (orderListArray.size() != 0)
-					selectBuffer.append(" order by ");
-				for (int i = 0; i < orderListArray.size(); i++) {
-					JSONObject orderColumnObject = orderListArray.getJSONObject(i);
-					selectBuffer.append(orderColumnObject.getString("columnName"));
-					selectBuffer.append(orderColumnObject.getBoolean("isASC") ? " ASC" : " DESC");
-					selectBuffer.append((i + 1) == orderListArray.size() ? " " : " ,");
-				}
-			}
-		}
+            if (jsonObject.containsKey("orderList")) {
+                JSONArray orderListArray = jsonObject.getJSONArray("orderList");
+                if (orderListArray.size() != 0)
+                    selectBuffer.append(" order by ");
+                for (int i = 0; i < orderListArray.size(); i++) {
+                    JSONObject orderColumnObject = orderListArray.getJSONObject(i);
+                    selectBuffer.append(orderColumnObject.getString("columnName"));
+                    selectBuffer.append(orderColumnObject.getBoolean("isASC") ? " ASC" : " DESC");
+                    selectBuffer.append((i + 1) == orderListArray.size() ? " " : " ,");
+                }
+            }
+        }
 
-		map.put("Sql", selectBuffer.toString());
+        map.put("Sql", selectBuffer.toString());
 
-		resultModel = gpDictionaryTypeUntBll.getListBySQL(map);
+        resultModel = gpDictionaryTypeUntBll.getListBySQL(map);
 
-		return resultModel;
-	}
-	
-	@RequestMapping(value = "/exportExcel", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public void exportExcel() {
-		ResultModel resultModel = getListByJsonData();
-		String fileName = "字典信息列表数据" + DateUtils.getCurrentDateStr() + ".xls";
-		String jsonData = request.getParameter(CustomSymbolic.CONTROLLER_PARAM_JSON);
-		JSONArray columnInfoList = new JSONArray();
-		if (!StringUtils.isBlank(jsonData)) {
-			JSONObject json = JSONObject.fromObject(jsonData);
+        return resultModel;
+    }
 
-			if (json.containsKey("columnInfo")) {
-				columnInfoList = json.getJSONArray("columnInfo");
-			}
-		}
+    @RequestMapping(value = "/exportExcel", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public void exportExcel() {
+        ResultModel resultModel = getListByJsonData();
+        String fileName = "字典信息列表数据" + DateUtils.getCurrentDateStr() + ".xls";
+        String jsonData = request.getParameter(CustomSymbolic.CONTROLLER_PARAM_JSON);
+        JSONArray columnInfoList = new JSONArray();
+        if (!StringUtils.isBlank(jsonData)) {
+            JSONObject json = JSONObject.fromObject(jsonData);
 
-		if (resultModel != null) {
-			try {
-				exportExcel(fileName, columnInfoList, resultModel);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+            if (json.containsKey("columnInfo")) {
+                columnInfoList = json.getJSONArray("columnInfo");
+            }
+        }
 
-	}
-	
+        if (resultModel != null) {
+            try {
+                exportExcel(fileName, columnInfoList, resultModel);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
 }
 
 
