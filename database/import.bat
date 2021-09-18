@@ -1,0 +1,1 @@
+mysql -uroot -p850934828  --default-character-set=utf8 wheel < wheel.sql
