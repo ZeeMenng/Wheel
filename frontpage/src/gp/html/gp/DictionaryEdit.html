@@ -26,12 +26,16 @@
                 }
             };
             var ajaxParam = {
+                getModelAsync: false,
                 url: RU_GPDICTIONARY_UPDATE,
                 updateListUrl: RU_GPDICTIONARY_UPDATELIST,
                 getModelUrl: RU_GPDICTIONARY_GETMODELBYPATH,
                 submitData: {}
             };
-            initEditPage(pageParam, ajaxParam);
+            var initResult = initEditPage(pageParam, ajaxParam);
+            
+			//触发选中事件
+			$("#selectTypeId").trigger("change");
         });
     </script>
 </head>

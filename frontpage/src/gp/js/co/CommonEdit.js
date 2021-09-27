@@ -10,7 +10,7 @@ function initEditPage(pageParam, ajaxParam) {
 	var errorMessage = $('.alert-danger', formEdit);
 	var successMessage = $('.alert-success', formEdit);
 	var selectRowsCookie = getCookies({
-		item : "selectRows"
+		item: "selectRows"
 	});
 	var id = request(RECORD_ID);
 	var isUpdateList = false;
@@ -21,8 +21,8 @@ function initEditPage(pageParam, ajaxParam) {
 		pageParam.validateRules = {};
 	}
 
-	formEdit.on("submit", function() {
-		for ( var e in CKEDITOR.instances)
+	formEdit.on("submit", function () {
+		for (var e in CKEDITOR.instances)
 			CKEDITOR.instances[e].updateElement();
 		dynamicRules(pageParam);
 		lengthVerificationRules(pageParam);
@@ -30,26 +30,26 @@ function initEditPage(pageParam, ajaxParam) {
 	});
 
 	formEdit.validate({
-		errorClass : 'help-block',
-		rules : pageParam.validateRules,
-		messages : pageParam.validateMessages,
-		ignore : '',
-		errorPlacement : function(e, r) {
+		errorClass: 'help-block',
+		rules: pageParam.validateRules,
+		messages: pageParam.validateMessages,
+		ignore: '',
+		errorPlacement: function (e, r) {
 
 			r.attr("data-error-container") ? e.appendTo(r.attr("data-error-container")) : e.insertAfter(r)
 		},
-		highlight : function(element) {
+		highlight: function (element) {
 			$(element).closest('.element-group').addClass('has-error');
 		},
 
-		unhighlight : function(element) {
+		unhighlight: function (element) {
 			$(element).closest('.element-group').removeClass('has-error');
 		},
-		success : function(label) {
+		success: function (label) {
 			label.closest('.element-group').removeClass('has-error');
 		},
 
-		submitHandler : function(form) {
+		submitHandler: function (form) {
 
 			if (!dynamicRules(pageParam)) {
 				return;
@@ -71,10 +71,42 @@ function initEditPage(pageParam, ajaxParam) {
 			if (ajaxParam.submitData != null)
 				if (typeof ajaxParam.submitData == "string")// 处理重复提交时反复转换的问题
 					ajaxParam.submitData = JSON.parse(ajaxParam.submitData);
-			$.each(formData, function(i, n) {
+
+			//处理Repeater数据
+			var dataRepeaterListName;
+			if (pageParam.dataRepeaterList != null)
+				dataRepeaterListName = pageParam.dataRepeaterList.name;
+
+			$.each(formData, function (i, n) {
+				//处理Repeater数据
+				if (dataRepeaterListName != null && formData[i].name.indexOf(dataRepeaterListName) > -1)
+					return true;
+
 				var propertyName = getPropertyName(formData[i].name);
 				ajaxParam.submitData[propertyName] = formData[i].value;
 			});
+			//处理Repeater数据
+			if (pageParam.dataRepeaterList != null)
+				if ($('.repeater').repeaterVal() != null && $('.repeater').repeaterVal()[dataRepeaterListName] != null) {
+					var repeaterListForm = $('.repeater').repeaterVal()[dataRepeaterListName];
+					var repeaterList = new Array();
+					for (var i = 0; i < repeaterListForm.length; i++) {
+						var repeater = {};
+
+						//遍历Repeater对象属性
+						$.each(repeaterListForm[i], function (k, w) {
+							k = getPropertyName(k);
+							var startIndex = k.indexOf(dataRepeaterListName) + dataRepeaterListName.length;
+							var repeaterPropertyName = k.substr(startIndex);
+							//转换属性名称，首字母小写
+							repeaterPropertyName = repeaterPropertyName.substr(0, 1).toLowerCase() + repeaterPropertyName.substr(1);
+							repeater[repeaterPropertyName] = w;
+						});
+						repeaterList.push(repeater);
+					}
+					ajaxParam.submitData[dataRepeaterListName] = repeaterList;
+				}
+
 
 			if (ajaxParam.type == null)
 				ajaxParam.type = "POST";
@@ -83,8 +115,8 @@ function initEditPage(pageParam, ajaxParam) {
 
 			if (isUpdateList) {
 				ajaxParam.submitData = {
-					"entity" : ajaxParam.submitData,
-					"idList" : JSON.parse(selectRowsCookie)
+					"entity": ajaxParam.submitData,
+					"idList": JSON.parse(selectRowsCookie)
 				};
 				ajaxParam.url = ajaxParam.updateListUrl;
 			}
@@ -100,20 +132,20 @@ function initEditPage(pageParam, ajaxParam) {
 			if (ajaxParam.async == null)
 				ajaxParam.async = true;
 			if (ajaxParam.success == null)
-				ajaxParam.success = function(resultData) {
+				ajaxParam.success = function (resultData) {
 					if (!resultData["isSuccess"]) {
 						alert(resultData["resultMessage"]);
 						return false;
 					}
 
 					layer.msg('记录修改成功，即将跳回列表页……', {
-						time : 1000
+						time: 1000
 					});
 
 					if (isUpdateList) {
 						setTimeout("closeLayer();", 1100);
 						var cookieData = {
-							item : "selectRows"
+							item: "selectRows"
 						};
 						removeCookies(cookieData);
 						parent.location.reload(); // 父页面刷新
@@ -125,20 +157,20 @@ function initEditPage(pageParam, ajaxParam) {
 				ajaxParam.error = ajaxErrorFunction;
 
 			var ajaxParamter = {
-				"url" : ajaxParam.url,
-				"data" : ajaxParam.submitData,
-				"dataType" : ajaxParam.dataType,
-				"contentType" : ajaxParam.contentType,
-				"type" : ajaxParam.type,
-				"async" : ajaxParam.async,
-				"success" : ajaxParam.success,
-				"error" : ajaxParam.error
+				"url": ajaxParam.url,
+				"data": ajaxParam.submitData,
+				"dataType": ajaxParam.dataType,
+				"contentType": ajaxParam.contentType,
+				"type": ajaxParam.type,
+				"async": ajaxParam.async,
+				"success": ajaxParam.success,
+				"error": ajaxParam.error
 			};
 			universalAjax(ajaxParamter);
 		}
 	});
 
-	$("#buttonBack").click(function() {
+	$("#buttonBack").click(function () {
 		history.back();
 		return false;
 	});
@@ -149,7 +181,7 @@ function initEditPage(pageParam, ajaxParam) {
 		$(".page-header").remove();
 		$(".page-bar").remove();
 		$(".page-footer").remove();
-		$("#buttonBack").click(function() {
+		$("#buttonBack").click(function () {
 
 			closeLayer();
 
@@ -160,16 +192,28 @@ function initEditPage(pageParam, ajaxParam) {
 
 	// 初始化页面标签
 	var ajaxParamter = {
-		"url" : ajaxParam.getModelUrl + id,
-		"type" : "GET",
-		"async" : true,
-		"success" : function(resultData) {
+		"url": ajaxParam.getModelUrl + id,
+		"type": "GET",
+		"async": true,
+		"success": function (resultData) {
 			resultAjaxData = resultData;
 			if (!resultData["isSuccess"]) {
 				alert(resultData["resultMessage"]);
 				return false;
 			}
 			var ajaxData = resultData.data;
+
+
+			//处理Repeater数据
+			var $repeater = null;
+			var dataRepeaterListName;
+			var repeaterClass = {};
+
+			if (pageParam.dataRepeaterList != null) {
+				$repeater = FormRepeater.init(pageParam);
+				dataRepeaterListName = pageParam.dataRepeaterList.name;
+			}
+
 
 			if (ajaxData.imgPath != null) {
 				$("#imgPath").attr("src", ajaxData.imgPath);
@@ -180,9 +224,20 @@ function initEditPage(pageParam, ajaxParam) {
 			var form = document.forms[pageParam.formId];
 			// 遍历指定form表单所有元素
 			for (var i = 0; i < form.length; i++) {
+
 				var fieldName = form[i].name;
 				var array = fieldName.split("");
 				var prefix = null;
+
+				//定义Repeater对象中的属性
+				if ($repeater != null && fieldName.indexOf((dataRepeaterListName.substr(0, 1).toUpperCase() + dataRepeaterListName.substr(1))) > -1) {
+					var startIndex = fieldName.lastIndexOf("[") + 1;
+					var endIndex = fieldName.lastIndexOf("]");
+					repeaterClass[fieldName.substring(startIndex, endIndex)] = "";
+
+					continue;
+				}
+
 				for (var n = 0; n < array.length; n++) {
 					if (array[n].toLocaleString().charCodeAt(0) >= 65 && array[n].toLocaleString().charCodeAt(0) <= 90)// 第一个大写字母
 					{
@@ -194,32 +249,46 @@ function initEditPage(pageParam, ajaxParam) {
 				var tagLength = prefix == null ? 0 : prefix.length;
 				var prop = fieldName.substr(tagLength);
 				prop = prop.substr(0, 1).toLowerCase() + prop.substr(1);
-
 				var value = ajaxData[prop];
 
 				switch (prefix) {
-				case "hidden":
-					$("[name='" + fieldName + "']").val(value);
-					break;
-				case "text":
-					$("[name='" + fieldName + "']").val(value);
-					break;
-				case "select":
-					$("select[name='" + fieldName + "']").val(value);
-					break;
-				case "radio":
-					if (value != null)
+					case "hidden":
+						$("[name='" + fieldName + "']").val(value);
+						break;
+					case "text":
+						$("[name='" + fieldName + "']").val(value);
+						break;
+					case "select":
+						$("select[name='" + fieldName + "']").val(value);
+						break;
+					case "radio":
+						if (value != null)
+							$("[name='" + fieldName + "'][value='" + value + "']").get(0).checked = true;
+						break;
+					case "textarea":
+						$("textarea[name='" + fieldName + "']").val(value);
+						break;
+					case "checkbox":
 						$("[name='" + fieldName + "'][value='" + value + "']").get(0).checked = true;
-					break;
-				case "textarea":
-					$("textarea[name='" + fieldName + "']").val(value);
-					break;
-				case "checkbox":
-					$("[name='" + fieldName + "'][value='" + value + "']").get(0).checked = true;
-					break;
-				default:
-					break;
+						break;
+					default:
+						break;
 				}
+			}
+			//处理Repeater数据
+			if ($repeater != null) {
+				var dataRepeaterList = ajaxData[dataRepeaterListName];
+				var repeaterList = new Array();
+				$.each(dataRepeaterList, function (i, v) {
+					var repeaterObj = {};
+					jQuery.each(repeaterClass, function (j, w) {
+						var startIndex = j.indexOf((dataRepeaterListName.substr(0, 1).toUpperCase() + dataRepeaterListName.substr(1))) + dataRepeaterListName.length;
+						var propertyName = j.substr(startIndex).substr(0, 1).toLowerCase() + j.substr(startIndex).substr(1);
+						repeaterObj[j] = v[propertyName];
+					});
+					repeaterList.push(repeaterObj)
+				});
+				$repeater.setList(repeaterList);
 			}
 		}
 	};

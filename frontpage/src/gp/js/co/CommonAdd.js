@@ -1,5 +1,4 @@
 
-
 /**
  * @author Zee
  * @createDate 2021年4月2日 下午2:10:49
@@ -27,7 +26,6 @@ function initAddPage(pageParam, ajaxParam) {
         messages: pageParam.validateMessages,
         ignore: '',
         errorPlacement: function (e, r) {
-
             r.attr("data-error-container") ? e.appendTo(r.attr("data-error-container")) : e.insertAfter(r)
         },
         highlight: function (element) {
@@ -63,16 +61,41 @@ function initAddPage(pageParam, ajaxParam) {
             if (ajaxParam.submitData != null)
                 if (typeof ajaxParam.submitData == "string")// 处理重复提交时反复转换的问题
                     ajaxParam.submitData = JSON.parse(ajaxParam.submitData);
+            //处理Repeater数据
+            var dataRepeaterListName;
+            if (pageParam.dataRepeaterList != null)
+                dataRepeaterListName = pageParam.dataRepeaterList.name;
 
             $.each(formData, function (i, n) {
+                //处理Repeater数据
+                if (dataRepeaterListName != null && formData[i].name.indexOf(dataRepeaterListName) > -1)
+                    return true;
+
                 var propertyName = getPropertyName(formData[i].name)
                 ajaxParam.submitData[propertyName] = formData[i].value;
             });
 
             //处理Repeater数据
-            if ($('.mt-repeater').repeaterVal() != null) {
-                ajaxParam.submitData = Object.assign(ajaxParam.submitData, getRepeaterVal());
-            }
+            if (dataRepeaterListName != null)
+                if ($('.repeater').repeaterVal() != null && $('.repeater').repeaterVal()[dataRepeaterListName] != null) {
+                    var repeaterListForm = $('.repeater').repeaterVal()[dataRepeaterListName];
+                    var repeaterList = new Array();
+                    for (var i = 0; i < repeaterListForm.length; i++) {
+                        var repeater = {};
+
+                        //遍历Repeater对象属性
+                        $.each(repeaterListForm[i], function (k, w) {
+                            k = getPropertyName(k);
+                            var startIndex = k.indexOf(dataRepeaterListName) + dataRepeaterListName.length;
+                            var repeaterPropertyName = k.substr(startIndex);
+                            //转换属性名称，首字母小写
+                            repeaterPropertyName = repeaterPropertyName.substr(0, 1).toLowerCase() + repeaterPropertyName.substr(1);
+                            repeater[repeaterPropertyName] = w;
+                        });
+                        repeaterList.push(repeater);
+                    }
+                    ajaxParam.submitData[dataRepeaterListName] = repeaterList;
+                }
 
             if (ajaxParam.type == null)
                 ajaxParam.type = "POST";
@@ -125,6 +148,10 @@ function initAddPage(pageParam, ajaxParam) {
         history.back();
         return false;
     });
+
+    if (pageParam.dataRepeaterList != null)
+        FormRepeater.init(pageParam);
+
     if (!ajaxParam.async)
         return resultAjaxData;
     return null;

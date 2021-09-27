@@ -3,6 +3,9 @@ package com.zee.app.extend.swagger.gp;
 import com.zee.bll.extend.unity.gp.GpDictionaryUntBll;
 import com.zee.ent.extend.gp.GpDictionary;
 import com.zee.ent.extend.gp.GpDictionaryType;
+import com.zee.ent.extend.gp.GpPage;
+import com.zee.ent.parameter.base.BaseParameter;
+import com.zee.ent.parameter.gp.GpDictionaryParameter;
 import com.zee.set.symbolic.SqlSymbolic;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -23,10 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.zee.app.generate.swagger.gp.GpDictionaryTypeGenSwgApp;
 import com.zee.ent.custom.ResultModel;
@@ -55,8 +55,6 @@ public class GpDictionaryTypeSwgApp extends GpDictionaryTypeGenSwgApp {
     public ResultModel add(@RequestBody GpDictionaryType jsonData) {
 
         ResultModel result = gpDictionaryTypeUntBll.add(jsonData);
-        if (!result.getIsSuccess())
-            return result;
         if (jsonData.getDictionaryList() != null) {
             ArrayList<GpDictionary> dictionaryArrayList = new ArrayList<GpDictionary>();
             for (GpDictionary dictionary : jsonData.getDictionaryList()) {
@@ -68,6 +66,28 @@ public class GpDictionaryTypeSwgApp extends GpDictionaryTypeGenSwgApp {
 
         return result;
     }
+
+
+
+    @ApiOperation(value = "修改记录", notes = "修改指定记录")
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "body", name = "jsonData", value = "json字符串，实体属性", required = true, dataType = "GpDictionaryType") })
+    @RequestMapping(value = "/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResultModel update(@RequestBody GpDictionaryType jsonData) {
+        ResultModel result = gpDictionaryTypeUntBll.update(jsonData);
+        gpDictionaryUntBll.deleteByTypeId(jsonData.getId());
+        if (jsonData.getDictionaryList() != null) {
+            ArrayList<GpDictionary> dictionaryArrayList = new ArrayList<GpDictionary>();
+            for (GpDictionary dictionary : jsonData.getDictionaryList()) {
+                dictionary.setTypeId(result.getObjectId());
+                dictionaryArrayList.add(dictionary);
+            }
+            gpDictionaryUntBll.add(dictionaryArrayList);
+        }
+
+        return result;
+    }
+
+
 
     @ApiOperation(value = "批量修改", notes = "同时修改多条记录")
     @ApiImplicitParams({@ApiImplicitParam(paramType = "body", name = "jsonData", value = "json字符串，主键列表和要修改为的信息承载实体", required = true, dataType = "GpDictionaryTypeUpdateList")})
@@ -86,6 +106,44 @@ public class GpDictionaryTypeSwgApp extends GpDictionaryTypeGenSwgApp {
             return result;
         }
     }
+
+    @ApiOperation(value = "单条查询", notes = "根据主键查询记录详细信息,路径拼接模式")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "用户ID", required = true, dataType = "String")
+    @RequestMapping(value = "/getModel/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResultModel getModelByPath(@PathVariable("id") String id) {
+        ResultModel dictionaryTypeResult = gpDictionaryTypeUntBll.getModel(id);
+        GpDictionaryType dictionaryType = CastObjectUtil.cast(dictionaryTypeResult.getData());
+
+        GpDictionaryParameter.GetList jsonData = new GpDictionaryParameter.GetList();
+
+        GpDictionaryParameter.GetList.EntityRelated entityRelated = new GpDictionaryParameter.GetList.EntityRelated();
+        BaseParameter.BaseParamGetList.Order order = new BaseParameter.BaseParamGetList.Order();
+        BaseParameter.BaseParamGetList.Order order1 = new BaseParameter.BaseParamGetList.Order();
+
+        entityRelated.setTypeId(id);
+        order.setColumnName("priority");
+        order.setIsASC(true);
+
+        order1.setColumnName("code");
+        order1.setIsASC(true);
+
+        jsonData.setEntityRelated(entityRelated);
+        jsonData.setOrderList(new ArrayList<BaseParameter.BaseParamGetList.Order>() {
+            {
+                add(order);
+                add(order1);
+            }
+        });
+
+        ResultModel dictionaryResult = gpDictionaryUntBll.getList(jsonData);
+        if(dictionaryResult.getTotalCount()!=0) {
+            ArrayList<GpDictionary> dictionaryList = CastObjectUtil.cast(dictionaryResult.getData());
+            dictionaryType.setDictionaryList(dictionaryList);
+            dictionaryTypeResult.setData(dictionaryType);
+        }
+        return dictionaryTypeResult;
+    }
+
 
     @ApiOperation(value = "模糊查询", notes = "根据查询条件模糊查询")
     @RequestMapping(value = "/getListByJsonData", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

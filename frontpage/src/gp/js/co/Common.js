@@ -1,5 +1,44 @@
 var txtActive;
 
+var FormRepeater = function () {
+	return {
+		init: function (pageParam) {
+			$repeater=$(".repeater").repeater({
+				initEmpty: false,
+				show: function () {
+					$(this).slideDown();
+					var dataRepeaterListName = pageParam.dataRepeaterList.name;
+					var dataRepeaterForm = $('.repeater').repeaterVal()[dataRepeaterListName];
+					$.each(pageParam.dataRepeaterList.validateRules, function (i, v) {
+						var selectInput = 'input[name ="' + dataRepeaterListName + '[' + (dataRepeaterForm.length - 1) + '][' + i + ']"]';
+						$(selectInput).rules("add", v);
+					});
+				},
+				hide: function (e) {
+					$(this).slideUp(e);
+					var dataRepeaterListName = pageParam.dataRepeaterList.name;
+					var dictionaryListForm = $('.repeater').repeaterVal()[dataRepeaterListName];
+					$.each(pageParam.dataRepeaterList.validateRules, function (i, v) {
+						var selectInput = 'input[name ="' + dataRepeaterListName + '[' + (dictionaryListForm.length - 1) + '][' + i + ']"]';
+						$(selectInput).rules("remove");
+					});
+				},
+				ready: function (setIndexes) {
+					var dataRepeaterListName = pageParam.dataRepeaterList.name;
+					$.each(pageParam.dataRepeaterList.validateRules, function (i, v) {
+						var selectInput = 'input[name ="' + dataRepeaterListName + '[0][' + i + ']"]';
+						$(selectInput).rules("add", v);
+					});
+				}
+
+			},
+			);
+			return $repeater;
+
+		}
+	}
+}();
+
 // 验证插件中加入手机号校验功能
 jQuery.validator.addMethod("phone", function (value, element) {
 	var length = value.length;
