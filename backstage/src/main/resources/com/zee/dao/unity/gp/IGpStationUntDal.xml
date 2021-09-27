@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.zee.dao.unity.gp.IGpStationUntDal" >
 
@@ -6,7 +6,9 @@
               <id column="id" property="id" jdbcType="VARCHAR" />
               <result column="serial_no" property="serialNo" jdbcType="VARCHAR" />
               <result column="organization_id" property="organizationId" jdbcType="VARCHAR" />
+              <result column="organization_name" property="organizationName" jdbcType="VARCHAR" />
               <result column="name" property="name" jdbcType="VARCHAR" />
+              <result column="priority" property="priority" jdbcType="INTEGER" />
               <result column="responsibility" property="responsibility" jdbcType="VARCHAR" />
               <result column="remark" property="remark" jdbcType="VARCHAR" />
               <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
@@ -14,7 +16,7 @@
   </resultMap>
   
   <sql id="Base_Column_List" >
-        id,serial_no,organization_id,name,responsibility,remark,add_time,update_time
+        id,serial_no,organization_id,organization_name,name,priority,responsibility,remark,add_time,update_time
   </sql>
   
   <insert id="add" parameterType="com.zee.ent.extend.gp.GpStation" >
@@ -32,10 +34,17 @@
               organization_id,
           </if>
       
+          <if test="organizationName != null and organizationName != '' " >
+              organization_name,
+          </if>
+      
           <if test="name != null and name != '' " >
               name,
           </if>
       
+          <if test="priority != null " >
+              priority,
+          </if>
           <if test="responsibility != null and responsibility != '' " >
               responsibility,
           </if>
@@ -61,8 +70,14 @@
           <if test="organizationId != null and organizationId != '' " >
               #{organizationId,jdbcType=VARCHAR},
           </if>
+          <if test="organizationName != null and organizationName != '' " >
+              #{organizationName,jdbcType=VARCHAR},
+          </if>
           <if test="name != null and name != '' " >
               #{name,jdbcType=VARCHAR},
+          </if>
+          <if test="priority != null " >
+              #{priority,jdbcType=INTEGER},
           </if>
           <if test="responsibility != null and responsibility != '' " >
               #{responsibility,jdbcType=VARCHAR},
@@ -91,7 +106,9 @@
           #{gpStation.id,jdbcType=VARCHAR},
           #{gpStation.serialNo,jdbcType=VARCHAR},
           #{gpStation.organizationId,jdbcType=VARCHAR},
+          #{gpStation.organizationName,jdbcType=VARCHAR},
           #{gpStation.name,jdbcType=VARCHAR},
+          #{gpStation.priority,jdbcType=INTEGER},
           #{gpStation.responsibility,jdbcType=VARCHAR},
           #{gpStation.remark,jdbcType=VARCHAR},
           #{gpStation.addTime,jdbcType=TIMESTAMP},
@@ -114,7 +131,9 @@
           #{gpStation.id,jdbcType=VARCHAR},
           #{gpStation.serialNo,jdbcType=VARCHAR},
           #{gpStation.organizationId,jdbcType=VARCHAR},
+          #{gpStation.organizationName,jdbcType=VARCHAR},
           #{gpStation.name,jdbcType=VARCHAR},
+          #{gpStation.priority,jdbcType=INTEGER},
           #{gpStation.responsibility,jdbcType=VARCHAR},
           #{gpStation.remark,jdbcType=VARCHAR},
           #{gpStation.addTime,jdbcType=TIMESTAMP},
@@ -126,7 +145,9 @@
 id=values(id),
 serial_no=values(serial_no),
 organization_id=values(organization_id),
+organization_name=values(organization_name),
 name=values(name),
+priority=values(priority),
 responsibility=values(responsibility),
 remark=values(remark),
 add_time=values(add_time),
@@ -197,6 +218,17 @@ update_time=values(update_time)
                   </when>
                   </choose>
                     <choose>
+                   <when test="organizationName != null and organizationName=='-1'">
+                     organization_name = null,
+                  </when>
+                  <when test="organizationName != null and organizationName=='-2'">
+                     organization_name = '',
+                  </when>
+                  <when test="organizationName != null  and organizationName != '' " >
+                     organization_name = #{organizationName,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
                    <when test="name != null and name=='-1'">
                      name = null,
                   </when>
@@ -207,6 +239,9 @@ update_time=values(update_time)
                      name = #{name,jdbcType=VARCHAR},
                   </when>
                   </choose>
+                  <if test="priority != null ">
+                     priority = #{priority,jdbcType=INTEGER},
+                  </if>
                     <choose>
                    <when test="responsibility != null and responsibility=='-1'">
                      responsibility = null,
@@ -248,8 +283,14 @@ update_time=values(update_time)
                   <if test="t.organizationId != null  and t.organizationId != '' " >
                      organization_id = #{t.organizationId,jdbcType=VARCHAR},
                   </if>
+                  <if test="t.organizationName != null  and t.organizationName != '' " >
+                     organization_name = #{t.organizationName,jdbcType=VARCHAR},
+                  </if>
                   <if test="t.name != null  and t.name != '' " >
                      name = #{t.name,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.priority != null ">
+                     priority = #{t.priority,jdbcType=INTEGER},
                   </if>
                   <if test="t.responsibility != null  and t.responsibility != '' " >
                      responsibility = #{t.responsibility,jdbcType=VARCHAR},
@@ -301,6 +342,19 @@ update_time=values(update_time)
                   </if> 
               </foreach>
          </trim>
+         <trim prefix="organization_name =case" suffix="end,">
+              <foreach collection="list" item="gpStation" index="index">
+                  <if test="gpStation.organizationName != null and gpStation.organizationName  != ''  and gpStation.organizationName  != '-1' ">
+                     when id=#{gpStation.id} then #{gpStation.organizationName,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpStation.organizationName != null  and gpStation.organizationName  == '-1' ">
+                     when id=#{gpStation.id} then null
+                  </if>  
+                   <if test="gpStation.organizationName != null  and gpStation.organizationName  == '-2' ">
+                     when id=#{gpStation.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
          <trim prefix="name =case" suffix="end,">
               <foreach collection="list" item="gpStation" index="index">
                   <if test="gpStation.name != null and gpStation.name  != ''  and gpStation.name  != '-1' ">
@@ -312,6 +366,13 @@ update_time=values(update_time)
                    <if test="gpStation.name != null  and gpStation.name  == '-2' ">
                      when id=#{gpStation.id} then ''
                   </if> 
+              </foreach>
+         </trim>
+         <trim prefix="priority =case" suffix="end,">
+              <foreach collection="list" item="gpStation" index="index">
+                  <if test="gpStation.priority != null " >
+                     when id=#{gpStation.id} then #{gpStation.priority,jdbcType=INTEGER}
+                  </if>
               </foreach>
          </trim>
          <trim prefix="responsibility =case" suffix="end,">
@@ -369,7 +430,9 @@ update_time=values(update_time)
 id,
 serial_no,
 organization_id,
+organization_name,
 name,
+priority,
 responsibility,
 remark,
 add_time,
@@ -386,8 +449,14 @@ update_time,
                      #{gpStation.organizationId ,jdbcType=VARCHAR},
                   
                   
+                     #{gpStation.organizationName ,jdbcType=VARCHAR},
+                  
+                  
                      #{gpStation.name ,jdbcType=VARCHAR},
                   
+                  
+                    #{gpStation.priority,jdbcType=INTEGER},
+            
                   
                      #{gpStation.responsibility ,jdbcType=VARCHAR},
                   
@@ -436,6 +505,9 @@ update_time,
 		</if>
 		<if test="EntityRelated.organizationId != null and EntityRelated.organizationId != '' ">
 				and organization_id = #{EntityRelated.organizationId,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.organizationName != null and EntityRelated.organizationName != '' ">
+ 				and  organization_name LIKE CONCAT('%',#{EntityRelated.organizationName,jdbcType=VARCHAR},'%') 
 		</if>
 		<if test="EntityRelated.remark != null and EntityRelated.remark != '' ">
  				and  remark LIKE CONCAT('%',#{EntityRelated.remark,jdbcType=VARCHAR},'%') 

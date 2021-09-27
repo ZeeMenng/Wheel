@@ -34,7 +34,7 @@ import net.sf.json.JSONObject;
 /**
  * @author Zee
  * @createDate 2017/05/22 15:00:55
- * @updateDate 2021/2/2 19:55:54
+ * @updateDate 2021/9/27 20:05:22
  * @description 组织机构。 对外接口，扩展自BaseSwgApp，自动生成。
  */
 
@@ -173,7 +173,7 @@ public class GpOrganizationGenSwgApp extends BaseSwgApp {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		StringBuffer selectBuffer = new StringBuffer();
-		selectBuffer.append("select A.id id,A.serial_no serialNo,A.name name,A.short_name shortName,A.type_code typeCode,A.type_text typeText,A.level_code levelCode,A.level_text levelText,A.farther_id fartherId,A.priority priority,A.phone phone,A.email email,A.fax fax,A.postcode postcode,A.address address,A.responsibility responsibility,A.remark remark,A.add_time addTime,A.update_time updateTime  from gp_organization A inner join gp_organization B on A.id=B.id where 1=1 ");
+		selectBuffer.append("select A.id id,A.serial_no serialNo,A.name name,A.short_name shortName,A.type_code typeCode,A.type_text typeText,A.level level,A.farther_id fartherId,A.priority priority,A.phone phone,A.email email,A.fax fax,A.postcode postcode,A.address address,A.responsibility responsibility,A.remark remark,A.add_time addTime,A.update_time updateTime  from gp_organization A inner join gp_organization B on A.id=B.id where 1=1 ");
         
         if (!StringUtils.isBlank(jsonData)) {
 			JSONObject jsonObject = JSONObject.fromObject(jsonData);

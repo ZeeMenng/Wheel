@@ -15,7 +15,7 @@ import com.zee.ent.extend.gp.GprUserOrganization;
 /**
  * @author Zee
  * @createDate 2017/05/18 14:54:22
- * @updateDate 2021/2/2 18:48:50
+ * @updateDate 2021/9/27 20:05:24
  * @description 实体类GpOrganizationGenEnt，自动生成。组织机构。
  */
 
@@ -34,10 +34,8 @@ public class GpOrganizationGenEnt extends BaseEnt implements Serializable {
     private String fax;
     @ApiModelProperty(value="主键。",hidden=false,required=true)
     private String id;
-    @ApiModelProperty(value="模块级别。编码，对应数据字典表（dictionary）中的编码字段（code）。目前先定义两种级别：1第一级，2第二级。",allowableValues="0,1",hidden=false,required=false)
-    private Byte levelCode;
-    @ApiModelProperty(value="模块级别。文本，对应数据字典表（dictionary）中的文本字段（text）。目前先定义两种级别：1第一级，2第二级。",hidden=false,required=false)
-    private String levelText;
+    @ApiModelProperty(value="机构等级。",hidden=false,required=false)
+    private Byte level;
     @ApiModelProperty(value="名称。",hidden=false,required=false)
     private String name;
     @ApiModelProperty(value="电话号码。",hidden=false,required=false)
@@ -155,31 +153,17 @@ public class GpOrganizationGenEnt extends BaseEnt implements Serializable {
 	}
     
 	/**
-	 * get方法。模块级别。编码，对应数据字典表（dictionary）中的编码字段（code）。目前先定义两种级别：1第一级，2第二级。
+	 * get方法。机构等级。
 	 */
-	public Byte getLevelCode() {
-		return this.levelCode;
+	public Byte getLevel() {
+		return this.level;
 	}
 
 	/**
-	 * set方法。模块级别。编码，对应数据字典表（dictionary）中的编码字段（code）。目前先定义两种级别：1第一级，2第二级。
+	 * set方法。机构等级。
 	 */
-	public void setLevelCode(Byte levelCode) {
-		this.levelCode = levelCode;
-	}
-    
-	/**
-	 * get方法。模块级别。文本，对应数据字典表（dictionary）中的文本字段（text）。目前先定义两种级别：1第一级，2第二级。
-	 */
-	public String getLevelText() {
-		return this.levelText;
-	}
-
-	/**
-	 * set方法。模块级别。文本，对应数据字典表（dictionary）中的文本字段（text）。目前先定义两种级别：1第一级，2第二级。
-	 */
-	public void setLevelText(String levelText) {
-		this.levelText = levelText;
+	public void setLevel(Byte level) {
+		this.level = level;
 	}
     
 	/**

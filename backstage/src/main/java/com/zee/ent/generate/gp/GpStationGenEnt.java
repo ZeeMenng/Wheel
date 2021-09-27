@@ -15,7 +15,7 @@ import com.zee.ent.extend.gp.GprUserStation;
 /**
  * @author Zee
  * @createDate 2017/05/18 14:54:22
- * @updateDate 2021/2/2 18:48:52
+ * @updateDate 2021/9/27 21:33:09
  * @description 实体类GpStationGenEnt，自动生成。岗位。
  */
 
@@ -30,9 +30,13 @@ public class GpStationGenEnt extends BaseEnt implements Serializable {
     private String name;
     @ApiModelProperty(value="所属组织机构。外键，引用系统组织机构表（organization）的主键。",hidden=false,required=false)
     private String organizationId;
+    @ApiModelProperty(value="所属组织机构。名称，对应系统组织机构表（organization）的机构名称。",hidden=false,required=false)
+    private String organizationName;
+    @ApiModelProperty(value="排列顺序",hidden=false,required=false)
+    private Integer priority;
     @ApiModelProperty(value="备注字段。",hidden=false,required=false)
     private String remark;
-    @ApiModelProperty(value="机构职能。",hidden=false,required=false)
+    @ApiModelProperty(value="岗位职能。",hidden=false,required=false)
     private String responsibility;
     @ApiModelProperty(value="编号。",hidden=false,required=false)
     private String serialNo;
@@ -105,6 +109,34 @@ public class GpStationGenEnt extends BaseEnt implements Serializable {
 	}
     
 	/**
+	 * get方法。所属组织机构。名称，对应系统组织机构表（organization）的机构名称。
+	 */
+	public String getOrganizationName() {
+		return this.organizationName;
+	}
+
+	/**
+	 * set方法。所属组织机构。名称，对应系统组织机构表（organization）的机构名称。
+	 */
+	public void setOrganizationName(String organizationName) {
+		this.organizationName = organizationName;
+	}
+    
+	/**
+	 * get方法。排列顺序
+	 */
+	public Integer getPriority() {
+		return this.priority;
+	}
+
+	/**
+	 * set方法。排列顺序
+	 */
+	public void setPriority(Integer priority) {
+		this.priority = priority;
+	}
+    
+	/**
 	 * get方法。备注字段。
 	 */
 	public String getRemark() {
@@ -119,14 +151,14 @@ public class GpStationGenEnt extends BaseEnt implements Serializable {
 	}
     
 	/**
-	 * get方法。机构职能。
+	 * get方法。岗位职能。
 	 */
 	public String getResponsibility() {
 		return this.responsibility;
 	}
 
 	/**
-	 * set方法。机构职能。
+	 * set方法。岗位职能。
 	 */
 	public void setResponsibility(String responsibility) {
 		this.responsibility = responsibility;

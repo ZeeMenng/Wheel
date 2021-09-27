@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.zee.dao.unity.gp.IGpOrganizationUntDal" >
 
@@ -9,8 +9,7 @@
               <result column="short_name" property="shortName" jdbcType="VARCHAR" />
               <result column="type_code" property="typeCode" jdbcType="TINYINT" />
               <result column="type_text" property="typeText" jdbcType="VARCHAR" />
-              <result column="level_code" property="levelCode" jdbcType="TINYINT" />
-              <result column="level_text" property="levelText" jdbcType="VARCHAR" />
+              <result column="level" property="level" jdbcType="TINYINT" />
               <result column="farther_id" property="fartherId" jdbcType="VARCHAR" />
               <result column="priority" property="priority" jdbcType="INTEGER" />
               <result column="phone" property="phone" jdbcType="VARCHAR" />
@@ -25,7 +24,7 @@
   </resultMap>
   
   <sql id="Base_Column_List" >
-        id,serial_no,name,short_name,type_code,type_text,level_code,level_text,farther_id,priority,phone,email,fax,postcode,address,responsibility,remark,add_time,update_time
+        id,serial_no,name,short_name,type_code,type_text,level,farther_id,priority,phone,email,fax,postcode,address,responsibility,remark,add_time,update_time
   </sql>
   
   <insert id="add" parameterType="com.zee.ent.extend.gp.GpOrganization" >
@@ -54,13 +53,9 @@
               type_text,
           </if>
       
-          <if test="levelCode != null " >
-              level_code,
+          <if test="level != null " >
+              level,
           </if>
-          <if test="levelText != null and levelText != '' " >
-              level_text,
-          </if>
-      
           <if test="fartherId != null and fartherId != '' " >
               farther_id,
           </if>
@@ -122,11 +117,8 @@
           <if test="typeText != null and typeText != '' " >
               #{typeText,jdbcType=VARCHAR},
           </if>
-          <if test="levelCode != null " >
-              #{levelCode,jdbcType=TINYINT},
-          </if>
-          <if test="levelText != null and levelText != '' " >
-              #{levelText,jdbcType=VARCHAR},
+          <if test="level != null " >
+              #{level,jdbcType=TINYINT},
           </if>
           <if test="fartherId != null and fartherId != '' " >
               #{fartherId,jdbcType=VARCHAR},
@@ -179,8 +171,7 @@
           #{gpOrganization.shortName,jdbcType=VARCHAR},
           #{gpOrganization.typeCode,jdbcType=TINYINT},
           #{gpOrganization.typeText,jdbcType=VARCHAR},
-          #{gpOrganization.levelCode,jdbcType=TINYINT},
-          #{gpOrganization.levelText,jdbcType=VARCHAR},
+          #{gpOrganization.level,jdbcType=TINYINT},
           #{gpOrganization.fartherId,jdbcType=VARCHAR},
           #{gpOrganization.priority,jdbcType=INTEGER},
           #{gpOrganization.phone,jdbcType=VARCHAR},
@@ -213,8 +204,7 @@
           #{gpOrganization.shortName,jdbcType=VARCHAR},
           #{gpOrganization.typeCode,jdbcType=TINYINT},
           #{gpOrganization.typeText,jdbcType=VARCHAR},
-          #{gpOrganization.levelCode,jdbcType=TINYINT},
-          #{gpOrganization.levelText,jdbcType=VARCHAR},
+          #{gpOrganization.level,jdbcType=TINYINT},
           #{gpOrganization.fartherId,jdbcType=VARCHAR},
           #{gpOrganization.priority,jdbcType=INTEGER},
           #{gpOrganization.phone,jdbcType=VARCHAR},
@@ -236,8 +226,7 @@ name=values(name),
 short_name=values(short_name),
 type_code=values(type_code),
 type_text=values(type_text),
-level_code=values(level_code),
-level_text=values(level_text),
+level=values(level),
 farther_id=values(farther_id),
 priority=values(priority),
 phone=values(phone),
@@ -320,20 +309,9 @@ update_time=values(update_time)
                      type_text = #{typeText,jdbcType=VARCHAR},
                   </when>
                   </choose>
-                  <if test="levelCode != null ">
-                     level_code = #{levelCode,jdbcType=TINYINT},
+                  <if test="level != null ">
+                     level = #{level,jdbcType=TINYINT},
                   </if>
-                    <choose>
-                   <when test="levelText != null and levelText=='-1'">
-                     level_text = null,
-                  </when>
-                  <when test="levelText != null and levelText=='-2'">
-                     level_text = '',
-                  </when>
-                  <when test="levelText != null  and levelText != '' " >
-                     level_text = #{levelText,jdbcType=VARCHAR},
-                  </when>
-                  </choose>
                     <choose>
                    <when test="fartherId != null and fartherId=='-1'">
                      farther_id = null,
@@ -453,11 +431,8 @@ update_time=values(update_time)
                   <if test="t.typeText != null  and t.typeText != '' " >
                      type_text = #{t.typeText,jdbcType=VARCHAR},
                   </if>
-                  <if test="t.levelCode != null ">
-                     level_code = #{t.levelCode,jdbcType=TINYINT},
-                  </if>
-                  <if test="t.levelText != null  and t.levelText != '' " >
-                     level_text = #{t.levelText,jdbcType=VARCHAR},
+                  <if test="t.level != null ">
+                     level = #{t.level,jdbcType=TINYINT},
                   </if>
                   <if test="t.fartherId != null  and t.fartherId != '' " >
                      farther_id = #{t.fartherId,jdbcType=VARCHAR},
@@ -563,24 +538,11 @@ update_time=values(update_time)
                   </if> 
               </foreach>
          </trim>
-         <trim prefix="level_code =case" suffix="end,">
+         <trim prefix="level =case" suffix="end,">
               <foreach collection="list" item="gpOrganization" index="index">
-                  <if test="gpOrganization.levelCode != null " >
-                     when id=#{gpOrganization.id} then #{gpOrganization.levelCode,jdbcType=TINYINT}
+                  <if test="gpOrganization.level != null " >
+                     when id=#{gpOrganization.id} then #{gpOrganization.level,jdbcType=TINYINT}
                   </if>
-              </foreach>
-         </trim>
-         <trim prefix="level_text =case" suffix="end,">
-              <foreach collection="list" item="gpOrganization" index="index">
-                  <if test="gpOrganization.levelText != null and gpOrganization.levelText  != ''  and gpOrganization.levelText  != '-1' ">
-                     when id=#{gpOrganization.id} then #{gpOrganization.levelText,jdbcType=VARCHAR}
-                  </if>
-                  <if test="gpOrganization.levelText != null  and gpOrganization.levelText  == '-1' ">
-                     when id=#{gpOrganization.id} then null
-                  </if>  
-                   <if test="gpOrganization.levelText != null  and gpOrganization.levelText  == '-2' ">
-                     when id=#{gpOrganization.id} then ''
-                  </if> 
               </foreach>
          </trim>
          <trim prefix="farther_id =case" suffix="end,">
@@ -726,8 +688,7 @@ name,
 short_name,
 type_code,
 type_text,
-level_code,
-level_text,
+level,
 farther_id,
 priority,
 phone,
@@ -760,11 +721,8 @@ update_time,
                      #{gpOrganization.typeText ,jdbcType=VARCHAR},
                   
                   
-                    #{gpOrganization.levelCode,jdbcType=TINYINT},
+                    #{gpOrganization.level,jdbcType=TINYINT},
             
-                  
-                     #{gpOrganization.levelText ,jdbcType=VARCHAR},
-                  
                   
                      #{gpOrganization.fartherId ,jdbcType=VARCHAR},
                   
@@ -840,12 +798,6 @@ update_time,
 		</if>
 		<if test="EntityRelated.id != null and EntityRelated.id != '' ">
 				and id = #{EntityRelated.id,jdbcType=VARCHAR} 
-		</if>
-		<if test="EntityRelated.levelCode != null">
-				and level_code = #{EntityRelated.levelCode,jdbcType=TINYINT} 
-		</if>
-		<if test="EntityRelated.levelText != null and EntityRelated.levelText != '' ">
- 				and  level_text LIKE CONCAT('%',#{EntityRelated.levelText,jdbcType=VARCHAR},'%') 
 		</if>
 		<if test="EntityRelated.name != null and EntityRelated.name != '' ">
  				and  name LIKE CONCAT('%',#{EntityRelated.name,jdbcType=VARCHAR},'%') 

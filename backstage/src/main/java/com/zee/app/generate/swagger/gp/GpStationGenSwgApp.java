@@ -34,7 +34,7 @@ import net.sf.json.JSONObject;
 /**
  * @author Zee
  * @createDate 2017/05/22 15:00:55
- * @updateDate 2021/2/2 19:55:54
+ * @updateDate 2021/9/27 21:33:03
  * @description 岗位。 对外接口，扩展自BaseSwgApp，自动生成。
  */
 
@@ -173,7 +173,7 @@ public class GpStationGenSwgApp extends BaseSwgApp {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		StringBuffer selectBuffer = new StringBuffer();
-		selectBuffer.append("select A.id id,A.serial_no serialNo,A.organization_id organizationId,A.name name,A.responsibility responsibility,A.remark remark,A.add_time addTime,A.update_time updateTime  from gp_station A inner join gp_station B on A.id=B.id where 1=1 ");
+		selectBuffer.append("select A.id id,A.serial_no serialNo,A.organization_id organizationId,A.organization_name organizationName,A.name name,A.priority priority,A.responsibility responsibility,A.remark remark,A.add_time addTime,A.update_time updateTime  from gp_station A inner join gp_station B on A.id=B.id where 1=1 ");
         
         if (!StringUtils.isBlank(jsonData)) {
 			JSONObject jsonObject = JSONObject.fromObject(jsonData);
@@ -194,10 +194,10 @@ public class GpStationGenSwgApp extends BaseSwgApp {
                 
 				if (entityRelatedObject.containsKey("serialNo") && StringUtils.isNotBlank(entityRelatedObject.getString("serialNo")))
 					selectBuffer.append(" and A.serial_no like '%").append(entityRelatedObject.getString("serialNo")).append("%'");
+				if (entityRelatedObject.containsKey("organizationName") && StringUtils.isNotBlank(entityRelatedObject.getString("organizationName")))
+					selectBuffer.append(" and A.organization_name like '%").append(entityRelatedObject.getString("organizationName")).append("%'");
 				if (entityRelatedObject.containsKey("name") && StringUtils.isNotBlank(entityRelatedObject.getString("name")))
 					selectBuffer.append(" and A.name like '%").append(entityRelatedObject.getString("name")).append("%'");
-				if (entityRelatedObject.containsKey("responsibility") && StringUtils.isNotBlank(entityRelatedObject.getString("responsibility")))
-					selectBuffer.append(" and A.responsibility like '%").append(entityRelatedObject.getString("responsibility")).append("%'");
 			}
 
 			if (jsonObject.containsKey("page")) {

@@ -140,7 +140,6 @@ private string classDirectory = String.Empty;
         MakeTemplate(entParameterTemplate, entParameterOutputDirectory);****/    
         
         //频繁往复生成的部分。
-      
        MakeTemplate(appGenSwaggerTemplate, appGenSwaggerOutputDirectory);
        MakeTemplate(bllGenUnityTemplate, bllGenUnityOutputDirectory);
        MakeTemplate(daoUnityTemplate, daoUnityOutputDirectory);
@@ -190,8 +189,8 @@ private string classDirectory = String.Empty;
 
             ArrayList tableList = new ArrayList();
 
-            tableList.Add("gp_dictionary");
-            tableList.Add("gp_dictionary_type");
+            tableList.Add("gp_station");
+            //tableList.Add("gp_dictionary_type");
 
             if (tableList.Contains(table.Name))
             //   if (!table.Name.StartsWith("ds_"))  

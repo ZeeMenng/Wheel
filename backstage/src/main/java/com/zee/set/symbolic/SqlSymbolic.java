@@ -52,4 +52,10 @@ public class SqlSymbolic {
 	public static final String SQL_SELECT_DICTIONARYTYPE_LIST = "select A.id id,A.name name,A.constant_name constantName,A.remark remark,A.add_time addTime,A.update_time updateTime  from gp_dictionary_type A inner join gp_dictionary_type B on A.id=B.id where 1=1 ";
 
 
+	//查询组织机构列表
+	public static final String SQL_SELECT_ORGANIZATION_LIST = "select A.id id,A.serial_no serialNo,A.name name,A.short_name shortName,A.type_code typeCode,A.type_text typeText,A.level level,A.farther_id fartherId,A.priority priority,A.phone phone,A.email email,A.fax fax,A.postcode postcode,A.address address,A.responsibility responsibility,A.remark remark,A.add_time addTime,A.update_time updateTime  from gp_organization A inner join gp_organization B on A.id=B.id where 1=1 ";
+
+	//查询组织机构岗位列表
+	public static final String SQL_SELECT_STATION_LIST = "select A.id id,A.serial_no serialNo,A.organization_id organizationId,A.organization_name organizationName,A.name name,A.priority priority,A.responsibility responsibility,A.remark remark,A.add_time addTime,A.update_time updateTime  from gp_station A inner join gp_station B on A.id=B.id where 1=1 ";
+
 }

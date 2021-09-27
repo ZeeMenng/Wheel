@@ -5,131 +5,168 @@
  * @description  组织机构。 相关页面的js方法。
  */
 
-$(document).ready(function() {
+$(document).ready(function () {
 
-    //初始化机构类型下拉框
-    var selectParamAdmin = {
-        selectId : "selectTypeCode",
-        textField : "text",
-        valueField : "code"
-    };
-    var ajaxParamAdmin = {
-        url : RU_GPDICTIONARY_GETLISTBYTYPEID+DI_ORG_TYPE
-    }
-    initDropDownList(selectParamAdmin, ajaxParamAdmin);
+	//初始化机构类型下拉框
+	var selectParamAdmin = {
+		selectId: "selectTypeCode",
+		textField: "text",
+		valueField: "code"
+	};
+	var ajaxParamAdmin = {
+		url: RU_GPDICTIONARY_GETLISTBYTYPEID + DI_ORG_TYPE
+	}
+	initDropDownList(selectParamAdmin, ajaxParamAdmin);
 
 	//初始化组织机构级别下拉框
 	var selectParamAdmin = {
-		selectId : "selectLevelCode",
-		textField : "text",
-		valueField : "code"
+		selectId: "selectLevelCode",
+		textField: "text",
+		valueField: "code"
 	};
 	var ajaxParamAdmin = {
-		url : RU_GPDICTIONARY_GETLISTBYTYPEID+DI_ORGANIZATION
+		url: RU_GPDICTIONARY_GETLISTBYTYPEID + DI_ORGANIZATION
 	}
 	initDropDownList(selectParamAdmin, ajaxParamAdmin);
-	
-	//初始化列表页主体部分，包括查询条件表单及数据表格等。
-	var pageParam = {
-		formId : "queryBuilderForm",
-		tableId : "contentTable",
-		editPage : {
-			title : "批量修改表单",
-			url : RP_GPORGANIZATION_EDIT
-		},
-		detailPage : {
-			url : RP_GPORGANIZATION_DETAIL
-		},
-		addPage : {
-			url : RP_GPORGANIZATION_ADD
-		},
-		deleteInterface : {
-			url : RU_GPORGANIZATION_DELETE
-		},
-		deleteListInterface : {
-			url : RU_GPORGANIZATION_DELETELIST
-		},
-		exportExcelInterface:{
-			url:RU_GPORGANIZATION_EXPORTEXCEL
-		}
 
-	};
-	var ajaxParam = {
-		url : RU_GPORGANIZATION_GETLISTBYJSONDATA,
-		type : "GET",
-		submitData : {
-			"entityRelated" : {
-
-			},
-			"orderList" : [ {
-				"columnName" : "id",
-				"isASC" : true
-			} ],
-			"page" : {
-				"pageIndex" : DEFAULT_PAGE_INDEX,
-				"pageSize" : DEFAULT_PAGE_SIZE
-			}
-		},
-		columnInfo : [
-			{
-				"columnName" : "name",
-				"columnText" : "名称",
-				"style" : "text-align:left",
-				"linkFunction" : function(event) {
-					var href = RP_GPORGANIZATION_DETAIL + "?" + RECORD_ID + "=" + event.id;
-					return href;
-				},
-			},
-			{
-				"columnName" : "fartherName",
-				"columnText" : "上级名称",
-				"style" : "text-align:left",
-			},
-			 {
-			"columnName" : "typeText",
-			"columnText" : "机构类型",
-			"style" : "text-align:left",
-			},
-			{
-				"columnName" : "levelText",
-				"columnText" : "组织机构级别",
-				"style" : "text-align:left",
-			},
-       ]
-	};
-
-	var operationParam = [ {
-		"operationText" : "修改",
-		"buttonClass" : "yellow",
-		"iconClass" : "fa fa-pencil-square-o",
-		"clickFunction" : function(event) {
-			window.location.href = pageParam.editPage.url + "?" + RECORD_ID + "=" + event.data.id;
-		}
-	}, {
-		"operationText" : "删除",
-		"buttonClass" : "red",
-		"iconClass" : "fa fa-trash-o",
-		"clickFunction" : function(event) {
-			layer.confirm('您确定要删除当前记录？', {
-				btn : [ '确定', '取消' ]
-			}, function() {
-				layer.closeAll('dialog');
-				ajaxParam.submitData.page.pageSize = $("#pageSizeText").val();
-				ajaxParam.submitData.page.pageIndex = $("#pageIndexHidden").val();
-				pageParam.deleteInterface.url = RU_GPORGANIZATION_DELETE;
-				pageParam.deleteInterface.type = "GET";
-				pageParam.deleteInterface.submitData = {
-					"id" : event.data.id,
-				};
-				deleteRecord(pageParam, ajaxParam, operationParam);
-			});
-		},
-		"visibleFunction" : function(recordData) {
-			if (recordData.status == "1")
-				return false;
-			return false;
-		}
-	} ];
-	initQueryForm(pageParam, ajaxParam, operationParam);
 
 });
+
+
+function initUlOrganizationTree() {
+
+	var jsonData = {
+		"entityRelated": {
+		},
+		"orderList": [{
+			"columnName": "priority",
+			"isASC": true
+		}]
+	};
+	// 树形结构begin
+	var setting = {
+		check: {
+			enable: false
+		},
+		view: {
+			addHoverDom: addHoverDom,
+			removeHoverDom: removeHoverDom,
+			selectedMulti: true,
+			dblClickExpand: false
+		},
+		edit: {
+			enable: true,
+			editNameSelectAll: true
+		},
+		url: {
+			addUrl: RU_GPORGANIZATION_ADD,
+			deleteListUrl: RU_GPORGANIZATION_DELETELIST,
+			updateListUrl: RU_GPORGANIZATION_UPDATELISTWITHDFF,
+			updateUrl: RU_GPORGANIZATION_UPDATE,
+			getModelUrl: RU_GPORGANIZATION_GETMODELBYPATH
+		},
+
+		data: {
+			simpleData: {
+				enable: true,
+				idKey: "id",
+				pIdKey: "fartherId"
+			}
+		},
+		callback: {
+			beforeRemove: beforeRemove,
+			beforeRename: beforeRename,
+			onDrop: onDrop,
+			onDrag: onDrag,
+			onRemove: onRemove,
+			onRename: onRename,
+			onClick: onClick
+
+		}
+	};
+
+	var zNodes = [{
+		id: null,
+		pId: 0,
+		name: "根节点",
+		open: true,
+		categoryCode: $("input[name='catalogTypeCodeRadio']:checked").val(),
+		categoryText: $("input[name='catalogTypeCodeRadio']:checked").text()
+	}];
+
+	$.fn.zTree.init($("#ulOrganizationTree"), setting, zNodes);
+
+	var ajaxParamter = {
+		"url": RU_GPORGANIZATION_GETLISTBYJSONDATA + "?jsonData=" + JSON.stringify(jsonData),
+		"async": true,
+		"type": "GET",
+		"success": function (resultData) {
+			if (resultData.totalCount == 0)
+				return false
+			var moduleTree = $.fn.zTree.getZTreeObj("ulOrganizationTree");
+			zNodes = resultData.data;
+
+			$.fn.zTree.init($("#ulOrganizationTree"), setting, zNodes);
+
+			$(".ztree .level0 a").attr("style", "cursor:default")
+
+			// 树形菜单加上 F2快捷键
+			$("#ulOrganizationTree").on("keydown", "li", function (event) {
+				if (event.keyCode == 113) {
+					var node = moduleTree.getNodeByTId($(this).attr("id"));
+					moduleTree.editName(node);
+				}
+			});
+			// 展开节点
+			$.each(zNodes, function (index, value) {
+				if (value.level < 2) {
+					var node = moduleTree.getNodeByParam("id", value.id);
+					moduleTree.expandNode(node, true);// 展开指定节点
+				}
+			});
+
+			fuzzySearch("ulOrganizationTree", '#textCatalogCategoryTreeSearch', null, true); // 初始化模糊搜索方法
+		}
+	};
+	universalAjax(ajaxParamter);
+}
+
+function onClick(e, treeId, treeNode) {
+	var zTree = $.fn.zTree.getZTreeObj(treeId);
+	var pageParam = {
+		treeId: treeId,
+		formId: "formEdit",
+		validateRules: {
+			textDomainId: {
+				required: true
+			},
+			textName: {
+				required: true
+			},
+			selectLevelCode: {
+				required: true
+			},
+			textPriority: {
+				digits: true
+			}
+		}
+	};
+	var ajaxParam = {
+		recordId: treeNode.id,
+		getModelAsync: false,
+		url: zTree.setting.url.updateUrl,
+		getModelUrl: zTree.setting.url.getModelUrl,
+		submitData: {}
+	};
+
+	var initResult = initZTreeEditForm(pageParam, ajaxParam);
+	if (!initResult.isSuccess) {
+		layer.alert("查询信息错误" + initResult.resultMessage, {
+			icon: 6
+		});
+		return;
+	}
+	if (initResult.data.iconIds != null) {
+		initEditFileInput(initResult.data.iconIds.split(","), initResult.data.iconPaths.split(","));
+	}
+}

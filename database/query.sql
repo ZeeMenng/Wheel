@@ -31,3 +31,36 @@ A.category_fine_grit = B.category
 WHERE
 	A.`name` = B.`name`;
 	
+	
+UPDATE wheel.gp_organization A,
+wheel.gp_organization_bak B 
+SET A.LEVEL = B.level_code 
+WHERE
+	A.`id` = B.`id`;
+	
+UPDATE wheel.gp_station A,
+wheel.gp_organization_bak B 
+SET A.organization_name = B.NAME 
+WHERE
+	A.`organization_id` = B.`id`;
+	
+/**按照汉字拼音进行排序的方法，这种写法对程序不太友好；或者直接把字段的编码设置为gbk、排序集设置为gpk_chinese_ci，但这样可能引发数据库导入导出间的乱码问题**/
+SELECT
+	A.id id,
+	A.serial_no serialNo,
+	A.organization_id organizationId,
+	A.organization_name organizationName,
+	A.NAME NAME,
+	A.priority priority,
+	A.responsibility responsibility,
+	A.remark remark,
+	A.add_time addTime,
+	A.update_time updateTime 
+FROM
+	gp_station A
+	INNER JOIN gp_station B ON A.id = B.id 
+WHERE
+	1 = 1 
+ORDER BY
+	CONVERT ( organizationName USING gbk ) ASC
+

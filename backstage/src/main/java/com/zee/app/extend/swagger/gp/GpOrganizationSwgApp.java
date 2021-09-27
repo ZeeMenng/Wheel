@@ -2,7 +2,10 @@ package com.zee.app.extend.swagger.gp;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.HashMap;import com.zee.utl.CastObjectUtil;
+import java.util.HashMap;
+
+import com.zee.set.symbolic.SqlSymbolic;
+import com.zee.utl.CastObjectUtil;
 import java.util.List;
 import java.util.Map;
 
@@ -115,21 +118,7 @@ public class GpOrganizationSwgApp extends GpOrganizationGenSwgApp {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		StringBuffer selectBuffer = new StringBuffer();
-		selectBuffer.append("	SELECT                                                   ");
-		selectBuffer.append("		A.id,                                                ");
-		selectBuffer.append("		A.name,                                              ");
-		selectBuffer.append("		B.id fartherId,                                      ");
-		selectBuffer.append("		B.name fartherName,                                  ");
-		selectBuffer.append("		A.type_code typeCode,                                ");
-		selectBuffer.append("		A.type_text typeText,                                ");
-		selectBuffer.append("		A.level_code levelCode,                              ");
-		selectBuffer.append("		A.level_text levelText,                              ");
-		selectBuffer.append("		A.priority priority                                  ");
-		selectBuffer.append("	FROM                                                     ");
-		selectBuffer.append("		gp_organization A                                    ");
-		selectBuffer.append("	LEFT JOIN gp_organization B ON B.id = A.farther_id       ");
-		selectBuffer.append("	WHERE                                                    ");
-		selectBuffer.append("		1 = 1                                                ");
+		selectBuffer.append(SqlSymbolic.SQL_SELECT_ORGANIZATION_LIST);
 
 		if (!StringUtils.isBlank(jsonData)) {
 			JSONObject jsonObject = JSONObject.fromObject(jsonData);
