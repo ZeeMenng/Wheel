@@ -133,7 +133,7 @@ public class GpStationSwgApp extends GpStationGenSwgApp {
             if (jsonObject.containsKey("entityRelated")) {
                 JSONObject entityRelatedObject = jsonObject.getJSONObject("entityRelated");
                 if (entityRelatedObject.containsKey("keywords") && StringUtils.isNotBlank(entityRelatedObject.getString("keywords")))
-                    selectBuffer.append(String.format(" and( B.organizationName like %1$s or B.name like %1$s  or A.responsibility like %1$s)", "'%" + entityRelatedObject.getString("keywords") + "%'"));
+                    selectBuffer.append(String.format(" and( A.organization_name like %1$s or A.name like %1$s  or A.responsibility like %1$s)", "'%" + entityRelatedObject.getString("keywords") + "%'"));
                 if (entityRelatedObject.containsKey("serialNo") && StringUtils.isNotBlank(entityRelatedObject.getString("serialNo")))
                     selectBuffer.append(" and A.serial_no like '%").append(entityRelatedObject.getString("serialNo")).append("%'");
                 if (entityRelatedObject.containsKey("organizationName") && StringUtils.isNotBlank(entityRelatedObject.getString("organizationName")))
