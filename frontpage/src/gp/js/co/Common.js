@@ -3,8 +3,8 @@ var txtActive;
 var FormRepeater = function () {
 	return {
 		init: function (pageParam) {
-			$repeater=$(".repeater").repeater({
-				initEmpty: false,
+			$repeater = $(".repeater").repeater({
+				initEmpty: pageParam.dataRepeaterList.initEmpty == null ? false : pageParam.dataRepeaterList.initEmpty,
 				show: function () {
 					$(this).slideDown();
 					var dataRepeaterListName = pageParam.dataRepeaterList.name;
@@ -17,19 +17,24 @@ var FormRepeater = function () {
 				hide: function (e) {
 					$(this).slideUp(e);
 					var dataRepeaterListName = pageParam.dataRepeaterList.name;
-					var dictionaryListForm = $('.repeater').repeaterVal()[dataRepeaterListName];
-					$.each(pageParam.dataRepeaterList.validateRules, function (i, v) {
-						var selectInput = 'input[name ="' + dataRepeaterListName + '[' + (dictionaryListForm.length - 1) + '][' + i + ']"]';
-						$(selectInput).rules("remove");
-					});
+					var dataRepeaterListForm = $('.repeater').repeaterVal()[dataRepeaterListName];
+					//说明删除了最后一个
+					if (dataRepeaterListForm != null)
+						$.each(pageParam.dataRepeaterList.validateRules, function (i, v) {
+							var selectInput = 'input[name ="' + dataRepeaterListName + '[' + (dataRepeaterListForm.length - 1) + '][' + i + ']"]';
+							$(selectInput).rules("remove");
+						});
 				},
 				ready: function (setIndexes) {
 					var dataRepeaterListName = pageParam.dataRepeaterList.name;
 					$.each(pageParam.dataRepeaterList.validateRules, function (i, v) {
 						var selectInput = 'input[name ="' + dataRepeaterListName + '[0][' + i + ']"]';
-						$(selectInput).rules("add", v);
+						//说明初始化时为空列表
+						if ( $(selectInput).length != 0)
+							$(selectInput).rules("add", v);
 					});
-				}
+				},
+				isFirstItemUndeletable: false
 
 			},
 			);

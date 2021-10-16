@@ -305,10 +305,46 @@ function initZTreeEditForm(pageParam, ajaxParam) {
 			var formData = formEdit.serializeArray();
 			// 将查询条件和其它请求参数组装
 			if (ajaxParam.submitData != null)
-				$.each(formData, function (i, n) {
-					var propertyName = getPropertyName(formData[i].name);
-					ajaxParam.submitData[propertyName] = formData[i].value;
-				});
+				if (typeof ajaxParam.submitData == "string")// 处理重复提交时反复转换的问题
+					ajaxParam.submitData = JSON.parse(ajaxParam.submitData);
+
+			//处理Repeater数据
+			var dataRepeaterListName;
+			if (pageParam.dataRepeaterList != null)
+				dataRepeaterListName = pageParam.dataRepeaterList.name;
+
+			$.each(formData, function (i, n) {
+				//处理Repeater数据
+				if (dataRepeaterListName != null && formData[i].name.indexOf(dataRepeaterListName) > -1)
+					return true;
+
+				var propertyName = getPropertyName(formData[i].name);
+				ajaxParam.submitData[propertyName] = formData[i].value;
+			});
+
+
+			//处理Repeater数据
+			if (pageParam.dataRepeaterList != null)
+				if ($('.repeater').repeaterVal() != null && $('.repeater').repeaterVal()[dataRepeaterListName] != null) {
+					var repeaterListForm = $('.repeater').repeaterVal()[dataRepeaterListName];
+					var repeaterList = new Array();
+					for (var i = 0; i < repeaterListForm.length; i++) {
+						var repeater = {};
+
+						//遍历Repeater对象属性
+						$.each(repeaterListForm[i], function (k, w) {
+							k = getPropertyName(k);
+							var startIndex = k.indexOf(dataRepeaterListName) + dataRepeaterListName.length;
+							var repeaterPropertyName = k.substr(startIndex);
+							//转换属性名称，首字母小写
+							repeaterPropertyName = repeaterPropertyName.substr(0, 1).toLowerCase() + repeaterPropertyName.substr(1);
+							repeater[repeaterPropertyName] = w;
+						});
+						repeaterList.push(repeater);
+					}
+					ajaxParam.submitData[dataRepeaterListName] = repeaterList;
+				}
+
 
 			if (ajaxParam.type == null)
 				ajaxParam.type = "POST";
@@ -378,6 +414,7 @@ function initZTreeEditForm(pageParam, ajaxParam) {
 			}
 			var ajaxData = resultData.data;
 
+
 			if (ajaxData.imgPath != null) {
 				$("#imgPath").attr("src", ajaxData.imgPath);
 				$("#new").hide();
@@ -385,11 +422,33 @@ function initZTreeEditForm(pageParam, ajaxParam) {
 				$("#move").show();
 			}
 			var form = document.forms[pageParam.formId];
+
+
+			//处理Repeater数据
+			var $repeater = null;
+			var dataRepeaterListName;
+			var repeaterClass = {};
+
+			if (pageParam.dataRepeaterList != null) {
+				dataRepeaterListName = pageParam.dataRepeaterList.name;
+				$repeater = FormRepeater.init(pageParam);
+			}
+
 			// 遍历指定form表单所有元素
 			for (var i = 0; i < form.length; i++) {
 				var fieldName = form[i].name;
 				var array = fieldName.split("");
 				var prefix = null;
+
+				//定义Repeater对象中的属性
+				if ($repeater != null && fieldName.indexOf((dataRepeaterListName.substr(0, 1).toUpperCase() + dataRepeaterListName.substr(1))) > -1) {
+					var startIndex = fieldName.lastIndexOf("[") + 1;
+					var endIndex = fieldName.lastIndexOf("]");
+					repeaterClass[fieldName.substring(startIndex, endIndex)] = "";
+
+					continue;
+				}
+
 				for (var n = 0; n < array.length; n++) {
 					if (array[n].toLocaleString().charCodeAt(0) >= 65 && array[n].toLocaleString().charCodeAt(0) <= 90)// 第一个大写字母
 					{
@@ -427,6 +486,35 @@ function initZTreeEditForm(pageParam, ajaxParam) {
 					default:
 						break;
 				}
+			}
+
+			//处理Repeater数据
+			if ($repeater != null) {
+				var dataRepeaterList = ajaxData[dataRepeaterListName];
+				var repeaterList = new Array();
+
+				$.each(dataRepeaterList, function (i, v) {
+					var repeaterObj = {};
+					jQuery.each(repeaterClass, function (j, w) {
+						var startIndex = j.indexOf((dataRepeaterListName.substr(0, 1).toUpperCase() + dataRepeaterListName.substr(1))) + dataRepeaterListName.length;
+						var propertyName = j.substr(startIndex).substr(0, 1).toLowerCase() + j.substr(startIndex).substr(1);
+						repeaterObj[j] = v[propertyName];
+					});
+					repeaterList.push(repeaterObj)
+				});
+
+				//如果没有数据，则赋空值
+				if (repeaterList.length == 0) {
+					var repeaterObj = {};
+					jQuery.each(repeaterClass, function (j, w) {
+						var startIndex = j.indexOf((dataRepeaterListName.substr(0, 1).toUpperCase() + dataRepeaterListName.substr(1))) + dataRepeaterListName.length;
+						var propertyName = j.substr(startIndex).substr(0, 1).toLowerCase() + j.substr(startIndex).substr(1);
+						repeaterObj[j] = "";
+					});
+					repeaterList.push(repeaterObj);
+				}
+
+				$repeater.setList(repeaterList);
 			}
 		}
 	};
@@ -502,7 +590,7 @@ function immediateUpdate(treeId, treeNodes, action, targetNode, moveType) {
 			newZTreeNodeJson = zTreeNodeJson;
 		var idKey = zTree.setting.data.simpleData.idKey;
 		var pIdKey = zTree.setting.data.simpleData.pIdKey;
-	
+
 		newZTreeNodeJson[idKey] = treeNodesArray[0][idKey]
 		newZTreeNodeJson[pIdKey] = treeNodesArray[0][pIdKey]
 
@@ -512,7 +600,7 @@ function immediateUpdate(treeId, treeNodes, action, targetNode, moveType) {
 			newZTreeNodeJson.domainName = rootNode.name;
 
 			if (treeNodesArray[0].level == 1)
-			newZTreeNodeJson.fartherId = null;
+				newZTreeNodeJson.fartherId = null;
 		}
 
 		ajaxParamter.data = JSON.stringify(newZTreeNodeJson);

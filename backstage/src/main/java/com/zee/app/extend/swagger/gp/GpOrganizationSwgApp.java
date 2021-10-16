@@ -1,35 +1,33 @@
 package com.zee.app.extend.swagger.gp;
 
-import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-
-import com.zee.set.symbolic.SqlSymbolic;
-import com.zee.utl.CastObjectUtil;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.zee.app.generate.swagger.gp.GpOrganizationGenSwgApp;
+import com.zee.bll.extend.unity.gp.GpStationUntBll;
 import com.zee.ent.custom.ResultModel;
 import com.zee.ent.extend.gp.GpOrganization;
+import com.zee.ent.extend.gp.GpStation;
+import com.zee.ent.parameter.base.BaseParameter;
 import com.zee.ent.parameter.gp.GpOrganizationParameter;
+import com.zee.ent.parameter.gp.GpStationParameter;
 import com.zee.set.symbolic.CustomSymbolic;
+import com.zee.set.symbolic.SqlSymbolic;
 import com.zee.utl.CastObjectUtil;
 import com.zee.utl.DateUtils;
-
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Zee
@@ -40,6 +38,10 @@ import net.sf.json.JSONObject;
 @RestController
 @RequestMapping(value = "/extend/swagger/gp/gpOrganization")
 public class GpOrganizationSwgApp extends GpOrganizationGenSwgApp {
+
+	@Autowired
+	@Qualifier("gpStationUntBll")
+	protected GpStationUntBll gpStationUntBll;
 
 	@ApiOperation(value = "新增记录", notes = "新增单条记录")
 	@ApiImplicitParams({ @ApiImplicitParam(paramType = "body", name = "jsonData", value = "json字符串", required = true, dataType = "GpOrganization") })
@@ -58,9 +60,16 @@ public class GpOrganizationSwgApp extends GpOrganizationGenSwgApp {
 	@RequestMapping(value = "/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResultModel update(@RequestBody GpOrganization jsonData) {
 
-		Date updateTime = DateUtils.getCurrentDate();
-		jsonData.setUpdateTime(updateTime);
 		ResultModel result = gpOrganizationUntBll.update(jsonData);
+		gpStationUntBll.deleteByOrganizationId(jsonData.getId());
+		if (jsonData.getStationList() != null) {
+			ArrayList<GpStation> stationArrayList = new ArrayList<GpStation>();
+			for (GpStation station : jsonData.getStationList()) {
+				station.setOrganizationId(result.getObjectId());
+				stationArrayList.add(station);
+			}
+			gpStationUntBll.add(stationArrayList);
+		}
 
 		return result;
 	}
@@ -79,32 +88,32 @@ public class GpOrganizationSwgApp extends GpOrganizationGenSwgApp {
 	@ApiImplicitParam(paramType = "path", name = "id", value = "用户ID", required = true, dataType = "String")
 	@RequestMapping(value = "/getModel/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResultModel getModelByPath(@PathVariable("id") String id) {
-		ResultModel result = gpOrganizationUntBll.getModel(id);
+		ResultModel organizationResult = gpOrganizationUntBll.getModel(id);
+		GpOrganization gpOrganization = CastObjectUtil.cast(organizationResult.getData());
 
-		GpOrganization gpOrganization = (GpOrganization) result.getData();
-		Map<String, Object> map = new HashMap<String, Object>();
-		StringBuffer selectBuffer = new StringBuffer();
-		selectBuffer.append("	SELECT                                                                  ");
-		selectBuffer.append("		t.id,                                                               ");
-		selectBuffer.append("		ft.id organizationFar,ft.name organizationFarName,                  ");
-		selectBuffer.append("		fft.id organizationTop                                              ");
-		selectBuffer.append("	FROM                                                                    ");
-		selectBuffer.append("		gp_organization t                                                   ");
-		selectBuffer.append("	LEFT JOIN gp_organization ft ON ft.id = t.farther_id                    ");
-		selectBuffer.append("	LEFT JOIN gp_organization fft ON fft.id = ft.farther_id                 ");
-		selectBuffer.append("	WHERE                                                                   ");
-		selectBuffer.append("		t.id = '" + gpOrganization.getId() + "'                                 ");
-		map.put("Sql", selectBuffer.toString());
-		ResultModel resultModel = gpOrganizationUntBll.getListBySQL(map);
-		List<Map<String, Object>> organizationList = CastObjectUtil.cast(resultModel.getData());
-		Map<String, Object> organizationMap = organizationList.get(0);
-		gpOrganization.setOrganizationTop(organizationMap.get("organizationTop") != null ? organizationMap.get("organizationTop").toString() : "");
-		gpOrganization.setOrganizationFar(organizationMap.get("organizationFar") != null ? organizationMap.get("organizationFar").toString() : "");
-		gpOrganization.setFartherId(organizationMap.get("organizationFar") != null ? organizationMap.get("organizationFar").toString() : "");
-		gpOrganization.setFartherName(organizationMap.get("organizationFarName") != null ? organizationMap.get("organizationFarName").toString() : "");
-		result.setData(gpOrganization);
+		GpStationParameter.GetList jsonData = new GpStationParameter.GetList();
 
-		return result;
+		GpStationParameter.GetList.EntityRelated entityRelated = new GpStationParameter.GetList.EntityRelated();
+		BaseParameter.BaseParamGetList.Order order = new BaseParameter.BaseParamGetList.Order();
+
+		entityRelated.setOrganizationId(id);
+		order.setColumnName("priority");
+		order.setIsASC(true);
+
+		jsonData.setEntityRelated(entityRelated);
+		jsonData.setOrderList(new ArrayList<BaseParameter.BaseParamGetList.Order>() {
+			{
+				add(order);
+			}
+		});
+
+		ResultModel stationResult = gpStationUntBll.getList(jsonData);
+		if(stationResult.getTotalCount()!=0) {
+			ArrayList<GpStation> stationList = CastObjectUtil.cast(stationResult.getData());
+			gpOrganization.setStationList(stationList);
+			organizationResult.setData(gpOrganization);
+		}
+		return organizationResult;
 	}
 
 	@ApiOperation(value = "模糊查询", notes = "根据查询条件模糊查询")

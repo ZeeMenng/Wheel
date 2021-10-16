@@ -148,6 +148,15 @@ function onClick(e, treeId, treeNode) {
 			},
 			textPriority: {
 				digits: true
+			},
+
+		}, dataRepeaterList: {
+			name: "stationList",
+			initEmpty: false,
+			validateRules: {
+				textStationListName: {
+					required: true
+				}
 			}
 		}
 	};

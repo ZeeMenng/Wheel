@@ -110,7 +110,7 @@
 								</div>
 
 								<div class="form-body portlet-body">
-									<form action="#" id="formEdit" class="form-horizontal">
+									<form action="#" id="formEdit" class="form-horizontal repeater">
 
 										<div class="form-body">
 											<input id="hiddenId" name="hiddenId" type="hidden" />
@@ -201,8 +201,7 @@
 											</div>
 											<div class="form-group">
 												<div class="element-group left">
-													<label for="textResponsibility"
-														class="control-label col-md-2">机构职能
+													<label for="textResponsibility" class="control-label col-md-2">机构职能
 													</label>
 													<div class="col-md-10">
 														<textarea id="textResponsibility" name="textResponsibility"
@@ -220,6 +219,58 @@
 													</div>
 												</div>
 											</div>
+
+
+
+											<div class="form-group">
+												<label class="col-md-2 control-label">岗位信息</label>
+												<div class="col-md-10">
+													<div class="mt-repeater">
+														<div data-repeater-list="stationList">
+															<div data-repeater-item class="row">
+																<div class="col-md-3">
+																	<label for="textStationListName"
+																		class="control-label">岗位名称<span
+																			class="required" aria-required="true"> *
+																		</span>
+																	</label>
+																	<input id="textStationListName" name="textStationListName" type="text"
+																		data-required="1" class="form-control" />
+																</div>
+																<div class="col-md-4">
+																	<label class="control-label"
+																		for="textareaStationListResponsibility">岗位职能
+																	</label>
+																	<br />
+																	<textarea id="textareaStationListResponsibility"
+																		name="textareaStationListResponsibility"
+																		class="form-control" rows="3"></textarea>
+																</div>
+																<div class="col-md-4">
+																	<label class="control-label">备注</label>
+																	<br />
+																	<textarea name="textareaStationListRemark"
+																		class="form-control" rows="3"></textarea>
+																</div>
+																<div class="col-md-1">
+																	<label class="control-label">&nbsp;</label>
+																	<a href="javascript:;" data-repeater-delete
+																		class="btn btn-danger">
+																		<i class="fa fa-close"></i>
+																	</a>
+																</div>
+															</div>
+														</div>
+														<hr>
+														<a href="javascript:;" data-repeater-create
+															class="btn btn-info mt-repeater-add">
+															<i class="fa fa-plus"></i> 新增岗位信息</a>
+														<br>
+														<br>
+													</div>
+												</div>
+											</div>
+
 										</div>
 
 

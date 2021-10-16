@@ -286,8 +286,19 @@ function initEditPage(pageParam, ajaxParam) {
 						var propertyName = j.substr(startIndex).substr(0, 1).toLowerCase() + j.substr(startIndex).substr(1);
 						repeaterObj[j] = v[propertyName];
 					});
-					repeaterList.push(repeaterObj)
+					repeaterList.push(repeaterObj);
 				});
+				//如果没有数据，则赋空值
+				if (repeaterList.length == 0) {
+					var repeaterObj = {};
+					jQuery.each(repeaterClass, function (j, w) {
+						var startIndex = j.indexOf((dataRepeaterListName.substr(0, 1).toUpperCase() + dataRepeaterListName.substr(1))) + dataRepeaterListName.length;
+						var propertyName = j.substr(startIndex).substr(0, 1).toLowerCase() + j.substr(startIndex).substr(1);
+						repeaterObj[j] = "";
+					});
+					repeaterList.push(repeaterObj);
+				}
+
 				$repeater.setList(repeaterList);
 			}
 		}
