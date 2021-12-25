@@ -152,7 +152,7 @@ function onClick(e, treeId, treeNode) {
 
 		}, dataRepeaterList: {
 			name: "stationList",
-			initEmpty: false,
+			initEmpty: true,
 			validateRules: {
 				textStationListName: {
 					required: true

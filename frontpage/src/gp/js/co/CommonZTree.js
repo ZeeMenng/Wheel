@@ -6,6 +6,12 @@ var treeNodesDragBrotherArray = new Array();
 var className = "dark";
 var newCount = 1;
 
+
+
+
+
+
+
 // 初始化详情页中的zTree插件
 function initDetailTree(treeParam) {
 
@@ -427,12 +433,35 @@ function initZTreeEditForm(pageParam, ajaxParam) {
 			//处理Repeater数据
 			var $repeater = null;
 			var dataRepeaterListName;
-			var repeaterClass = {};
+			
 
-			if (pageParam.dataRepeaterList != null) {
+			//在初始化之前、定义Repeater对象中的属性，否则如果initEmpty为true，可能获取不到数据
+			if (pageParam.dataRepeaterList != null)
 				dataRepeaterListName = pageParam.dataRepeaterList.name;
+
+
+			form.reset();
+			var $dataRepeaterListDiv = $("div[data-repeater-list='" + dataRepeaterListName + "']").clone().removeClass("hide");
+
+			// if ($("div[data-repeater-list='" + dataRepeaterListName + "']").text() == "")
+			// 	$dataRepeaterListDiv = $("div[data-repeater-list='" + dataRepeaterListName + "']").clone();
+			// $("div[data-repeater-list='" + dataRepeaterListName + "'] .row").not(":eq(0)").remove();
+			// $(".mt-repeater").prepend($dataRepeaterListDiv);
+
+			var repeaterClass = {};
+			$dataRepeaterListDiv.find(".row:eq(0)").find(".form-control").each(function (j, k) {
+				var fieldName = k.name;
+				if (fieldName.indexOf(dataRepeaterListName) > -1 && fieldName.indexOf((dataRepeaterListName.substr(0, 1).toUpperCase() + dataRepeaterListName.substr(1))) > -1) {
+					var startIndex = fieldName.lastIndexOf("[") + 1;
+					var endIndex = fieldName.lastIndexOf("]");
+					repeaterClass[fieldName.substring(startIndex, endIndex)] = "";
+				} else {
+					repeaterClass[fieldName] = "";
+				}
+			});
+
+			if (pageParam.dataRepeaterList != null)
 				$repeater = FormRepeater.init(pageParam);
-			}
 
 			// 遍历指定form表单所有元素
 			for (var i = 0; i < form.length; i++) {
@@ -440,14 +469,7 @@ function initZTreeEditForm(pageParam, ajaxParam) {
 				var array = fieldName.split("");
 				var prefix = null;
 
-				//定义Repeater对象中的属性
-				if ($repeater != null && fieldName.indexOf((dataRepeaterListName.substr(0, 1).toUpperCase() + dataRepeaterListName.substr(1))) > -1) {
-					var startIndex = fieldName.lastIndexOf("[") + 1;
-					var endIndex = fieldName.lastIndexOf("]");
-					repeaterClass[fieldName.substring(startIndex, endIndex)] = "";
 
-					continue;
-				}
 
 				for (var n = 0; n < array.length; n++) {
 					if (array[n].toLocaleString().charCodeAt(0) >= 65 && array[n].toLocaleString().charCodeAt(0) <= 90)// 第一个大写字母
@@ -504,7 +526,7 @@ function initZTreeEditForm(pageParam, ajaxParam) {
 				});
 
 				//如果没有数据，则赋空值
-				if (repeaterList.length == 0) {
+				/*if (repeaterList.length == 0) {
 					var repeaterObj = {};
 					jQuery.each(repeaterClass, function (j, w) {
 						var startIndex = j.indexOf((dataRepeaterListName.substr(0, 1).toUpperCase() + dataRepeaterListName.substr(1))) + dataRepeaterListName.length;
@@ -512,9 +534,12 @@ function initZTreeEditForm(pageParam, ajaxParam) {
 						repeaterObj[j] = "";
 					});
 					repeaterList.push(repeaterObj);
-				}
+				}*/
 
-				$repeater.setList(repeaterList);
+
+				if (repeaterList.length != 0)
+					$repeater.setList(repeaterList);
+
 			}
 		}
 	};

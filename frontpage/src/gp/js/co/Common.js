@@ -8,6 +8,7 @@ var FormRepeater = function () {
 				show: function () {
 					$(this).slideDown();
 					var dataRepeaterListName = pageParam.dataRepeaterList.name;
+					var dataRepeaterForm1 = $('.repeater').repeaterVal();
 					var dataRepeaterForm = $('.repeater').repeaterVal()[dataRepeaterListName];
 					$.each(pageParam.dataRepeaterList.validateRules, function (i, v) {
 						var selectInput = 'input[name ="' + dataRepeaterListName + '[' + (dataRepeaterForm.length - 1) + '][' + i + ']"]';
