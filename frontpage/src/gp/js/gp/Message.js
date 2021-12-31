@@ -40,11 +40,11 @@ $(document).ready(function() {
 
 	};
 
-	if(getStorage("userInfo")){
-		//$("#userName").text(getStorage("userInfo")[0].id)
-		console.log(getStorage("userInfo")[0].id)
-		var userInfo = getStorage("userInfo")[0];
-	}
+	// if(getStorage("userInfo")){
+	// 	//$("#userName").text(getStorage("userInfo")[0].id)
+	// 	console.log(getStorage("userInfo")[0].id)
+	// 	var userInfo = getStorage("userInfo")[0];
+	// }
 
 	var ajaxParam = {
 		url : RU_GPMESSAGE_GETLISTBYJSONDATA,
@@ -73,11 +73,11 @@ $(document).ready(function() {
 					return href;
 				},
 			},
-//			{
-//				"columnName" : "userName",
-//				"columnText" : "消息创建者",
-//				"style" : "text-align:left",
-//			},
+			{
+				"columnName" : "userName",
+				"columnText" : "消息创建者",
+				"style" : "text-align:left",
+			},
 			{
 				"columnName" : "typeText",
 				"columnText" : "消息类型",
@@ -93,11 +93,11 @@ $(document).ready(function() {
 			"columnText" : "记录时间",
 			"style" : "text-align:left",
 		    },
-//			{
-//				"columnName" : "isReadCode",
-//				"columnText" : "是否已读",
-//				"style" : "text-align:left",
-//			},
+			{
+				"columnName" : "isReadCode",
+				"columnText" : "是否已读",
+				"style" : "text-align:left",
+			},
 //			 {
 //			"columnName" : "remark",
 //			"columnText" : "备注字段",
