@@ -82,3 +82,6 @@ var DI_CATALOG_INTERFACE = "1a02f72364be4bd2b9089dd211eb9bca";
 
 //国家信息 中国
 var REGION_COUNTRY_ISO_CHINA="CN";
+
+// 消息提醒
+var DI_MESSAGE_TYPE="336e52d47d934cf9bf622653ee50cd24";

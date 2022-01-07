@@ -5,145 +5,102 @@
  * @description  站内信。 相关页面的js方法。
  */
 
-$(document).ready(function() {
+$(document).ready(function () {
 	function GetQueryString(name) {
-		var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
 		var r = window.location.search.substr(1).match(reg);
-		if(r!=null)return  unescape(r[2]); return null;
+		if (r != null) return unescape(r[2]); return null;
 	}
-	var infoText = GetQueryString("messageType")*1+1
-	if(GetQueryString("messageType")){
-		$("#selectMessageType option").eq(infoText).attr("selected",true)
+	var infoText = GetQueryString("messageType") * 1 + 1
+	if (GetQueryString("messageType")) {
+		$("#selectMessageType option").eq(infoText).attr("selected", true)
 	}
 
-	
-	//初始化列表页主体部分，包括查询条件表单及数据表格等。
-	var pageParam = {
-		formId : "queryBuilderForm",
-		tableId : "contentTable",
-		editPage : {
-			title : "批量修改表单",
-			url : RP_GPMESSAGE_EDIT
-		},
-		detailPage : {
-			url : RP_GPMESSAGE_DETAIL
-		},
-		addPage : {
-			url : RP_GPMESSAGE_ADD
-		},
-		deleteInterface : {
-			url : RU_GPMESSAGE_DELETE
-		},
-		deleteListInterface : {
-			url : RU_GPMESSAGE_DELETELIST
-		}
+	//初始化消息类型
+	var selectParam = {
+		selectId: "selectTypeCode",
+		textField: "text",
+		valueField: "code"
+	};
+	var ajaxParam = {
+		url: RU_GPDICTIONARY_GETLISTBYTYPEID + DI_MESSAGE_TYPE
+	}
+	initDropDownList(selectParam, ajaxParam);
 
+	// 初始化选择应用领域下拉框
+	var selectParam = {
+		selectId: "selectBusinessId",
+		textField: "name",
+		valueField: "id"
 	};
 
-	// if(getStorage("userInfo")){
-	// 	//$("#userName").text(getStorage("userInfo")[0].id)
-	// 	console.log(getStorage("userInfo")[0].id)
-	// 	var userInfo = getStorage("userInfo")[0];
-	// }
+	var domainJsonData = {
+		"entityRelated": {
 
+		},
+		"orderList": [{
+			"columnName": "name",
+			"isASC": true
+		}]
+	};
 	var ajaxParam = {
-		url : RU_GPMESSAGE_GETLISTBYJSONDATA,
-		type : "GET",
-		submitData : {
-			"entityRelated" : {
-//				"messageType":"系统消息",
-//				"id": userInfo.id
+		url: RU_GPDOMAIN_GETLISTBYJSONDATA + "?jsonData=" + JSON.stringify(domainJsonData)
+	};
+	initDropDownList(selectParam, ajaxParam);
+	$("#selectBusinessId").select2({
+		placeholder: '请选择，可搜索……',
+		width: '100%'
+	});
+
+	//初始化消息接收者
+	var selectParam = {
+		selectId: "selectReceiverIds",
+		textField: "name",
+		valueField: "id"
+	};
+	$("#" + selectParam.selectId).select2({
+		placeholder: '请选择，可搜索……',
+		width: '100%',
+		ajax: {
+			url: function (params) {
+				var jsonData = {
+					"entityRelated": {
+						name: params.term
+					},
+					"orderList": [
+						{
+							"columnName": "level",
+							"isASC": true
+						},
+						{
+							"columnName": "name",
+							"isASC": false
+						}],
+					"page": {
+						"pageIndex": DEFAULT_PAGE_INDEX,
+						"pageSize": DEFAULT_PAGE_SIZE
+					}
+				};
+				return INTERFACE_SERVER + RU_GPORGANIZATION_GETLISTBYJSONDATA + "?jsonData=" + JSON.stringify(jsonData);
+
 			},
-			"orderList" : [ {
-				"columnName" : "add_time",
-				"isASC" : false
-			} ],
-			"page" : {
-				"pageIndex" : DEFAULT_PAGE_INDEX,
-				"pageSize" : DEFAULT_PAGE_SIZE
+
+			dataType: 'json',
+			async: false,
+			processResults: function (data, params) {
+				//返回的选项必须处理成以下格式
+				var results = $.map(data.data, function (obj) {
+					obj.text = obj.text || obj.name; // replace name with the property used for the text
+					return obj;
+				});
+
+				return {
+					results: results  //必须赋值给results并且必须返回一个obj
+				};
 			}
 		},
-		columnInfo : [
-			{
-				"columnName" : "title",
-				"columnText" : "消息标题",
-				"style" : "text-align:left",
-				"linkFunction" : function(event) {
-					var href = RP_GPMESSAGE_DETAIL + "?" + RECORD_ID + "=" + event.id;
-					return href;
-				},
-			},
-			{
-				"columnName" : "userName",
-				"columnText" : "消息创建者",
-				"style" : "text-align:left",
-			},
-			{
-				"columnName" : "typeText",
-				"columnText" : "消息类型",
-				"style" : "text-align:left",
-			},
-			 {
-			"columnName" : "content",
-			"columnText" : "消息内容",
-			"style" : "text-align:left",
-			},
-			{
-			"columnName" : "addTime",
-			"columnText" : "记录时间",
-			"style" : "text-align:left",
-		    },
-			{
-				"columnName" : "isReadCode",
-				"columnText" : "是否已读",
-				"style" : "text-align:left",
-			},
-//			 {
-//			"columnName" : "remark",
-//			"columnText" : "备注字段",
-//			"style" : "text-align:left",
-//			}, 
-        
-       ]
-	};
+	});
 
-	var operationParam = [ {
-		"operationText" : "修改",
-		"buttonClass" : "yellow",
-		"iconClass" : "fa fa-pencil-square-o",
-		"clickFunction" : function(event) {
-			window.location.href = pageParam.editPage.url + "?" + RECORD_ID + "=" + event.data.id;
-		},
-		"visibleFunction" : function(recordData) {
-			if (recordData.status == "1")
-				return false;
-			return false;
-		}
-	}, {
-		"operationText" : "删除",
-		"buttonClass" : "red",
-		"iconClass" : "fa fa-trash-o",
-		"clickFunction" : function(event) {
-			layer.confirm('您确定要删除当前记录？', {
-				btn : [ '确定', '取消' ]
-			}, function() {
-				layer.closeAll('dialog');
-				ajaxParam.submitData.page.pageSize = $("#pageSizeText").val();
-				ajaxParam.submitData.page.pageIndex = $("#pageIndexHidden").val();
-				pageParam.deleteInterface.url = RU_GPMESSAGE_DELETE;
-				pageParam.deleteInterface.type = "GET";
-				pageParam.deleteInterface.submitData = {
-					"id" : event.data.id,
-				};
-				deleteRecord(pageParam, ajaxParam, operationParam);
-			});
-		},
-		"visibleFunction" : function(recordData) {
-			if (recordData.status == "1")
-				return false;
-			return true;
-		}
-	} ];
-	initQueryForm(pageParam, ajaxParam, operationParam);
+
 
 });
