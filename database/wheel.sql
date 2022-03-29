@@ -1,13 +1,13 @@
--- MySQL dump 10.13  Distrib 8.0.27, for macos11 (arm64)
+-- MySQL dump 10.13  Distrib 5.6.43, for Win64 (x86_64)
 --
 -- Host: localhost    Database: wheel
 -- ------------------------------------------------------
--- Server version	8.0.27
+-- Server version	5.6.43
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -21,7 +21,7 @@
 
 DROP TABLE IF EXISTS `ds_gp_menu`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ds_gp_menu` (
   `id` char(32) NOT NULL COMMENT '主键。',
   `domain_id` char(32) DEFAULT NULL COMMENT '应用领域。外键，引用应用领域表（domain）的主键。',
@@ -29,13 +29,13 @@ CREATE TABLE `ds_gp_menu` (
   `name` varchar(50) DEFAULT NULL COMMENT '菜单名称。',
   `page_id` char(32) DEFAULT NULL COMMENT '链接页面。外键，引用系统页面表（page）的主键。',
   `page_url` varchar(200) DEFAULT NULL COMMENT '链接页面。路径，和系统页面表（page）的路径（url）对应。',
-  `priority` int DEFAULT NULL COMMENT '排序字段。',
+  `priority` int(11) DEFAULT NULL COMMENT '排序字段。',
   `remark` varchar(200) DEFAULT NULL COMMENT '备注字段。',
   `add_time` datetime DEFAULT NULL COMMENT '记录创建时间。',
   `update_time` datetime DEFAULT NULL COMMENT '记录最后一次修改时间。',
   `icon_class` varchar(50) DEFAULT NULL COMMENT '菜单图标样式。',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT COMMENT='链接菜单。已废弃，功能集成到gp_module。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='链接菜单。已废弃，功能集成到gp_module。';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -54,14 +54,14 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `ds_gpr_user_icon`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ds_gpr_user_icon` (
   `id` char(32) NOT NULL COMMENT '主键',
   `user_id` char(32) DEFAULT NULL COMMENT '系统用户。外键，引用系统用户（user）表的主键',
   `resource_id` char(32) DEFAULT NULL COMMENT '用户头像。外键，引用资源（resource）表的主键',
-  `is_default_code` tinyint DEFAULT NULL COMMENT '是否为默认头像。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，两种类型：0是，1否。默认值0。',
+  `is_default_code` tinyint(4) DEFAULT NULL COMMENT '是否为默认头像。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，两种类型：0是，1否。默认值0。',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT COMMENT='用户头像。已废弃，改用gpr_resource';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='用户头像。已废弃，改用gpr_resource';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -79,21 +79,21 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `gp_catalog_interface`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gp_catalog_interface` (
   `id` varchar(32) NOT NULL COMMENT '主键。',
   `name` varchar(50) DEFAULT NULL COMMENT '类别名称。',
   `serial_no` varchar(50) DEFAULT NULL COMMENT '类别编号。',
-  `level` tinyint DEFAULT NULL COMMENT '类别层级。类别在层级关系中所属等级，从1开始。',
+  `level` tinyint(4) DEFAULT NULL COMMENT '类别层级。类别在层级关系中所属等级，从1开始。',
   `farther_id` varchar(32) DEFAULT NULL COMMENT '父级模块。外键，引用自身接口分类字典表（gp_catalog_interface）的主键。',
-  `priority` int DEFAULT NULL COMMENT '排序字段。',
-  `category_code` tinyint DEFAULT NULL COMMENT '分类方式。编码，对应数据字典表（dictionary）中的编码字段（code）。目前先定义两种分类方式：1按业务分类，2按请求方式分类。',
+  `priority` int(11) DEFAULT NULL COMMENT '排序字段。',
+  `category_code` tinyint(4) DEFAULT NULL COMMENT '分类方式。编码，对应数据字典表（dictionary）中的编码字段（code）。目前先定义两种分类方式：1按业务分类，2按请求方式分类。',
   `category_text` varchar(50) DEFAULT NULL COMMENT '分类方式。文本，对应数据字典表（dictionary）中的文本字段（text）。目前先定义两种分类方式：1按业务分类，2按请求方式分类。',
   `remark` varchar(200) DEFAULT NULL COMMENT '备注。',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `fk_gp_catalog_interface_gp_catalog_interface` (`farther_id`) USING BTREE,
   CONSTRAINT `fk_gp_catalog_interface_gp_catalog_interface` FOREIGN KEY (`farther_id`) REFERENCES `gp_catalog_interface` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT COMMENT='接口分类字典。存放接口分类信息，支持树形分级分类，主要但不限于业务上的分类方式，支持同时对接口进行多种分类。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='接口分类字典。存放接口分类信息，支持树形分级分类，主要但不限于业务上的分类方式，支持同时对接口进行多种分类。';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -112,7 +112,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `gp_config`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gp_config` (
   `id` char(32) NOT NULL COMMENT '主键。',
   `serial_no` varchar(50) DEFAULT NULL COMMENT '编号。',
@@ -120,13 +120,13 @@ CREATE TABLE `gp_config` (
   `name` varchar(50) DEFAULT NULL COMMENT '名称。',
   `default_value` varchar(200) DEFAULT NULL COMMENT '默认值。',
   `value_type` varchar(50) DEFAULT NULL COMMENT '值类型。',
-  `priority` int DEFAULT NULL COMMENT '排列顺序。',
+  `priority` int(11) DEFAULT NULL COMMENT '排列顺序。',
   `remark` varchar(200) DEFAULT NULL COMMENT '备注。',
   `add_time` datetime DEFAULT NULL COMMENT '记录创建时间。',
   `update_time` datetime DEFAULT NULL COMMENT '记录最后一次修改时间。',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `fk_gp_dictionary_gp_dictionary_type` (`value_type`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT COMMENT='配置项信息。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='配置项信息。';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -145,7 +145,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `gp_control`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gp_control` (
   `id` char(32) NOT NULL COMMENT '主键。',
   `serial_no` varchar(50) DEFAULT NULL COMMENT '控件编号。',
@@ -162,7 +162,7 @@ CREATE TABLE `gp_control` (
   KEY `fk_gp_control_gp_page` (`page_id`) USING BTREE,
   CONSTRAINT `fk_gp_control_gp_domain` FOREIGN KEY (`domain_id`) REFERENCES `gp_domain` (`id`) ON DELETE CASCADE,
   CONSTRAINT `fk_gp_control_gp_page` FOREIGN KEY (`page_id`) REFERENCES `gp_page` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT COMMENT='系统控件。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='系统控件。';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -181,20 +181,20 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `gp_dictionary`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gp_dictionary` (
   `id` char(32) NOT NULL COMMENT '主键',
   `type_id` char(32) NOT NULL COMMENT '外键，对应字典类型表(dictionary)主键',
-  `code` tinyint DEFAULT NULL COMMENT '字典编码',
+  `code` tinyint(4) DEFAULT NULL COMMENT '字典编码',
   `text` varchar(50) DEFAULT NULL COMMENT '字典名称',
-  `priority` int DEFAULT NULL COMMENT '排列顺序',
+  `priority` int(11) DEFAULT NULL COMMENT '排列顺序',
   `remark` varchar(200) DEFAULT NULL COMMENT '备注',
   `add_time` datetime DEFAULT NULL COMMENT '记录创建时间。',
   `update_time` datetime DEFAULT NULL COMMENT '记录最后一次修改时间。',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `fk_gp_dictionary_gp_dictionary_type` (`type_id`) USING BTREE,
   CONSTRAINT `fk_gp_dictionary_gp_dictionary_type` FOREIGN KEY (`type_id`) REFERENCES `gp_dictionary_type` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT COMMENT='字典信息。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='字典信息。';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -213,7 +213,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `gp_dictionary_type`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gp_dictionary_type` (
   `id` char(32) NOT NULL COMMENT '主键',
   `name` varchar(50) DEFAULT NULL COMMENT '名称',
@@ -222,7 +222,7 @@ CREATE TABLE `gp_dictionary_type` (
   `add_time` datetime DEFAULT NULL COMMENT '记录创建时间。',
   `update_time` datetime DEFAULT NULL COMMENT '记录最后一次修改时间。',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT COMMENT='字典类型。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='字典类型。';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -241,7 +241,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `gp_domain`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gp_domain` (
   `id` char(32) NOT NULL COMMENT '主键。',
   `serial_no` varchar(50) DEFAULT NULL COMMENT '领域编号。',
@@ -252,7 +252,7 @@ CREATE TABLE `gp_domain` (
   `add_time` datetime DEFAULT NULL COMMENT '记录创建时间。',
   `update_time` datetime DEFAULT NULL COMMENT '记录最后一次修改时间。',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT COMMENT='应用领域。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='应用领域。';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -271,15 +271,15 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `gp_interface`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gp_interface` (
   `id` char(32) NOT NULL COMMENT '主键。',
   `serial_no` varchar(50) NOT NULL COMMENT '接口编号。',
   `domain_id` char(32) NOT NULL COMMENT '应用领域。外键，引用应用领域表（domain）的主键。',
   `name` varchar(50) DEFAULT NULL COMMENT '接口名称。',
   `table_name` varchar(50) DEFAULT NULL COMMENT '操作主表。',
-  `is_public_code` tinyint DEFAULT NULL COMMENT '是否为公共接口。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，两种类型：0是，1否。默认值1。',
-  `type_code` tinyint DEFAULT NULL COMMENT '接口调用方式。对应数据字典表（dictionary）中的编码字段（code）。目前两种类型：1GET，2POST。',
+  `is_public_code` tinyint(4) DEFAULT NULL COMMENT '是否为公共接口。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，两种类型：0是，1否。默认值1。',
+  `type_code` tinyint(4) DEFAULT NULL COMMENT '接口调用方式。对应数据字典表（dictionary）中的编码字段（code）。目前两种类型：1GET，2POST。',
   `url` varchar(200) NOT NULL COMMENT '访问路径。',
   `remark` varchar(200) DEFAULT NULL COMMENT '备注字段。',
   `add_time` datetime DEFAULT NULL COMMENT '记录创建时间。',
@@ -289,7 +289,7 @@ CREATE TABLE `gp_interface` (
   UNIQUE KEY `ak_uk_serial_no` (`serial_no`) USING BTREE,
   KEY `fk_gp_interface_gp_domain` (`domain_id`) USING BTREE,
   CONSTRAINT `fk_gp_interface_gp_domain` FOREIGN KEY (`domain_id`) REFERENCES `gp_domain` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT COMMENT='系统接口。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='系统接口。';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -308,7 +308,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `gp_login_log`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gp_login_log` (
   `id` char(32) NOT NULL COMMENT '主键。',
   `domain_id` char(32) DEFAULT NULL COMMENT '应用领域。外键，引用应用领域表（domain）的主键。',
@@ -316,21 +316,21 @@ CREATE TABLE `gp_login_log` (
   `user_name` varchar(50) DEFAULT NULL COMMENT '登录用户名。',
   `login_time` datetime DEFAULT NULL COMMENT '登录时间。',
   `logout_time` datetime DEFAULT NULL COMMENT '退出时间。',
-  `logout_type_code` tinyint DEFAULT NULL COMMENT '退出方式。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，四种类型：0其它，1Token过期，2主动退出，3被动退出。',
-  `duration` int DEFAULT NULL COMMENT '登录时长。单位秒。',
+  `logout_type_code` tinyint(4) DEFAULT NULL COMMENT '退出方式。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，四种类型：0其它，1Token过期，2主动退出，3被动退出。',
+  `duration` int(11) DEFAULT NULL COMMENT '登录时长。单位秒。',
   `ip` varchar(50) DEFAULT NULL COMMENT 'IP地址。',
   `ip_address` varchar(50) DEFAULT NULL COMMENT 'IP归属地。',
   `browser` varchar(200) DEFAULT NULL COMMENT '浏览器版本。',
   `resolution` varchar(50) DEFAULT NULL COMMENT '屏幕分辨率。',
   `os` varchar(50) DEFAULT NULL COMMENT '操作系统。',
-  `is_success_code` tinyint DEFAULT NULL COMMENT '登录是否成功。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，两种类型：0是，1否。',
+  `is_success_code` tinyint(4) DEFAULT NULL COMMENT '登录是否成功。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，两种类型：0是，1否。',
   `remark` varchar(200) DEFAULT NULL COMMENT '备注字段。',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `fk_gp_login_log_gp_domain` (`domain_id`) USING BTREE,
   KEY `fk_gp_login_log_gp_user` (`user_id`) USING BTREE,
   CONSTRAINT `fk_gp_login_log_gp_domain` FOREIGN KEY (`domain_id`) REFERENCES `gp_domain` (`id`) ON DELETE CASCADE,
   CONSTRAINT `fk_gp_login_log_gp_user` FOREIGN KEY (`user_id`) REFERENCES `gp_user` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT COMMENT='登录日志。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='登录日志。';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -349,21 +349,25 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `gp_message`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gp_message` (
   `id` char(32) NOT NULL COMMENT '主键。',
   `user_id` char(32) DEFAULT NULL COMMENT '消息创建者。外键，引用系统用户表（user）的主键。',
   `user_name` varchar(50) DEFAULT NULL COMMENT '消息创建者。登录名称，和系统用户表（user）的登录名称（user_name）对应。',
+  `type_code` tinyint(4) DEFAULT NULL COMMENT '消息类型。编码，对应数据字典表（dictionary）中的编码字段（code）。目前先定义4种类型：0其它，1公告，2提醒，3私信。如果消息类型是公告，在用户读取消息的时候向消息队列表（gpr_message_user）插入数据；如果消息类型是私信和提醒，则新建消息后立即向消息列表（gpr_message_use）中插入数据。',
+  `type_text` varchar(50) DEFAULT NULL COMMENT '消息类型。文本，对应数据字典表（dictionary）中的文本字段（text）。目前先定义4种类型：0其它，1公告，2提醒，3私信。如果消息类型是公告，在用户读取消息的时候向消息队列表（gpr_message_user）插入数据；如果消息类型是私信和提醒，则新建消息后立即向消息列表（gpr_message_use）中插入数据。',
   `title` varchar(200) DEFAULT NULL COMMENT '消息标题',
   `content` text COMMENT '消息内容。',
-  `type_code` tinyint DEFAULT NULL COMMENT '消息类型。编码，对应数据字典表（dictionary）中的编码字段（code）。目前先定义4种类型：0其它，1公告，2提醒，3私信。如果消息类型是公告，在用户读取消息的时候向消息队列表（gpr_message_user）插入数据；如果消息类型是私信和提醒，则新建消息后立即向消息列表（gpr_message_use）中插入数据。',
-  `type_text` varchar(50) DEFAULT NULL COMMENT '消息类型。文本，对应数据字典表（dictionary）中的文本字段（text）。目前先定义4种类型：0其它，1公告，2提醒，3私信。如果消息类型是公告，在用户读取消息的时候向消息队列表（gpr_message_user）插入数据；如果消息类型是私信和提醒，则新建消息后立即向消息列表（gpr_message_use）中插入数据。',
+  `receiver_user_ids` text COMMENT '接收消息的用户ID列表。英文逗号分隔。',
+  `receiver_user_names` text COMMENT '接收消息的用户名称列表。英文逗号分隔。',
+  `receiver_domain_ids` text COMMENT '接收消息的应用ID列表。英文逗号分隔。',
+  `receiver_domain_names` text COMMENT '接收消息的应用名称列表。英文逗号分隔。',
   `remark` varchar(200) DEFAULT NULL COMMENT '备注字段。',
   `add_time` datetime DEFAULT NULL COMMENT '记录创建时间。',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `fk_gp_message_gp_user` (`user_id`) USING BTREE,
   CONSTRAINT `fk_gp_message_gp_user` FOREIGN KEY (`user_id`) REFERENCES `gp_user` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT COMMENT='系统消息。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='系统消息。';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -372,7 +376,7 @@ CREATE TABLE `gp_message` (
 
 LOCK TABLES `gp_message` WRITE;
 /*!40000 ALTER TABLE `gp_message` DISABLE KEYS */;
-INSERT INTO `gp_message` VALUES ('2e911461b9c6490fba1bbae8311e486a','7ddd711beab34cf9844037ad7b919ac1','MengXianzhi','1','2',1,'公告','4','2022-03-29 11:38:15'),('3b3f46b5d05545e6b4e0a1e9e71d6866','7ddd711beab34cf9844037ad7b919ac1','MengXianzhi','11111','12334',3,'私信','134123432143','2022-03-29 15:09:57'),('531b96734669473ab317e318351a6288',NULL,'12341','1234','12341234',2,NULL,NULL,'2022-03-28 15:45:58'),('817610922c9d40578f54d06acec8fbf5',NULL,'1231','12341234','123414',1,NULL,NULL,'2022-03-28 15:38:02'),('9bed7c4d47814fb1a728d70c2a8f03ac',NULL,'12341423','213432134','21342134',1,NULL,'12341234312','2022-03-28 15:40:00'),('ad272c971310490f9ee8f0df98ebd67b',NULL,'1','2','4',1,'公告','5','2022-03-29 11:17:54'),('d16200152aa14359a28f44ba7190a12a','7ddd711beab34cf9844037ad7b919ac1','MengXianzhi','12341234','消息内容',1,'公告','备注','2022-03-29 14:42:25'),('fb15117419264c54b2baf266177d1263',NULL,'2134','1111','1234567',1,'公告','111111111111','2022-03-29 11:03:38');
+INSERT INTO `gp_message` VALUES ('2e911461b9c6490fba1bbae8311e486a','7ddd711beab34cf9844037ad7b919ac1','MengXianzhi',1,'公告','1','2',NULL,NULL,NULL,NULL,'4','2022-03-29 11:38:15'),('3b3f46b5d05545e6b4e0a1e9e71d6866','7ddd711beab34cf9844037ad7b919ac1','MengXianzhi',3,'私信','11111','12334',NULL,NULL,NULL,NULL,'134123432143','2022-03-29 15:09:57'),('531b96734669473ab317e318351a6288',NULL,'12341',2,NULL,'1234','12341234',NULL,NULL,NULL,NULL,NULL,'2022-03-28 15:45:58'),('817610922c9d40578f54d06acec8fbf5',NULL,'1231',1,NULL,'12341234','123414',NULL,NULL,NULL,NULL,NULL,'2022-03-28 15:38:02'),('9bed7c4d47814fb1a728d70c2a8f03ac',NULL,'12341423',1,NULL,'213432134','21342134',NULL,NULL,NULL,NULL,'12341234312','2022-03-28 15:40:00'),('ad272c971310490f9ee8f0df98ebd67b',NULL,'1',1,'公告','2','4',NULL,NULL,NULL,NULL,'5','2022-03-29 11:17:54'),('d16200152aa14359a28f44ba7190a12a','7ddd711beab34cf9844037ad7b919ac1','MengXianzhi',1,'公告','12341234','消息内容',NULL,NULL,NULL,NULL,'备注','2022-03-29 14:42:25'),('fb15117419264c54b2baf266177d1263',NULL,'2134',1,'公告','1111','1234567',NULL,NULL,NULL,NULL,'111111111111','2022-03-29 11:03:38');
 /*!40000 ALTER TABLE `gp_message` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -382,15 +386,15 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `gp_module`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gp_module` (
   `id` char(32) NOT NULL COMMENT '主键。',
   `domain_id` char(32) DEFAULT NULL COMMENT '应用领域。外键，引用应用领域表（domain）的主键。',
   `name` varchar(50) DEFAULT NULL COMMENT '模块名称。',
   `serial_no` varchar(50) DEFAULT NULL COMMENT '模块编号。',
-  `level` tinyint DEFAULT NULL COMMENT '模块级别。模块在层级关系中所属等级，从1开始。',
+  `level` tinyint(4) DEFAULT NULL COMMENT '模块级别。模块在层级关系中所属等级，从1开始。',
   `farther_id` char(32) DEFAULT NULL COMMENT '父级模块。外键，引用自身功能模块表（module）的主键。',
-  `priority` int DEFAULT NULL COMMENT '排序字段。',
+  `priority` int(11) DEFAULT NULL COMMENT '排序字段。',
   `page_id` char(32) DEFAULT NULL COMMENT '链接页面。外键，引用系统页面表（page）的主键。',
   `page_url` varchar(200) DEFAULT NULL COMMENT '链接页面。路径，和系统页面表（page）的路径（url）对应。',
   `style` varchar(50) DEFAULT NULL COMMENT '菜单样式。',
@@ -403,7 +407,7 @@ CREATE TABLE `gp_module` (
   KEY `fk_gp_module_gp_module` (`farther_id`) USING BTREE,
   CONSTRAINT `fk_gp_module_gp_domain` FOREIGN KEY (`domain_id`) REFERENCES `gp_domain` (`id`) ON DELETE CASCADE,
   CONSTRAINT `fk_gp_module_gp_module` FOREIGN KEY (`farther_id`) REFERENCES `gp_module` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT COMMENT='功能模块。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='功能模块。';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -422,27 +426,27 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `gp_oper_log`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gp_oper_log` (
   `id` char(32) NOT NULL COMMENT '主键。',
   `domain_id` char(32) DEFAULT NULL COMMENT '应用领域。外键，引用应用领域表（domain）的主键。',
   `object_id` char(32) DEFAULT NULL COMMENT '操作记录主键。只记录单条记录操作时的主键，暂不考虑记录针对多条记录操作的主键列表。',
-  `oper_type_code` tinyint DEFAULT NULL COMMENT '操作类型。编码，对应数据字典表（dictionary）中的编码字段（code）。目前先定义9种类型：0其它，1添加记录，2批量添加，3删除记录，4批量删除，5修改记录，6单条查询，7模糊查询，8自定义查询。',
+  `oper_type_code` tinyint(4) DEFAULT NULL COMMENT '操作类型。编码，对应数据字典表（dictionary）中的编码字段（code）。目前先定义9种类型：0其它，1添加记录，2批量添加，3删除记录，4批量删除，5修改记录，6单条查询，7模糊查询，8自定义查询。',
   `oper_type_text` varchar(50) DEFAULT NULL COMMENT '操作类型。文本，对应数据字典表（dictionary）中的文本字段（text）。目前先定义9种类型：0其它，1添加记录，2批量添加，3删除记录，4批量删除，5修改记录，6单条查询，7模糊查询，8自定义查询。',
   `table_name` varchar(50) DEFAULT NULL COMMENT '操作表名。只记录核心表名，暂不考虑记录操作动作涉及的所有表名列表。',
-  `total_count` bigint DEFAULT NULL COMMENT '记录总数。写入操作的记录总数或读取到符合条件的总数。',
+  `total_count` bigint(20) DEFAULT NULL COMMENT '记录总数。写入操作的记录总数或读取到符合条件的总数。',
   `income_value` longtext COMMENT '传入参数。记录调用BLL层方法时传入的参数值，对象的话序列化成JSON字符串保存。',
-  `income_count` int DEFAULT NULL COMMENT '期望影响记录总数。期望写操作影响的的记录总数，不确定数量（比如关联删除、非主键删除）或读取操作时传入参数为0。',
+  `income_count` int(11) DEFAULT NULL COMMENT '期望影响记录总数。期望写操作影响的的记录总数，不确定数量（比如关联删除、非主键删除）或读取操作时传入参数为0。',
   `return_value` longtext COMMENT '返回值。记录调用BLL层方法时返回的参数值，对象的话序列化成JSON字符串保存。',
-  `is_success_code` tinyint DEFAULT NULL COMMENT '操作是否成功。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，两种类型：0是，1否。 ',
-  `result_code` int DEFAULT NULL COMMENT '操作结果编码。操作结果和一套编码表对应，暂不进行具体设计，只是在程序根据现有代码设计给出了一部分编码规则。',
+  `is_success_code` tinyint(4) DEFAULT NULL COMMENT '操作是否成功。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，两种类型：0是，1否。 ',
+  `result_code` int(11) DEFAULT NULL COMMENT '操作结果编码。操作结果和一套编码表对应，暂不进行具体设计，只是在程序根据现有代码设计给出了一部分编码规则。',
   `result_message` text COMMENT '提示信息。BLL层方法执行后返回给调用者的提示信息。',
   `remark` varchar(200) DEFAULT NULL COMMENT '备注字段。',
   `add_time` datetime DEFAULT NULL COMMENT '记录创建时间。',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `fk_gp_oper_log_gp_domain` (`domain_id`) USING BTREE,
   CONSTRAINT `fk_gp_oper_log_gp_domain` FOREIGN KEY (`domain_id`) REFERENCES `gp_domain` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT COMMENT='操作日志。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='操作日志。';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -461,7 +465,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `gp_oper_log_login`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gp_oper_log_login` (
   `id` char(32) NOT NULL COMMENT '主键。',
   `oper_log_id` char(32) DEFAULT NULL COMMENT '操作日志。外键，引用操作日志表（oper_log）表的主键。',
@@ -478,7 +482,7 @@ CREATE TABLE `gp_oper_log_login` (
   CONSTRAINT `fk_gp_oper_log_login_gp_oper_log` FOREIGN KEY (`oper_log_id`) REFERENCES `gp_oper_log` (`id`) ON DELETE CASCADE,
   CONSTRAINT `fk_gp_oper_log_login_gp_token` FOREIGN KEY (`token_id`) REFERENCES `gp_token` (`id`) ON DELETE CASCADE,
   CONSTRAINT `fk_gp_oper_log_login_gp_user` FOREIGN KEY (`user_id`) REFERENCES `gp_user` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT COMMENT='登录用户操作日志。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='登录用户操作日志。';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -496,17 +500,17 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `gp_organization`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gp_organization` (
   `id` char(32) NOT NULL COMMENT '主键。',
   `serial_no` varchar(50) DEFAULT NULL COMMENT '编号。',
   `name` varchar(50) DEFAULT NULL COMMENT '名称。',
   `short_name` varchar(50) DEFAULT NULL COMMENT '简称。',
-  `type_code` tinyint DEFAULT NULL COMMENT '类型。对应数据字典表（dictionary）中的编码字段（code）。目前七种类型：1县政府、2省市双管单位、3镇政府、4合作社、5生产企业、6加工企业、7销售企业,8物流企业。',
+  `type_code` tinyint(4) DEFAULT NULL COMMENT '类型。对应数据字典表（dictionary）中的编码字段（code）。目前七种类型：1县政府、2省市双管单位、3镇政府、4合作社、5生产企业、6加工企业、7销售企业,8物流企业。',
   `type_text` varchar(50) DEFAULT NULL COMMENT '类型。对应数据字典表（dictionary）中的文本字段（text）。目前七种类型：1县政府、2省市双管单位、3镇政府、4合作社、5生产企业、6加工企业、7销售企业。',
-  `level` tinyint DEFAULT NULL COMMENT '机构等级。',
+  `level` tinyint(4) DEFAULT NULL COMMENT '机构等级。',
   `farther_id` char(32) DEFAULT NULL COMMENT '父级组织机构。外键，引用自身组织机构表（module）的主键。',
-  `priority` int DEFAULT NULL COMMENT '排序字段。',
+  `priority` int(11) DEFAULT NULL COMMENT '排序字段。',
   `phone` varchar(50) DEFAULT NULL COMMENT '电话号码。',
   `email` varchar(50) DEFAULT NULL COMMENT '邮箱。',
   `fax` varchar(50) DEFAULT NULL COMMENT '传真。',
@@ -518,7 +522,7 @@ CREATE TABLE `gp_organization` (
   `update_time` datetime DEFAULT NULL COMMENT '记录最后一次修改时间。',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `ak_uq__id` (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT COMMENT='组织机构。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='组织机构。';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -537,14 +541,14 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `gp_page`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gp_page` (
   `id` char(32) NOT NULL COMMENT '主键。',
   `serial_no` varchar(50) DEFAULT NULL COMMENT '接口编号。',
   `domain_id` char(32) DEFAULT NULL COMMENT '应用领域。外键，引用应用领域表（domain）的主键。',
   `name` varchar(50) DEFAULT NULL COMMENT '页面名称。',
   `url` varchar(200) DEFAULT NULL COMMENT '存放路径。',
-  `is_public_code` tinyint DEFAULT NULL COMMENT '是否为公共页面。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，两种类型：0是，1否。默认值1。',
+  `is_public_code` tinyint(4) DEFAULT NULL COMMENT '是否为公共页面。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，两种类型：0是，1否。默认值1。',
   `remark` varchar(200) DEFAULT NULL COMMENT '备注字段。',
   `add_time` datetime DEFAULT NULL COMMENT '记录创建时间。',
   `update_time` datetime DEFAULT NULL COMMENT '记录最后一次修改时间。',
@@ -552,7 +556,7 @@ CREATE TABLE `gp_page` (
   UNIQUE KEY `ak_uk_serial_no` (`serial_no`) USING BTREE,
   KEY `fk_gp_page_gp_domain` (`domain_id`) USING BTREE,
   CONSTRAINT `fk_gp_page_gp_domain` FOREIGN KEY (`domain_id`) REFERENCES `gp_domain` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT COMMENT='系统页面。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='系统页面。';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -571,7 +575,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `gp_region`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gp_region` (
   `id` char(32) NOT NULL COMMENT '主键',
   `farther_id` varchar(32) DEFAULT NULL COMMENT '父级地区。外键，引用自身地区信息表（gp_region）的主键。',
@@ -579,19 +583,19 @@ CREATE TABLE `gp_region` (
   `name` varchar(200) DEFAULT NULL COMMENT '地区名称。',
   `english_name` varchar(200) DEFAULT NULL COMMENT '英文名称。',
   `farther_code` varchar(50) DEFAULT NULL COMMENT '父级地区，引用父级行政机构的主键。',
-  `level` tinyint DEFAULT NULL COMMENT '区域等级。国家为第一级，直辖市、省、自治区、特别行政区为第二级，地级市、直辖市下的区为第三级，县级市、县为第四级、乡镇为第五级',
-  `category_code` tinyint DEFAULT NULL COMMENT '地区类别。对应数据字典表（dictionary）中的编码字段（code）。用于区分Region表中记录的类型。0是国家，1是直辖市，2是省，3是自治区，4是特别行政区，5是地级市，6是直辖市下的区，7是县级市（县级市不好区分，可以都暂时默认为7），8是县。',
+  `level` tinyint(4) DEFAULT NULL COMMENT '区域等级。国家为第一级，直辖市、省、自治区、特别行政区为第二级，地级市、直辖市下的区为第三级，县级市、县为第四级、乡镇为第五级',
+  `category_code` tinyint(4) DEFAULT NULL COMMENT '地区类别。对应数据字典表（dictionary）中的编码字段（code）。用于区分Region表中记录的类型。0是国家，1是直辖市，2是省，3是自治区，4是特别行政区，5是地级市，6是直辖市下的区，7是县级市（县级市不好区分，可以都暂时默认为7），8是县。',
   `category_text` varchar(50) DEFAULT NULL COMMENT '地区类别。对应数据字典表（dictionary）中的编码文本（text）。用于区分Region表中记录的类型。0是国家，1是直辖市，2是省，3是自治区，4是特别行政区，5是地级市，6是直辖市下的区，7是县级市（县级市不好区分，可以都暂时默认为7），8是县。',
   `latitude` varchar(50) DEFAULT NULL COMMENT '地区纬度。',
   `longitude` varchar(50) DEFAULT NULL COMMENT '地区经度。',
-  `area` int DEFAULT NULL COMMENT '区域面积大小，单位平方公里（ SquareKilometer sq . km ）。',
+  `area` int(11) DEFAULT NULL COMMENT '区域面积大小，单位平方公里（ SquareKilometer sq . km ）。',
   `iso` varchar(50) DEFAULT NULL COMMENT 'ISO 3166-2国际标准代码。',
   `country_iso` varchar(50) DEFAULT NULL COMMENT '所属国家，ISO 3166-2国际标准代码。',
-  `is_display_code` tinyint DEFAULT '0' COMMENT '是否显示。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，两种类型：0是，1否。默认值0。',
+  `is_display_code` tinyint(4) DEFAULT '0' COMMENT '是否显示。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，两种类型：0是，1否。默认值0。',
   `remark` varchar(200) DEFAULT NULL COMMENT '备注字段。',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `ak_uq_code` (`code`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT COMMENT='地区信息。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='地区信息。';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -610,7 +614,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `gp_region_country`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gp_region_country` (
   `id` char(32) NOT NULL COMMENT '主键',
   `chinese_name` varchar(200) DEFAULT NULL COMMENT '中文名称。',
@@ -619,15 +623,15 @@ CREATE TABLE `gp_region_country` (
   `alpha3` varchar(50) DEFAULT NULL COMMENT '三位代码',
   `numeric_key` varchar(50) NOT NULL COMMENT 'ISO 3166-1三位数字代码。',
   `iso` varchar(50) DEFAULT NULL COMMENT 'ISO 3166-2国际标准代码。',
-  `is_independent_code` tinyint DEFAULT NULL COMMENT '是否独立主权。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，两种类型：0是，1否。默认值0。',
+  `is_independent_code` tinyint(4) DEFAULT NULL COMMENT '是否独立主权。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，两种类型：0是，1否。默认值0。',
   `longitude` varchar(50) DEFAULT NULL COMMENT '地区经度。',
   `latitude` varchar(50) DEFAULT NULL COMMENT '地区纬度。',
-  `area` int DEFAULT NULL COMMENT '国家面积。单位平方公里（ SquareKilometer sq . km ）。',
-  `is_display_code` tinyint DEFAULT NULL COMMENT '是否显示。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，两种类型：0是，1否。默认值0。',
+  `area` int(11) DEFAULT NULL COMMENT '国家面积。单位平方公里（ SquareKilometer sq . km ）。',
+  `is_display_code` tinyint(4) DEFAULT NULL COMMENT '是否显示。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，两种类型：0是，1否。默认值0。',
   `remark` varchar(200) DEFAULT NULL COMMENT '备注字段。',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `ak_uq_iso_code` (`iso`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT COMMENT='地区信息。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='地区信息。';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -646,7 +650,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `gp_resource`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gp_resource` (
   `id` char(32) NOT NULL COMMENT '主键',
   `domain_id` char(32) NOT NULL COMMENT '应用领域。外键，引用应用领域表（domain）的主键。',
@@ -657,14 +661,14 @@ CREATE TABLE `gp_resource` (
   `new_name` varchar(50) NOT NULL COMMENT '资源名称',
   `extension` varchar(50) NOT NULL COMMENT '资源类型，后缀名，统一小写。',
   `path` varchar(500) NOT NULL COMMENT '资源路径',
-  `priority` int DEFAULT NULL COMMENT '排列顺序',
-  `size` bigint NOT NULL DEFAULT '0' COMMENT '资源大小，单位字节。',
+  `priority` int(11) DEFAULT NULL COMMENT '排列顺序',
+  `size` bigint(20) NOT NULL DEFAULT '0' COMMENT '资源大小，单位字节。',
   `add_time` datetime DEFAULT NULL COMMENT '新增时间',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `fk_gp_resource_gp_module` (`module_id`) USING BTREE,
   KEY `fk_gp_resource_gp_page` (`page_id`) USING BTREE,
   KEY `fk_gp_resource_gp_domain` (`domain_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT COMMENT='文件信息。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='文件信息。';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -682,7 +686,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `gp_role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gp_role` (
   `id` char(32) NOT NULL COMMENT '主键。',
   `name` varchar(50) DEFAULT NULL COMMENT '角色名称。',
@@ -691,7 +695,7 @@ CREATE TABLE `gp_role` (
   `update_time` datetime DEFAULT NULL COMMENT '记录最后一次修改时间。',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `ak_uq_id` (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT COMMENT='系统角色。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='系统角色。';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -710,14 +714,14 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `gp_station`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gp_station` (
   `id` char(32) NOT NULL COMMENT '主键。',
   `serial_no` varchar(50) DEFAULT NULL COMMENT '编号。',
   `organization_id` char(32) DEFAULT NULL COMMENT '所属组织机构。外键，引用系统组织机构表（organization）的主键。',
-  `organization_name` char(50) CHARACTER SET gbk COLLATE gbk_chinese_ci DEFAULT NULL COMMENT '所属组织机构。名称，对应系统组织机构表（organization）的机构名称。',
+  `organization_name` char(50) CHARACTER SET gbk DEFAULT NULL COMMENT '所属组织机构。名称，对应系统组织机构表（organization）的机构名称。',
   `name` varchar(50) DEFAULT NULL COMMENT '名称。',
-  `priority` int DEFAULT NULL COMMENT '排列顺序',
+  `priority` int(11) DEFAULT NULL COMMENT '排列顺序',
   `responsibility` varchar(200) DEFAULT NULL COMMENT '岗位职能。',
   `remark` varchar(200) DEFAULT NULL COMMENT '备注字段。',
   `add_time` datetime DEFAULT NULL COMMENT '记录创建时间。',
@@ -725,7 +729,7 @@ CREATE TABLE `gp_station` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `fk_gp_station_gp_organization` (`organization_id`) USING BTREE,
   CONSTRAINT `fk_gp_station_gp_organization` FOREIGN KEY (`organization_id`) REFERENCES `gp_organization` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT COMMENT='岗位。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='岗位。';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -744,7 +748,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `gp_token`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gp_token` (
   `id` char(32) NOT NULL COMMENT '主键。',
   `domain_id` char(32) DEFAULT NULL COMMENT '应用领域。外键，引用应用领域表（domain）的主键。',
@@ -764,7 +768,7 @@ CREATE TABLE `gp_token` (
   CONSTRAINT `fk_gp_token_gp_domain` FOREIGN KEY (`domain_id`) REFERENCES `gp_domain` (`id`) ON DELETE CASCADE,
   CONSTRAINT `fk_gp_token_gp_login_log` FOREIGN KEY (`id`) REFERENCES `gp_login_log` (`id`) ON DELETE CASCADE,
   CONSTRAINT `fk_gp_token_gp_user` FOREIGN KEY (`user_id`) REFERENCES `gp_user` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT COMMENT='token信息。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='token信息。';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -783,16 +787,16 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `gp_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gp_user` (
   `id` char(32) NOT NULL COMMENT '主键。',
   `user_name` varchar(50) NOT NULL COMMENT '登录账号。',
   `password` varchar(50) DEFAULT NULL COMMENT '登录密码。',
   `real_name` varchar(50) DEFAULT NULL COMMENT '真实姓名。',
-  `gender_code` tinyint DEFAULT NULL COMMENT '性别。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，两种类型：0男，1女。',
+  `gender_code` tinyint(4) DEFAULT NULL COMMENT '性别。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，两种类型：0男，1女。',
   `birth_time` datetime DEFAULT NULL COMMENT '出生日期。',
-  `age` tinyint DEFAULT NULL COMMENT '年龄。',
-  `is_marriage_code` tinyint DEFAULT NULL COMMENT '是否已婚。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，两种类型：0是，1否。',
+  `age` tinyint(4) DEFAULT NULL COMMENT '年龄。',
+  `is_marriage_code` tinyint(4) DEFAULT NULL COMMENT '是否已婚。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，两种类型：0是，1否。',
   `phone` varchar(50) DEFAULT NULL COMMENT '电话号码。',
   `email` varchar(50) DEFAULT NULL COMMENT '邮箱。',
   `qq` varchar(50) DEFAULT NULL COMMENT 'QQ号',
@@ -800,10 +804,10 @@ CREATE TABLE `gp_user` (
   `register_ip` varchar(50) DEFAULT NULL COMMENT '注册IP。',
   `last_login_time` datetime DEFAULT NULL COMMENT '最后登录时间。',
   `last_login_ip` varchar(50) DEFAULT NULL COMMENT '最后登录IP。',
-  `login_count` int DEFAULT '0' COMMENT '登录次数。',
+  `login_count` int(11) DEFAULT '0' COMMENT '登录次数。',
   `remark` varchar(200) DEFAULT NULL COMMENT '备注字段。',
-  `is_admin_code` tinyint NOT NULL DEFAULT '1' COMMENT '是否管理员。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，两种类型：0是，1否。默认值0。',
-  `is_disabled_code` tinyint NOT NULL DEFAULT '1' COMMENT '是否禁用。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，两种类型：0是，1否。默认值0。',
+  `is_admin_code` tinyint(4) NOT NULL DEFAULT '1' COMMENT '是否管理员。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，两种类型：0是，1否。默认值0。',
+  `is_disabled_code` tinyint(4) NOT NULL DEFAULT '1' COMMENT '是否禁用。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，两种类型：0是，1否。默认值0。',
   `add_time` datetime DEFAULT NULL COMMENT '记录创建时间。',
   `update_time` datetime DEFAULT NULL COMMENT '记录最后一次修改时间。',
   PRIMARY KEY (`id`) USING BTREE,
@@ -812,7 +816,7 @@ CREATE TABLE `gp_user` (
   UNIQUE KEY `ak_uq_qq` (`qq`) USING BTREE,
   UNIQUE KEY `ak_uq_phone` (`phone`) USING BTREE,
   UNIQUE KEY `ak_uq_email` (`email`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT COMMENT='系统用户。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='系统用户。';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -831,7 +835,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `gp_value_location`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gp_value_location` (
   `id` char(32) NOT NULL COMMENT '主键。',
   `column_value` varchar(200) DEFAULT NULL COMMENT '值。',
@@ -843,7 +847,7 @@ CREATE TABLE `gp_value_location` (
   `add_time` datetime DEFAULT NULL COMMENT '添加时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `ak_uq_id` (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT COMMENT='调用存储过程查询某个值在本数据库中的位置，记录相关信息到本表中。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='调用存储过程查询某个值在本数据库中的位置，记录相关信息到本表中。';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -861,7 +865,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `gpr_catalog_interface`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gpr_catalog_interface` (
   `id` char(32) NOT NULL COMMENT '主键。',
   `catalog_id` char(32) DEFAULT NULL COMMENT '接口分类。外键，引用接口分类字典表（catalog_interface）的主键。',
@@ -871,7 +875,7 @@ CREATE TABLE `gpr_catalog_interface` (
   KEY `fk_gpr_domain_message_gp_domain` (`catalog_id`) USING BTREE,
   CONSTRAINT `gpr_catalog_interface_ibfk_1` FOREIGN KEY (`catalog_id`) REFERENCES `gp_catalog_interface` (`id`) ON DELETE CASCADE,
   CONSTRAINT `gpr_catalog_interface_ibfk_2` FOREIGN KEY (`interface_id`) REFERENCES `gp_interface` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT COMMENT='后台接口所属分类。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='后台接口所属分类。';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -890,7 +894,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `gpr_config_domain`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gpr_config_domain` (
   `id` char(32) NOT NULL COMMENT '主键。',
   `config_id` char(32) DEFAULT NULL COMMENT '配置项。外键，引用配置项表（config）的主键。',
@@ -904,7 +908,7 @@ CREATE TABLE `gpr_config_domain` (
   KEY `gpr_config_domain_ibfk_1` (`domain_id`) USING BTREE,
   CONSTRAINT `gpr_config_domain_ibfk_1` FOREIGN KEY (`domain_id`) REFERENCES `gp_domain` (`id`) ON DELETE CASCADE,
   CONSTRAINT `gpr_config_domain_ibfk_2` FOREIGN KEY (`config_id`) REFERENCES `gp_config` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT COMMENT='应用领域配置信息。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='应用领域配置信息。';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -923,7 +927,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `gpr_config_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gpr_config_user` (
   `id` char(32) NOT NULL COMMENT '主键。',
   `config_id` char(32) DEFAULT NULL COMMENT '配置项。外键，引用配置项表（config）的主键。',
@@ -936,7 +940,7 @@ CREATE TABLE `gpr_config_user` (
   KEY `fk_gpr_role_interface_gp_role` (`config_id`) USING BTREE,
   CONSTRAINT `gpr_config_user_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `gp_user` (`id`) ON DELETE CASCADE,
   CONSTRAINT `gpr_config_user_ibfk_2` FOREIGN KEY (`config_id`) REFERENCES `gp_config` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT COMMENT='用户配置信息。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='用户配置信息。';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -955,18 +959,19 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `gpr_domain_message`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gpr_domain_message` (
   `id` char(32) NOT NULL COMMENT '主键。',
-  `domain_id` char(32) DEFAULT NULL COMMENT '应用领域。外键，引用应用领域表（domain）的主键。',
+  `domain_id` char(32) DEFAULT NULL COMMENT '接收消息的应用领域。外键，引用应用领域表（domain）的主键。',
+  `domain_name` varchar(50) DEFAULT NULL COMMENT '接收消息的应用领域。名称，和应用领域表（domain）的名称（name）字段对应。',
   `message_id` char(32) DEFAULT NULL COMMENT '领域消息。外键，引用站内信（message）的主键。',
-  `enterprise_id` char(32) DEFAULT NULL COMMENT '企业id。外键，引用企业信息表（da_enterprise_info）的主键。',
+  `add_time` datetime DEFAULT NULL COMMENT '记录创建时间。即消息下发时间。',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `fk_gpr_domain_message_gp_domain` (`domain_id`) USING BTREE,
   KEY `fk_gpr_domain_message_gp_message` (`message_id`) USING BTREE,
   CONSTRAINT `fk_gpr_domain_message_gp_domain` FOREIGN KEY (`domain_id`) REFERENCES `gp_domain` (`id`) ON DELETE CASCADE,
   CONSTRAINT `fk_gpr_domain_message_gp_message` FOREIGN KEY (`message_id`) REFERENCES `gp_message` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT COMMENT='应用领域的站内信。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='应用领域的站内信。';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -975,7 +980,7 @@ CREATE TABLE `gpr_domain_message` (
 
 LOCK TABLES `gpr_domain_message` WRITE;
 /*!40000 ALTER TABLE `gpr_domain_message` DISABLE KEYS */;
-INSERT INTO `gpr_domain_message` VALUES ('3f17a209890548399da316d996b6656d','61016ec489463334d638ceb433e8e1d1','d16200152aa14359a28f44ba7190a12a',NULL),('a81027a8905d466a875f49a082e21e32','09335bd69ab9826df8b69589a2568055','3b3f46b5d05545e6b4e0a1e9e71d6866',NULL),('c12a58d6c68d423f9e4416bd24d5812e','f4f41e566e9649f28ddf388cfffcf70a','d16200152aa14359a28f44ba7190a12a',NULL),('fa0579120d7c4a1a800eda844fe910b3','615d66b4781394e5f40867013f87f669','3b3f46b5d05545e6b4e0a1e9e71d6866',NULL);
+INSERT INTO `gpr_domain_message` VALUES ('3f17a209890548399da316d996b6656d','61016ec489463334d638ceb433e8e1d1',NULL,'d16200152aa14359a28f44ba7190a12a',NULL),('a81027a8905d466a875f49a082e21e32','09335bd69ab9826df8b69589a2568055',NULL,'3b3f46b5d05545e6b4e0a1e9e71d6866',NULL),('c12a58d6c68d423f9e4416bd24d5812e','f4f41e566e9649f28ddf388cfffcf70a',NULL,'d16200152aa14359a28f44ba7190a12a',NULL),('fa0579120d7c4a1a800eda844fe910b3','615d66b4781394e5f40867013f87f669',NULL,'3b3f46b5d05545e6b4e0a1e9e71d6866',NULL);
 /*!40000 ALTER TABLE `gpr_domain_message` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -985,7 +990,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `gpr_domain_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gpr_domain_user` (
   `id` char(32) NOT NULL COMMENT '主键。',
   `domain_id` char(32) DEFAULT NULL COMMENT '应用领域。外键，引用应用领域表（domain）的主键。',
@@ -995,7 +1000,7 @@ CREATE TABLE `gpr_domain_user` (
   KEY `fk_gpr_domain_user_gp_user` (`user_id`) USING BTREE,
   CONSTRAINT `fk_gpr_domain_user_gp_domain` FOREIGN KEY (`domain_id`) REFERENCES `gp_domain` (`id`) ON DELETE CASCADE,
   CONSTRAINT `fk_gpr_domain_user_gp_user` FOREIGN KEY (`user_id`) REFERENCES `gp_user` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT COMMENT='应用领域拥有的用户。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='应用领域拥有的用户。';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1014,21 +1019,21 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `gpr_message_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gpr_message_user` (
   `id` char(32) NOT NULL COMMENT '主键。',
   `message_id` char(32) DEFAULT NULL COMMENT '消息内容。外键，引用站内信（message）的主键。',
   `user_id` char(32) DEFAULT NULL COMMENT '消息接收者。外键，引用系统用户表（user）的主键。',
   `user_name` varchar(50) DEFAULT NULL COMMENT '消息接收者。登录名称，和系统用户表（user）的登录名称（user_name）对应。',
-  `is_read_code` tinyint DEFAULT NULL COMMENT '是否已读。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，两种类型：0是，1否。 ',
+  `is_read_code` tinyint(4) DEFAULT NULL COMMENT '是否已读。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，两种类型：0是，1否。 ',
   `read_time` datetime DEFAULT NULL COMMENT '消息接收方读取时间。',
-  `add_time` datetime DEFAULT NULL COMMENT '记录创建时间。',
+  `add_time` datetime DEFAULT NULL COMMENT '记录创建时间。即消息下发时间。',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `fk_gpr_message_user_gp_message` (`message_id`) USING BTREE,
   KEY `fk_gpr_message_user_gp_user` (`user_id`) USING BTREE,
   CONSTRAINT `fk_gpr_message_user_gp_message` FOREIGN KEY (`message_id`) REFERENCES `gp_message` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_gpr_message_user_gp_user` FOREIGN KEY (`user_id`) REFERENCES `gp_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT COMMENT='消息队列。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='消息队列。';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1047,7 +1052,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `gpr_module_page`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gpr_module_page` (
   `id` char(32) NOT NULL COMMENT '主键。',
   `module_id` char(32) DEFAULT NULL COMMENT '功能模块。外键，引用功能模块表（module）的主键。',
@@ -1057,7 +1062,7 @@ CREATE TABLE `gpr_module_page` (
   KEY `fk_gpr_module_page_gp_page` (`page_id`) USING BTREE,
   CONSTRAINT `fk_gpr_module_page_gp_module` FOREIGN KEY (`module_id`) REFERENCES `gp_module` (`id`) ON DELETE CASCADE,
   CONSTRAINT `fk_gpr_module_page_gp_page` FOREIGN KEY (`page_id`) REFERENCES `gp_page` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT COMMENT='功能模块所包含的页面。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='功能模块所包含的页面。';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1075,16 +1080,16 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `gpr_resource`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gpr_resource` (
   `id` char(32) NOT NULL COMMENT '主键',
   `business_id` char(32) DEFAULT NULL COMMENT '业务表。外键，引用业务表的主键',
   `resource_id` char(32) DEFAULT NULL COMMENT '附件。外键，引用资源（resource）表的主键',
-  `is_default` tinyint DEFAULT NULL COMMENT '是否为默认。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，两种类型：0是，1否。默认值0。',
+  `is_default` tinyint(4) DEFAULT NULL COMMENT '是否为默认。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，两种类型：0是，1否。默认值0。',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `fk_gpr_resource_gp_resource` (`resource_id`) USING BTREE,
   CONSTRAINT `fk_gpr_resource_gp_resource` FOREIGN KEY (`resource_id`) REFERENCES `gp_resource` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT COMMENT='附件关联表。只要存有附件字段的表，都会通过此表于gp_resource表关联。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='附件关联表。只要存有附件字段的表，都会通过此表于gp_resource表关联。';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1102,18 +1107,18 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `gpr_role_control`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gpr_role_control` (
   `id` char(32) NOT NULL COMMENT '主键。',
   `role_id` char(32) DEFAULT NULL COMMENT '系统角色。外键，引用应用角色表（role）的主键。',
   `control_id` char(32) DEFAULT NULL COMMENT '系统控件。外键，引用系统控件表（control）的主键。',
-  `is_enable_code` tinyint DEFAULT '0' COMMENT '是否有权。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，两种类型：0是，1否。默认值0。',
+  `is_enable_code` tinyint(4) DEFAULT '0' COMMENT '是否有权。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，两种类型：0是，1否。默认值0。',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `fk_gpr_role_control_gp_control` (`control_id`) USING BTREE,
   KEY `fk_gpr_role_control_gp_role` (`role_id`) USING BTREE,
   CONSTRAINT `fk_gpr_role_control_gp_control` FOREIGN KEY (`control_id`) REFERENCES `gp_control` (`id`) ON DELETE CASCADE,
   CONSTRAINT `fk_gpr_role_control_gp_role` FOREIGN KEY (`role_id`) REFERENCES `gp_role` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT COMMENT='角色拥有的控件权限。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='角色拥有的控件权限。';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1131,18 +1136,18 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `gpr_role_domain`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gpr_role_domain` (
   `id` char(32) NOT NULL COMMENT '主键。',
   `role_id` char(32) DEFAULT NULL COMMENT '系统角色。外键，引用应用角色表（role）的主键。',
   `domain_id` char(32) DEFAULT NULL COMMENT '应用领域。外键，引用应用领域表（domain）的主键。',
-  `is_enable_code` tinyint DEFAULT '0' COMMENT '是否有权。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，两种类型：0是，1否。默认值0。',
+  `is_enable_code` tinyint(4) DEFAULT '0' COMMENT '是否有权。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，两种类型：0是，1否。默认值0。',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `fk_gpr_role_domain_gp_domain` (`domain_id`) USING BTREE,
   KEY `fk_gpr_role_domain_gp_role` (`role_id`) USING BTREE,
   CONSTRAINT `fk_gpr_role_domain_gp_domain` FOREIGN KEY (`domain_id`) REFERENCES `gp_domain` (`id`) ON DELETE CASCADE,
   CONSTRAINT `fk_gpr_role_domain_gp_role` FOREIGN KEY (`role_id`) REFERENCES `gp_role` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT COMMENT='角色拥有的功能模块权限。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='角色拥有的功能模块权限。';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1161,18 +1166,18 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `gpr_role_interface`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gpr_role_interface` (
   `id` char(32) NOT NULL COMMENT '主键。',
   `role_id` char(32) DEFAULT NULL COMMENT '系统角色。外键，引用系统角色表（role）的主键。',
   `interface_id` char(32) DEFAULT NULL COMMENT '系统接口。外键，引用系统接口表（interface）的主键。',
-  `is_enable_code` tinyint DEFAULT '0' COMMENT '是否有权。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，两种类型：0是，1否。默认值0。',
+  `is_enable_code` tinyint(4) DEFAULT '0' COMMENT '是否有权。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，两种类型：0是，1否。默认值0。',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `fk_gpr_role_interface_gp_interface` (`interface_id`) USING BTREE,
   KEY `fk_gpr_role_interface_gp_role` (`role_id`) USING BTREE,
   CONSTRAINT `fk_gpr_role_interface_gp_interface` FOREIGN KEY (`interface_id`) REFERENCES `gp_interface` (`id`) ON DELETE CASCADE,
   CONSTRAINT `fk_gpr_role_interface_gp_role` FOREIGN KEY (`role_id`) REFERENCES `gp_role` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT COMMENT='角色拥有的接口权限。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='角色拥有的接口权限。';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1191,18 +1196,18 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `gpr_role_module`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gpr_role_module` (
   `id` char(32) NOT NULL COMMENT '主键。',
   `role_id` char(32) DEFAULT NULL COMMENT '系统角色。外键，引用应用角色表（role）的主键。',
   `module_id` char(32) DEFAULT NULL COMMENT '功能模块。外键，引用功能模块表（module）的主键。',
-  `is_enable_code` tinyint DEFAULT '0' COMMENT '是否有权。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，两种类型：0是，1否。默认值0。',
+  `is_enable_code` tinyint(4) DEFAULT '0' COMMENT '是否有权。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，两种类型：0是，1否。默认值0。',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `fk_gpr_role_module_gp_module` (`module_id`) USING BTREE,
   KEY `fk_gpr_role_module_gp_role` (`role_id`) USING BTREE,
   CONSTRAINT `fk_gpr_role_module_gp_module` FOREIGN KEY (`module_id`) REFERENCES `gp_module` (`id`) ON DELETE CASCADE,
   CONSTRAINT `fk_gpr_role_module_gp_role` FOREIGN KEY (`role_id`) REFERENCES `gp_role` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT COMMENT='角色拥有的功能模块权限。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='角色拥有的功能模块权限。';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1221,18 +1226,18 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `gpr_role_page`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gpr_role_page` (
   `id` char(32) NOT NULL COMMENT '主键。',
   `role_id` char(32) DEFAULT NULL COMMENT '系统角色。外键，引用应用角色表（role）的主键。',
   `page_id` char(32) DEFAULT NULL COMMENT '系统页面。外键，引用应用系统页面表（page）的主键。',
-  `is_enable_code` tinyint DEFAULT '0' COMMENT '是否有权。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，两种类型：0是，1否。默认值0。',
+  `is_enable_code` tinyint(4) DEFAULT '0' COMMENT '是否有权。对应数据字典表（dictionary）中的编码字段（code）。布尔型字段，两种类型：0是，1否。默认值0。',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `fk_gpr_role_page_gp_page` (`page_id`) USING BTREE,
   KEY `fk_gpr_role_page_gp_role` (`role_id`) USING BTREE,
   CONSTRAINT `fk_gpr_role_page_gp_page` FOREIGN KEY (`page_id`) REFERENCES `gp_page` (`id`) ON DELETE CASCADE,
   CONSTRAINT `fk_gpr_role_page_gp_role` FOREIGN KEY (`role_id`) REFERENCES `gp_role` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT COMMENT='角色拥有的页面权限。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='角色拥有的页面权限。';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1250,13 +1255,13 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `gpr_user_base`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gpr_user_base` (
   `id` char(32) NOT NULL COMMENT '主键。',
   `user_id` char(32) DEFAULT NULL COMMENT '系统用户。外键，引用系统用户表（gp_user）的主键。',
   `base_id` char(32) DEFAULT NULL COMMENT '基地。外键，引用应用基地信息表（da_base_info）的主键。',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT COMMENT='用户归属的基地。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='用户归属的基地。';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1274,7 +1279,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `gpr_user_organization`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gpr_user_organization` (
   `id` char(32) NOT NULL COMMENT '主键。',
   `user_id` char(32) DEFAULT NULL COMMENT '系统用户。外键，引用系统用户表（user）的主键。',
@@ -1284,7 +1289,7 @@ CREATE TABLE `gpr_user_organization` (
   KEY `fk_gpr_user_organization_gp_user` (`user_id`) USING BTREE,
   CONSTRAINT `fk_gpr_user_organization_gp_organization` FOREIGN KEY (`organization_id`) REFERENCES `gp_organization` (`id`) ON DELETE CASCADE,
   CONSTRAINT `fk_gpr_user_organization_gp_user` FOREIGN KEY (`user_id`) REFERENCES `gp_user` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT COMMENT='用户所属组织机构。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='用户所属组织机构。';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1303,7 +1308,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `gpr_user_role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gpr_user_role` (
   `id` char(32) NOT NULL COMMENT '主键。',
   `user_id` char(32) DEFAULT NULL COMMENT '系统用户。外键，引用系统用户表（user）的主键。',
@@ -1313,7 +1318,7 @@ CREATE TABLE `gpr_user_role` (
   KEY `fk_gpr_user_role_gp_role` (`role_id`) USING BTREE,
   CONSTRAINT `fk_gpr_user_role_gp_role` FOREIGN KEY (`role_id`) REFERENCES `gp_role` (`id`) ON DELETE CASCADE,
   CONSTRAINT `fk_gpr_user_role_gp_user` FOREIGN KEY (`user_id`) REFERENCES `gp_user` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT COMMENT='用户拥有的角色。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='用户拥有的角色。';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1332,7 +1337,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `gpr_user_station`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gpr_user_station` (
   `id` char(32) NOT NULL COMMENT '主键。',
   `user_id` char(32) DEFAULT NULL COMMENT '系统用户。外键，引用系统用户表（user）的主键。',
@@ -1342,7 +1347,7 @@ CREATE TABLE `gpr_user_station` (
   KEY `fk_gpr_user_station_gp_user` (`user_id`) USING BTREE,
   CONSTRAINT `fk_gpr_user_station_gp_station` FOREIGN KEY (`station_id`) REFERENCES `gp_station` (`id`) ON DELETE CASCADE,
   CONSTRAINT `fk_gpr_user_station_gp_user` FOREIGN KEY (`user_id`) REFERENCES `gp_user` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT COMMENT='用户所属岗位。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='用户所属岗位。';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1363,4 +1368,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-03-29 17:25:19
+-- Dump completed on 2022-03-29 18:27:59
