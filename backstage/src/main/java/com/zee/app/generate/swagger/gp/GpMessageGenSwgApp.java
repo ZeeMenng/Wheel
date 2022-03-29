@@ -1,4 +1,4 @@
-﻿package com.zee.app.generate.swagger.gp;
+package com.zee.app.generate.swagger.gp;
 
 import java.io.IOException;
 import java.util.HashMap;
