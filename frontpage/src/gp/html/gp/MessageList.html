@@ -49,7 +49,7 @@
 
 					},
 					"orderList": [{
-						"columnName": "add_time",
+						"columnName": "addTime",
 						"isASC": false
 					}],
 					"page": {
@@ -68,11 +68,6 @@
 						},
 					},
 					{
-						"columnName": "userName",
-						"columnText": "消息创建者",
-						"style": "text-align:left",
-					},
-					{
 						"columnName": "typeText",
 						"columnText": "消息类型",
 						"style": "text-align:left",
@@ -81,17 +76,26 @@
 						"columnName": "content",
 						"columnText": "消息内容",
 						"style": "text-align:left",
+					}, {
+						"columnName": "userName",
+						"columnText": "消息创建者",
+						"style": "text-align:left",
+					},
+					{
+						"columnName": "receiverUserNames",
+						"columnText": "消息接收者",
+						"style": "text-align:left",
+					},{
+						"columnName": "receiverDomainNames",
+						"columnText": "消息接收应用",
+						"style": "text-align:left",
 					},
 					{
 						"columnName": "addTime",
-						"columnText": "记录时间",
+						"columnText": "下发时间",
 						"style": "text-align:left",
 					},
-					{
-						"columnName": "isReadCode",
-						"columnText": "是否已读",
-						"style": "text-align:left",
-					}
+
 				]
 			};
 
@@ -160,8 +164,8 @@
 
 					<form class="portlet-body form form-inline form-body" role="form" id="queryBuilderForm">
 						<label class="control-label">关键词：</label>
-						<input class="form-control " id="textKeywords" name="keywords" size="45" type="text"
-							placeholder="可输入 /消息创建者/消息标题/消息内容/消息类型 ……" />
+						<input class="form-control " id="textKeywords" name="keywords" size="85" type="text"
+							placeholder="可输入 /消息标题/消息类型/消息内容/消息创建者/消息接收者/消息接收应用 ……" />
 						<div class="search-button">
 							<button type="submit" class="btn red-mint" id="submitButton">
 								<i class="fa fa-search"></i>

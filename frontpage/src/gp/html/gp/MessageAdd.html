@@ -11,14 +11,25 @@
             var pageParam = {
                 formId: "formAdd",
                 validateRules: {
+                    selectTypeCode: {
+                        required: true
+                    },
                     textTitle: {
-                        required: true
+                        required: true,
+                        maxlength: 200
                     },
-                    textContent: {
-                        required: true
+                    textareaContent: {
+                        required: true,
+                        maxlength: 2000
                     },
-                    textReceiverNames: {
-                        required: true
+                    textareaRemark: {
+                        maxlength: 200
+                    },
+                    hiddenReceiverDomainNames: {
+                        maxlength: 2000
+                    },
+                    hiddenReceiverUserNames: {
+                        maxlength: 2000
                     }
                 }
             };
@@ -80,7 +91,9 @@
                                                     </div>
                                                 </div>
                                                 <div class="element-group right">
-                                                    <label class="control-label col-md-2" for="selectTypeCode">消息的类型
+                                                    <label class="control-label col-md-2"
+                                                        for="selectTypeCode">消息的类型<span class="required"
+                                                            aria-required="true"> * </span>
                                                     </label>
                                                     <div class="col-md-3">
                                                         <div class="input-group select2-bootstrap-append">

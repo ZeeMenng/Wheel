@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 import com.zee.ent.extend.gp.*;
+import com.zee.set.symbolic.SqlSymbolic;
 import com.zee.utl.CastObjectUtil;
 
 import java.util.List;
@@ -207,85 +208,67 @@ public class GpMessageSwgApp extends GpMessageGenSwgApp {
         return result;
     }
 
-    /*
-     * 用父类接口
-     *
-     * @ApiOperation(value = "模糊查询", notes = "根据查询条件模糊查询")
-     *
-     * @RequestMapping(value = "/getListByJsonData", method = RequestMethod.GET,
-     * produces = MediaType.APPLICATION_JSON_VALUE) public ResultModel
-     * getListByJsonData() { ResultModel resultModel = new ResultModel();
-     *
-     * String jsonData =
-     * request.getParameter(SymbolicConstant.CONTROLLER_PARAM_JSON); if
-     * (StringUtils.isBlank(jsonData)) return resultModel;
-     *
-     * Map<String, Object> map = new HashMap<String, Object>(); StringBuffer
-     * selectBuffer = new StringBuffer(); selectBuffer.
-     * append("select A.id id,A.user_id userId,A.user_name userName,A.title title,A.content content,A.remark remark,A.add_time addTime "
-     * ); selectBuffer.
-     * append(",(CASE when C.is_read_code=0 then '未读' when C.is_read_code=1 then '已读' end) isReadCode "
-     * ); selectBuffer.
-     * append(",(CASE when B.is_admin_code='0' then '系统消息' when B.is_admin_code='1' then '用户消息' end) messageType "
-     * ); selectBuffer.
-     * append(" from gp_message A LEFT JOIN gpr_message_user C on C.message_id = A.id LEFT JOIN gp_user B on A.user_id = B.id and A.user_name = B.user_name where 1=1 "
-     * );
-     *
-     * if (!StringUtils.isBlank(jsonData)) { JSONObject jsonObject =
-     * JSONObject.fromObject(jsonData);
-     *
-     * if (jsonObject.containsKey("selectRows")) { JSONArray selectRowsArray =
-     * jsonObject.getJSONArray("selectRows"); if (selectRowsArray.size() > 0) {
-     * selectBuffer.append(" and A.id in('"); //
-     * selectBuffer.append(" and C.user_id in('"); for (int i = 0; i <
-     * selectRowsArray.size(); i++) { selectBuffer.append(i ==
-     * selectRowsArray.size() - 1 ? selectRowsArray.getString(i) + "'" :
-     * selectRowsArray.getString(i) + "','"); } selectBuffer.append(")"); } }
-     *
-     * if (jsonObject.containsKey("entityRelated")) { JSONObject
-     * entityRelatedObject = jsonObject.getJSONObject("entityRelated");
-     *
-     * if (entityRelatedObject.containsKey("id") &&
-     * StringUtils.isNotBlank(entityRelatedObject.getString("id")))
-     * selectBuffer.append(" and C.user_id like '%").append(entityRelatedObject.
-     * getString("id")).append("%'"); if
-     * (entityRelatedObject.containsKey("userName") &&
-     * StringUtils.isNotBlank(entityRelatedObject.getString("userName")))
-     * selectBuffer.append(" and A.user_name like '%").append(
-     * entityRelatedObject.getString("userName")).append("%'"); if
-     * (entityRelatedObject.containsKey("title") &&
-     * StringUtils.isNotBlank(entityRelatedObject.getString("title")))
-     * selectBuffer.append(" and A.title like '%").append(entityRelatedObject.
-     * getString("title")).append("%'"); if
-     * (entityRelatedObject.containsKey("content") &&
-     * StringUtils.isNotBlank(entityRelatedObject.getString("content")))
-     * selectBuffer.append(" and A.content like '%").append(entityRelatedObject.
-     * getString("content")).append("%'"); if
-     * (entityRelatedObject.containsKey("messageType") &&
-     * StringUtils.isNotBlank(entityRelatedObject.getString("messageType")))
-     * selectBuffer.
-     * append(" and (CASE when B.is_admin_code='0' then '系统消息' when B.is_admin_code='1' then '用户消息' end) like '%"
-     * ).append(entityRelatedObject.getString("messageType")).append("%'"); }
-     *
-     * if (jsonObject.containsKey("page")) { JSONObject pageObject =
-     * jsonObject.getJSONObject("page"); map.put("Page", pageObject); }
-     *
-     * if (jsonObject.containsKey("orderList")) { JSONArray orderListArray =
-     * jsonObject.getJSONArray("orderList"); if (orderListArray.size() != 0)
-     * selectBuffer.append(" order by "); for (int i = 0; i <
-     * orderListArray.size(); i++) { JSONObject orderColumnObject =
-     * orderListArray.getJSONObject(i);
-     * selectBuffer.append(orderColumnObject.getString("columnName"));
-     * selectBuffer.append(orderColumnObject.getBoolean("isASC") ? " ASC" :
-     * " DESC"); selectBuffer.append((i + 1) == orderListArray.size() ? " " :
-     * " ,"); } } }
-     *
-     * map.put("Sql", selectBuffer.toString());
-     *
-     * resultModel = gpMessageUntBll.getListBySQL(map);
-     *
-     * return resultModel; }
-     */
+
+    @ApiOperation(value = "模糊查询", notes = "根据查询条件模糊查询")
+    @RequestMapping(value = "/getListByJsonData", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResultModel getListByJsonData() {
+        ResultModel resultModel = new ResultModel();
+
+        String jsonData = request.getParameter(CustomSymbolic.CONTROLLER_PARAM_JSON);
+        if (StringUtils.isBlank(jsonData))
+            return resultModel;
+
+        Map<String, Object> map = new HashMap<String, Object>();
+        StringBuffer selectBuffer = new StringBuffer();
+        selectBuffer.append(SqlSymbolic.SQL_SELECT_MESSAGE_LIST);
+
+        if (!StringUtils.isBlank(jsonData)) {
+            JSONObject jsonObject = JSONObject.fromObject(jsonData);
+
+            if (jsonObject.containsKey("selectRows")) {
+                JSONArray selectRowsArray = jsonObject.getJSONArray("selectRows");
+                if (selectRowsArray.size() > 0) {
+                    selectBuffer.append(" and A.id in('");
+                    for (int i = 0; i < selectRowsArray.size(); i++) {
+                        selectBuffer.append(i == selectRowsArray.size() - 1 ? selectRowsArray.getString(i) + "'" : selectRowsArray.getString(i) + "','");
+                    }
+                    selectBuffer.append(")");
+                }
+            }
+
+            if (jsonObject.containsKey("entityRelated")) {
+                JSONObject entityRelatedObject = jsonObject.getJSONObject("entityRelated");
+                if (entityRelatedObject.containsKey("keywords") && StringUtils.isNotBlank(entityRelatedObject.getString("keywords"))) {
+                    selectBuffer.append(String.format(" and( A.title like %1$s or A.type_text like %1$s or A.content like %1$s  or A.user_name like %1$s or A.receiver_user_names like %1$s or A.receiver_domain_names like %1$s)", "'%" + entityRelatedObject.getString("keywords") + "%'"));
+                }
+
+            }
+
+            if (jsonObject.containsKey("page")) {
+                JSONObject pageObject = jsonObject.getJSONObject("page");
+                map.put("Page", pageObject);
+            }
+
+            if (jsonObject.containsKey("orderList")) {
+                JSONArray orderListArray = jsonObject.getJSONArray("orderList");
+                if (orderListArray.size() != 0)
+                    selectBuffer.append(" order by ");
+                for (int i = 0; i < orderListArray.size(); i++) {
+                    JSONObject orderColumnObject = orderListArray.getJSONObject(i);
+                    selectBuffer.append(orderColumnObject.getString("columnName"));
+                    selectBuffer.append(orderColumnObject.getBoolean("isASC") ? " ASC" : " DESC");
+                    selectBuffer.append((i + 1) == orderListArray.size() ? " " : " ,");
+                }
+            }
+        }
+
+        map.put("Sql", selectBuffer.toString());
+
+        resultModel = gpMessageUntBll.getListBySQL(map);
+
+        return resultModel;
+    }
+
 
     @ApiOperation(value = "查询当前登陆的用户通知公告列表forapp", notes = "查询当前登陆的用户通知公告列表forapp")
     @RequestMapping(value = "/getMessageListForApp", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

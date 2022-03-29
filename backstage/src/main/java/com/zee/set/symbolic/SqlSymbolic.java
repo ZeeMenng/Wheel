@@ -58,4 +58,6 @@ public class SqlSymbolic {
 	//查询组织机构岗位列表
 	public static final String SQL_SELECT_STATION_LIST = "select A.id id,A.serial_no serialNo,A.organization_id organizationId,A.organization_name organizationName,A.name name,A.priority priority,A.responsibility responsibility,A.remark remark,A.add_time addTime,A.update_time updateTime  from gp_station A inner join gp_station B on A.id=B.id where 1=1 ";
 
+	//查询消息提醒列表
+	public static final String SQL_SELECT_MESSAGE_LIST="select A.id id,A.user_id userId,A.user_name userName,A.type_code typeCode,A.type_text typeText,A.title title,A.content content,A.receiver_user_ids receiverUserIds,A.receiver_user_names receiverUserNames,A.receiver_domain_ids receiverDomainIds,A.receiver_domain_names receiverDomainNames,A.remark remark,A.add_time addTime  from gp_message A inner join gp_message B on A.id=B.id where 1=1";
 }
