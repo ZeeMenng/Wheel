@@ -1,4 +1,4 @@
-package com.zee.ent.generate.gp;
+﻿package com.zee.ent.generate.gp;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -16,7 +16,7 @@ import com.zee.ent.extend.gp.GprMessageUser;
 /**
  * @author Zee
  * @createDate 2017/05/18 14:54:22
- * @updateDate 2021/2/2 18:48:49
+ * @updateDate 2022/3/29 18:24:23
  * @description 实体类GpMessageGenEnt，自动生成。系统消息。
  */
 
@@ -29,6 +29,14 @@ public class GpMessageGenEnt extends BaseEnt implements Serializable {
     private String content;
     @ApiModelProperty(value="主键。",hidden=false,required=true)
     private String id;
+    @ApiModelProperty(value="接收消息的应用ID列表。英文逗号分隔。",hidden=false,required=false)
+    private String receiverDomainIds;
+    @ApiModelProperty(value="接收消息的应用名称列表。英文逗号分隔。",hidden=false,required=false)
+    private String receiverDomainNames;
+    @ApiModelProperty(value="接收消息的用户ID列表。英文逗号分隔。",hidden=false,required=false)
+    private String receiverUserIds;
+    @ApiModelProperty(value="接收消息的用户名称列表。英文逗号分隔。",hidden=false,required=false)
+    private String receiverUserNames;
     @ApiModelProperty(value="备注字段。",hidden=false,required=false)
     private String remark;
     @ApiModelProperty(value="消息标题",hidden=false,required=false)
@@ -92,6 +100,62 @@ public class GpMessageGenEnt extends BaseEnt implements Serializable {
 	 */
 	public void setId(String id) {
 		this.id = id;
+	}
+    
+	/**
+	 * get方法。接收消息的应用ID列表。英文逗号分隔。
+	 */
+	public String getReceiverDomainIds() {
+		return this.receiverDomainIds;
+	}
+
+	/**
+	 * set方法。接收消息的应用ID列表。英文逗号分隔。
+	 */
+	public void setReceiverDomainIds(String receiverDomainIds) {
+		this.receiverDomainIds = receiverDomainIds;
+	}
+    
+	/**
+	 * get方法。接收消息的应用名称列表。英文逗号分隔。
+	 */
+	public String getReceiverDomainNames() {
+		return this.receiverDomainNames;
+	}
+
+	/**
+	 * set方法。接收消息的应用名称列表。英文逗号分隔。
+	 */
+	public void setReceiverDomainNames(String receiverDomainNames) {
+		this.receiverDomainNames = receiverDomainNames;
+	}
+    
+	/**
+	 * get方法。接收消息的用户ID列表。英文逗号分隔。
+	 */
+	public String getReceiverUserIds() {
+		return this.receiverUserIds;
+	}
+
+	/**
+	 * set方法。接收消息的用户ID列表。英文逗号分隔。
+	 */
+	public void setReceiverUserIds(String receiverUserIds) {
+		this.receiverUserIds = receiverUserIds;
+	}
+    
+	/**
+	 * get方法。接收消息的用户名称列表。英文逗号分隔。
+	 */
+	public String getReceiverUserNames() {
+		return this.receiverUserNames;
+	}
+
+	/**
+	 * set方法。接收消息的用户名称列表。英文逗号分隔。
+	 */
+	public void setReceiverUserNames(String receiverUserNames) {
+		this.receiverUserNames = receiverUserNames;
 	}
     
 	/**

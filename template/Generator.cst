@@ -189,12 +189,13 @@ private string classDirectory = String.Empty;
 
             ArrayList tableList = new ArrayList();
 
-            tableList.Add("gp_station");
-            //tableList.Add("gp_dictionary_type");
+            tableList.Add("gpr_domain_message");
+            tableList.Add("gp_message");
 
             if (tableList.Contains(table.Name))
             //   if (!table.Name.StartsWith("ds_"))  
-            if (table.Name.StartsWith("gp")) {
+            //if (table.Name.StartsWith("gp")) 
+            {
 
                 String fileUrl = "";
                 if (outputDirectory.EndsWith(".html") || outputDirectory.EndsWith(".js")) {

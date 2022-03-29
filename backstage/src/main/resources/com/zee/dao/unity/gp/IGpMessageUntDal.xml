@@ -6,16 +6,20 @@
               <id column="id" property="id" jdbcType="VARCHAR" />
               <result column="user_id" property="userId" jdbcType="VARCHAR" />
               <result column="user_name" property="userName" jdbcType="VARCHAR" />
-              <result column="title" property="title" jdbcType="VARCHAR" />
-              <result column="content" property="content" jdbcType="VARCHAR" />
               <result column="type_code" property="typeCode" jdbcType="TINYINT" />
               <result column="type_text" property="typeText" jdbcType="VARCHAR" />
+              <result column="title" property="title" jdbcType="VARCHAR" />
+              <result column="content" property="content" jdbcType="VARCHAR" />
+              <result column="receiver_user_ids" property="receiverUserIds" jdbcType="VARCHAR" />
+              <result column="receiver_user_names" property="receiverUserNames" jdbcType="VARCHAR" />
+              <result column="receiver_domain_ids" property="receiverDomainIds" jdbcType="VARCHAR" />
+              <result column="receiver_domain_names" property="receiverDomainNames" jdbcType="VARCHAR" />
               <result column="remark" property="remark" jdbcType="VARCHAR" />
               <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
   </resultMap>
   
   <sql id="Base_Column_List" >
-        id,user_id,user_name,title,content,type_code,type_text,remark,add_time
+        id,user_id,user_name,type_code,type_text,title,content,receiver_user_ids,receiver_user_names,receiver_domain_ids,receiver_domain_names,remark,add_time
   </sql>
   
   <insert id="add" parameterType="com.zee.ent.extend.gp.GpMessage" >
@@ -33,6 +37,13 @@
               user_name,
           </if>
       
+          <if test="typeCode != null " >
+              type_code,
+          </if>
+          <if test="typeText != null and typeText != '' " >
+              type_text,
+          </if>
+      
           <if test="title != null and title != '' " >
               title,
           </if>
@@ -41,11 +52,20 @@
               content,
           </if>
       
-          <if test="typeCode != null " >
-              type_code,
+          <if test="receiverUserIds != null and receiverUserIds != '' " >
+              receiver_user_ids,
           </if>
-          <if test="typeText != null and typeText != '' " >
-              type_text,
+      
+          <if test="receiverUserNames != null and receiverUserNames != '' " >
+              receiver_user_names,
+          </if>
+      
+          <if test="receiverDomainIds != null and receiverDomainIds != '' " >
+              receiver_domain_ids,
+          </if>
+      
+          <if test="receiverDomainNames != null and receiverDomainNames != '' " >
+              receiver_domain_names,
           </if>
       
           <if test="remark != null and remark != '' " >
@@ -66,17 +86,29 @@
           <if test="userName != null and userName != '' " >
               #{userName,jdbcType=VARCHAR},
           </if>
+          <if test="typeCode != null " >
+              #{typeCode,jdbcType=TINYINT},
+          </if>
+          <if test="typeText != null and typeText != '' " >
+              #{typeText,jdbcType=VARCHAR},
+          </if>
           <if test="title != null and title != '' " >
               #{title,jdbcType=VARCHAR},
           </if>
           <if test="content != null and content != '' " >
               #{content,jdbcType=VARCHAR},
           </if>
-          <if test="typeCode != null " >
-              #{typeCode,jdbcType=TINYINT},
+          <if test="receiverUserIds != null and receiverUserIds != '' " >
+              #{receiverUserIds,jdbcType=VARCHAR},
           </if>
-          <if test="typeText != null and typeText != '' " >
-              #{typeText,jdbcType=VARCHAR},
+          <if test="receiverUserNames != null and receiverUserNames != '' " >
+              #{receiverUserNames,jdbcType=VARCHAR},
+          </if>
+          <if test="receiverDomainIds != null and receiverDomainIds != '' " >
+              #{receiverDomainIds,jdbcType=VARCHAR},
+          </if>
+          <if test="receiverDomainNames != null and receiverDomainNames != '' " >
+              #{receiverDomainNames,jdbcType=VARCHAR},
           </if>
           <if test="remark != null and remark != '' " >
               #{remark,jdbcType=VARCHAR},
@@ -99,10 +131,14 @@
           #{gpMessage.id,jdbcType=VARCHAR},
           #{gpMessage.userId,jdbcType=VARCHAR},
           #{gpMessage.userName,jdbcType=VARCHAR},
-          #{gpMessage.title,jdbcType=VARCHAR},
-          #{gpMessage.content,jdbcType=VARCHAR},
           #{gpMessage.typeCode,jdbcType=TINYINT},
           #{gpMessage.typeText,jdbcType=VARCHAR},
+          #{gpMessage.title,jdbcType=VARCHAR},
+          #{gpMessage.content,jdbcType=VARCHAR},
+          #{gpMessage.receiverUserIds,jdbcType=VARCHAR},
+          #{gpMessage.receiverUserNames,jdbcType=VARCHAR},
+          #{gpMessage.receiverDomainIds,jdbcType=VARCHAR},
+          #{gpMessage.receiverDomainNames,jdbcType=VARCHAR},
           #{gpMessage.remark,jdbcType=VARCHAR},
           #{gpMessage.addTime,jdbcType=TIMESTAMP},
 
@@ -123,10 +159,14 @@
           #{gpMessage.id,jdbcType=VARCHAR},
           #{gpMessage.userId,jdbcType=VARCHAR},
           #{gpMessage.userName,jdbcType=VARCHAR},
-          #{gpMessage.title,jdbcType=VARCHAR},
-          #{gpMessage.content,jdbcType=VARCHAR},
           #{gpMessage.typeCode,jdbcType=TINYINT},
           #{gpMessage.typeText,jdbcType=VARCHAR},
+          #{gpMessage.title,jdbcType=VARCHAR},
+          #{gpMessage.content,jdbcType=VARCHAR},
+          #{gpMessage.receiverUserIds,jdbcType=VARCHAR},
+          #{gpMessage.receiverUserNames,jdbcType=VARCHAR},
+          #{gpMessage.receiverDomainIds,jdbcType=VARCHAR},
+          #{gpMessage.receiverDomainNames,jdbcType=VARCHAR},
           #{gpMessage.remark,jdbcType=VARCHAR},
           #{gpMessage.addTime,jdbcType=TIMESTAMP},
 
@@ -136,10 +176,14 @@
 id=values(id),
 user_id=values(user_id),
 user_name=values(user_name),
-title=values(title),
-content=values(content),
 type_code=values(type_code),
 type_text=values(type_text),
+title=values(title),
+content=values(content),
+receiver_user_ids=values(receiver_user_ids),
+receiver_user_names=values(receiver_user_names),
+receiver_domain_ids=values(receiver_domain_ids),
+receiver_domain_names=values(receiver_domain_names),
 remark=values(remark),
 add_time=values(add_time)
         
@@ -207,6 +251,20 @@ add_time=values(add_time)
                      user_name = #{userName,jdbcType=VARCHAR},
                   </when>
                   </choose>
+                  <if test="typeCode != null ">
+                     type_code = #{typeCode,jdbcType=TINYINT},
+                  </if>
+                    <choose>
+                   <when test="typeText != null and typeText=='-1'">
+                     type_text = null,
+                  </when>
+                  <when test="typeText != null and typeText=='-2'">
+                     type_text = '',
+                  </when>
+                  <when test="typeText != null  and typeText != '' " >
+                     type_text = #{typeText,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
                     <choose>
                    <when test="title != null and title=='-1'">
                      title = null,
@@ -229,18 +287,48 @@ add_time=values(add_time)
                      content = #{content,jdbcType=VARCHAR},
                   </when>
                   </choose>
-                  <if test="typeCode != null ">
-                     type_code = #{typeCode,jdbcType=TINYINT},
-                  </if>
                     <choose>
-                   <when test="typeText != null and typeText=='-1'">
-                     type_text = null,
+                   <when test="receiverUserIds != null and receiverUserIds=='-1'">
+                     receiver_user_ids = null,
                   </when>
-                  <when test="typeText != null and typeText=='-2'">
-                     type_text = '',
+                  <when test="receiverUserIds != null and receiverUserIds=='-2'">
+                     receiver_user_ids = '',
                   </when>
-                  <when test="typeText != null  and typeText != '' " >
-                     type_text = #{typeText,jdbcType=VARCHAR},
+                  <when test="receiverUserIds != null  and receiverUserIds != '' " >
+                     receiver_user_ids = #{receiverUserIds,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="receiverUserNames != null and receiverUserNames=='-1'">
+                     receiver_user_names = null,
+                  </when>
+                  <when test="receiverUserNames != null and receiverUserNames=='-2'">
+                     receiver_user_names = '',
+                  </when>
+                  <when test="receiverUserNames != null  and receiverUserNames != '' " >
+                     receiver_user_names = #{receiverUserNames,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="receiverDomainIds != null and receiverDomainIds=='-1'">
+                     receiver_domain_ids = null,
+                  </when>
+                  <when test="receiverDomainIds != null and receiverDomainIds=='-2'">
+                     receiver_domain_ids = '',
+                  </when>
+                  <when test="receiverDomainIds != null  and receiverDomainIds != '' " >
+                     receiver_domain_ids = #{receiverDomainIds,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
+                   <when test="receiverDomainNames != null and receiverDomainNames=='-1'">
+                     receiver_domain_names = null,
+                  </when>
+                  <when test="receiverDomainNames != null and receiverDomainNames=='-2'">
+                     receiver_domain_names = '',
+                  </when>
+                  <when test="receiverDomainNames != null  and receiverDomainNames != '' " >
+                     receiver_domain_names = #{receiverDomainNames,jdbcType=VARCHAR},
                   </when>
                   </choose>
                     <choose>
@@ -270,17 +358,29 @@ add_time=values(add_time)
                   <if test="t.userName != null  and t.userName != '' " >
                      user_name = #{t.userName,jdbcType=VARCHAR},
                   </if>
+                  <if test="t.typeCode != null ">
+                     type_code = #{t.typeCode,jdbcType=TINYINT},
+                  </if>
+                  <if test="t.typeText != null  and t.typeText != '' " >
+                     type_text = #{t.typeText,jdbcType=VARCHAR},
+                  </if>
                   <if test="t.title != null  and t.title != '' " >
                      title = #{t.title,jdbcType=VARCHAR},
                   </if>
                   <if test="t.content != null  and t.content != '' " >
                      content = #{t.content,jdbcType=VARCHAR},
                   </if>
-                  <if test="t.typeCode != null ">
-                     type_code = #{t.typeCode,jdbcType=TINYINT},
+                  <if test="t.receiverUserIds != null  and t.receiverUserIds != '' " >
+                     receiver_user_ids = #{t.receiverUserIds,jdbcType=VARCHAR},
                   </if>
-                  <if test="t.typeText != null  and t.typeText != '' " >
-                     type_text = #{t.typeText,jdbcType=VARCHAR},
+                  <if test="t.receiverUserNames != null  and t.receiverUserNames != '' " >
+                     receiver_user_names = #{t.receiverUserNames,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.receiverDomainIds != null  and t.receiverDomainIds != '' " >
+                     receiver_domain_ids = #{t.receiverDomainIds,jdbcType=VARCHAR},
+                  </if>
+                  <if test="t.receiverDomainNames != null  and t.receiverDomainNames != '' " >
+                     receiver_domain_names = #{t.receiverDomainNames,jdbcType=VARCHAR},
                   </if>
                   <if test="t.remark != null  and t.remark != '' " >
                      remark = #{t.remark,jdbcType=VARCHAR},
@@ -326,6 +426,26 @@ add_time=values(add_time)
                   </if> 
               </foreach>
          </trim>
+         <trim prefix="type_code =case" suffix="end,">
+              <foreach collection="list" item="gpMessage" index="index">
+                  <if test="gpMessage.typeCode != null " >
+                     when id=#{gpMessage.id} then #{gpMessage.typeCode,jdbcType=TINYINT}
+                  </if>
+              </foreach>
+         </trim>
+         <trim prefix="type_text =case" suffix="end,">
+              <foreach collection="list" item="gpMessage" index="index">
+                  <if test="gpMessage.typeText != null and gpMessage.typeText  != ''  and gpMessage.typeText  != '-1' ">
+                     when id=#{gpMessage.id} then #{gpMessage.typeText,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpMessage.typeText != null  and gpMessage.typeText  == '-1' ">
+                     when id=#{gpMessage.id} then null
+                  </if>  
+                   <if test="gpMessage.typeText != null  and gpMessage.typeText  == '-2' ">
+                     when id=#{gpMessage.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
          <trim prefix="title =case" suffix="end,">
               <foreach collection="list" item="gpMessage" index="index">
                   <if test="gpMessage.title != null and gpMessage.title  != ''  and gpMessage.title  != '-1' ">
@@ -352,22 +472,54 @@ add_time=values(add_time)
                   </if> 
               </foreach>
          </trim>
-         <trim prefix="type_code =case" suffix="end,">
+         <trim prefix="receiver_user_ids =case" suffix="end,">
               <foreach collection="list" item="gpMessage" index="index">
-                  <if test="gpMessage.typeCode != null " >
-                     when id=#{gpMessage.id} then #{gpMessage.typeCode,jdbcType=TINYINT}
+                  <if test="gpMessage.receiverUserIds != null and gpMessage.receiverUserIds  != ''  and gpMessage.receiverUserIds  != '-1' ">
+                     when id=#{gpMessage.id} then #{gpMessage.receiverUserIds,jdbcType=VARCHAR}
                   </if>
-              </foreach>
-         </trim>
-         <trim prefix="type_text =case" suffix="end,">
-              <foreach collection="list" item="gpMessage" index="index">
-                  <if test="gpMessage.typeText != null and gpMessage.typeText  != ''  and gpMessage.typeText  != '-1' ">
-                     when id=#{gpMessage.id} then #{gpMessage.typeText,jdbcType=VARCHAR}
-                  </if>
-                  <if test="gpMessage.typeText != null  and gpMessage.typeText  == '-1' ">
+                  <if test="gpMessage.receiverUserIds != null  and gpMessage.receiverUserIds  == '-1' ">
                      when id=#{gpMessage.id} then null
                   </if>  
-                   <if test="gpMessage.typeText != null  and gpMessage.typeText  == '-2' ">
+                   <if test="gpMessage.receiverUserIds != null  and gpMessage.receiverUserIds  == '-2' ">
+                     when id=#{gpMessage.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="receiver_user_names =case" suffix="end,">
+              <foreach collection="list" item="gpMessage" index="index">
+                  <if test="gpMessage.receiverUserNames != null and gpMessage.receiverUserNames  != ''  and gpMessage.receiverUserNames  != '-1' ">
+                     when id=#{gpMessage.id} then #{gpMessage.receiverUserNames,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpMessage.receiverUserNames != null  and gpMessage.receiverUserNames  == '-1' ">
+                     when id=#{gpMessage.id} then null
+                  </if>  
+                   <if test="gpMessage.receiverUserNames != null  and gpMessage.receiverUserNames  == '-2' ">
+                     when id=#{gpMessage.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="receiver_domain_ids =case" suffix="end,">
+              <foreach collection="list" item="gpMessage" index="index">
+                  <if test="gpMessage.receiverDomainIds != null and gpMessage.receiverDomainIds  != ''  and gpMessage.receiverDomainIds  != '-1' ">
+                     when id=#{gpMessage.id} then #{gpMessage.receiverDomainIds,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpMessage.receiverDomainIds != null  and gpMessage.receiverDomainIds  == '-1' ">
+                     when id=#{gpMessage.id} then null
+                  </if>  
+                   <if test="gpMessage.receiverDomainIds != null  and gpMessage.receiverDomainIds  == '-2' ">
+                     when id=#{gpMessage.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
+         <trim prefix="receiver_domain_names =case" suffix="end,">
+              <foreach collection="list" item="gpMessage" index="index">
+                  <if test="gpMessage.receiverDomainNames != null and gpMessage.receiverDomainNames  != ''  and gpMessage.receiverDomainNames  != '-1' ">
+                     when id=#{gpMessage.id} then #{gpMessage.receiverDomainNames,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gpMessage.receiverDomainNames != null  and gpMessage.receiverDomainNames  == '-1' ">
+                     when id=#{gpMessage.id} then null
+                  </if>  
+                   <if test="gpMessage.receiverDomainNames != null  and gpMessage.receiverDomainNames  == '-2' ">
                      when id=#{gpMessage.id} then ''
                   </if> 
               </foreach>
@@ -407,10 +559,14 @@ add_time=values(add_time)
 id,
 user_id,
 user_name,
-title,
-content,
 type_code,
 type_text,
+title,
+content,
+receiver_user_ids,
+receiver_user_names,
+receiver_domain_ids,
+receiver_domain_names,
 remark,
 add_time,
     </trim>
@@ -425,16 +581,28 @@ add_time,
                      #{gpMessage.userName ,jdbcType=VARCHAR},
                   
                   
+                    #{gpMessage.typeCode,jdbcType=TINYINT},
+            
+                  
+                     #{gpMessage.typeText ,jdbcType=VARCHAR},
+                  
+                  
                      #{gpMessage.title ,jdbcType=VARCHAR},
                   
                   
                      #{gpMessage.content ,jdbcType=VARCHAR},
                   
                   
-                    #{gpMessage.typeCode,jdbcType=TINYINT},
-            
+                     #{gpMessage.receiverUserIds ,jdbcType=VARCHAR},
                   
-                     #{gpMessage.typeText ,jdbcType=VARCHAR},
+                  
+                     #{gpMessage.receiverUserNames ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpMessage.receiverDomainIds ,jdbcType=VARCHAR},
+                  
+                  
+                     #{gpMessage.receiverDomainNames ,jdbcType=VARCHAR},
                   
                   
                      #{gpMessage.remark ,jdbcType=VARCHAR},
@@ -475,6 +643,18 @@ add_time,
 		</if>
 		<if test="EntityRelated.id != null and EntityRelated.id != '' ">
 				and id = #{EntityRelated.id,jdbcType=VARCHAR} 
+		</if>
+		<if test="EntityRelated.receiverDomainIds != null and EntityRelated.receiverDomainIds != '' ">
+ 				and  receiver_domain_ids LIKE CONCAT('%',#{EntityRelated.receiverDomainIds,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.receiverDomainNames != null and EntityRelated.receiverDomainNames != '' ">
+ 				and  receiver_domain_names LIKE CONCAT('%',#{EntityRelated.receiverDomainNames,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.receiverUserIds != null and EntityRelated.receiverUserIds != '' ">
+ 				and  receiver_user_ids LIKE CONCAT('%',#{EntityRelated.receiverUserIds,jdbcType=VARCHAR},'%') 
+		</if>
+		<if test="EntityRelated.receiverUserNames != null and EntityRelated.receiverUserNames != '' ">
+ 				and  receiver_user_names LIKE CONCAT('%',#{EntityRelated.receiverUserNames,jdbcType=VARCHAR},'%') 
 		</if>
 		<if test="EntityRelated.remark != null and EntityRelated.remark != '' ">
  				and  remark LIKE CONCAT('%',#{EntityRelated.remark,jdbcType=VARCHAR},'%') 

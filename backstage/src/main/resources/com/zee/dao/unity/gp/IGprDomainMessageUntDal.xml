@@ -5,12 +5,13 @@
   <resultMap id="BaseResultMap" type="com.zee.ent.extend.gp.GprDomainMessage" >
               <id column="id" property="id" jdbcType="VARCHAR" />
               <result column="domain_id" property="domainId" jdbcType="VARCHAR" />
+              <result column="domain_name" property="domainName" jdbcType="VARCHAR" />
               <result column="message_id" property="messageId" jdbcType="VARCHAR" />
-              <result column="enterprise_id" property="enterpriseId" jdbcType="VARCHAR" />
+              <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
   </resultMap>
   
   <sql id="Base_Column_List" >
-        id,domain_id,message_id,enterprise_id
+        id,domain_id,domain_name,message_id,add_time
   </sql>
   
   <insert id="add" parameterType="com.zee.ent.extend.gp.GprDomainMessage" >
@@ -24,14 +25,17 @@
               domain_id,
           </if>
       
+          <if test="domainName != null and domainName != '' " >
+              domain_name,
+          </if>
+      
           <if test="messageId != null and messageId != '' " >
               message_id,
           </if>
       
-          <if test="enterpriseId != null and enterpriseId != '' " >
-              enterprise_id,
+          <if test="addTime != null " >
+              add_time,
           </if>
-      
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
           <if test="id != null and id != '' " >
@@ -40,11 +44,14 @@
           <if test="domainId != null and domainId != '' " >
               #{domainId,jdbcType=VARCHAR},
           </if>
+          <if test="domainName != null and domainName != '' " >
+              #{domainName,jdbcType=VARCHAR},
+          </if>
           <if test="messageId != null and messageId != '' " >
               #{messageId,jdbcType=VARCHAR},
           </if>
-          <if test="enterpriseId != null and enterpriseId != '' " >
-              #{enterpriseId,jdbcType=VARCHAR},
+          <if test="addTime != null " >
+              #{addTime,jdbcType=TIMESTAMP},
           </if>
     </trim>
   </insert>
@@ -60,8 +67,9 @@
 
           #{gprDomainMessage.id,jdbcType=VARCHAR},
           #{gprDomainMessage.domainId,jdbcType=VARCHAR},
+          #{gprDomainMessage.domainName,jdbcType=VARCHAR},
           #{gprDomainMessage.messageId,jdbcType=VARCHAR},
-          #{gprDomainMessage.enterpriseId,jdbcType=VARCHAR},
+          #{gprDomainMessage.addTime,jdbcType=TIMESTAMP},
 
         </trim>
     	</foreach>
@@ -79,16 +87,18 @@
 
           #{gprDomainMessage.id,jdbcType=VARCHAR},
           #{gprDomainMessage.domainId,jdbcType=VARCHAR},
+          #{gprDomainMessage.domainName,jdbcType=VARCHAR},
           #{gprDomainMessage.messageId,jdbcType=VARCHAR},
-          #{gprDomainMessage.enterpriseId,jdbcType=VARCHAR},
+          #{gprDomainMessage.addTime,jdbcType=TIMESTAMP},
 
         </trim>
     	</foreach>
         ON DUPLICATE KEY UPDATE
 id=values(id),
 domain_id=values(domain_id),
+domain_name=values(domain_name),
 message_id=values(message_id),
-enterprise_id=values(enterprise_id)
+add_time=values(add_time)
         
     </insert>
 
@@ -177,6 +187,17 @@ enterprise_id=values(enterprise_id)
                   </when>
                   </choose>
                     <choose>
+                   <when test="domainName != null and domainName=='-1'">
+                     domain_name = null,
+                  </when>
+                  <when test="domainName != null and domainName=='-2'">
+                     domain_name = '',
+                  </when>
+                  <when test="domainName != null  and domainName != '' " >
+                     domain_name = #{domainName,jdbcType=VARCHAR},
+                  </when>
+                  </choose>
+                    <choose>
                    <when test="messageId != null and messageId=='-1'">
                      message_id = null,
                   </when>
@@ -187,17 +208,9 @@ enterprise_id=values(enterprise_id)
                      message_id = #{messageId,jdbcType=VARCHAR},
                   </when>
                   </choose>
-                    <choose>
-                   <when test="enterpriseId != null and enterpriseId=='-1'">
-                     enterprise_id = null,
-                  </when>
-                  <when test="enterpriseId != null and enterpriseId=='-2'">
-                     enterprise_id = '',
-                  </when>
-                  <when test="enterpriseId != null  and enterpriseId != '' " >
-                     enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
-                  </when>
-                  </choose>
+                  <if test="addTime != null ">
+                     add_time = #{addTime,jdbcType=TIMESTAMP},
+                  </if>
    </set>
                  where  id = #{id,jdbcType=VARCHAR}
   </update>
@@ -208,11 +221,14 @@ enterprise_id=values(enterprise_id)
                   <if test="t.domainId != null  and t.domainId != '' " >
                      domain_id = #{t.domainId,jdbcType=VARCHAR},
                   </if>
+                  <if test="t.domainName != null  and t.domainName != '' " >
+                     domain_name = #{t.domainName,jdbcType=VARCHAR},
+                  </if>
                   <if test="t.messageId != null  and t.messageId != '' " >
                      message_id = #{t.messageId,jdbcType=VARCHAR},
                   </if>
-                  <if test="t.enterpriseId != null  and t.enterpriseId != '' " >
-                     enterprise_id = #{t.enterpriseId,jdbcType=VARCHAR},
+                  <if test="t.addTime != null ">
+                     add_time = #{t.addTime,jdbcType=TIMESTAMP},
                   </if>
    </set>
 	
@@ -239,6 +255,19 @@ enterprise_id=values(enterprise_id)
                   </if> 
               </foreach>
          </trim>
+         <trim prefix="domain_name =case" suffix="end,">
+              <foreach collection="list" item="gprDomainMessage" index="index">
+                  <if test="gprDomainMessage.domainName != null and gprDomainMessage.domainName  != ''  and gprDomainMessage.domainName  != '-1' ">
+                     when id=#{gprDomainMessage.id} then #{gprDomainMessage.domainName,jdbcType=VARCHAR}
+                  </if>
+                  <if test="gprDomainMessage.domainName != null  and gprDomainMessage.domainName  == '-1' ">
+                     when id=#{gprDomainMessage.id} then null
+                  </if>  
+                   <if test="gprDomainMessage.domainName != null  and gprDomainMessage.domainName  == '-2' ">
+                     when id=#{gprDomainMessage.id} then ''
+                  </if> 
+              </foreach>
+         </trim>
          <trim prefix="message_id =case" suffix="end,">
               <foreach collection="list" item="gprDomainMessage" index="index">
                   <if test="gprDomainMessage.messageId != null and gprDomainMessage.messageId  != ''  and gprDomainMessage.messageId  != '-1' ">
@@ -252,17 +281,11 @@ enterprise_id=values(enterprise_id)
                   </if> 
               </foreach>
          </trim>
-         <trim prefix="enterprise_id =case" suffix="end,">
+         <trim prefix="add_time =case" suffix="end,">
               <foreach collection="list" item="gprDomainMessage" index="index">
-                  <if test="gprDomainMessage.enterpriseId != null and gprDomainMessage.enterpriseId  != ''  and gprDomainMessage.enterpriseId  != '-1' ">
-                     when id=#{gprDomainMessage.id} then #{gprDomainMessage.enterpriseId,jdbcType=VARCHAR}
+                  <if test="gprDomainMessage.addTime != null " >
+                     when id=#{gprDomainMessage.id} then #{gprDomainMessage.addTime,jdbcType=TIMESTAMP}
                   </if>
-                  <if test="gprDomainMessage.enterpriseId != null  and gprDomainMessage.enterpriseId  == '-1' ">
-                     when id=#{gprDomainMessage.id} then null
-                  </if>  
-                   <if test="gprDomainMessage.enterpriseId != null  and gprDomainMessage.enterpriseId  == '-2' ">
-                     when id=#{gprDomainMessage.id} then ''
-                  </if> 
               </foreach>
          </trim>
     </trim>
@@ -279,8 +302,9 @@ enterprise_id=values(enterprise_id)
         <trim prefix="(" suffix=")" suffixOverrides="," >
 id,
 domain_id,
+domain_name,
 message_id,
-enterprise_id,
+add_time,
     </trim>
     VALUES
     <foreach collection="list" item="gprDomainMessage" index="index" separator=",">
@@ -290,11 +314,14 @@ enterprise_id,
                      #{gprDomainMessage.domainId ,jdbcType=VARCHAR},
                   
                   
+                     #{gprDomainMessage.domainName ,jdbcType=VARCHAR},
+                  
+                  
                      #{gprDomainMessage.messageId ,jdbcType=VARCHAR},
                   
                   
-                     #{gprDomainMessage.enterpriseId ,jdbcType=VARCHAR},
-                  
+                    #{gprDomainMessage.addTime,jdbcType=TIMESTAMP},
+            
       </trim>
     </foreach>
   </insert>
@@ -317,11 +344,17 @@ enterprise_id,
 			and id LIKE CONCAT('%',#{EntityRelated.id,jdbcType=VARCHAR},'%')
 		</if>
 
+		<if test="EntityRelated.beginAddTime != null ">
+				<![CDATA[ AND  unix_timestamp(add_time)>=unix_timestamp(#{EntityRelated.beginAddTime})]]> 
+		</if>
+		<if test="EntityRelated.endAddTime != null ">
+				<![CDATA[ AND  unix_timestamp(add_time)<unix_timestamp(#{EntityRelated.endAddTime})]]> 
+		</if>
 		<if test="EntityRelated.domainId != null and EntityRelated.domainId != '' ">
 				and domain_id = #{EntityRelated.domainId,jdbcType=VARCHAR} 
 		</if>
-		<if test="EntityRelated.enterpriseId != null and EntityRelated.enterpriseId != '' ">
-				and enterprise_id = #{EntityRelated.enterpriseId,jdbcType=VARCHAR} 
+		<if test="EntityRelated.domainName != null and EntityRelated.domainName != '' ">
+ 				and  domain_name LIKE CONCAT('%',#{EntityRelated.domainName,jdbcType=VARCHAR},'%') 
 		</if>
 		<if test="EntityRelated.id != null and EntityRelated.id != '' ">
 				and id = #{EntityRelated.id,jdbcType=VARCHAR} 

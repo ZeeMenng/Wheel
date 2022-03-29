@@ -1,4 +1,4 @@
-package com.zee.app.generate.swagger.gp;
+﻿package com.zee.app.generate.swagger.gp;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -34,7 +34,7 @@ import net.sf.json.JSONObject;
 /**
  * @author Zee
  * @createDate 2017/05/22 15:00:55
- * @updateDate 2021/2/2 19:55:54
+ * @updateDate 2022/3/29 18:24:20
  * @description 应用领域的站内信。 对外接口，扩展自BaseSwgApp，自动生成。
  */
 
@@ -173,7 +173,7 @@ public class GprDomainMessageGenSwgApp extends BaseSwgApp {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		StringBuffer selectBuffer = new StringBuffer();
-		selectBuffer.append("select A.id id,A.domain_id domainId,A.message_id messageId,A.enterprise_id enterpriseId  from gpr_domain_message A inner join gpr_domain_message B on A.id=B.id where 1=1 ");
+		selectBuffer.append("select A.id id,A.domain_id domainId,A.domain_name domainName,A.message_id messageId,A.add_time addTime  from gpr_domain_message A inner join gpr_domain_message B on A.id=B.id where 1=1 ");
         
         if (!StringUtils.isBlank(jsonData)) {
 			JSONObject jsonObject = JSONObject.fromObject(jsonData);
@@ -192,6 +192,10 @@ public class GprDomainMessageGenSwgApp extends BaseSwgApp {
 			if (jsonObject.containsKey("entityRelated")) {
 				JSONObject entityRelatedObject = jsonObject.getJSONObject("entityRelated");
                 
+				if (entityRelatedObject.containsKey("domainName") && StringUtils.isNotBlank(entityRelatedObject.getString("domainName")))
+					selectBuffer.append(" and A.domain_name like '%").append(entityRelatedObject.getString("domainName")).append("%'");
+				if (entityRelatedObject.containsKey("addTime") && StringUtils.isNotBlank(entityRelatedObject.getString("addTime")))
+					selectBuffer.append(" and A.add_time like '%").append(entityRelatedObject.getString("addTime")).append("%'");
 			}
 
 			if (jsonObject.containsKey("page")) {

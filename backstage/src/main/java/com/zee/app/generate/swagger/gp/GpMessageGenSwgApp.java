@@ -1,4 +1,4 @@
-package com.zee.app.generate.swagger.gp;
+﻿package com.zee.app.generate.swagger.gp;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -34,7 +34,7 @@ import net.sf.json.JSONObject;
 /**
  * @author Zee
  * @createDate 2017/05/22 15:00:55
- * @updateDate 2021/2/2 19:55:54
+ * @updateDate 2022/3/29 18:24:20
  * @description 系统消息。 对外接口，扩展自BaseSwgApp，自动生成。
  */
 
@@ -173,7 +173,7 @@ public class GpMessageGenSwgApp extends BaseSwgApp {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		StringBuffer selectBuffer = new StringBuffer();
-		selectBuffer.append("select A.id id,A.user_id userId,A.user_name userName,A.title title,A.content content,A.type_code typeCode,A.type_text typeText,A.remark remark,A.add_time addTime  from gp_message A inner join gp_message B on A.id=B.id where 1=1 ");
+		selectBuffer.append("select A.id id,A.user_id userId,A.user_name userName,A.type_code typeCode,A.type_text typeText,A.title title,A.content content,A.receiver_user_ids receiverUserIds,A.receiver_user_names receiverUserNames,A.receiver_domain_ids receiverDomainIds,A.receiver_domain_names receiverDomainNames,A.remark remark,A.add_time addTime  from gp_message A inner join gp_message B on A.id=B.id where 1=1 ");
         
         if (!StringUtils.isBlank(jsonData)) {
 			JSONObject jsonObject = JSONObject.fromObject(jsonData);
@@ -194,10 +194,10 @@ public class GpMessageGenSwgApp extends BaseSwgApp {
                 
 				if (entityRelatedObject.containsKey("userName") && StringUtils.isNotBlank(entityRelatedObject.getString("userName")))
 					selectBuffer.append(" and A.user_name like '%").append(entityRelatedObject.getString("userName")).append("%'");
-				if (entityRelatedObject.containsKey("title") && StringUtils.isNotBlank(entityRelatedObject.getString("title")))
-					selectBuffer.append(" and A.title like '%").append(entityRelatedObject.getString("title")).append("%'");
-				if (entityRelatedObject.containsKey("content") && StringUtils.isNotBlank(entityRelatedObject.getString("content")))
-					selectBuffer.append(" and A.content like '%").append(entityRelatedObject.getString("content")).append("%'");
+				if (entityRelatedObject.containsKey("typeCode") && StringUtils.isNotBlank(entityRelatedObject.getString("typeCode")))
+					selectBuffer.append(" and A.type_code like '%").append(entityRelatedObject.getString("typeCode")).append("%'");
+				if (entityRelatedObject.containsKey("typeText") && StringUtils.isNotBlank(entityRelatedObject.getString("typeText")))
+					selectBuffer.append(" and A.type_text like '%").append(entityRelatedObject.getString("typeText")).append("%'");
 			}
 
 			if (jsonObject.containsKey("page")) {

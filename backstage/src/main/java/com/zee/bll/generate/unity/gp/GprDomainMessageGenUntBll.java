@@ -1,4 +1,4 @@
-package com.zee.bll.generate.unity.gp;
+﻿package com.zee.bll.generate.unity.gp;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,7 +28,7 @@ import net.sf.json.JSONObject;
 /**
  * @author Zee
  * @createDate 2017/05/22 14:01:41
- * @updateDate 2021/2/2 18:48:08
+ * @updateDate 2022/3/29 18:24:20
  * @description 应用领域的站内信。 业务逻辑处理类，扩展自BaseUntBll<GprDomainMessage>，自动生成。
  */
 public class GprDomainMessageGenUntBll extends BaseUntBll<GprDomainMessage> {

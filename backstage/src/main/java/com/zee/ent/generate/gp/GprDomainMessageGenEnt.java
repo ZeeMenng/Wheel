@@ -1,4 +1,4 @@
-package com.zee.ent.generate.gp;
+﻿package com.zee.ent.generate.gp;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -15,17 +15,19 @@ import com.zee.ent.extend.gp.GpMessage;
 /**
  * @author Zee
  * @createDate 2017/05/18 14:54:22
- * @updateDate 2021/2/2 18:48:42
+ * @updateDate 2022/3/29 18:24:23
  * @description 实体类GprDomainMessageGenEnt，自动生成。应用领域的站内信。
  */
 
 public class GprDomainMessageGenEnt extends BaseEnt implements Serializable {
     
     private static final long serialVersionUID = 1L;
-    @ApiModelProperty(value="应用领域。外键，引用应用领域表（domain）的主键。",hidden=false,required=false)
+    @ApiModelProperty(value="记录创建时间。即消息下发时间。",hidden=false,required=false)
+    private Date addTime;
+    @ApiModelProperty(value="接收消息的应用领域。外键，引用应用领域表（domain）的主键。",hidden=false,required=false)
     private String domainId;
-    @ApiModelProperty(value="企业id。外键，引用企业信息表（da_enterprise_info）的主键。",hidden=false,required=false)
-    private String enterpriseId;
+    @ApiModelProperty(value="接收消息的应用领域。名称，和应用领域表（domain）的名称（name）字段对应。",hidden=false,required=false)
+    private String domainName;
     @ApiModelProperty(value="主键。",hidden=false,required=true)
     private String id;
     @ApiModelProperty(value="领域消息。外键，引用站内信（message）的主键。",hidden=false,required=false)
@@ -41,31 +43,45 @@ public class GprDomainMessageGenEnt extends BaseEnt implements Serializable {
 
 
 	/**
-	 * get方法。应用领域。外键，引用应用领域表（domain）的主键。
+	 * get方法。记录创建时间。即消息下发时间。
+	 */
+	public Date getAddTime() {
+		return this.addTime;
+	}
+
+	/**
+	 * set方法。记录创建时间。即消息下发时间。
+	 */
+	public void setAddTime(Date addTime) {
+		this.addTime = addTime;
+	}
+    
+	/**
+	 * get方法。接收消息的应用领域。外键，引用应用领域表（domain）的主键。
 	 */
 	public String getDomainId() {
 		return this.domainId;
 	}
 
 	/**
-	 * set方法。应用领域。外键，引用应用领域表（domain）的主键。
+	 * set方法。接收消息的应用领域。外键，引用应用领域表（domain）的主键。
 	 */
 	public void setDomainId(String domainId) {
 		this.domainId = domainId;
 	}
     
 	/**
-	 * get方法。企业id。外键，引用企业信息表（da_enterprise_info）的主键。
+	 * get方法。接收消息的应用领域。名称，和应用领域表（domain）的名称（name）字段对应。
 	 */
-	public String getEnterpriseId() {
-		return this.enterpriseId;
+	public String getDomainName() {
+		return this.domainName;
 	}
 
 	/**
-	 * set方法。企业id。外键，引用企业信息表（da_enterprise_info）的主键。
+	 * set方法。接收消息的应用领域。名称，和应用领域表（domain）的名称（name）字段对应。
 	 */
-	public void setEnterpriseId(String enterpriseId) {
-		this.enterpriseId = enterpriseId;
+	public void setDomainName(String domainName) {
+		this.domainName = domainName;
 	}
     
 	/**
