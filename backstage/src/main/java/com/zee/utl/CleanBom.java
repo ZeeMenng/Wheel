@@ -13,17 +13,17 @@ import org.apache.commons.io.IOUtils;
 
 /**
  * @author Zee
- * @createTime 2017Äê4ÔÂ13ÈÕ ÏÂÎç3:11:58
- * @updateTime 2017Äê4ÔÂ13ÈÕ ÏÂÎç3:11:58
- * @description WindowsÏµÍ³¿ª·¢µÄ±àÂëÎªUTF-8(BOM)µ¼ÖÂ£¬BOMÊÇByte-Order
- *              MarkµÄÒâË¼¡£Ò»ÖÖÎªÁËÈÃ±à¼­Æ÷×Ô¶¯Ê¶±ğ±àÂë ¡£ÔÚÎÄ¼şÇ°3¸ö×Ö½Ú¼ÓÉÏÁËEE,BB,BF£¬
- *              µ«±ê×¼µÄUTF-8£¨Linux²»Ö§³ÖBOM £©±àÂë²¢²»»áÕâÑù×ö¡£
+ * @createTime 2017å¹´4æœˆ13æ—¥ ä¸‹åˆ3:11:58
+ * @updateTime 2017å¹´4æœˆ13æ—¥ ä¸‹åˆ3:11:58
+ * @description Windowsç³»ç»Ÿå¼€å‘çš„ç¼–ç ä¸ºUTF-8(BOM)å¯¼è‡´ï¼ŒBOMæ˜¯Byte-Order
+ *              Markçš„æ„æ€ã€‚ä¸€ç§ä¸ºäº†è®©ç¼–è¾‘å™¨è‡ªåŠ¨è¯†åˆ«ç¼–ç  ã€‚åœ¨æ–‡ä»¶å‰3ä¸ªå­—èŠ‚åŠ ä¸Šäº†EE,BB,BFï¼Œ
+ *              ä½†æ ‡å‡†çš„UTF-8ï¼ˆLinuxä¸æ”¯æŒBOM ï¼‰ç¼–ç å¹¶ä¸ä¼šè¿™æ ·åšã€‚
  */
 public class CleanBom {
 
 	public static void main(String[] args) {
 
-		// Ö¸¶¨²éÕÒÎÄ¼şµÄ¸¸Ä¿Â¼javafolder
+		// æŒ‡å®šæŸ¥æ‰¾æ–‡ä»¶çš„çˆ¶ç›®å½•javafolder
 		File parent = new File("D:/JAVA/JavaProject/wheel/backstage/src/main/java/com/zee");
 
 		List<File> javaFiles = findJavaFile(parent);
@@ -42,7 +42,7 @@ public class CleanBom {
 	}
 
 	/**
-	 * Çå³ıbom±àÂë
+	 * æ¸…é™¤bomç¼–ç 
 	 *
 	 * @param file
 	 */
@@ -55,7 +55,7 @@ public class CleanBom {
 		try {
 			fos = new FileOutputStream(tempFile);
 			fis = new FileInputStream(file);
-			fis.read(new byte[3]);// ¶ÁÈ¡Ç°3¸öbyte
+			fis.read(new byte[3]);// è¯»å–å‰3ä¸ªbyte
 			IOUtils.copy(fis, fos);
 
 		} catch (FileNotFoundException e) {
@@ -80,7 +80,7 @@ public class CleanBom {
 	}
 
 	/**
-	 * ²éÕÒ×ÓÄ¿Â¼ÏÂËùÓĞjavaÎÄ¼ş
+	 * æŸ¥æ‰¾å­ç›®å½•ä¸‹æ‰€æœ‰javaæ–‡ä»¶
 	 *
 	 * @param parent
 	 * @return
@@ -111,7 +111,7 @@ public class CleanBom {
 	}
 
 	/**
-	 * ÅĞ¶ÏÊÇ·ñÎªbom±àÂëÎÄ¼ş
+	 * åˆ¤æ–­æ˜¯å¦ä¸ºbomç¼–ç æ–‡ä»¶
 	 *
 	 * @param file
 	 * @return

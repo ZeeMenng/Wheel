@@ -6,7 +6,7 @@
 			"label": "debugWheel",
 			"isBackground": true,
 			"type": "npm",
-			"script": "build",
+			"script": "start",
 			"group": "build",
 			"path": "/src",
 			"detail": "编译至开发环境",

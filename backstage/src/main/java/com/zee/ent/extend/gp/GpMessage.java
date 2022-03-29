@@ -15,59 +15,62 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(value = "GpMessage", description = "站内信。")
 public class GpMessage extends GpMessageGenEnt {
 	
-	@ApiModelProperty(value = "消息类型。", hidden = false, required = false)
-	private String messageType;
-	
-	public String getMessageType() {
-		return messageType;
-	}
-	public void setMessageType(String messageType) {
-		this.messageType = messageType;
-	}
 
-	
+	@ApiModelProperty(value = "消息接收者ID列表。", hidden = false, required = false)
+	private String receiverUserIds;
+
+	@ApiModelProperty(value = "消息接收者名称列表。", hidden = false, required = false)
+	private String receiverUserNames;
+
+	@ApiModelProperty(value = "消息接收应用ID列表。", hidden = false, required = false)
+	private String receiverDomainIds;
+
+	@ApiModelProperty(value = "消息接收应用名称列表。", hidden = false, required = false)
+	private String receiverDomainNames;
+
 	@ApiModelProperty(value = "是否已读标志。", hidden = false, required = false)
 	private String isReadCode;
-	
+
+
+	public String getReceiverUserIds() {
+		return receiverUserIds;
+	}
+
+	public void setReceiverUserIds(String receiverUserIds) {
+		this.receiverUserIds = receiverUserIds;
+	}
+
+	public String getReceiverUserNames() {
+		return receiverUserNames;
+	}
+
+	public void setReceiverUserNames(String receiverUserNames) {
+		this.receiverUserNames = receiverUserNames;
+	}
+
+	public String getReceiverDomainIds() {
+		return receiverDomainIds;
+	}
+
+	public void setReceiverDomainIds(String receiverDomainIds) {
+		this.receiverDomainIds = receiverDomainIds;
+	}
+
+	public String getReceiverDomainNames() {
+		return receiverDomainNames;
+	}
+
+	public void setReceiverDomainNames(String receiverDomainNames) {
+		this.receiverDomainNames = receiverDomainNames;
+	}
+
 	public String getIsReadCode() {
 		return isReadCode;
 	}
+
 	public void setIsReadCode(String isReadCode) {
 		this.isReadCode = isReadCode;
 	}
-	
-	
-	@ApiModelProperty(value = "消息接收者id及name。", hidden = false, required = false)
-	private String receiverObjs;
-	
-	public String getReceiverObjs() {
-		return receiverObjs;
-	}
-	public void setReceiverObjs(String receiverObjs) {
-		this.receiverObjs = receiverObjs;
-	}
-	
-	@ApiModelProperty(value = "消息接收者ID。", hidden = false, required = false)
-	private String receiverIds;
-	
-	public String getReceiverIds() {
-		return receiverIds;
-	}
-	public void setReceiverIds(String receiverIds) {
-		this.receiverIds = receiverIds;
-	}
-	
-	
-	@ApiModelProperty(value = "消息接收者名称。", hidden = false, required = false)
-	private String receiverNames;
-	
-	public String getReceiverNames() {
-		return receiverNames;
-	}
-	public void setReceiverNames(String receiverNames) {
-		this.receiverNames = receiverNames;
-	}
-	
 }
 
 

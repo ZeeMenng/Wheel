@@ -1,8 +1,12 @@
 frontpage/node_modules
 frontpage/dist
 frontpage/build
+frontpage/.DS_Store
+backstage/.DS_Store
 backstage/.apt_generated
 backstage/.idea
 backstage/.settings
 backstage/target
 backstage/src/main/resources/application.yml
+.DS_Store
+

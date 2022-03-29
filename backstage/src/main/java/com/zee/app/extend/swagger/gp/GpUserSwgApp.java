@@ -440,7 +440,7 @@ public class GpUserSwgApp extends GpUserGenSwgApp {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		StringBuffer selectBuffer = new StringBuffer();
-		selectBuffer.append("select distinct A.id id,A.user_name userName,A.password password,A.real_name realName,A.gender_code genderCode,A.birth_time birthTime,A.age age,A.is_marriage_code isMarriageCode,A.phone phone,A.email email,A.qq qq,A.icon icon,A.register_ip registerIp,A.last_login_time lastLoginTime,A.last_login_ip lastLoginIp,A.login_count loginCount,A.remark remark,A.is_admin_code isAdminCode,A.is_disabled_code isDisabledCode,A.add_time addTime,A.update_time updateTime  from gp_user A left join gpr_user_organization B on A.id=B.user_id left join gp_organization C on B.organization_id=C.id left join gpr_user_role D on A.id=D.user_id left join gp_role E on D.role_id=E.id where 1=1 ");
+		selectBuffer.append("select distinct A.id id,A.user_name userName,A.password password,A.real_name realName,A.gender_code genderCode,A.birth_time birthTime,A.age age,A.is_marriage_code isMarriageCode,A.phone phone,A.email email,A.qq qq,A.icon icon,A.register_ip registerIp,A.last_login_time lastLoginTime,A.last_login_ip lastLoginIp,A.login_count loginCount,A.remark remark,A.is_admin_code isAdminCode,A.is_disabled_code isDisabledCode,A.add_time addTime,A.update_time updateTime  from gp_user A left join gpr_user_organization B on A.id=B.user_id left join gp_organization C on B.organization_id=C.id left join gpr_user_role D on A.id=D.user_id left join gp_role E on D.role_id=E.id left join gpr_domain_user F on A.id=F.user_id where 1=1 ");
 
 		if (!StringUtils.isBlank(jsonData)) {
 			JSONObject jsonObject = JSONObject.fromObject(jsonData);
@@ -471,6 +471,8 @@ public class GpUserSwgApp extends GpUserGenSwgApp {
 					selectBuffer.append(" and C.name like '%").append(entityRelatedObject.getString("organizationName")).append("%'");
 				if (entityRelatedObject.containsKey("roleIds") && StringUtils.isNotBlank(entityRelatedObject.getString("roleIds")))
 					selectBuffer.append(" and find_in_set(E.id ,'").append(entityRelatedObject.getString("roleIds")).append("')>0");
+				if (entityRelatedObject.containsKey("domainIds") && StringUtils.isNotBlank(entityRelatedObject.getString("domainIds")))
+					selectBuffer.append(" and find_in_set(F.domain_id ,'").append(entityRelatedObject.getString("domainIds")).append("')>0");
 			}
 
 			if (jsonObject.containsKey("page")) {

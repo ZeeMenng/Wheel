@@ -4,15 +4,19 @@
     // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         {
             "type": "chrome",
             "request": "launch",
             "name": "Launch Chrome against localhost",
             "url": "http://localhost:8080",
-            "webRoot": "${workspaceFolder}",
-            "file": "${workspaceFolder}/src/gp/html/lo/Login.html",
+            "webRoot": "${workspaceFolder}/src",
+            //"file": "${workspaceFolder}/dist/gp/html/gp/MessageList.html",
+            "skipFiles": [
+                "node_modules/**"
+            ],
             "sourceMapPathOverrides": {
-                "webpack:///./*": "${webRoot}/*",
+                "webpack:////*": "${webRoot}/*",
                 "webpack:///src/*": "${webRoot}/*",
                 "webpack:///*": "*",
                 "webpack:///./~/*": "${webRoot}/node_modules/*",

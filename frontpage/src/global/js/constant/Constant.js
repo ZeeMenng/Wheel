@@ -7,7 +7,9 @@ var INTERFACE_SERVER = "http://localhost:60011/wheel";
 var HOME_PATH = 'http://localhost';
 var RESULT_CODE_TOKEN_EXPIRED = 950000;
 
-var BASE_PATH = "file:///D:/JAVA/JavaProject/wheel/frontpage/dist/";
+//var BASE_PATH = "file:///D:/JAVA/JavaProject/wheel/frontpage/dist/";
+//var BASE_PATH = "file:///Users/ZeeMenng/Project/Wheel/frontpage/dist/";
+var BASE_PATH = "http://localhost:8080/";
 var GP_INDEX = BASE_PATH + "gp/html/in/Index.html";
 var GP_LOGIN = BASE_PATH + "gp/html/lo/Login.html";// 登陆页面
 

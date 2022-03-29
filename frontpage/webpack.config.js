@@ -55,7 +55,6 @@ module.exports = {
         path: outputPath
     },
 
-    devtool: 'eval-source-map',
     module: {
         rules: [
             {
@@ -104,6 +103,16 @@ module.exports = {
         ],
     },
     plugins: HtmlWebpack,
+    devtool: 'eval-source-map',
+    devServer: {
+        contentBase: path.join(__dirname, "./dist"),
+        publicPath: '/',
+        openPage: 'gp/html/gp/MessageAdd.html',
+        port: "8080",
+        overlay: true,
+        open: true,
+        writeToDisk: true
+    },
     mode: 'development'
 };
 

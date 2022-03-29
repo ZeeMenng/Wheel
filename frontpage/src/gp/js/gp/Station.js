@@ -75,7 +75,7 @@ $(document).ready(function () {
 
 
 });
-
+//组织机构下拉框被选中时触发
 function selectChange() {
 	var organizationNameArray = $('#selectOrganizationId').select2('data');
 	if (organizationNameArray.length > 0)
