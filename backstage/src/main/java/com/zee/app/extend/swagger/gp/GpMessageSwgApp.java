@@ -92,7 +92,7 @@ public class GpMessageSwgApp extends GpMessageGenSwgApp {
             GprDomainMessage gprDomainMessage = new GprDomainMessage();
             gprDomainMessage.setMessageId(jsonData.getId());
             gprDomainMessage.setDomainId(receiverDomainIdsArray[i]);
-            //gprDomainMessage.set(receiverDomainNamesArray[i]);
+            gprDomainMessage.setDomainName(receiverDomainNamesArray[i]);
 
             gprDomainMessageUntBll.add(gprDomainMessage);
         }
